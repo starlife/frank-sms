@@ -1,13 +1,13 @@
 package com.chinamobile.cmpp2_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * @author Administrator
  */
 public class DeliverRespMessage extends APackage implements Send
 {
-	public static final int LENGTH = 26;// 包长度
+	public static final int LENGTH = 21;// 包长度
 	private String MsgID;
 	private int Status;
 	/* Message Bytes */
@@ -16,15 +16,18 @@ public class DeliverRespMessage extends APackage implements Send
 
 	public DeliverRespMessage(DeliverMessage delivermsg)
 	{
-		head = new Header(buf.length,
+		head = new Header(DeliverRespMessage.LENGTH,
 				CommandID.CMPP_DELIVER_RESP, delivermsg.getHead()
-						.getSequenceID());
-		MsgID = delivermsg.getDeliver().MsgID;
+						.getSequenceId());
+		MsgID = delivermsg.getDeliver().getMsgID();
 		Status = 0;
 		// 对buf赋值
-		System.arraycopy(head.getBytes(), 0, buf, 0, 12);
-		System.arraycopy(Hex.rstr(MsgID), 0, buf, 12, 8);
-		System.arraycopy(TypeConvert.int2byte(Status), 0, buf, 20, 4);
+		int offset = 0;
+		System.arraycopy(head.getBytes(), 0, buf, 0, Header.LENGTH);
+		offset += Header.LENGTH;
+		System.arraycopy(Hex.rstr(MsgID), 0, buf, offset, 8);
+		offset += 8;
+		buf[offset++] = (byte) Status;
 
 	}
 
