@@ -1,0 +1,150 @@
+2012-04-17 00:01:23,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 00:01:23,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 00:01:23,515 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 00:01:23,515 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 00:09:38,765 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 00:09:38,781 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 00:09:38,781 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 00:09:38,796 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 00:47:50,171 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 00:47:50,187 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 00:47:50,187 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 00:47:50,203 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 00:47:50,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 00:47:50,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000001513631373034a32e1020f4ffb98b9468b365babd4ef92018dafcce
+2012-04-17 00:47:50,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 00:47:52,484 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] TotalLength:30
+CommmandID:CMPP_CONNECT_RESP
+SequenceID:1
+RecvTime:Tue Apr 17 00:47:52 CST 2012
+
+2012-04-17 00:47:52,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001390000000000000000000000000000000021
+2012-04-17 00:47:52,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 其他错误(57)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-04-17 00:47:52,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，需要断开连接
+2012-04-17 00:47:52,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 设置Socket为null
+2012-04-17 00:47:52,500 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890
+2012-04-17 01:06:16,437 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 01:06:16,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 01:06:16,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 01:06:16,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:06:16,734 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:06:16,734 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：00000027000000010000000151363137303457a88008baae5c9b0a817ade443563462018db13b8
+2012-04-17 01:06:16,734 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 01:19:56,046 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 01:19:56,046 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 01:19:56,046 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 01:19:56,062 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:19:56,140 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:19:56,140 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：0000002700000001000000015136313730348a8e7b259186e79042632d3a329089c72018db18f4
+2012-04-17 01:19:56,140 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 01:19:57,640 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] TotalLength:30
+CommmandID:CMPP_CONNECT_RESP
+SequenceID:1
+RecvTime:Tue Apr 17 01:19:57 CST 2012
+
+2012-04-17 01:19:57,656 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001390000000000000000000000000000000021
+2012-04-17 01:19:57,656 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 其他错误(57)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-04-17 01:19:57,656 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，需要断开连接
+2012-04-17 01:19:57,671 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 设置Socket为null
+2012-04-17 01:19:57,671 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890
+2012-04-17 01:37:48,078 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 01:37:48,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 01:37:48,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 01:37:48,109 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:37:48,187 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:37:48,187 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：00000027000000010000000151363137303413797649ee012ed6b5e1bbada492d9612018db1ff4
+2012-04-17 01:37:48,203 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 01:42:14,296 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 01:42:14,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 01:42:14,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 01:42:14,328 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:42:14,406 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:42:14,406 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000001513631373034a7374dda69a3679bb491c6eb90ade6852018db21c6
+2012-04-17 01:42:14,406 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] TotalLength:30
+CommmandID:CMPP_CONNECT_RESP
+SequenceID:1
+RecvTime:Tue Apr 17 01:42:15 CST 2012
+
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001390000000000000000000000000000000021
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 其他错误(57)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，需要断开连接
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 设置Socket为null
+2012-04-17 01:42:15,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890
+2012-04-17 01:42:17,312 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 发送链路检测包
+2012-04-17 01:42:25,421 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:42:25,468 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:42:25,468 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000003513631373034970189fb0d17bdbdab3e4f6031139b532018db21d1
+2012-04-17 01:42:25,468 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 3 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] TotalLength:30
+CommmandID:CMPP_CONNECT_RESP
+SequenceID:3
+RecvTime:Tue Apr 17 01:42:30 CST 2012
+
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000003390000000000000000000000000000000021
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 3 CommandID :CMPP_CONNECT_RESP
+Status: 其他错误(57)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，需要断开连接
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 设置Socket为null
+2012-04-17 01:42:30,093 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 2 次 登陆到 211.140.12.45 ：7890
+2012-04-17 01:48:21,921 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 通道未初始化，初始化通道...
+2012-04-17 01:48:21,937 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化发送线程
+2012-04-17 01:48:21,937 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 初始化接收线程
+2012-04-17 01:48:21,937 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-17 01:48:22,031 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-17 01:48:22,031 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：0000002700000001000000015136313730344f51c972a98a718c583d1686b64d57dd2018db2426
+2012-04-17 01:48:22,031 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+Source_Addr:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
