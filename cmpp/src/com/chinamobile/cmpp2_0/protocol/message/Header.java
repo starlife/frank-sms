@@ -3,47 +3,53 @@ package com.chinamobile.cmpp2_0.protocol.message;
 import com.chinamobile.cmpp3_0.protocol.util.TypeConvert;
 
 /**
- * 消息首，一旦设定，不能改变
+ * 该类消息头,一旦设定，不能改变
  * 
- * @author Administrator
+ * @version 1.0
+ * @author frank
  */
-public class Header {
+public class Header
+{
 	public static final int LENGTH = 12;
 	private static int allocSequenceId = 0;
-	private int totalLength;// 数据包长度
-	private int commandID;// 请求标识
-	private int sequenceID;// 流水号
+	private int packageLength;// 数据包长度
+	private int commandId;// 请求标识
+	private int sequenceId;// 流水号
 	private byte[] buf = new byte[LENGTH];
 
-	public Header(int packetLength, int requestId, int sequenceId) {
-		this.totalLength = packetLength;
-		this.commandID = requestId;
-		this.sequenceID = sequenceId;
+	public Header(int packageLength, int commandId, int sequenceId)
+	{
+		this.packageLength = packageLength;
+		this.commandId = commandId;
+		this.sequenceId = sequenceId;
 
-		System.arraycopy(TypeConvert.int2byte(packetLength), 0, buf, 0, 4);
-		System.arraycopy(TypeConvert.int2byte(requestId), 0, buf, 4, 4);
+		System.arraycopy(TypeConvert.int2byte(packageLength), 0, buf, 0, 4);
+		System.arraycopy(TypeConvert.int2byte(commandId), 0, buf, 4, 4);
 		System.arraycopy(TypeConvert.int2byte(sequenceId), 0, buf, 8, 4);
 	}
 
 	/**
 	 * @return the PacketLength
 	 */
-	public int getTotalLength() {
-		return totalLength;
+	public int getPackageLength()
+	{
+		return packageLength;
 	}
 
 	/**
 	 * @return the RequestID
 	 */
-	public int getCommmandID() {
-		return commandID;
+	public int getCommmandId()
+	{
+		return commandId;
 	}
 
 	/**
-	 * @return the SequenceID
+	 * @return the sequenceId
 	 */
-	public int getSequenceID() {
-		return sequenceID;
+	public int getSequenceId()
+	{
+		return sequenceId;
 	}
 
 	/**
@@ -51,24 +57,28 @@ public class Header {
 	 * 
 	 * @return
 	 */
-	public static synchronized int allocSequenceID() {
+	public static synchronized int allocSequenceID()
+	{
 		allocSequenceId = (allocSequenceId + 1) & 0xffffffff;
 		return allocSequenceId;
 	}
 
-	public byte[] getBytes() {
+	public byte[] getBytes()
+	{
 		return buf;
 
 	}
 
 	@Override
-	public String toString() {
-		return "TotalLength: " + this.totalLength + " SequenceID : "
-				+ this.sequenceID + " CommandID :" + getCommandIdString();
+	public String toString()
+	{
+		return "TotalLength: " + this.packageLength + " SequenceID : "
+				+ this.sequenceId + " CommandID :" + getCommandIdString();
 	}
 
-	public String getCommandIdString() {
-		return CommandID.getCommandString(commandID);
+	public String getCommandIdString()
+	{
+		return CommandID.getCommandString(commandId);
 	}
 
 }
