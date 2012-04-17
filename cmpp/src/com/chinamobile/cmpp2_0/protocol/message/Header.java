@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp2_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.TypeConvert;
+import com.chinamobile.cmpp2_0.protocol.util.TypeConvert;
 
 /**
  * 该类消息头,一旦设定，不能改变
