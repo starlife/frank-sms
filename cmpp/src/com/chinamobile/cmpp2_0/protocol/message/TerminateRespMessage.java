@@ -12,7 +12,7 @@ public class TerminateRespMessage extends APackage implements Send, Recv
 	public TerminateRespMessage(TerminateMessage exitMsg)
 	{
 		this.head = new Header(Header.LENGTH, CommandID.CMPP_TERMINATE_RESP,
-				exitMsg.getHead().getSequenceID());
+				exitMsg.getHead().getSequenceId());
 		/* buf赋值 */
 		buf = head.getBytes();
 
