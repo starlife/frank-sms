@@ -1,0 +1,17 @@
+2012-04-01 14:32:16,906 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-04-01 14:32:17,812 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-04-01 14:32:17,812 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000001513631373034e1f882caeac1e59159f15f49652b3ff42017e8f5b1
+2012-04-01 14:32:17,812 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+SPID:Q61704	Secret:kki890	Version:v2.0
+--------------------------------------------------
+
+2012-04-01 14:32:21,984 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001390000000000000000000000000000000021
+2012-04-01 14:32:21,984 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 其他错误(57)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-04-01 14:32:22,015 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890

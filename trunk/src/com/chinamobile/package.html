@@ -1,0 +1,37 @@
+<html>
+<head>
+</head>
+<body>
+	cmpp2.0和cmpp3.0的区别
+	（1）CMPP_CONNECT_RESP消息 
+	 cmpp2.0                             		cmpp3.0  
+	Status	1	Unsigned Integer      			Status	4	Unsigned Integer
+	AuthenticatorISMG	16	Octet String    	AuthenticatorISMG	16	Octet String
+	Version	1	Unsigned Integer            	Version	1	Unsigned Integer
+	
+	(2)DELIVER_MESSAGE消息
+	cmpp2.0 									cmpp3.0
+	Src_terminal_Id  21	Octet String			Src_terminal_Id  32	Octet String
+	无											SrcTermType 	1	Unsigned Integer
+	Reserved  	8	Octet String 				无
+	无											LinkID	20	Octet String	
+	
+	(3)Report消息
+	Dest_terminal_Id	21	Octet String		Dest_terminal_Id	32	Octet String
+	无											Fee_terminal_type	1	Unsigned Integer	
+	
+	(4)CMPP_SUBMIT消息
+	cmpp2.0										cmpp3.0
+	Fee_terminal_Id	21	Unsigned Integer		Fee_terminal_Id	32	Unsigned Integer
+	Dest_terminal_Id 21*DestUsr_tl Octet String	Dest_terminal_Id 21*DestUsr_tl Octet String
+	无											Dest_terminal_type	1	Unsigned Integer
+	无											SrcTermType 	1	Unsigned Integer
+	Reserved  	8	Octet String 				无
+	无											LinkID	20	Octet String	
+	
+	(4)CMPP_RESP_SUBMIT消息
+	cmpp2.0										cmpp3.0
+	Status 	1	Unsigned Integer    	 		Status 	4	Unsigned Integer
+	
+</body>
+</html>

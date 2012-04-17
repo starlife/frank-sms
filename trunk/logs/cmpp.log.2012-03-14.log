@@ -1,0 +1,60 @@
+2012-03-14 23:18:15,531 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-03-14 23:18:16,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-03-14 23:18:16,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000001393134303731bb9e3e4c169f9c2ecc03ee3d786349442012bacc08
+2012-03-14 23:18:16,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+SPID:914071	Secret:Q61132	Version:v2.0
+--------------------------------------------------
+
+2012-03-14 23:18:18,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001020000000000000000000000000000000021
+2012-03-14 23:18:18,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 非法源地址(2)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-03-14 23:18:18,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890
+2012-03-14 23:18:28,453 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-03-14 23:18:28,593 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-03-14 23:18:28,593 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：00000027000000010000000239313430373193dcffe18cc82f0dc17db475d25fa2512012bacc14
+2012-03-14 23:18:28,593 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 2 CommandID :CMPP_CONNECT
+SPID:914071	Secret:Q61132	Version:v2.0
+--------------------------------------------------
+
+2012-03-14 23:18:31,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000002020000000000000000000000000000000021
+2012-03-14 23:18:31,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 2 CommandID :CMPP_CONNECT_RESP
+Status: 非法源地址(2)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-03-14 23:18:31,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 2 次 登陆到 211.140.12.45 ：7890
+2012-03-14 23:18:41,156 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-03-14 23:18:41,296 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-03-14 23:18:41,296 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000003393134303731b9acb06e0c7392984668f2ac735a9acb2012bacc21
+2012-03-14 23:18:41,296 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 3 CommandID :CMPP_CONNECT
+SPID:914071	Secret:Q61132	Version:v2.0
+--------------------------------------------------
+
+2012-03-14 23:20:10,843 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 尝试连接远端服务器211.140.12.45:7890
+2012-03-14 23:20:11,015 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] ------------------发送登陆包
+2012-03-14 23:20:11,015 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆消息字节码：000000270000000100000001393134303731522ad172189461cfc33564142538103a2012bacccb
+2012-03-14 23:20:11,015 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectMessage---------------------
+TotalLength: 39 SequenceID : 1 CommandID :CMPP_CONNECT
+SPID:914071	Secret:Q61132	Version:v2.0
+--------------------------------------------------
+
+2012-03-14 23:20:14,578 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆回应消息字节码：0000001e8000000100000001020000000000000000000000000000000021
+2012-03-14 23:20:14,578 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 
+---------------ConnectRespMessage-------------------
+TotalLength: 30 SequenceID : 1 CommandID :CMPP_CONNECT_RESP
+Status: 非法源地址(2)  ServerVersion :v2.1
+----------------------------------------------------
+
+2012-03-14 23:20:14,578 [com.chinamobile.cmpp2_0.protocol.PChannel]-[INFO] 登陆失败，尝试 1 次 登陆到 211.140.12.45 ：7890
