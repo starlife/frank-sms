@@ -1,7 +1,7 @@
 package com.chinamobile.cmpp2_0.protocol.message.bean;
 
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
-import com.chinamobile.cmpp2_0.protocol.util.TypeConvert;
+import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 
 /**
  * @author meisq
@@ -11,24 +11,29 @@ public class Report
 
 	public Report(byte[] content)
 	{
+		int offset=0;
 		// Msg_Id 8 Unsigned Integer 信息标识
 		// SP提交短信（CMPP_SUBMIT）操作时，与SP相连的ISMG产生的Msg_Id。
 		byte[] msgid = new byte[8];
-		System.arraycopy(content, 0, msgid, 0, 8);
-
+		System.arraycopy(content,offset, msgid,0, 8);
 		this.Msg_Id = Hex.rhex(msgid);
+		offset+=8;
 		// Stat 7 Octet String
 		// 发送短信的应答结果，含义与SMPP协议要求中stat字段定义相同，详见表一。SP根据该字段确定CMPP_SUBMIT消息的处理状态。
-		this.Stat = new String(content, 8, 7);
+		this.Stat = new String(content,offset, 7);
+		offset+=7;
 		// Submit_time 10 Octet String
 		// YYMMDDHHMM（YY为年的后两位00-99，MM：01-12，DD：01-31，HH：00-23，MM：00-59）
-		this.Submit_time = new String(content, 15, 10);
+		this.Submit_time = new String(content,offset, 10);
+		offset+=10;
 		// Done_time 10 Octet String YYMMDDHHMM
-		this.Done_time = new String(content, 25, 10);
+		this.Done_time = new String(content,offset, 10);
+		offset+=10;
 		// Dest_terminal_Id 32 Octet String 目的终端MSISDN号码(SP发送CMPP_SUBMIT消息的目标终端)
-		this.Dest_terminal_Id = new String(content, 35, 21);
+		this.Dest_terminal_Id = new String(content,offset, 21);
+		offset+=21;
 		// SMSC_sequence 4 Unsigned Integer 取自SMSC发送状态报告的消息体中的消息标识。
-		this.SMSC_sequence = TypeConvert.byte2int(content, 56);
+		this.SMSC_sequence = ByteConvert.byte2int(content,offset);
 	}
 
 	private String getSataString(String stat)
@@ -79,7 +84,7 @@ public class Report
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\t\r\n***********************************************\r\n");
-		sb.append("DELIVER Report Msg_Id: " + Msg_Id + "\r\n Stat: "
+		sb.append("DELIVER Report Msg_Id: " + Msg_Id + "\r\n 状态(stat): "
 				+ getSataString(Stat));
 		sb.append("\r\n");
 		sb.append(" Submit_time: " + Submit_time + " Done_time: " + Done_time
