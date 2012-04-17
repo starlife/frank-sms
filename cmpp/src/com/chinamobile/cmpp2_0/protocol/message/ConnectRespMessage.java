@@ -4,15 +4,15 @@ package com.chinamobile.cmpp2_0.protocol.message;
  * @author Administrator
  */
 
-
 public class ConnectRespMessage extends APackage implements Recv
 {
+	public static final int LENGTH = 30;// 包长度
 	private Header head;
 	private byte[] buf;
 
-	private int Status; // int(1)
+	private int status; // int(1)
 
-	private int ServerVersion;// byte(1)�
+	private int serverVersion;// byte(1)�
 	/**
 	 * ISMG认证码，用于鉴别ISMG。 其值通过单向MD5 hash计算得出，表示如下： AuthenticatorISMG
 	 * =MD5（Status+AuthenticatorSource+shared secret），Shared secret
@@ -27,36 +27,18 @@ public class ConnectRespMessage extends APackage implements Recv
 		this.buf = pack.getBytes();
 		// init data
 		int loc = 12;
-		this.Status = buf[loc];
+		this.status = buf[loc];
 		loc += 1;
 		System.arraycopy(buf, loc, AuthenticatorServer, 0, 16);
 		loc += 16;
-		ServerVersion = buf[loc];
+		serverVersion = buf[loc];
 	}
 
 	public int getStatus()
 	{
-		return this.Status;
-	}
-	
-	
-
-	@Override
-	public Header getHead()
-	{
-		return head;
+		return this.status;
 	}
 
-	public String toString()
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("\r\n---------------ConnectRespMessage-------------------\r\n");
-		sb.append(head + "\r\n");
-		sb.append("Status: " + this.getStatusString(Status) + "  ServerVersion :" + this.getSrvVersion(ServerVersion));
-		sb.append("\r\n----------------------------------------------------\r\n");
-		return sb.toString();
-	}
-	
 	public String getStatusString(int status)
 	{
 		switch (status)
@@ -68,27 +50,47 @@ public class ConnectRespMessage extends APackage implements Recv
 			case 2:
 				return "非法源地址(2)";
 			case 3:
-				return "认证错(3)";	
+				return "认证错(3)";
 			case 4:
-				return "版本太高(4)";						
+				return "版本太高(4)";
 			default:
-				return "其他错误("+status+")";
+				return "其他错误(" + status + ")";
 		}
 	}
+
 	public String getSrvVersion(int serverVersion)
 	{
-		String str= Integer.toHexString(serverVersion);
-		if(str.length()>1)
+		String str = Integer.toHexString(serverVersion);
+		if (str.length() > 1)
 		{
-			str="v"+str.substring(0,1)+"."+str.substring(1);
+			str = "v" + str.substring(0, 1) + "." + str.substring(1);
 		}
 		return str;
+	}
+
+	@Override
+	public Header getHead()
+	{
+		return head;
 	}
 
 	@Override
 	public byte[] getBytes()
 	{
 		return buf;
+	}
+
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb
+				.append("\r\n---------------ConnectRespMessage-------------------\r\n");
+		sb.append(head + "\r\n");
+		sb.append("Status: " + this.getStatusString(status)
+				+ "  ServerVersion :" + this.getSrvVersion(serverVersion));
+		sb
+				.append("\r\n----------------------------------------------------\r\n");
+		return sb.toString();
 	}
 
 }

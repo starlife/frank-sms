@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp2_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 public class ConnectMessage extends APackage implements Send
 {
@@ -18,24 +18,26 @@ public class ConnectMessage extends APackage implements Send
 		this.account = account;
 		this.secret = secret;
 		this.version = version;
-		head = new Header(buf.length, CommandID.CMPP_CONNECT, Header
+		head = new Header(ConnectMessage.LENGTH, CommandID.CMPP_CONNECT, Header
 				.allocSequenceID());
 		/* buf 赋值 */
-		String timestamp = DateUtil.getTimeStamp();
 		int loc = 0;
-		System.arraycopy(head.getBytes(), 0, buf, 0, 12);// copy header
-		loc += 12;
-		System.arraycopy(account.getBytes(), 0, buf, loc, account.length());// copy
+		byte[] temp=null;
+		System.arraycopy(head.getBytes(), 0, buf,loc,Header.LENGTH);// copy header
+		loc += Header.LENGTH;
+		temp=account.getBytes();
+		System.arraycopy(temp, 0, buf, loc,temp.length);// copy
 		// clientid
 		// (6)
 		loc += 6;
+		String timestamp = DateUtil.getTimeStamp("MMddHHmmss");
 		byte[] authClientByte = getAuthenticatorClient(account, secret, timestamp);
 		System.arraycopy(authClientByte, 0, buf, loc, authClientByte.length);// copy
 		// authClient
 		// (16)
 		loc += 16;// authbyte 长度
 		buf[loc++] = (byte) version; // version (1)
-		TypeConvert.int2byte(Integer.parseInt(timestamp), buf, loc);// timeStamp
+		ByteConvert.int2byte(Integer.parseInt(timestamp), buf, loc);// timeStamp
 		// (4)
 
 	}
