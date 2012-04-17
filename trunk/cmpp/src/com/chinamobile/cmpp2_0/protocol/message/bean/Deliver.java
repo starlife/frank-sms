@@ -17,65 +17,68 @@ import com.chinamobile.cmpp2_0.protocol.util.Hex;
 public class Deliver
 {
 
-	public String MsgID = "";
-	public String ServiceID = "";
-	public int TP_pid;
-	public int TP_udhi;
-	public int MsgFormat;
-	public String SrcTermID = "";
-	public int SrcTermType;
-	public int RegisteredDelivery;
-	public String DestTermID = "";
-	public int MsgLength;
-	public String MsgContent = "";
-	//public String LinkID = "";
-	public String reserve="";
-	public Report report;
+	private String MsgID = "";// 8 Unsigned Integer
+	private String DestTermID = "";// 21 Octet String
+	private String ServiceID = "";// 10 Octet String
+	private int TP_pid;// 1 Unsigned Integer
+	private int TP_udhi;// 1 Unsigned Integer
+	private int MsgFmt;// 1 Unsigned Integer
+	private String SrcTermID = "";// 21 Octet String
+	private int RegisteredDelivery;// 1 Unsigned Integer 是否为状态报告 0：非状态报告 1：状态报告
+
+	private int MsgLength; // 1 Unsigned Integer
+	private String MsgContent = "";// Msg_length Octet String
+	private String Reserved = "";// 8 Octet String
+	private Report report;
 
 	public Deliver(byte[] buf)
 	{
+		this(buf, 0);
+	}
+
+	public Deliver(byte[] buf, int offset)
+	{
 		// init data
-		int loc = 0;
 		byte[] temp = null;
 		// msgid
 		temp = new byte[8];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
+		System.arraycopy(buf, offset, temp, 0, temp.length);
 		MsgID = Hex.rhex(temp);
-		loc += 8;
+		offset += 8;
 		// desttermid
 		temp = new byte[21];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
+		System.arraycopy(buf, offset, temp, 0, temp.length);
 		this.DestTermID = new String(temp).trim();
-		loc += 21;
+		offset += 21;
 		// ServiceID
 		temp = new byte[10];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
+		System.arraycopy(buf, offset, temp, 0, temp.length);
 		this.ServiceID = new String(temp);
-		loc += 10;
+		offset += 10;
 		// tp_pid
-		this.TP_pid = buf[loc++];
-		this.TP_udhi = buf[loc++];
-		this.MsgFormat = buf[loc++];
+		this.TP_pid = buf[offset++];
+		this.TP_udhi = buf[offset++];
+		this.MsgFmt = buf[offset++];
 		// srctermid
 		temp = new byte[21];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
+		System.arraycopy(buf, offset, temp, 0, temp.length);
 		this.SrcTermID = new String(temp).trim();
-		loc += 21;
-		this.RegisteredDelivery = buf[loc++];
-		this.MsgLength = buf[loc++];
+		offset += 21;
+		this.RegisteredDelivery = buf[offset++];
+		this.MsgLength = buf[offset++];
 		// msgcontent
 		temp = new byte[this.MsgLength];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
-		this.MsgContent = getMsg(temp, this.MsgFormat);
+		System.arraycopy(buf, offset, temp, 0, temp.length);
+		this.MsgContent = getMsg(temp, this.MsgFmt);
 		if (this.RegisteredDelivery == 1)
 		{
 			report = new Report(temp);
 		}
-		loc += this.MsgLength;
+		offset += this.MsgLength;
 		// reserve
 		temp = new byte[8];
-		System.arraycopy(buf, loc, temp, 0, temp.length);
-		this.reserve = new String(temp).trim();
+		System.arraycopy(buf, offset, temp, 0, temp.length);
+		this.Reserved = new String(temp).trim();
 	}
 
 	private String getMsg(byte[] src, int msgFormat)
@@ -105,14 +108,13 @@ public class Deliver
 		StringBuffer sb = new StringBuffer();
 		sb.append("MsgID       : " + MsgID + "\r\n");
 		sb.append("IsReport:   : " + RegisteredDelivery + "\r\n");
-		sb.append("MsgFormat   : " + MsgFormat + "\r\n");
+		sb.append("MsgFormat   : " + MsgFmt + "\r\n");
 		sb.append("SrcTermID   : " + SrcTermID + "\r\n");
-		sb.append("SrcTermType : " + SrcTermType + "\r\n");
 		sb.append("DestTermID  : " + DestTermID + "\r\n");
 		sb.append("MsgLength   : " + MsgLength + "\r\n");
 		sb.append("MsgContent  : " + MsgContent + "\r\n");
 		sb.append("ServiceID   : " + ServiceID + "\r\n");
-		sb.append("Reserve      : " + reserve + "\r\n");
+		sb.append("Reserve      : " + Reserved + "\r\n");
 		sb.append("TP_pid      : " + TP_pid + "\r\n");
 		sb.append("TP_udhi     : " + TP_udhi + "\r\n");
 		if (RegisteredDelivery == 1)
@@ -121,6 +123,66 @@ public class Deliver
 		}
 
 		return sb.toString();
+	}
+
+	public String getMsgID()
+	{
+		return MsgID;
+	}
+
+	public String getDestTermID()
+	{
+		return DestTermID;
+	}
+
+	public String getServiceID()
+	{
+		return ServiceID;
+	}
+
+	public int getTP_pid()
+	{
+		return TP_pid;
+	}
+
+	public int getTP_udhi()
+	{
+		return TP_udhi;
+	}
+
+	public int getMsgFmt()
+	{
+		return MsgFmt;
+	}
+
+	public String getSrcTermID()
+	{
+		return SrcTermID;
+	}
+
+	public int getRegisteredDelivery()
+	{
+		return RegisteredDelivery;
+	}
+
+	public int getMsgLength()
+	{
+		return MsgLength;
+	}
+
+	public String getMsgContent()
+	{
+		return MsgContent;
+	}
+
+	public String getReserved()
+	{
+		return Reserved;
+	}
+
+	public Report getReport()
+	{
+		return report;
 	}
 
 }
