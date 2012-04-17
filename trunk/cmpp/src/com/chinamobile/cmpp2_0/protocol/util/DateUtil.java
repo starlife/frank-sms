@@ -4,13 +4,12 @@ package com.chinamobile.cmpp2_0.protocol.util;
  *
  * @author Administrator
  */
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtil {
-	public static final String sformat = "yyyy-MM-dd HH:mm:ss";
-	public static final String format1 = "yyyyMMddHHmmss";
+	//public static final String sformat = "yyyy-MM-dd HH:mm:ss";
+	//public static final String format1 = "yyyyMMddHHmmss";
 	public static final String TIMESTAMP = "MMddHHmmss";
 
 	public static String getTimeStamp() {
@@ -19,18 +18,18 @@ public class DateUtil {
 
 	}
 
-	public static String getNowString() {
+	/*public static String getNowString() {
 		return getNowString(sformat);
-	}
+	}*/
 
-	public static String getNowString(String fromatte) {
+	/*public static String getNowString(String fromatte) {
 		java.util.Date date = new java.util.Date();
 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(
 				fromatte);
 		return formatter.format(date);
-	}
+	}*/
 
-	public static long getTimeLong(String dateString, String format) {
+	/*public static long getTimeLong(String dateString, String format) {
 		// yyyyMMddHHmmss
 		long time = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -39,9 +38,9 @@ public class DateUtil {
 		} catch (ParseException ex) {
 		}
 		return time;
-	}
+	}*/
 
-	public static String getTimeString(String dateString, String format,
+	/*public static String getTimeString(String dateString, String format,
 			String newFormat) {
 		SimpleDateFormat oldFmt = new SimpleDateFormat(format);
 		SimpleDateFormat newFmt = new SimpleDateFormat(newFormat);
@@ -51,8 +50,7 @@ public class DateUtil {
 		} catch (ParseException ex) {
 			return "ParseError " + dateString;
 		}
-	}
+	}*/
 
-	public static void main(String[] args) {
-	}
+	
 }
