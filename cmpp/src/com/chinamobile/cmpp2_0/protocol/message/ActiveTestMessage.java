@@ -1,5 +1,11 @@
 package com.chinamobile.cmpp2_0.protocol.message;
 
+/**
+ * 该类实现CMPP_ACTIVE_TEST消息
+ * @version 1.0
+ * @author frank
+ *
+ */
 public class ActiveTestMessage extends APackage implements Send, Recv
 {
 	private Header head;
@@ -26,7 +32,8 @@ public class ActiveTestMessage extends APackage implements Send, Recv
 	{
 		return head;
 	}
-
+	
+	@Override
 	public byte[] getBytes()
 	{
 		return buf;
