@@ -295,16 +295,10 @@ public class Submit
 		sb.append(" MsgID-char          : " + this.msgID + "\r\n");
 		sb.append(" PkTotal-byte        : " + this.pkTotal + "\r\n");
 		sb.append(" PkNumber-byte       : " + this.pkNumber + "\r\n");
-		sb.append(" NeedReport-byte     : " + this.registeredDelivery + "\r\n");
+		sb.append(" Registered_Delivery : " + this.registeredDelivery + "\r\n");
 		sb.append(" MsgLevel-byte       : " + this.msgLevel + "\r\n");
-		sb.append(" ServiceID-char      : " + this.serviceID + "\r\n");
-		sb.append(" FeeUserType-byte    : " + this.feeUserType + "\r\n");
-		sb.append(" FeeTermID-char      : " + this.feeTermID + "\r\n");
-		sb.append(" FeeType-char        : " + this.feeType + "\r\n");
-		sb.append(" FeeCode-char        : " + this.feeCode + "\r\n");
-		sb.append(" MsgFormat-byte      : " + this.msgFmt + "\r\n");
-		sb.append(" ValidTime-char      : " + this.validTime + "\r\n");
-		sb.append(" AtTime-char         : " + this.atTime + "\r\n");
+		sb.append(" Spid-char        	: " + this.msgSrc + "\r\n");
+		sb.append(" ServiceCode-char    : " + this.serviceID + "\r\n");
 		sb.append(" SrcTermID-char      : " + this.srcTermID + "\r\n");
 		sb.append(" DestTermCount-byte  : " + this.destTermCount + "\r\n");
 		if (this.destTermCount == 1)
@@ -320,10 +314,19 @@ public class Submit
 			}
 			sb.append("]\r\n");
 		}
+		sb.append(" MsgFormat-byte      : " + this.msgFmt + "\r\n");
 		sb.append(" MsgLength-byte      : " + this.msgLength + "\r\n");
 		sb.append(" MsgContent-char     : " + getMsgContent() + "\r\n");
+
+		sb.append(" FeeUserType-byte    : " + this.feeUserType + "\r\n");
+		sb.append(" FeeTermID-char      : " + this.feeTermID + "\r\n");
+		sb.append(" TP_pId-byte         : " + this.tpPid + "\r\n");
+		sb.append(" TP_udhi-byte        : " + this.tpUdhi + "\r\n");
+		sb.append(" FeeType-char        : " + this.feeType + "\r\n");
+		sb.append(" FeeCode-char        : " + this.feeCode + "\r\n");
+		sb.append(" ValidTime-char      : " + this.validTime + "\r\n");
+		sb.append(" AtTime-char         : " + this.atTime + "\r\n");
 		sb.append(" Reserve-char         : " + this.reserve + "\r\n");
-		sb.append(" MsgSrc-char         : " + this.msgSrc + "\r\n");
 
 		// sb.append("\r\n------------------------------------------------------\r\n");
 		return sb.toString();
