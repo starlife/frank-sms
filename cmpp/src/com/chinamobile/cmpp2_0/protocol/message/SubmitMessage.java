@@ -147,11 +147,13 @@ public class SubmitMessage extends APackage implements Send
 	{
 		String[] desttermid = "13777802386".split(",");
 		String msg = "您好，您发送的消息为：" + "55" + "!";
-		byte[] msgByte = msg.getBytes();// gbk解码
+		//byte[] msgByte = msg.getBytes();// gbk解码
 		String param = "";
-		SubmitMessage sm = MessageUtil.createSubmitMessage("911337",
-				"106573061704", "MZJ3310101", desttermid, msgByte, param);
-		System.out.println(Hex.rhex(sm.getBytes()));
-		System.out.println(sm.getBytes().length);
+		SubmitMessage[] sm = MessageUtil.createSubmitMessage("911337",
+				"106573061704", "MZJ3310101", desttermid, msg, param);
+		for(SubmitMessage s:sm)
+		{
+			System.out.println(s);
+		}
 	}
 }
