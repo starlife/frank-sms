@@ -314,14 +314,13 @@ public class Submit
 			}
 			sb.append("]\r\n");
 		}
+		sb.append(" TP_pId-byte         : " + this.tpPid + "\r\n");
+		sb.append(" TP_udhi-byte        : " + this.tpUdhi + "\r\n");
 		sb.append(" MsgFormat-byte      : " + this.msgFmt + "\r\n");
 		sb.append(" MsgLength-byte      : " + this.msgLength + "\r\n");
 		sb.append(" MsgContent-char     : " + getMsg() + "\r\n");
-
 		sb.append(" FeeUserType-byte    : " + this.feeUserType + "\r\n");
 		sb.append(" FeeTermID-char      : " + this.feeTermID + "\r\n");
-		sb.append(" TP_pId-byte         : " + this.tpPid + "\r\n");
-		sb.append(" TP_udhi-byte        : " + this.tpUdhi + "\r\n");
 		sb.append(" FeeType-char        : " + this.feeType + "\r\n");
 		sb.append(" FeeCode-char        : " + this.feeCode + "\r\n");
 		sb.append(" ValidTime-char      : " + this.validTime + "\r\n");
