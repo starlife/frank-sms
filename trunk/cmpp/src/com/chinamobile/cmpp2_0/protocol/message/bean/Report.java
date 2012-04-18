@@ -30,7 +30,7 @@ public class Report
 		this.Done_time = new String(content,offset, 10);
 		offset+=10;
 		// Dest_terminal_Id 32 Octet String 目的终端MSISDN号码(SP发送CMPP_SUBMIT消息的目标终端)
-		this.Dest_terminal_Id = new String(content,offset, 21);
+		this.Dest_terminal_Id = new String(content,offset, 21).trim();
 		offset+=21;
 		// SMSC_sequence 4 Unsigned Integer 取自SMSC发送状态报告的消息体中的消息标识。
 		this.SMSC_sequence = ByteConvert.byte2int(content,offset);
