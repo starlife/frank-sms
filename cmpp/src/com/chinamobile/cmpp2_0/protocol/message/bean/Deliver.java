@@ -65,7 +65,7 @@ public class Deliver
 		this.SrcTermID = new String(temp).trim();
 		offset += 21;
 		this.RegisteredDelivery = buf[offset++];
-		this.MsgLength = buf[offset++];
+		this.MsgLength = buf[offset++]&0xff;//如果大于127的话需要&0xff
 		// msgcontent
 		temp = new byte[this.MsgLength];
 		System.arraycopy(buf, offset, temp, 0, temp.length);
@@ -114,7 +114,7 @@ public class Deliver
 		sb.append("MsgLength   : " + MsgLength + "\r\n");
 		sb.append("MsgContent  : " + MsgContent + "\r\n");
 		sb.append("ServiceID   : " + ServiceID + "\r\n");
-		sb.append("Reserve      : " + Reserved + "\r\n");
+		sb.append("Reserve     : " + Reserved + "\r\n");
 		sb.append("TP_pid      : " + TP_pid + "\r\n");
 		sb.append("TP_udhi     : " + TP_udhi + "\r\n");
 		if (RegisteredDelivery == 1)
