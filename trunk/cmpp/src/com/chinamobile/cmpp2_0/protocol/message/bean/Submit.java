@@ -8,123 +8,109 @@ import java.util.regex.*;
  */
 public class Submit
 {
-	
+
 	/**
-	 * 信息标识 SubmitMessage为空，SubmitRespMessage中包含该值
-	 *  String(8)
+	 * 信息标识 SubmitMessage为空，SubmitRespMessage中包含该值 String(8)
 	 */
-	public String msgID="";
+	private String msgID = "";
 	/**
-	 * 相同Msg_Id的信息总条数，从1开始
-	 * int
+	 * 相同Msg_Id的信息总条数，从1开始 int
 	 */
-	public int pkTotal = 1;
+	private int pkTotal = 1;
 	/**
-	 * 相同Msg_Id的信息序号，从1开始。
-	 * int
+	 * 相同Msg_Id的信息序号，从1开始。 int
 	 */
-	public int pkNumber = 1;
+	private int pkNumber = 1;
 	/**
-	 * 是否要求返回状态报告，枚举： 1 返回  0 不放回
+	 * 是否要求返回状态报告，枚举： 1 返回 0 不放回
 	 */
-	public int registeredDelivery = 1;
+	private int registeredDelivery = 1;
 	/**
 	 * 信息级别 默认为3
 	 */
-	public int msgLevel = 3;
+	private int msgLevel = 3;
 	/**
-	 * 业务标识，是数字、字母和符号的组合
-	 * String(10)
+	 * 业务标识，是数字、字母和符号的组合 String(10)
 	 */
-	public String serviceID="";
+	private String serviceID = "";
 	/**
-	 *  计费类型 0表示对目的终端计费；1表示对源终端计费 2对sp计费 3表示本字段无效(对谁计费参见FeeTerminalId)
+	 * 计费类型 0表示对目的终端计费；1表示对源终端计费 2对sp计费 3表示本字段无效(对谁计费参见FeeTerminalId)
 	 * 默认为2（对sp端计费）
 	 */
-	public int feeUserType = 2;
-	
+	private int feeUserType = 2;
+
 	/**
-	 * 计费号码 当feeUserType为3时有效，当feeUserType为0、1、2时无效
+	 * 计费号码
 	 */
-	public String feeTermID="";
-	
-	
-	
+	private String feeTermID = "";
+
 	/**
 	 * TP-Protocol-identifier 默认为0
 	 */
-	public int tpPid=0;
+	private int tpPid = 0;
 	/**
-	 * TP-User-Data—Header-Indicator 枚举： 
-	 * 0 表示消息内容（TP-UD）不包含头信息(消息内容可包含7bit,8bit,16bit(ucs2)) 
-	 * 1 表示消息内容包含消息头  通常用于发送二进制短信（长短信，wappush）
+	 * TP-User-Data—Header-Indicator 枚举： 0
+	 * 表示消息内容（TP-UD）不包含头信息(消息内容可包含7bit,8bit,16bit(ucs2)) 1 表示消息内容包含消息头
+	 * 通常用于发送二进制短信（长短信，wappush）
 	 */
-	public int tpUdhi=0;
+	private int tpUdhi = 0;
 	/**
 	 * 短信内容编码 0=ACSII编码 3=短消息写卡操作 4=二进制 8=UCS2 15=GB18030
-	 * 
 	 */
-	public int msgFmt=15;
+	private int msgFmt = 15;
 	/**
-	 * 消息来源，填spid
-	 *  String(6)
+	 * 消息来源，填spid String(6)
 	 */
-	public String msgSrc="";
+	private String msgSrc = "";
 	/**
-	 * 计费类型：01 对计费用户号码免费 02 对计费用户号码按条记信息费 03 对计费用户号码按月收取费用
-	 * String(2)
+	 * 计费类型：01 对计费用户号码免费 02 对计费用户号码按条记信息费 03 对计费用户号码按月收取费用 String(2)
 	 */
-	public String feeType = "01";
+	private String feeType = "01";
 	/**
-	 * 资费代码 （单位分）如 5元包月这里写"500"
-	 * String(6)
+	 * 资费代码 （单位分）如 5元包月这里写"500" String(6)
 	 */
-	public String feeCode="0";
+	private String feeCode = "0";
 	/**
-	 *  短信有效时间，转发过程中保持不变
-	 *  String(17)
+	 * 短信有效时间，转发过程中保持不变 String(17)
 	 */
-	public String validTime = "";
+	private String validTime = "";
 	/**
-	 * 短信定时发送时间，转发过程中保持不变
-	 * String(17)
+	 * 短信定时发送时间，转发过程中保持不变 String(17)
 	 */
-	public String atTime = "";
+	private String atTime = "";
 	/**
-	 * 源号码（这里填接入号spnumber）
-	 * String(21)
+	 * 源号码（这里填接入号spnumber） String(21)
 	 */
-	public String srcTermID="";
+	private String srcTermID = "";
 	/**
 	 * 目的号码个数
 	 */
-	public int destTermCount=1;
+	private int destTermCount = 1;
 	/**
-	 * 目的号码
-	 * String(DestTermCount*32)
+	 * 目的号码 String(DestTermCount*21)
 	 */
-	public String[] destTermID;
+	private String[] destTermID;
 
 	/**
 	 * 消息长度（短信内容的字节数）
 	 */
-	public int msgLength;
+	private int msgLength;
 	/**
 	 * 消息内容
 	 */
-	public byte[] msgContent;
+	private byte[] msgContent;
 	/**
 	 * 点播业务使用的LinkID，非点播类业务的MT流程不使用该字段。
 	 */
-	//public String linkID="";
-	public String reserve="";
+	// public String linkID="";
+	private String reserve = "";
 
-	public Submit(String spid,String spnumber,String serviceCode,String[] desttermid, byte[] msgcontent,
-			String param)
+	public Submit(String spid, String spnumber, String serviceCode,
+			String[] desttermid, byte[] msgcontent, String param)
 	{
-		this.msgSrc=spid;
+		this.msgSrc = spid;
 		this.srcTermID = spnumber;
-		this.serviceID=serviceCode;
+		this.serviceID = serviceCode;
 		this.destTermID = desttermid;
 		this.destTermCount = desttermid.length;
 		this.msgContent = msgcontent;
@@ -190,44 +176,8 @@ public class Submit
 	public void setParams(String param)
 	{
 		String value = "";
-		if ((value = getValue(param, "srcTermID")) != null)
-		{
-			srcTermID = value;
-		}
-		if ((value = getValue(param, "feeType")) != null)
-		{
-			feeType = value;
-		}
-		if ((value = getValue(param, "feeCode")) != null)
-		{
-			feeCode = value;
-		}
 
-		if ((value = getValue(param, "tpUdhi")) != null)
-		{
-			try
-			{
-				tpUdhi = Integer.parseInt(value);
-			}
-			catch (Exception e)
-			{
-			}
-		}
-		if ((value = getValue(param, "msgFmt")) != null)
-		{
-			try
-			{
-				msgFmt = Integer.parseInt(value);
-			}
-			catch (Exception e)
-			{
-			}
-		}
-		if ((value = getValue(param, "serviceID")) != null)
-		{
-			serviceID = value;
-		}
-		if ((value = getValue(param, "pkTotal")) != null)
+		if ((value = getValue(param, "Pk_total")) != null)
 		{
 			try
 			{
@@ -237,7 +187,7 @@ public class Submit
 			{
 			}
 		}
-		if ((value = getValue(param, "pkNumber")) != null)
+		if ((value = getValue(param, "Pk_number")) != null)
 		{
 			try
 			{
@@ -246,6 +196,93 @@ public class Submit
 			catch (Exception e)
 			{
 			}
+		}
+		if ((value = getValue(param, "Registered_Delivery")) != null)
+		{
+			try
+			{
+				this.registeredDelivery = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+		if ((value = getValue(param, "Msg_level")) != null)
+		{
+			try
+			{
+				this.msgLevel = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if ((value = getValue(param, "Fee_UserType")) != null)
+		{
+			try
+			{
+				this.feeUserType = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if ((value = getValue(param, "Fee_terminal_Id")) != null)
+		{
+			this.feeTermID = value;
+		}
+
+		if ((value = getValue(param, "TP_pid")) != null)
+		{
+			try
+			{
+				this.tpPid = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if ((value = getValue(param, "TP_udhi")) != null)
+		{
+			try
+			{
+				tpUdhi = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+		if ((value = getValue(param, "Msg_Fmt")) != null)
+		{
+			try
+			{
+				msgFmt = Integer.parseInt(value);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+		if ((value = getValue(param, "FeeType")) != null)
+		{
+			feeType = value;
+		}
+		if ((value = getValue(param, "FeeCode")) != null)
+		{
+			feeCode = value;
+		}
+
+		if ((value = getValue(param, "Valid_Time")) != null)
+		{
+			this.validTime = value;
+		}
+
+		if ((value = getValue(param, "At_Time")) != null)
+		{
+			this.atTime = value;
 		}
 
 	}
@@ -290,6 +327,111 @@ public class Submit
 
 		// sb.append("\r\n------------------------------------------------------\r\n");
 		return sb.toString();
+	}
+
+	public String getMsgID()
+	{
+		return msgID;
+	}
+
+	public int getPkTotal()
+	{
+		return pkTotal;
+	}
+
+	public int getPkNumber()
+	{
+		return pkNumber;
+	}
+
+	public int getRegisteredDelivery()
+	{
+		return registeredDelivery;
+	}
+
+	public int getMsgLevel()
+	{
+		return msgLevel;
+	}
+
+	public String getServiceID()
+	{
+		return serviceID;
+	}
+
+	public int getFeeUserType()
+	{
+		return feeUserType;
+	}
+
+	public String getFeeTermID()
+	{
+		return feeTermID;
+	}
+
+	public int getTpPid()
+	{
+		return tpPid;
+	}
+
+	public int getTpUdhi()
+	{
+		return tpUdhi;
+	}
+
+	public int getMsgFmt()
+	{
+		return msgFmt;
+	}
+
+	public String getMsgSrc()
+	{
+		return msgSrc;
+	}
+
+	public String getFeeType()
+	{
+		return feeType;
+	}
+
+	public String getFeeCode()
+	{
+		return feeCode;
+	}
+
+	public String getValidTime()
+	{
+		return validTime;
+	}
+
+	public String getAtTime()
+	{
+		return atTime;
+	}
+
+	public String getSrcTermID()
+	{
+		return srcTermID;
+	}
+
+	public int getDestTermCount()
+	{
+		return destTermCount;
+	}
+
+	public String[] getDestTermID()
+	{
+		return destTermID;
+	}
+
+	public int getMsgLength()
+	{
+		return msgLength;
+	}
+
+	public String getReserve()
+	{
+		return reserve;
 	}
 
 }
