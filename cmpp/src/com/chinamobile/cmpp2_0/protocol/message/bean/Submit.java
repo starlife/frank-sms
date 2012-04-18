@@ -297,7 +297,7 @@ public class Submit
 		sb.append(" PkNumber-byte       : " + this.pkNumber + "\r\n");
 		sb.append(" Registered_Delivery : " + this.registeredDelivery + "\r\n");
 		sb.append(" MsgLevel-byte       : " + this.msgLevel + "\r\n");
-		sb.append(" Spid-char        	: " + this.msgSrc + "\r\n");
+		sb.append(" Spid-char           : " + this.msgSrc + "\r\n");
 		sb.append(" ServiceCode-char    : " + this.serviceID + "\r\n");
 		sb.append(" SrcTermID-char      : " + this.srcTermID + "\r\n");
 		sb.append(" DestTermCount-byte  : " + this.destTermCount + "\r\n");
@@ -326,7 +326,7 @@ public class Submit
 		sb.append(" FeeCode-char        : " + this.feeCode + "\r\n");
 		sb.append(" ValidTime-char      : " + this.validTime + "\r\n");
 		sb.append(" AtTime-char         : " + this.atTime + "\r\n");
-		sb.append(" Reserve-char         : " + this.reserve + "\r\n");
+		sb.append(" Reserve-char        : " + this.reserve + "\r\n");
 
 		// sb.append("\r\n------------------------------------------------------\r\n");
 		return sb.toString();
