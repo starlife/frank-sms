@@ -140,7 +140,7 @@ public class Submit
 		}
 	}
 
-	public String getMsgContent()
+	public String getMsg()
 	{
 		String msg;
 		try
@@ -316,7 +316,7 @@ public class Submit
 		}
 		sb.append(" MsgFormat-byte      : " + this.msgFmt + "\r\n");
 		sb.append(" MsgLength-byte      : " + this.msgLength + "\r\n");
-		sb.append(" MsgContent-char     : " + getMsgContent() + "\r\n");
+		sb.append(" MsgContent-char     : " + getMsg() + "\r\n");
 
 		sb.append(" FeeUserType-byte    : " + this.feeUserType + "\r\n");
 		sb.append(" FeeTermID-char      : " + this.feeTermID + "\r\n");
@@ -435,6 +435,11 @@ public class Submit
 	public String getReserve()
 	{
 		return reserve;
+	}
+
+	public byte[] getMsgContent()
+	{
+		return msgContent;
 	}
 
 }
