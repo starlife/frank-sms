@@ -66,8 +66,8 @@ public class MessageUtil
 			String spid, String spnumber, String serviceCode,
 			String[] desttermid, byte[] msgcontent, String param)
 	{
-		param += "pkTotal" + pkTotal + "\r\n";
-		param += "pkNumber" + pkNumber + "\r\n";
+		param += "Pk_total" + pkTotal + "\r\n";
+		param += "Pk_number" + pkNumber + "\r\n";
 		Submit submit = new Submit(spid, spnumber, serviceCode, desttermid,
 				msgcontent, param);
 		SubmitMessage sm = new SubmitMessage(submit);
