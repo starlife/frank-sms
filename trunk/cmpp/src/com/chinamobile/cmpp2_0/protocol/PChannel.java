@@ -11,19 +11,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.chinamobile.cmpp2_0.protocol.message.APackage;
-import com.chinamobile.cmpp2_0.protocol.message.ActiveTestMessage;
 import com.chinamobile.cmpp2_0.protocol.message.BasePackage;
 import com.chinamobile.cmpp2_0.protocol.message.CommandID;
 import com.chinamobile.cmpp2_0.protocol.message.ConnectMessage;
 import com.chinamobile.cmpp2_0.protocol.message.ConnectRespMessage;
-import com.chinamobile.cmpp2_0.protocol.message.DeliverMessage;
-import com.chinamobile.cmpp2_0.protocol.message.DeliverRespMessage;
-import com.chinamobile.cmpp2_0.protocol.message.MessageUtil;
-import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
-import com.chinamobile.cmpp2_0.protocol.message.SubmitRespMessage;
+import com.chinamobile.cmpp2_0.protocol.message.PackageError;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
+import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
-import com.chinamobile.cmpp2_0.protocol.util.TypeConvert;
 
 /**
  * 通道类（最重要的类） 约定如下： 1.该类要实现自包含，就是不依赖于包protocol外的自定义类 2.短信的收发功能通过该类方法提供给外部
@@ -33,22 +28,10 @@ import com.chinamobile.cmpp2_0.protocol.util.TypeConvert;
 public class PChannel
 {
 	private static final Log log = LogFactory.getLog(PChannel.class);// 记录日志
-	
-	private  int timeout=60*1000;//60s
-	//public static final long MAX_TIMEOUT = 3;// 单位秒
-	// 链路最大空闲时间，如果超过这个时间，就发activeTest
 
-	// private final LinkedBlockingQueue<APackage> sendQue = new
-	// LinkedBlockingQueue<APackage>();
-	// private final LinkedBlockingQueue<APackage> recvQue = new
-	// LinkedBlockingQueue<APackage>();
-	// private final LinkedBlockingQueue<SubmitMessage> needRespQue = new
-	// LinkedBlockingQueue<SubmitMessage>();
-
+	private int timeout = 60 * 1000;// 60s
 	private Socket socket;
 	private volatile boolean blogin = false;
-	private volatile boolean stop = false;
-	// private long bconnectTime;
 	// private volatile long sendPacket;
 	// private volatile long revcPacket;
 	// private volatile long erroPackage;
@@ -90,21 +73,6 @@ public class PChannel
 		return channel;
 	}
 
-	/*
-	 * public void run() { while (!stop) { try { // 如果有数据收到，先接收数据，然后在发送 if
-	 * (this.getInputStream().available() > 0) { log.info("有包需要接收"); BasePackage
-	 * bp = this.readPacket();
-	 * log.info("接收包："+bp.getHead().getCommandIdString()); recvQue.put(bp); }
-	 * else { APackage p = sendQue.poll(MAX_TIMEOUT,
-	 * java.util.concurrent.TimeUnit.SECONDS); //
-	 * 如果发送队为空，就发送一个activeTestMessgage包 if (p == null) { log.info("等待3s未收到包"); p =
-	 * new ActiveTestMessage(); } p.addTimes(); p.setTimeStamp();
-	 * log.info("发送包："+p); this.sendPacket(p); if ((p.getHead().getCommmandID() ==
-	 * CommandID.CMPP_SUBMIT) && (p instanceof SubmitMessage)) {
-	 * needRespQue.put((SubmitMessage) p); } } } catch (Exception e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); log.error(null, e); } } }
-	 */
-
 	/**
 	 * 建立socket连接
 	 * 
@@ -116,10 +84,6 @@ public class PChannel
 	 */
 	private boolean createSocket(String addr, int port)
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug(LogConstants.ENTER_METHOD + "createSocket()");
-		}
 		log.info(String.format("尝试连接远端服务器%s:%s", ip, port));
 
 		boolean bret = false;
@@ -141,17 +105,11 @@ public class PChannel
 			log.error(null, ex);
 		}
 
-		if (log.isDebugEnabled())
-		{
-			log.debug(LogConstants.EXIT_METHOD + "createSocket()");
-		}
-
 		return bret;
 	}
 
 	/**
-	 * 
-	 * 登陆远程服务器：1 建立socket连接 2 发送登陆包 
+	 * 登陆远程服务器：1 建立socket连接 2 发送登陆包
 	 * 如果连接失败，那么设置socket=null，如果登录失败，那么发送断开连接包并设置socket=null
 	 * 
 	 * @param ip
@@ -171,22 +129,13 @@ public class PChannel
 	private boolean login(String ip, int port, String loginName,
 			String loginPasswd, int clientVersion)
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug(LogConstants.ENTER_METHOD + "login()");
-		}
-		
-		if(this.socket!=null)
+		if (this.socket != null)
 		{
 			this.close();
 		}
 		if (!createSocket(ip, port))
 		{
-			log.error(String.format("创建Socket连接%s,%s失败,请检查配置",ip,port));
-			if (log.isDebugEnabled())
-			{
-				log.debug(LogConstants.EXIT_METHOD + "login()");
-			}
+			log.error(String.format("创建Socket连接%s,%s失败,请检查配置", ip, port));
 			return false;
 		}
 		try
@@ -195,14 +144,14 @@ public class PChannel
 					clientVersion);
 			socket.getOutputStream().write(lm.getBytes());
 			socket.getOutputStream().flush();
-			
+
 			log.info("------------------发送登陆包");
 			log.info("登陆消息字节码：" + Hex.rhex(lm.getBytes()));
 			log.info(lm);
-			
+
 			BasePackage curPack = this.readPacket(socket.getInputStream());
 			log.info(curPack);
-			if (curPack.getHead().getCommmandID() == CommandID.CMPP_CONNECT_RESP)
+			if (curPack.getHead().getCommmandId() == CommandID.CMPP_CONNECT_RESP)
 			{
 				ConnectRespMessage lrm = new ConnectRespMessage(curPack);
 				log.info("登陆回应消息字节码：" + Hex.rhex(lrm.getBytes()));
@@ -212,13 +161,9 @@ public class PChannel
 					log.info("登陆成功...");
 					this.blogin = true;
 
-					if (log.isDebugEnabled())
-					{
-						log.debug(LogConstants.EXIT_METHOD + "login()");
-					}
-					
 					return true;
-				}else
+				}
+				else
 				{
 					log.info("登陆失败，需要断开连接");
 				}
@@ -234,12 +179,11 @@ public class PChannel
 			log.error(null, ex);
 			this.close();
 		}
-		
 
-		if (log.isDebugEnabled())
-		{
-			log.debug(LogConstants.EXIT_METHOD + "login()");
-		}
+		/*
+		 * if (log.isDebugEnabled()) { log.debug(LogConstants.EXIT_METHOD +
+		 * "login()"); }
+		 */
 
 		return false;
 
@@ -259,7 +203,8 @@ public class PChannel
 		try
 		{
 			if (this.blogin && this.isSocketAvail())
-			{// 如果通道是通的，发送TerminateMessage中断通道
+			{
+				// 如果通道是通的，发送TerminateMessage中断通道
 				TerminateMessage tx = new TerminateMessage();
 				log.info(tx);
 				socket.getOutputStream().write(tx.getBytes());
@@ -274,28 +219,7 @@ public class PChannel
 		}
 		finally
 		{
-			log.info("设置Socket为null");
-			try
-			{
-				if (!socket.isInputShutdown())
-				{
-					socket.shutdownInput();
-				}
-				if (!socket.isOutputShutdown())
-				{
-					socket.shutdownOutput();
-				}
-				if (!socket.isClosed())
-				{
-					socket.close();
-				}
-			}
-			catch (IOException ex)
-			{
-				ex.printStackTrace();
-				log.error(null, ex);
-			}
-			socket = null;
+			close();
 
 		}
 
@@ -313,7 +237,7 @@ public class PChannel
 			{
 				return;
 			}
-			log.info("Socket不为空，关闭socket");
+			log.info("尝试关闭socket");
 			try
 			{
 				if (!socket.isInputShutdown())
@@ -373,7 +297,7 @@ public class PChannel
 			{
 				log.info(String.format("登陆失败，尝试 %d 次 登陆到 %s ：%d", i, ip, port));
 				i++;
-				if(i>6)
+				if (i > 6)
 				{
 					return false;
 				}
@@ -383,7 +307,7 @@ public class PChannel
 				}
 				catch (Exception ex)
 				{
-					//ex.printStackTrace();
+					// ex.printStackTrace();
 					log.error(null, ex);
 				}
 			}
@@ -431,7 +355,7 @@ public class PChannel
 	 */
 	private OutputStream getOutPutStream()
 	{
-		
+
 		OutputStream output = null;
 		try
 		{
@@ -454,16 +378,15 @@ public class PChannel
 		return output;
 	}
 
-	
-
-	private BasePackage readPacket(InputStream in) throws IOException
+	private BasePackage readPacket(InputStream in) throws IOException,
+			PackageError
 	{
 		BasePackage pack = null;
 		if (in != null)
 		{
 			byte[] lenByte = new byte[4];
 			in.read(lenByte);// 读前面四个字节，包长度
-			int packLen = TypeConvert.byte2int(lenByte);
+			int packLen = ByteConvert.byte2int(lenByte);
 			byte[] buf = new byte[packLen];
 			System.arraycopy(lenByte, 0, buf, 0, 4);// 拷贝
 			in.read(buf, 4, buf.length - 4);
@@ -497,15 +420,16 @@ public class PChannel
 	 * 
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
+	 * @throws PackageError
 	 */
-	public BasePackage readPacket() throws IOException
+	public BasePackage readPacket() throws IOException, PackageError
 	{
 		return readPacket(this.getInputStream());
 	}
-	
+
 	/**
-	 * 
-	 * @param send  包
+	 * @param send
+	 *            包
 	 * @return 如果通道不可用 返回false 发送成功返回true
 	 * @throws IOException
 	 */
@@ -524,6 +448,7 @@ public class PChannel
 		}
 
 	}
+
 	/*
 	 * public void send(APackage ap) { try { sendQue.put(ap); } catch
 	 * (InterruptedException e) { // TODO Auto-generated catch block
@@ -544,104 +469,6 @@ public class PChannel
 	 * needRespQue; }
 	 */
 
-	static class SendThread extends Thread
-	{
-		public SendThread()
-		{
-			log.info("初始化发送线程");
-		}
-		public void run()
-		{
-			while(true)
-			{
-				try
-				{
-					TimeUnit.SECONDS.sleep(3);
-					
-				}catch(Exception ex)
-				{
-					
-				}
-				PChannel channel = PChannel.getChannel();
-				if(channel!=null)
-				{
-					try
-					{
-						log.info("发送链路检测包");
-						channel.sendPacket(new ActiveTestMessage());
-						//String[] desttermid="13777802386".split(","); 
-						//byte[] msgByte = "this is a test msg from lin".getBytes();//gbk解码
-						//String param = ""; 
-						//SubmitMessage sm= MessageUtil.createSubmitMessage("911337","106573061704","MZJ3310101", desttermid, msgByte,param);
-						//SubmitMessage sm= MessageUtil.createSubmitMessage("","","", desttermid, msgByte,param);
-						//log.info("发送 提交包");
-						//channel.sendPacket(sm);
-					}
-					catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						log.error(null,e);
-						channel.close();
-					}
-				}
-				
-			}
-		}
-	}
-	static class RecvThread extends Thread
-	{
-		public RecvThread()
-		{
-			log.info("初始化接收线程");
-		}
-		public void run()
-		{
-			while(true)
-			{
-				PChannel channel = PChannel.getChannel();
-				if(channel!=null)
-				{
-					BasePackage p=null;
-					try
-					{
-						p=channel.readPacket();
-						log.info("收到包："+p);
-						if(p.getHead().getCommmandID()==CommandID.CMPP_DELIVER)
-						{
-							DeliverMessage dm=new DeliverMessage(p);
-							log.info(dm);
-							DeliverRespMessage drm=new DeliverRespMessage(dm);
-							channel.sendPacket(drm);
-							if(dm.getDeliver().RegisteredDelivery==0)
-							{
-								String[] desttermid=dm.getDeliver().SrcTermID.split(",");
-								String msg="您好，您发送的消息为："+dm.getDeliver().MsgContent+"!";
-								byte[] msgByte = msg.getBytes();//gbk解码
-								String param = ""; 						
-								SubmitMessage sm= MessageUtil.createSubmitMessage("911337","106573061704","MZJ3310101", desttermid, msgByte,param);
-								log.info("发送 提交包:"+sm.getBytes().length +sm);
-								channel.sendPacket(sm);
-							}
-							
-						}
-						if(p.getHead().getCommmandID()==CommandID.CMPP_SUBMIT_RESP)
-						{
-							SubmitRespMessage srm=new SubmitRespMessage(p);
-							log.info(srm);
-							
-						}
-						
-					}
-					catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						log.error(null,e);
-						channel.close();
-					}
-				}
-			}
-		}
-	}
 	public static void main(String[] args) throws IOException,
 			InterruptedException
 	{
@@ -651,45 +478,8 @@ public class PChannel
 		String secret = "kki890";
 		// String secret="Q61704";
 		int version = 32;// cmpp 2.0
-		PChannel channel = PChannel.getChannel();
-
-		if (channel == null)
-		{
-			log.info("通道未初始化，初始化通道...");
-			PChannel.init(ip, port, loginName, secret, version);
-			channel = PChannel.getChannel();
-
-		}
-		new SendThread().start();
-		new RecvThread().start();
-		
-		/*TimeUnit.SECONDS.sleep(20);
-		System.out.println("休息20s后醒来");
-		String[] desttermid = "13777802386".split(",");
-		byte[] msgByte = "this is a test msg from lin".getBytes();// gbk解码
-		String param = "";*/
-		// SubmitMessage sm=
-		// MessageUtil.createSubmitMessage("911337","106573061704","MZJ3310101",
-		// desttermid, msgByte,param);
-		// channel.sendQue.put(new TerminateMessage());
-		// APackage p=channel.recvQue.peek();
-		// System.out.println("gotttttt:"+p);
-		/*
-		 * String[] desttermid="13777802386".split(","); byte[]
-		 * msgByte = "this is a test msg from lin".getBytes();//
-		 * gbk解码 String param = ""; SubmitMessage sm=
-		 * MessageUtil.createSubmitMessage("911337","106573061704","MZJ3310101",
-		 * desttermid, msgByte,param); log.info("发送 提交包");
-		 * socket.getOutputStream().write(sm.getBytes());
-		 * socket.getOutputStream().flush();
-		 * if(socket.getInputStream().available()<=0) {
-		 * log.info("sleep 1s"); TimeUnit.SECONDS.sleep(1); }
-		 * System.out.println("socket.getInputStream().available()>0:"+(socket.getInputStream().available()>0));
-		 * if(socket.getInputStream().available()>0) {
-		 * log.info("socket.getInputStream().available():"+socket.getInputStream().available());
-		 * CurPack = this.readPacket(socket.getInputStream());
-		 * log.info(CurPack); }
-		 */
+		new PSender(ip, port, loginName, secret, version).start();
+		new PReceiver().start();
 
 	}
 
