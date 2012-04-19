@@ -1,5 +1,6 @@
 package com.chinamobile.cmpp2_0.protocol;
 
+import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,9 @@ import com.chinamobile.cmpp2_0.protocol.util.Hex;
 public class PReceiver extends Thread
 {
 
+	public static final long RESP_TIME = 60 * 1000;// 包等待确认时间 超过了重发
+	public static final int RESEND_TIME = 3;// 重发次数
+	
 	private static final Log log = LogFactory.getLog(PReceiver.class);// 记录日志
 
 	private static final Log discard = LogFactory.getLog("discard");// 记录丢弃包日志
@@ -37,12 +41,10 @@ public class PReceiver extends Thread
 
 	private final LinkedBlockingQueue<SubmitMessage> submitQue = new LinkedBlockingQueue<SubmitMessage>();// 滑动窗口
 
-	public static final long RESP_TIME = 60 * 1000;// 包等待确认时间 超过了重发
-	public static final int RESEND_TIME = 3;// 重发次数
 
 	public PReceiver()
 	{
-		
+
 	}
 
 	@Override
@@ -50,18 +52,27 @@ public class PReceiver extends Thread
 	{
 		while (!stop)
 		{
+
+			PChannel channel = PChannel.getChannel();
+			if (channel == null)
+			{
+				log.info("通道未建立，等待通道被建立...");
+				try
+				{
+					TimeUnit.SECONDS.sleep(1);// 睡眠1秒钟
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					log.error(null, e);
+				}
+				continue;
+
+			}
+			BasePackage p = null;
 			try
 			{
-				PChannel channel = PChannel.getChannel();
-				if (channel == null)
-				{
-					log.info("通道未建立，等待通道被建立...");
-					TimeUnit.SECONDS.sleep(1);// 睡眠1秒钟
-					continue;
-
-				}
-				//APackage p = channel.receive();
-				APackage p =null;
+				p = channel.readPacket();
 				if (p == null)
 				{
 					continue;
@@ -69,66 +80,19 @@ public class PReceiver extends Thread
 				dealRecv(p);
 
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				ex.printStackTrace();
-				log.error(null, ex);
+				// TODO Auto-generated catch block
+				log.error(null, e);
+				channel.close();
 			}
+
 		}
 	}
 
-	/**
-	 * 根据消息类型组装收到的消息
-	 * 
-	 * @param bp
-	 * @return
-	 */
-	private APackage makePackage(BasePackage bp)
+	private boolean dealRecv(BasePackage bp) throws InterruptedException,
+			IOException
 	{
-
-		int commandId = bp.getHead().getCommmandID();
-
-		switch (commandId)
-		{
-			case CommandID.CMPP_ACTIVE_TEST:
-				// sendActiveResp;
-				ActiveTestMessage atm = new ActiveTestMessage(bp);
-				return atm;
-			case CommandID.CMPP_ACTIVE_TEST_RESP:
-				ActiveTestRespMessage atrm = new ActiveTestRespMessage(bp);
-				return atrm;
-			case CommandID.CMPP_TERMINATE:
-				TerminateMessage tm = new TerminateMessage(bp);
-				return tm;
-			case CommandID.CMPP_TERMINATE_RESP:
-				TerminateRespMessage trm = new TerminateRespMessage(bp);
-				return trm;
-
-			case CommandID.CMPP_CONNECT_RESP: // Login_Resp
-				ConnectRespMessage lrm = new ConnectRespMessage(bp);
-				return lrm;
-			case CommandID.CMPP_SUBMIT_RESP: // Submit_Resp
-				SubmitRespMessage srm = new SubmitRespMessage(bp);
-				return srm;
-
-			case CommandID.CMPP_DELIVER: // Deliver
-				DeliverMessage dm = new DeliverMessage(bp);
-				return dm;
-			default:
-				return bp;
-		}
-
-	}
-
-	private boolean dealRecv(APackage recv) throws InterruptedException
-	{
-
-		if (!(recv instanceof BasePackage))
-		{
-			log.error("收到异常包");
-			return false;
-		}
-		BasePackage bp = (BasePackage) recv;
 
 		APackage ap = this.makePackage(bp);
 
@@ -137,23 +101,23 @@ public class PReceiver extends Thread
 		{
 			log.debug("收到包：" + ap.getHead() + " " + Hex.rhex(ap.getBytes()));
 		}
-
 		// 打印日志
 		log.info(String.format("收到包：%s", ap.getHead().getCommandIdString()));
 		log.info(ap);
 
 		PChannel channel = PChannel.getChannel();
+		if (channel == null)
+		{
+			return false;
+		}
 
 		if (ap instanceof ActiveTestMessage)
 		{
 			ActiveTestRespMessage atrm = new ActiveTestRespMessage(
 					(ActiveTestMessage) ap);
 			// 发送ActiveTestRespMessage
-			if (channel != null)
-			{
-				//channel.send(atrm);
+			channel.sendPacket(atrm);
 
-			}
 		}
 		else if (ap instanceof ActiveTestRespMessage)
 		{
@@ -164,21 +128,15 @@ public class PReceiver extends Thread
 			TerminateRespMessage trm = new TerminateRespMessage(
 					(TerminateMessage) ap);
 			// 发送TerminateRespMessage
-			if (channel != null)
-			{
-				//channel.send(trm);
-				channel.close();
 
-			}
+			channel.sendPacket(trm);
+			channel.close();
 
 		}
 		else if (ap instanceof TerminateRespMessage)
 		{
-			if (channel != null)
-			{
-				channel.close();
 
-			}
+			channel.close();
 
 		}
 		else if (ap instanceof ConnectRespMessage)
@@ -196,11 +154,7 @@ public class PReceiver extends Thread
 		{
 			DeliverRespMessage drm = new DeliverRespMessage((DeliverMessage) ap);
 			// 发送DeliverRespMessage
-			if (channel != null)
-			{
-				//channel.send(drm);
-
-			}
+			channel.sendPacket(drm);
 			// 处理deliver消息
 			dealDeliver((DeliverMessage) ap);
 
@@ -217,7 +171,7 @@ public class PReceiver extends Thread
 	private void dealDeliver(DeliverMessage dm)
 	{
 		Deliver deliver = dm.getDeliver();
-		if (deliver.RegisteredDelivery == 1) // 这里处理状态报告
+		if (deliver.getRegisteredDelivery() == 1) // 这里处理状态报告
 		{
 			doReport(dm);
 		}
@@ -249,13 +203,13 @@ public class PReceiver extends Thread
 		{
 
 			log.error(String.format("找不到SequnceID="
-					+ srm.getHead().getSequenceID() + "相对应的SubmitMessage包"));
+					+ srm.getHead().getSequenceId() + "相对应的SubmitMessage包"));
 			return false;
 		}
 
 	}
 
-	public SubmitMessage checkPackage(SubmitRespMessage ap)
+	private SubmitMessage checkPackage(SubmitRespMessage ap)
 	{
 		SubmitMessage p = null;
 		// 找五次，如果还找不到，那么返回
@@ -272,7 +226,7 @@ public class PReceiver extends Thread
 			}
 			catch (Exception ex)
 			{
-				ex.printStackTrace();
+				// ex.printStackTrace();
 				log.error(null, ex);
 			}
 		}
@@ -295,8 +249,8 @@ public class PReceiver extends Thread
 		while (p != null)
 		{
 			// 如果找到对应的包，则返回
-			if (p.getHead().getSequenceID() == submitResp.getHead()
-					.getSequenceID())
+			if (p.getHead().getSequenceId() == submitResp.getHead()
+					.getSequenceId())
 			{
 				return p;
 
@@ -312,7 +266,7 @@ public class PReceiver extends Thread
 					PChannel channel = PChannel.getChannel();
 					if (channel != null)
 					{
-						//channel.send(p);
+						// channel.send(p);
 					}
 
 				}
@@ -353,14 +307,14 @@ public class PReceiver extends Thread
 		{
 			return null;
 		}
-		//LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
+		// LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
 		LinkedBlockingQueue<SubmitMessage> que = null;
 
 		SubmitMessage sm = que.poll();
 		while (sm != null)
 		{
 			// 找到，返回
-			if (sm.getHead().getSequenceID() == srm.getHead().getSequenceID())
+			if (sm.getHead().getSequenceId() == srm.getHead().getSequenceId())
 			{
 				return sm;
 			}
@@ -384,6 +338,49 @@ public class PReceiver extends Thread
 
 		}
 		return null;
+	}
+
+	/**
+	 * 根据消息类型组装收到的消息
+	 * 
+	 * @param bp
+	 * @return
+	 */
+	private APackage makePackage(BasePackage bp)
+	{
+
+		int commandId = bp.getHead().getCommmandId();
+
+		switch (commandId)
+		{
+			case CommandID.CMPP_ACTIVE_TEST:
+				// sendActiveResp;
+				ActiveTestMessage atm = new ActiveTestMessage(bp);
+				return atm;
+			case CommandID.CMPP_ACTIVE_TEST_RESP:
+				ActiveTestRespMessage atrm = new ActiveTestRespMessage(bp);
+				return atrm;
+			case CommandID.CMPP_TERMINATE:
+				TerminateMessage tm = new TerminateMessage(bp);
+				return tm;
+			case CommandID.CMPP_TERMINATE_RESP:
+				TerminateRespMessage trm = new TerminateRespMessage(bp);
+				return trm;
+
+			case CommandID.CMPP_CONNECT_RESP: // Login_Resp
+				ConnectRespMessage lrm = new ConnectRespMessage(bp);
+				return lrm;
+			case CommandID.CMPP_SUBMIT_RESP: // Submit_Resp
+				SubmitRespMessage srm = new SubmitRespMessage(bp);
+				return srm;
+
+			case CommandID.CMPP_DELIVER: // Deliver
+				DeliverMessage dm = new DeliverMessage(bp);
+				return dm;
+			default:
+				return bp;
+		}
+
 	}
 
 	/**
@@ -422,14 +419,5 @@ public class PReceiver extends Thread
 		stop = true;
 	}
 
-	public static void main(String[] args)
-	{
-		String pack = "0000007700000003006c36be5710610622091487442100003230313030363232303931343535383631333337353831313331360000000000000000313036323131353100000000000000000000000000063630313332380000000000000000000300143036323230393134353830313030383034373039";
-		BasePackage bp = new BasePackage(Hex.rstr(pack));
-		DeliverMessage dm = new DeliverMessage(bp);
-		PReceiver thread = new PReceiver();
-		thread.start();
-		thread.dealDeliver(dm);
-	}
 
 }
