@@ -1,9 +1,9 @@
-package com.chinamobile.cmpp2_0.protocol.message;
+package com.chinamobile.cmpp2_0.protocol.util;
 
 import java.nio.charset.Charset;
 
+import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp2_0.protocol.message.bean.Submit;
-import com.chinamobile.cmpp2_0.protocol.util.SmsUtil;
 
 public class MessageUtil
 {
