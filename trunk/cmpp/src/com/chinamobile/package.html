@@ -20,7 +20,11 @@
 	Dest_terminal_Id	21	Octet String		Dest_terminal_Id	32	Octet String
 	无											Fee_terminal_type	1	Unsigned Integer	
 	
-	(4)CMPP_SUBMIT消息
+	(4)CMPP_DELIVER_RESP消息
+	cmpp2.0										cmpp3.0
+	Status 	1	Unsigned Integer    	 		Status 	4	Unsigned Integer
+	
+	(5)CMPP_SUBMIT消息
 	cmpp2.0										cmpp3.0
 	Fee_terminal_Id	21	Unsigned Integer		Fee_terminal_Id	32	Unsigned Integer
 	Dest_terminal_Id 21*DestUsr_tl Octet String	Dest_terminal_Id 21*DestUsr_tl Octet String
@@ -29,7 +33,7 @@
 	Reserved  	8	Octet String 				无
 	无											LinkID	20	Octet String	
 	
-	(4)CMPP_RESP_SUBMIT消息
+	(6)CMPP_RESP_SUBMIT消息
 	cmpp2.0										cmpp3.0
 	Status 	1	Unsigned Integer    	 		Status 	4	Unsigned Integer
 	
