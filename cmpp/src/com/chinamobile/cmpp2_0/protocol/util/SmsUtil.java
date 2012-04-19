@@ -1,7 +1,9 @@
 package com.chinamobile.cmpp2_0.protocol.util;
 
+import java.nio.charset.Charset;
+
 /**
- * 本长短信协议头采用6字节格式05 00 03 XX MM NN
+ * 发短信工具类 提供长短信的包装功能：本长短信协议头采用6字节格式05 00 03 XX MM NN
  * 
  * @author Administrator
  */
@@ -22,21 +24,21 @@ public class SmsUtil
 		// tp_udhiHead[4] = (byte)msgCount;
 		// tp_udhiHead[5] = (byte)(i+1);
 	}
-	
+
 	/**
 	 * 把一条短信分割成多条短信发送，传进来的参数应该是ucs2编码的字节数组
-	 * @param msgByte 
+	 * 
+	 * @param msgByte
 	 * @return
 	 */
 	public static byte[][] getLongSmsByte(byte[] msgByte)
 	{
 
 		byte[][] msgArray = null;
-		/*if (msgByte.length <= 140)
-		{
-			msgArray = new byte[1][];
-			return msgArray;
-		}*/
+		/*
+		 * if (msgByte.length <= 140) { msgArray = new byte[1][]; return
+		 * msgArray; }
+		 */
 		int smsBodyLen = SMS_LENGTH - SMS_HEADER_LENGTH;
 		int msgCount = msgByte.length / smsBodyLen + 1;// 得到短信条数
 		msgArray = new byte[msgCount][];
@@ -49,9 +51,9 @@ public class SmsUtil
 			int length = Math.min(msgByte.length - offset, smsBodyLen);// 本条短信长度
 			byte[] dest = new byte[SMS_HEADER_LENGTH + length];
 			System.arraycopy(tp_udhiHead, 0, dest, 0, SMS_HEADER_LENGTH);// copy
-																			// header
+			// header
 			System.arraycopy(msgByte, offset, dest, SMS_HEADER_LENGTH,
-					dest.length);// copy body
+					dest.length - SMS_HEADER_LENGTH);// copy body
 			msgArray[i] = dest;
 		}
 		return msgArray;
@@ -66,6 +68,18 @@ public class SmsUtil
 	{
 		allocTpUdhiHead3 = (byte) ((allocTpUdhiHead3 + 1) & 0xff);
 		return allocTpUdhiHead3;
+	}
+
+	public static void main(String[] args)
+	{
+		String msg = "中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人中国人";
+		byte[] msgByte = msg.getBytes(Charset.forName("UTF-16BE"));// ucs编码
+		System.out.println(Hex.rhex(msgByte));
+		byte[][] bb = getLongSmsByte(msgByte);
+		for (int i = 0; i < bb.length; i++)
+		{
+			System.out.println(Hex.rhex(bb[i]));
+		}
 	}
 
 }
