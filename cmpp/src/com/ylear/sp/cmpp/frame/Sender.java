@@ -52,9 +52,12 @@ public class Sender extends PSender
 				String[] numbers = parse(sms.getRecipient());
 				for(int j=0;j<numbers.length;j++)
 				{
-					SubmitMessage sm = createSumbitMessage(numbers[i],
+					SubmitMessage[] smList = createSumbitMessage(numbers[i],
 							sms.getMsgContent());
-					que.add(sm);
+					for(SubmitMessage sm:smList)
+					{
+						que.add(sm);
+					}
 				}
 				/*int index = 0;
 				while (index < numbers.length)
@@ -75,24 +78,20 @@ public class Sender extends PSender
 		return pack;
 	}
 	
-	private SubmitMessage createSumbitMessage(String to,
+	private SubmitMessage[] createSumbitMessage(String to,
 			String msgContent)
 	{
 		String[] desttermid=to.split(",");
-		byte[] msgByte = msgContent.getBytes();// gbk解码
-		String param = "";
-		return MessageUtil.createSubmitMessage(spid, spnumber, service_id,
-				desttermid, msgByte, param);
+		return createSumbitMessage(desttermid,msgContent);
 
 	}
 	
-	private SubmitMessage createSumbitMessage(String[] desttermid,
+	private SubmitMessage[] createSumbitMessage(String[] desttermid,
 			String msgContent)
 	{
-		byte[] msgByte = msgContent.getBytes();// gbk解码
 		String param = "";
 		return MessageUtil.createSubmitMessage(spid, spnumber, service_id,
-				desttermid, msgByte, param);
+				desttermid, msgContent, param);
 
 	}
 
@@ -117,13 +116,13 @@ public class Sender extends PSender
 	
 	public static void main(String[] args)
 	{
-		Config cfg=Config.getInstance();
+		/*Config cfg=Config.getInstance();
 		Sender sender =new Sender(cfg);
 		String msg="this is a test msg";
 		String number="13777802386";
 		SubmitMessage sm= MessageUtil.createSubmitMessage(cfg.getSpid(), cfg.getSpnumber(), cfg.getServicecode(),
 				number.split(","), msg.getBytes(),"");
-		sender.start();
+		sender.start();*/
 		
 	}
 
