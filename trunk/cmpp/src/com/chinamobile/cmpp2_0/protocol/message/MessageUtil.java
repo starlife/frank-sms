@@ -1,10 +1,12 @@
 package com.chinamobile.cmpp2_0.protocol.message;
 
+import java.nio.charset.Charset;
+
 import com.chinamobile.cmpp2_0.protocol.message.bean.Submit;
+import com.chinamobile.cmpp2_0.protocol.util.SmsUtil;
 
 public class MessageUtil
 {
-	public static final int SMS_LENGTH = 140;
 
 	/**
 	 * 发送短信，如果大于140，会自动拆分为多条
@@ -22,24 +24,21 @@ public class MessageUtil
 			String message, String param)
 	{
 		SubmitMessage[] smList = null;
-		if (message.getBytes().length > SMS_LENGTH)
+		if (message.getBytes().length > SmsUtil.SMS_LENGTH)
 		{
-			// 需要分多条发送
-			byte[] msgByte = message.getBytes();// 拆分是GBK吗
-			int count = (msgByte.length - 1) / SMS_LENGTH + 1;// 得到消息总数
-			smList = new SubmitMessage[count];
-			for (int i = 0; i < count; i++)
+			// 需要分多条发送,发长短信需要设置如下：1.tp_udhi=1 2.msg_fmt =8 3.内容用 ucs2编码
+			byte[] msgByte = message.getBytes(Charset.forName("UTF-16BE"));// ucs2编码
+			byte[][] msgArray = SmsUtil.getLongSmsByte(msgByte);
+			smList = new SubmitMessage[msgArray.length];
+			for (int i = 0; i < msgArray.length; i++)
 			{
-				int offset = i * SMS_LENGTH;
-				int length = Math.min(msgByte.length - offset, SMS_LENGTH);// 本条短信长度
-				byte[] dest = new byte[length];
-				System.arraycopy(msgByte, offset, dest, 0, dest.length);
-				SubmitMessage sm = createSubmitMessage(count, i + 1, spid,
-						spnumber, serviceCode, desttermid, dest, param);
+				String theParam = param + "TP_udhi=1\r\n" + "Msg_Fmt =8\r\n";
+				SubmitMessage sm = createSubmitMessage(msgArray.length, i + 1,
+						spid, spnumber, serviceCode, desttermid, msgArray[i],
+						theParam);
 
 				smList[i] = sm;
 			}
-
 		}
 		else
 		{
