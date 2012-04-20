@@ -22,7 +22,9 @@ import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
 /**
- * 通道类（最重要的类） 约定如下： 1.该类要实现自包含，就是不依赖于包protocol外的自定义类 2.短信的收发功能通过该类方法提供给外部
+ * 通道类，该类维护一个连接服务端网关的通道，提供包的发送和接收功能 约定如下： 1.该类要实现自包含，就是不依赖于包protocol外的自定义类
+ * 2.该类对外提供了三个有用的方法: isLogin() 检查当前链路是否可用 sendPacket() 发送包方法 readPacket() 接收包方法
+ * 3.该类还维护了一个needRespQue队列（保存待取得SubmitRespMessage的包）
  * 
  * @author Administrator
  */
@@ -30,7 +32,8 @@ public class PChannel
 {
 	private static final Log log = LogFactory.getLog(PChannel.class);// 记录日志
 
-	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>();
+	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>(
+			10000);
 
 	private Socket socket;
 	private volatile boolean blogin = false;
@@ -419,12 +422,32 @@ public class PChannel
 	}
 
 	/**
+	 * 提供给本包使用
+	 * 
+	 * @return
+	 */
+	LinkedBlockingQueue<SubmitMessage> getNeedRespQue()
+	{
+		return needRespQue;
+	}
+
+	/**
+	 * 查看当前链路是否是连接上的
+	 * 
+	 * @return
+	 */
+	public boolean isLogin()
+	{
+		return this.blogin;
+	}
+
+	/**
 	 * 读一个包
 	 * 
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
 	 */
-	public synchronized BasePackage  readPacket() throws IOException
+	public synchronized BasePackage readPacket() throws IOException
 	{
 		return readPacket(this.getInputStream());
 	}
@@ -453,16 +476,6 @@ public class PChannel
 			return false;
 		}
 
-	}
-
-	/**
-	 * 提供给本包使用
-	 * 
-	 * @return
-	 */
-	LinkedBlockingQueue<SubmitMessage> getNeedRespQue()
-	{
-		return needRespQue;
 	}
 
 	public static void main(String[] args) throws IOException,
