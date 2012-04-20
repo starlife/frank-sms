@@ -463,12 +463,13 @@ public class PChannel
 		OutputStream out = this.getOutPutStream();
 		if (out != null)
 		{
+			out.write(send.getBytes());
+			out.flush();
+			// 对于已经发送的SubmitMessage包，需要入needRespQue队
 			if (send instanceof SubmitMessage)
 			{
 				needRespQue.offer((SubmitMessage) send);
 			}
-			out.write(send.getBytes());
-			out.flush();
 			return true;
 		}
 		else
