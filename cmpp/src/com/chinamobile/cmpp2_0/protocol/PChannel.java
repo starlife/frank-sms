@@ -424,7 +424,7 @@ public class PChannel
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
 	 */
-	public BasePackage readPacket() throws IOException
+	public synchronized BasePackage  readPacket() throws IOException
 	{
 		return readPacket(this.getInputStream());
 	}
@@ -435,7 +435,7 @@ public class PChannel
 	 * @return 如果通道不可用 返回false 发送成功返回true
 	 * @throws IOException
 	 */
-	public boolean sendPacket(APackage send) throws IOException
+	public synchronized boolean sendPacket(APackage send) throws IOException
 	{
 		OutputStream out = this.getOutPutStream();
 		if (out != null)
