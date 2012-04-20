@@ -32,7 +32,7 @@ public class PReceiver extends Thread
 
 	public static final long RESP_TIME = 60 * 1000;// 包等待确认时间 超过了重发
 	public static final int RESEND_TIME = 3;// 重发次数
-	
+
 	private static final Log log = LogFactory.getLog(PReceiver.class);// 记录日志
 
 	private static final Log discard = LogFactory.getLog("discard");// 记录丢弃包日志
@@ -40,7 +40,6 @@ public class PReceiver extends Thread
 	private volatile boolean stop = false;
 
 	private final LinkedBlockingQueue<SubmitMessage> submitQue = new LinkedBlockingQueue<SubmitMessage>();// 滑动窗口
-
 
 	public PReceiver()
 	{
@@ -99,12 +98,10 @@ public class PReceiver extends Thread
 		// 对收到的包记录二进制信息
 		if (log.isDebugEnabled())
 		{
-			log.debug("收到包：" + ap.getHead() + " " + Hex.rhex(ap.getBytes()));
+			log.debug("收到包：" + ap.getHead().getCommandIdString() + " "
+					+ Hex.rhex(ap.getBytes()));
+			log.info(ap);
 		}
-		// 打印日志
-		log.info(String.format("收到包：%s", ap.getHead().getCommandIdString()));
-		log.info(ap);
-
 		PChannel channel = PChannel.getChannel();
 		if (channel == null)
 		{
@@ -128,16 +125,13 @@ public class PReceiver extends Thread
 			TerminateRespMessage trm = new TerminateRespMessage(
 					(TerminateMessage) ap);
 			// 发送TerminateRespMessage
-
 			channel.sendPacket(trm);
 			channel.close();
 
 		}
 		else if (ap instanceof TerminateRespMessage)
 		{
-
 			channel.close();
-
 		}
 		else if (ap instanceof ConnectRespMessage)
 		{
@@ -256,7 +250,7 @@ public class PReceiver extends Thread
 
 			}
 			// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
-			if (p.getTimeStamp() + RESP_TIME < curtime)
+			if ((curtime - p.getTimeStamp()) > RESP_TIME)
 			{
 				// 重发次数一般设置为3
 				if (p.getTryTimes() < RESEND_TIME)
@@ -266,14 +260,22 @@ public class PReceiver extends Thread
 					PChannel channel = PChannel.getChannel();
 					if (channel != null)
 					{
-						// channel.send(p);
+						try
+						{
+							channel.sendPacket(p);
+						}
+						catch (IOException e)
+						{
+							// TODO Auto-generated catch block
+							log.info(null, e);
+						}
 					}
 
 				}
 				else
 				{
 					// 丢弃
-					System.out.println("重发次数过多 丢弃");
+					log.info("重发次数过多 丢弃");
 					if (discard.isInfoEnabled())
 					{
 						discard.info(p);
@@ -307,8 +309,8 @@ public class PReceiver extends Thread
 		{
 			return null;
 		}
-		// LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
-		LinkedBlockingQueue<SubmitMessage> que = null;
+		LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
+		// LinkedBlockingQueue<SubmitMessage> que = null;
 
 		SubmitMessage sm = que.poll();
 		while (sm != null)
@@ -326,7 +328,7 @@ public class PReceiver extends Thread
 			catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 				log.error(null, e);
 			}
 			// 发送包的发送时间大于回应包的接收时间则表明NeedResp里面不可能找到
@@ -390,7 +392,7 @@ public class PReceiver extends Thread
 	 */
 	public void doDeliver(DeliverMessage dm)
 	{
-
+		log.debug("进入doDeliver方法");
 	}
 
 	/**
@@ -400,7 +402,7 @@ public class PReceiver extends Thread
 	 */
 	public void doReport(DeliverMessage dm)
 	{
-
+		log.debug("进入doReport方法");
 	}
 
 	/**
@@ -411,13 +413,12 @@ public class PReceiver extends Thread
 	 */
 	public void doSubmitResp(SubmitMessage sm, SubmitRespMessage srm)
 	{
-
+		log.debug("进入doSubmitResp方法");
 	}
 
 	public void myStop()
 	{
 		stop = true;
 	}
-
 
 }
