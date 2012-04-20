@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
@@ -15,7 +16,7 @@ import com.chinamobile.cmpp2_0.protocol.message.BasePackage;
 import com.chinamobile.cmpp2_0.protocol.message.CommandID;
 import com.chinamobile.cmpp2_0.protocol.message.ConnectMessage;
 import com.chinamobile.cmpp2_0.protocol.message.ConnectRespMessage;
-import com.chinamobile.cmpp2_0.protocol.message.PackageError;
+import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
@@ -29,7 +30,8 @@ public class PChannel
 {
 	private static final Log log = LogFactory.getLog(PChannel.class);// 记录日志
 
-	private int timeout = 60 * 1000;// 60s
+	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>();
+
 	private Socket socket;
 	private volatile boolean blogin = false;
 	// private volatile long sendPacket;
@@ -46,6 +48,8 @@ public class PChannel
 	private String loginname;
 	private String loginpass;
 	private int version;
+
+	private int timeout = 60 * 1000;// 60s
 
 	private PChannel(String ip, int port, String loginname, String loginpass,
 			int version)
@@ -378,8 +382,7 @@ public class PChannel
 		return output;
 	}
 
-	private BasePackage readPacket(InputStream in) throws IOException,
-			PackageError
+	private BasePackage readPacket(InputStream in) throws IOException
 	{
 		BasePackage pack = null;
 		if (in != null)
@@ -420,9 +423,8 @@ public class PChannel
 	 * 
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
-	 * @throws PackageError
 	 */
-	public BasePackage readPacket() throws IOException, PackageError
+	public BasePackage readPacket() throws IOException
 	{
 		return readPacket(this.getInputStream());
 	}
@@ -438,6 +440,10 @@ public class PChannel
 		OutputStream out = this.getOutPutStream();
 		if (out != null)
 		{
+			if (send instanceof SubmitMessage)
+			{
+				needRespQue.offer((SubmitMessage) send);
+			}
 			out.write(send.getBytes());
 			out.flush();
 			return true;
@@ -449,25 +455,15 @@ public class PChannel
 
 	}
 
-	/*
-	 * public void send(APackage ap) { try { sendQue.put(ap); } catch
-	 * (InterruptedException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); log.error(null, e); } }
-	 */
-
-	/*
-	 * public APackage receive() { return recvQue.poll(); }
-	 */
-
 	/**
 	 * 提供给本包使用
 	 * 
 	 * @return
 	 */
-	/*
-	 * LinkedBlockingQueue<SubmitMessage> getNeedRespQue() { return
-	 * needRespQue; }
-	 */
+	LinkedBlockingQueue<SubmitMessage> getNeedRespQue()
+	{
+		return needRespQue;
+	}
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException
