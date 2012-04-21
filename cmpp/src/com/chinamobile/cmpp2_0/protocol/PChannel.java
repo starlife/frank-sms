@@ -41,6 +41,8 @@ public class PChannel
 	// private volatile long revcPacket;
 	// private volatile long erroPackage;
 	private static final Object lock = new Object(); // 用来登陆，初始化
+	private static final Object lockSend = new Object();
+	private static final Object lockRecv = new Object();
 
 	private static PChannel channel = null;
 
@@ -442,39 +444,47 @@ public class PChannel
 	}
 
 	/**
-	 * 读一个包
+	 * 读一个包，该方法是同步的
 	 * 
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
 	 */
-	public synchronized BasePackage readPacket() throws IOException
+	public BasePackage readPacket() throws IOException
 	{
-		return readPacket(this.getInputStream());
+		synchronized (lockRecv)
+		{
+			return readPacket(this.getInputStream());
+		}
 	}
 
 	/**
+	 * 发送包，该方法是同步的
+	 * 
 	 * @param send
 	 *            包
 	 * @return 如果通道不可用 返回false 发送成功返回true
 	 * @throws IOException
 	 */
-	public synchronized boolean sendPacket(APackage send) throws IOException
+	public boolean sendPacket(APackage send) throws IOException
 	{
-		OutputStream out = this.getOutPutStream();
-		if (out != null)
+		synchronized (lockSend)
 		{
-			out.write(send.getBytes());
-			out.flush();
-			// 对于已经发送的SubmitMessage包，需要入needRespQue队
-			if (send instanceof SubmitMessage)
+			OutputStream out = this.getOutPutStream();
+			if (out != null)
 			{
-				needRespQue.offer((SubmitMessage) send);
+				out.write(send.getBytes());
+				out.flush();
+				// 对于已经发送的SubmitMessage包，需要入needRespQue队
+				if (send instanceof SubmitMessage)
+				{
+					needRespQue.offer((SubmitMessage) send);
+				}
+				return true;
 			}
-			return true;
-		}
-		else
-		{
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 
 	}
