@@ -20,6 +20,7 @@ import com.chinamobile.cmpp2_0.protocol.message.SubmitRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.bean.Deliver;
+import com.chinamobile.cmpp2_0.protocol.util.DateUtil;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
 /**
@@ -98,7 +99,8 @@ public class PReceiver extends Thread
 		// 对收到的包记录二进制信息
 		if (log.isInfoEnabled())
 		{
-			log.info("收到包：" + ap.getHead().getCommandIdString() + " "
+			log.info("收到包(" + DateUtil.getTimeString(bp.getTimeStamp()) + ") "
+					+ ap.getHead().getCommandIdString() + " "
 					+ Hex.rhex(ap.getBytes()));
 			log.info(ap);
 		}
