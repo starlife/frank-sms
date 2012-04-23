@@ -1,7 +1,6 @@
 package com.chinamobile.cmpp2_0.protocol;
 
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,7 +62,7 @@ public class PSender extends Thread
 				{
 					if (channel == null)
 					{
-						log.info("通道未初始化，初始化通道...");
+						log.info("通道未初始化，初始化通道");
 						PChannel.init(ip, port, loginname, loginpass, version);
 						channel = PChannel.getChannel();
 
@@ -78,8 +77,8 @@ public class PSender extends Thread
 					{
 						try
 						{
-							log.info("通道不可用，发送线程等待通道变的可用...");
-							TimeUnit.SECONDS.sleep(1);
+							log.info("通道不可用，发送线程尝试去建立通道");
+							channel.sendPacket(new ActiveTestMessage());
 						}
 						catch (Exception ex)
 						{
@@ -112,7 +111,6 @@ public class PSender extends Thread
 					if (!flag)
 					{
 						if (!buffer.offer(pack))
-							;
 						{
 							// 记录丢失的包到文件中
 							lose.info("丢失包"

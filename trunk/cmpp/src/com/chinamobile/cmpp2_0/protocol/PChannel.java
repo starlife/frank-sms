@@ -489,6 +489,10 @@ public class PChannel
 	{
 		synchronized (lockSend)
 		{
+			if(log.isInfoEnabled())
+			{
+				log.info("发送包："+send);
+			}
 			OutputStream out = this.getOutPutStream();
 			if (out != null)
 			{
