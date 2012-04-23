@@ -37,8 +37,8 @@ public class BasePackage extends APackage
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("TotalLength:" + getHead().getPackageLength() + "\r\n");
 		sb.append("CommmandID:" + getHead().getCommandIdString() + "\r\n");
+		sb.append("TotalLength:" + getHead().getPackageLength() + "\r\n");
 		sb.append("SequenceID:" + getHead().getSequenceId() + "\r\n");
 		sb.append("RecvTime:" + DateUtil.getTimeString(getTimeStamp()) + "\r\n");
 		return sb.toString();
