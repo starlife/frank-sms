@@ -32,21 +32,30 @@ public class PChannel
 {
 	private static final Log log = LogFactory.getLog(PChannel.class);// 记录日志
 
-	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>(
-			10000);
-
-	private Socket socket;
-	private volatile boolean blogin = false;
-	// private volatile long sendPacket;
-	// private volatile long revcPacket;
-	// private volatile long erroPackage;
 	private static final Object lock = new Object(); // 用来登陆，初始化
 	private static final Object lockSend = new Object();
 	private static final Object lockRecv = new Object();
 
+	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>(
+			10000);
+
+	/**
+	 * 单实例对象
+	 */
 	private static PChannel channel = null;
 
-	// private Log log;
+	/**
+	 * 连接Socket通道
+	 */
+	private Socket socket;
+	/**
+	 * 标识是否登录成功
+	 */
+	private volatile boolean blogin = false;
+	// private volatile long sendPacket;
+	// private volatile long revcPacket;
+	// private volatile long erroPackage;
+
 	/* 连接ismg网关的参数 */
 	private String ip;
 	private int port;
@@ -54,6 +63,9 @@ public class PChannel
 	private String loginpass;
 	private int version;
 
+	/**
+	 * 通道超时时间，可设置
+	 */
 	private int timeout = 60 * 1000;// 60s
 
 	private PChannel(String ip, int port, String loginname, String loginpass,
@@ -67,6 +79,15 @@ public class PChannel
 
 	}
 
+	/**
+	 * 初始化方法
+	 * 
+	 * @param ip
+	 * @param port
+	 * @param loginname
+	 * @param loginpass
+	 * @param version
+	 */
 	public static synchronized void init(String ip, int port, String loginname,
 			String loginpass, int version)
 	{
@@ -93,7 +114,7 @@ public class PChannel
 	 */
 	private boolean createSocket(String addr, int port)
 	{
-		log.info(String.format("尝试连接远端服务器%s:%s", ip, port));
+		log.info(String.format("尝试创建Socket连接到服务器%s:%s", ip, port));
 
 		boolean bret = false;
 		try
@@ -159,7 +180,7 @@ public class PChannel
 			log.info(lm);
 
 			BasePackage curPack = this.readPacket(socket.getInputStream());
-			log.info(curPack);
+			log.info("收到包 " + curPack);
 			if (curPack.getHead().getCommmandId() == CommandID.CMPP_CONNECT_RESP)
 			{
 				ConnectRespMessage lrm = new ConnectRespMessage(curPack);
@@ -188,11 +209,6 @@ public class PChannel
 			log.error(null, ex);
 			this.close();
 		}
-
-		/*
-		 * if (log.isDebugEnabled()) { log.debug(LogConstants.EXIT_METHOD +
-		 * "login()"); }
-		 */
 
 		return false;
 
@@ -241,7 +257,7 @@ public class PChannel
 	{
 		synchronized (lock)
 		{
-
+			this.blogin = false;// 设置blogin标识为false
 			if (socket == null)
 			{
 				return;
@@ -304,7 +320,8 @@ public class PChannel
 			int i = 1;
 			while (!login(ip, port, loginname, loginpass, version))
 			{
-				log.info(String.format("登陆失败，尝试 %d 次 登陆到 %s ：%d", i, ip, port));
+				log.info(String.format("登陆失败，尝试第 %d 次 登陆到 %s ：%d", i + 1, ip,
+						port));
 				i++;
 				if (i > 6)
 				{
@@ -440,7 +457,10 @@ public class PChannel
 	 */
 	public boolean isLogin()
 	{
-		return this.blogin;
+		synchronized (lock)
+		{
+			return this.blogin;
+		}
 	}
 
 	/**
@@ -487,6 +507,16 @@ public class PChannel
 			}
 		}
 
+	}
+
+	public int getTimeout()
+	{
+		return timeout;
+	}
+
+	public void setTimeout(int timeout)
+	{
+		this.timeout = timeout;
 	}
 
 	public static void main(String[] args) throws IOException,
