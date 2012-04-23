@@ -96,12 +96,13 @@ public class PReceiver extends Thread
 		APackage ap = this.makePackage(bp);
 
 		// 对收到的包记录二进制信息
-		if (log.isDebugEnabled())
+		if (log.isInfoEnabled())
 		{
-			log.debug("收到包：" + ap.getHead().getCommandIdString() + " "
+			log.info("收到包：" + ap.getHead().getCommandIdString() + " "
 					+ Hex.rhex(ap.getBytes()));
 			log.info(ap);
 		}
+
 		PChannel channel = PChannel.getChannel();
 		if (channel == null)
 		{
@@ -224,6 +225,7 @@ public class PReceiver extends Thread
 				log.error(null, ex);
 			}
 		}
+		log.debug("checkPackage找到了p:" + p);
 		return p;
 	}
 
@@ -239,6 +241,7 @@ public class PReceiver extends Thread
 		long curtime = System.currentTimeMillis();
 
 		SubmitMessage p = this.submitQue.poll();
+		log.debug("checkInSubmitQue submitQue队列的长度为:" + this.submitQue.size());
 
 		while (p != null)
 		{
@@ -249,6 +252,7 @@ public class PReceiver extends Thread
 				return p;
 
 			}
+			log.debug("checkInSubmitQue该包不是当前对应包" + p + "<---->" + submitResp);
 			// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
 			if ((curtime - p.getTimeStamp()) > RESP_TIME)
 			{
@@ -256,6 +260,7 @@ public class PReceiver extends Thread
 				if (p.getTryTimes() < RESEND_TIME)
 				{
 					// 重发
+					log.info("该包超时未收到回应，需要重发" + p);
 					p.addTimes();
 					PChannel channel = PChannel.getChannel();
 					if (channel != null)
@@ -323,6 +328,7 @@ public class PReceiver extends Thread
 			// 如果找到的包不对，则加入到滑动窗口中
 			try
 			{
+				log.debug("checkInNeedRespQue找到的包不对，入滑动窗口，滑动窗口加1");
 				this.submitQue.put(sm);
 			}
 			catch (InterruptedException e)
@@ -334,6 +340,7 @@ public class PReceiver extends Thread
 			// 发送包的发送时间大于回应包的接收时间则表明NeedResp里面不可能找到
 			if (sm.getTimeStamp() > srm.getTimeStamp())
 			{
+				log.debug("checkInNeedRespQue发送包的发送时间大于回应包的接收时间,找不到");
 				return null;
 			}
 			sm = que.poll();
