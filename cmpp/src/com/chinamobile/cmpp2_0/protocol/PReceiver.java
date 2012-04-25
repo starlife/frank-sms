@@ -1,6 +1,9 @@
 package com.chinamobile.cmpp2_0.protocol;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -39,8 +42,7 @@ public class PReceiver extends Thread
 	private static final Log discard = LogFactory.getLog("discard");// 记录丢弃包日志
 
 	private volatile boolean stop = false;
-
-	private final LinkedBlockingQueue<SubmitMessage> submitQue = new LinkedBlockingQueue<SubmitMessage>();// 滑动窗口
+	private static final List<SubmitMessage> SLIDE = new LinkedList<SubmitMessage>();// 滑动窗口
 
 	public PReceiver()
 	{
@@ -209,25 +211,27 @@ public class PReceiver extends Thread
 	private SubmitMessage checkPackage(SubmitRespMessage ap)
 	{
 		SubmitMessage p = null;
-		// 找五次，如果还找不到，那么返回
-		for (int i = 0; i < 5; i++)
+		if (log.isDebugEnabled())
 		{
-			p = checkInSubmitQue(ap);
+
+			log.debug("checkPackage找包【SubmitRespMessage(" + ap.getSequenceID()
+					+ ")】的对应关系SubmitMessage包");
+
+		}
+		p = checkInSlide(ap);
+
+		if (log.isDebugEnabled())
+		{
 			if (p != null)
 			{
-				break;
+				log.debug("checkPackage找到了【SubmitMessage("
+						+ p.getHead().getSequenceId() + ")】");
 			}
-			try
+			else
 			{
-				TimeUnit.SECONDS.sleep(1);
-			}
-			catch (Exception ex)
-			{
-				// ex.printStackTrace();
-				log.error(null, ex);
+				log.debug("checkPackage没找到");
 			}
 		}
-		log.debug("checkPackage找到了p:" + p);
 		return p;
 	}
 
@@ -237,63 +241,72 @@ public class PReceiver extends Thread
 	 * @param submitResp
 	 * @return
 	 */
-	private synchronized SubmitMessage checkInSubmitQue(
+	private synchronized SubmitMessage checkInSlide(
 			SubmitRespMessage submitResp)
 	{
 		long curtime = System.currentTimeMillis();
 
-		SubmitMessage p = this.submitQue.poll();
-		log.debug("checkInSubmitQue submitQue队列的长度为:" + this.submitQue.size());
-
-		while (p != null)
+		// 先在滑动窗口找，如果没找到，那么再needRespQue队列找
+		synchronized (SLIDE)
 		{
-			// 如果找到对应的包，则返回
-			if (p.getHead().getSequenceId() == submitResp.getHead()
-					.getSequenceId())
+			Iterator<SubmitMessage> it = SLIDE.iterator();
+			while (it.hasNext())
 			{
-				return p;
-
-			}
-			log.debug("checkInSubmitQue该包不是当前对应包" + p + "<---->" + submitResp);
-			// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
-			if ((curtime - p.getTimeStamp()) > RESP_TIME)
-			{
-				// 重发次数一般设置为3
-				if (p.getTryTimes() < RESEND_TIME)
+				SubmitMessage p = it.next();
+				if (p.getHead().getSequenceId() == submitResp.getHead()
+						.getSequenceId())
 				{
-					// 重发
-					log.info("该包超时未收到回应，需要重发" + p);
-					p.addTimes();
-					PChannel channel = PChannel.getChannel();
-					if (channel != null)
+					it.remove();
+					if (log.isDebugEnabled())
 					{
-						try
+						log.debug("从submitQue队列中取出包SubmitMessage("
+								+ p.getHead().getSequenceId() + ")，当前队列长度："
+								+ SLIDE.size());
+
+					}
+					return p;
+				}
+				// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
+				if ((curtime - p.getTimeStamp()) > RESP_TIME)
+				{
+					it.remove();
+					// 重发次数一般设置为3
+					if (p.getTryTimes() < RESEND_TIME)
+					{
+						// 重发
+						log.info("该包超时未收到回应，需要重发" + p);
+						p.addTimes();
+						PChannel channel = PChannel.getChannel();
+						if (channel != null)
 						{
-							channel.sendPacket(p);
+							try
+							{
+								channel.sendPacket(p);
+							}
+							catch (Exception e)
+							{
+								// TODO Auto-generated catch block
+								log.info(null, e);
+							}
 						}
-						catch (IOException e)
+
+					}
+					else
+					{
+						// 丢弃
+						log.info("重发次数过多 丢弃");
+						if (discard.isInfoEnabled())
 						{
-							// TODO Auto-generated catch block
-							log.info(null, e);
+							discard.info(p);
 						}
 					}
 
 				}
-				else
-				{
-					// 丢弃
-					log.info("重发次数过多 丢弃");
-					if (discard.isInfoEnabled())
-					{
-						discard.info(p);
-					}
-				}
-
 			}
-			p = this.submitQue.poll();
 		}
+
 		// 如果还未找到，那么从NeedResp队列中找
-		p = checkInNeedRespQue(submitResp);
+		SubmitMessage p = checkInNeedRespQue(submitResp);
 		if (p != null)
 		{
 			return p;
@@ -317,8 +330,7 @@ public class PReceiver extends Thread
 			return null;
 		}
 		LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
-		// LinkedBlockingQueue<SubmitMessage> que = null;
-
+		
 		SubmitMessage sm = que.poll();
 		while (sm != null)
 		{
@@ -328,25 +340,31 @@ public class PReceiver extends Thread
 				return sm;
 			}
 			// 如果找到的包不对，则加入到滑动窗口中
-			try
+			if (log.isDebugEnabled())
 			{
-				log.debug("checkInNeedRespQue找到的包不对，入滑动窗口，滑动窗口加1");
-				this.submitQue.put(sm);
+				log.debug("在NeedRespQue队列中找到包【SubmitMessage("
+						+ sm.getHead().getSequenceId() + ")】,入滑动窗口，滑动窗口加1");
 			}
-			catch (InterruptedException e)
+			synchronized (SLIDE)
 			{
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				log.error(null, e);
+				SLIDE.add(sm);
 			}
+
 			// 发送包的发送时间大于回应包的接收时间则表明NeedResp里面不可能找到
 			if (sm.getTimeStamp() > srm.getTimeStamp())
 			{
-				log.debug("checkInNeedRespQue发送包的发送时间大于回应包的接收时间,找不到");
+				if (log.isDebugEnabled())
+				{
+					log.debug("在NeedRespQue队列中找不到(原因是回应包的接收时间早于当前发送包的发送时间)");
+				}
 				return null;
 			}
 			sm = que.poll();
 
+		}
+		if (log.isDebugEnabled())
+		{
+			log.debug("在NeedRespQue队列中找不到(原因是NeedRespQue队列为空)");
 		}
 		return null;
 	}
