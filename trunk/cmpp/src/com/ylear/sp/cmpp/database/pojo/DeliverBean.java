@@ -3,16 +3,20 @@ package com.ylear.sp.cmpp.database.pojo;
 import java.util.Date;
 
 /**
- * SLogsmsdeliver entity.
+ * DeliverBean
  * 
- * @author MyEclipse Persistence Tools
+ * @author frank
  */
 
-public class SLogsmsdeliver implements java.io.Serializable
+public class DeliverBean implements java.io.Serializable
 {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String msgid;
 	private String destId;
@@ -20,7 +24,6 @@ public class SLogsmsdeliver implements java.io.Serializable
 	private Integer tpPid;
 	private Integer tpUdhi;
 	private String serviceId;
-	private Integer registeredDelivery;
 	private Integer msgFmt;
 	private String msgContent;
 	private Integer msgLength;
@@ -30,14 +33,13 @@ public class SLogsmsdeliver implements java.io.Serializable
 	// Constructors
 
 	/** default constructor */
-	public SLogsmsdeliver()
+	public DeliverBean()
 	{
 	}
 
 	/** full constructor */
-	public SLogsmsdeliver(String msgid, String destId, String srcId,
-			Integer tpPid, Integer tpUdhi, String serviceId,
-			Integer registeredDelivery, Integer msgFmt, String msgContent,
+	public DeliverBean(String msgid, String destId, String srcId,
+			Integer tpPid, Integer tpUdhi, String serviceId,Integer msgFmt, String msgContent,
 			Integer msgLength, Date recvtime, String linkid)
 	{
 		this.msgid = msgid;
@@ -46,7 +48,6 @@ public class SLogsmsdeliver implements java.io.Serializable
 		this.tpPid = tpPid;
 		this.tpUdhi = tpUdhi;
 		this.serviceId = serviceId;
-		this.registeredDelivery = registeredDelivery;
 		this.msgFmt = msgFmt;
 		this.msgContent = msgContent;
 		this.msgLength = msgLength;
@@ -126,16 +127,6 @@ public class SLogsmsdeliver implements java.io.Serializable
 		this.serviceId = serviceId;
 	}
 
-	public Integer getRegisteredDelivery()
-	{
-		return this.registeredDelivery;
-	}
-
-	public void setRegisteredDelivery(Integer registeredDelivery)
-	{
-		this.registeredDelivery = registeredDelivery;
-	}
-
 	public Integer getMsgFmt()
 	{
 		return this.msgFmt;
@@ -184,6 +175,22 @@ public class SLogsmsdeliver implements java.io.Serializable
 	public void setLinkid(String linkid)
 	{
 		this.linkid = linkid;
+	}
+	public String toString()
+	{
+		StringBuffer sb=new StringBuffer();
+		sb.append("Msg_id:"+msgid+"\r\n");
+		sb.append("Dest_id:"+destId+"\r\n");
+		sb.append("Src_id:"+srcId+"\r\n");
+		sb.append("Tp_pid:"+tpPid+"\r\n");
+		sb.append("Tp_udhi:"+tpUdhi+"\r\n");
+		sb.append("Service_id:"+serviceId+"\r\n");
+		sb.append("Msg_fmt:"+msgFmt+"\r\n");
+		sb.append("Msg_Length:"+msgLength+"\r\n");
+		sb.append("Msg_Content:"+msgContent+"\r\n");
+		sb.append("Msg_RecvTime:"+recvtime+"\r\n");
+		sb.append("Linkid:"+linkid+"\r\n");
+		return sb.toString();
 	}
 
 }
