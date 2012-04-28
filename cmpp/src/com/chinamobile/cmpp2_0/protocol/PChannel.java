@@ -19,6 +19,7 @@ import com.chinamobile.cmpp2_0.protocol.message.ConnectRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
+import com.chinamobile.cmpp2_0.protocol.util.DateUtil;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
 /**
@@ -489,15 +490,19 @@ public class PChannel
 	{
 		synchronized (lockSend)
 		{
-			if(log.isInfoEnabled())
-			{
-				log.info("发送包 "+send);
-			}
 			OutputStream out = this.getOutPutStream();
 			if (out != null)
 			{
-				send.setTimeStamp();//设置包的发送时间
-				send.addTimes();//设置包的发送次数
+				send.setTimeStamp();// 设置包的发送时间
+				send.addTimes();// 设置包的发送次数
+
+				if (log.isInfoEnabled())
+				{
+					log.info("发送包("
+							+ DateUtil.getTimeString(send.getTimeStamp())
+							+ "):" + send);
+				}
+
 				out.write(send.getBytes());
 				out.flush();
 				// 对于已经发送的SubmitMessage包，需要入needRespQue队
