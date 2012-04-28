@@ -1,6 +1,5 @@
 package com.ylear.sp.cmpp.database.pojo;
 
-import java.util.Date;
 
 /**
  * USms entity.
@@ -13,10 +12,14 @@ public class USms implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String msgContent;
 	private String recipient;
-	private Date sendtime;
+	private String sendtime;
 	private Integer status;
 
 	// Constructors
@@ -27,7 +30,7 @@ public class USms implements java.io.Serializable
 	}
 
 	/** full constructor */
-	public USms(String msgContent, String recipient, Date sendtime,
+	public USms(String msgContent, String recipient, String sendtime,
 			Integer status)
 	{
 		this.msgContent = msgContent;
@@ -68,12 +71,12 @@ public class USms implements java.io.Serializable
 		this.recipient = recipient;
 	}
 
-	public Date getSendtime()
+	public String getSendtime()
 	{
 		return this.sendtime;
 	}
 
-	public void setSendtime(Date sendtime)
+	public void setSendtime(String sendtime)
 	{
 		this.sendtime = sendtime;
 	}
@@ -86,6 +89,17 @@ public class USms implements java.io.Serializable
 	public void setStatus(Integer status)
 	{
 		this.status = status;
+	}
+	
+	public  String toString()
+	{
+		StringBuffer sb=new StringBuffer();
+		
+		sb.append("Msg_Content:"+msgContent+"r\n");
+		sb.append("Recipient:"+recipient+"\r\n");
+		sb.append("Sendtime:"+sendtime+"\r\n");
+		sb.append("Status:"+status+"\r\n");
+		return sb.toString();
 	}
 
 }
