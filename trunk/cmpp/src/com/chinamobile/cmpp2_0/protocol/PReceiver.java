@@ -54,7 +54,6 @@ public class PReceiver extends Thread
 	{
 		while (!stop)
 		{
-
 			PChannel channel = PChannel.getChannel();
 			if (channel == null)
 			{
@@ -95,13 +94,14 @@ public class PReceiver extends Thread
 	private boolean dealRecv(BasePackage bp) throws InterruptedException,
 			IOException
 	{
+		log.info("test PReceiver begin");
 
 		APackage ap = this.makePackage(bp);
 
 		// 对收到的包记录二进制信息
 		if (log.isInfoEnabled())
 		{
-			log.info("收到包(" + DateUtil.getTimeString(bp.getTimeStamp()) + ") "
+			log.info("收到包(" + DateUtil.getTimeString(bp.getTimeStamp()) + "):"
 					+ ap.getHead().getCommandIdString() + " "
 					+ Hex.rhex(ap.getBytes()));
 			log.info(ap);
@@ -158,7 +158,8 @@ public class PReceiver extends Thread
 			dealDeliver((DeliverMessage) ap);
 
 		}
-
+		
+		log.info("test PReceiver end");
 		return true;
 	}
 
@@ -214,8 +215,8 @@ public class PReceiver extends Thread
 		if (log.isDebugEnabled())
 		{
 
-			log.debug("checkPackage找包【SubmitRespMessage(" + ap.getSequenceID()
-					+ ")】的对应关系SubmitMessage包");
+			log.debug("checkPackage处理包【SubmitRespMessage(" + ap.getSequenceID()
+					+ ")】");
 
 		}
 		p = checkInSlide(ap);
@@ -224,12 +225,12 @@ public class PReceiver extends Thread
 		{
 			if (p != null)
 			{
-				log.debug("checkPackage找到了【SubmitMessage("
+				log.debug("checkPackage找到了包【SubmitMessage("
 						+ p.getHead().getSequenceId() + ")】");
 			}
 			else
 			{
-				log.debug("checkPackage没找到");
+				log.debug("checkPackage没找到对应包");
 			}
 		}
 		return p;
