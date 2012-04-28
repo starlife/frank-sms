@@ -11,7 +11,7 @@ public class DateUtil
 	public static final SimpleDateFormat SDF = new SimpleDateFormat(
 			"yyyyMMddHHmmss");
 	public static final SimpleDateFormat SDF_STRING = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+			"yyyy-MM-dd HH:mm:ss,SSS");
 
 	// public static final String TIMESTAMP = "MMddHHmmss";
 
