@@ -13,7 +13,7 @@ public abstract class APackage
 	// byte[] buf;//保存消息的二进制数据
 
 	private long timestamp;// 包的发送或者接收时间
-	
+
 	private int times;// 包的发送次数
 
 	public abstract Header getHead();
@@ -26,6 +26,14 @@ public abstract class APackage
 	public void setTimeStamp()
 	{
 		this.timestamp = System.currentTimeMillis();
+	}
+
+	/**
+	 * 设置包的发送时间或接收时间
+	 */
+	public void setTimeStamp(long timestamp)
+	{
+		this.timestamp = timestamp;
 	}
 
 	/**

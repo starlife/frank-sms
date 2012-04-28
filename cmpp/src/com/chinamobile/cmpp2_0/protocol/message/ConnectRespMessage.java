@@ -32,6 +32,7 @@ public class ConnectRespMessage extends APackage implements Recv
 		System.arraycopy(buf, loc, AuthenticatorServer, 0, 16);
 		loc += 16;
 		serverVersion = buf[loc];
+		this.setTimeStamp(pack.getTimeStamp());//设置包时间
 	}
 
 	public int getStatus()

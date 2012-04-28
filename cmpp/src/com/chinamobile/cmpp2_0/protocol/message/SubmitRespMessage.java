@@ -24,6 +24,7 @@ public class SubmitRespMessage extends APackage implements Recv
 		offset += 8;
 		MsgID = Hex.rhex(msgidByte);
 		Status = buf[offset];
+		this.setTimeStamp(pack.getTimeStamp());//设置包时间
 	}
 
 	public int getStatus()

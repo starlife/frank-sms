@@ -17,6 +17,7 @@ public class DeliverMessage extends APackage implements Recv
 		this.head = pack.getHead();
 		this.buf = pack.getBytes();
 		this.deliver = new Deliver(pack.getBytes(),Header.LENGTH);
+		this.setTimeStamp(pack.getTimeStamp());//设置包时间
 
 	}
 
