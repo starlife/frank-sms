@@ -8,7 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 
-import com.ylear.sp.cmpp.database.pojo.UPhoneaddress;
+import com.ylear.sp.cmpp.database.pojo.USms;
+import com.ylear.sp.cmpp.util.DateUtils;
 
 /**
  * A data access object (DAO) providing persistence and search support for Sms
@@ -22,71 +23,82 @@ import com.ylear.sp.cmpp.database.pojo.UPhoneaddress;
  * @author MyEclipse Persistence Tools
  */
 
-public class USmsDaoImpl extends BaseDaoImpl
+public class USmsDaoImpl extends DBDaoImpl
 {
 	private static final Log log = LogFactory.getLog(USmsDaoImpl.class);
-	
-	
-	private static USmsDaoImpl dao=new USmsDaoImpl();
-	
+
+	private static USmsDaoImpl dao = new USmsDaoImpl();
+
 	private USmsDaoImpl()
 	{
-		
+
 	}
-	
+
 	public static USmsDaoImpl getInstance()
 	{
 		return dao;
 	}
-	
+
 	/**
 	 * 取出待发送的记录，并删除这些记录，通过属性sendtime（发送时间）来判断
-	 * @param propertyName 发送时间
-	 * @param value 发送时间
+	 * 
+	 * @param propertyName
+	 *            发送时间
+	 * @param value
+	 *            发送时间
 	 * @return
 	 */
-	public List getReadySendSms(Object value)
+	public List<USms> getReadySendSms(String value)
 	{
-		log.debug("finding USms instance with  value: " + value);
-		List list=new ArrayList();
+		List<USms> list = new ArrayList<USms>();
 		try
 		{
-			
-			String sql = "from USms obj where  obj.status=0 and obj.sendtime< '"+value+"'";
-			list=this.find(sql);
-			
-			if (list.size()>0)
+
+			String sql = "from USms obj where  obj.status=0 and obj.sendtime< '"
+					+ value + "'";
+			List temp = this.list(sql);
+
+			if (temp.size() > 0)
 			{
-				//状态改为1
-				Transaction t=getSession().beginTransaction();
+				// 状态改为1
+				Transaction t = getSession().beginTransaction();
 				try
 				{
 					sql = "update USms obj set obj.status=1 where  obj.status=0 and obj.sendtime< ?";
 					Query queryObject = getSession().createQuery(sql);
 					queryObject.setParameter(0, value);
+					int i = queryObject.executeUpdate();
 					t.commit();
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
+					log.error(null, ex);
 					t.rollback();
 				}
-				
+
 			}
-			return list;
+			for (int i = 0; i < temp.size(); i++)
+			{
+				list.add((USms) temp.get(i));
+			}
+			temp.clear();
+
 		}
-		catch (RuntimeException re)
+		catch (Exception re)
 		{
-			
 			log.error("find by property name failed", re);
-			throw re;
+		}
+		return list;
+	}
+
+	public static void main(String[] args)
+	{
+		USmsDaoImpl impl = new USmsDaoImpl();
+		List<USms> list = impl.getReadySendSms(DateUtils.getCurrentTimeShort());
+		for (int i = 0; i < list.size(); i++)
+		{
+			System.out.println("###########################" + list.get(i));
 		}
 	}
-	
-	
-	
-	
 
-	
-
-	
 }
