@@ -22,6 +22,7 @@ public class ActiveTestRespMessage extends APackage implements Send, Recv
 		/* buf赋值 */
 		buf = pack.getBytes();
 		reserve = buf[Header.LENGTH];
+		this.setTimeStamp(pack.getTimeStamp());//设置包时间
 
 	}
 

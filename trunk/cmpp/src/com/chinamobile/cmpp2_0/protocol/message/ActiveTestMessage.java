@@ -25,6 +25,7 @@ public class ActiveTestMessage extends APackage implements Send, Recv
 		this.head = pack.getHead();
 		/* buf赋值 */
 		buf = pack.getBytes();
+		this.setTimeStamp(pack.getTimeStamp());//设置包时间
 	}
 
 	@Override
