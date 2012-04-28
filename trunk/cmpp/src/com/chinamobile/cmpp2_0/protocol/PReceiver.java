@@ -158,7 +158,7 @@ public class PReceiver extends Thread
 			dealDeliver((DeliverMessage) ap);
 
 		}
-		
+
 		log.info("test PReceiver end");
 		return true;
 	}
@@ -242,8 +242,7 @@ public class PReceiver extends Thread
 	 * @param submitResp
 	 * @return
 	 */
-	private synchronized SubmitMessage checkInSlide(
-			SubmitRespMessage submitResp)
+	private synchronized SubmitMessage checkInSlide(SubmitRespMessage submitResp)
 	{
 		long curtime = System.currentTimeMillis();
 
@@ -260,8 +259,8 @@ public class PReceiver extends Thread
 					it.remove();
 					if (log.isDebugEnabled())
 					{
-						log.debug("从submitQue队列中取出包SubmitMessage("
-								+ p.getHead().getSequenceId() + ")，当前队列长度："
+						log.debug("从滑动窗口中取出包SubmitMessage("
+								+ p.getHead().getSequenceId() + ")，当前滑动窗口长度："
 								+ SLIDE.size());
 
 					}
@@ -331,7 +330,7 @@ public class PReceiver extends Thread
 			return null;
 		}
 		LinkedBlockingQueue<SubmitMessage> que = channel.getNeedRespQue();
-		
+
 		SubmitMessage sm = que.poll();
 		while (sm != null)
 		{
@@ -356,7 +355,7 @@ public class PReceiver extends Thread
 			{
 				if (log.isDebugEnabled())
 				{
-					log.debug("在NeedRespQue队列中找不到(原因是回应包的接收时间早于当前发送包的发送时间)");
+					log.debug("在NeedRespQue队列中找不到(原因是当前队列中所有包都是在之后发送的)");
 				}
 				return null;
 			}
