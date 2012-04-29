@@ -58,8 +58,14 @@ public class SubmitRespMessage extends APackage implements Recv
 	{
 		return buf;
 	}
-
-	public String getStatus(int status)
+	
+	
+	public String getStatusStr()
+	{
+		return this.getStatus(Status);
+	}
+	
+	private String getStatus(int status)
 	{
 
 		switch (status)

@@ -8,32 +8,38 @@ import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
  */
 public class Report
 {
+	private String Msg_Id;
+	private String Stat;
+	private String Submit_time;
+	private String Done_time;
+	private String Dest_terminal_Id;
+	private int SMSC_sequence;
 
 	public Report(byte[] content)
 	{
-		int offset=0;
+		int offset = 0;
 		// Msg_Id 8 Unsigned Integer 信息标识
 		// SP提交短信（CMPP_SUBMIT）操作时，与SP相连的ISMG产生的Msg_Id。
 		byte[] msgid = new byte[8];
-		System.arraycopy(content,offset, msgid,0, 8);
+		System.arraycopy(content, offset, msgid, 0, 8);
 		this.Msg_Id = Hex.rhex(msgid);
-		offset+=8;
+		offset += 8;
 		// Stat 7 Octet String
 		// 发送短信的应答结果，含义与SMPP协议要求中stat字段定义相同，详见表一。SP根据该字段确定CMPP_SUBMIT消息的处理状态。
-		this.Stat = new String(content,offset, 7);
-		offset+=7;
+		this.Stat = new String(content, offset, 7);
+		offset += 7;
 		// Submit_time 10 Octet String
 		// YYMMDDHHMM（YY为年的后两位00-99，MM：01-12，DD：01-31，HH：00-23，MM：00-59）
-		this.Submit_time = new String(content,offset, 10);
-		offset+=10;
+		this.Submit_time = new String(content, offset, 10);
+		offset += 10;
 		// Done_time 10 Octet String YYMMDDHHMM
-		this.Done_time = new String(content,offset, 10);
-		offset+=10;
+		this.Done_time = new String(content, offset, 10);
+		offset += 10;
 		// Dest_terminal_Id 32 Octet String 目的终端MSISDN号码(SP发送CMPP_SUBMIT消息的目标终端)
-		this.Dest_terminal_Id = new String(content,offset, 21).trim();
-		offset+=21;
+		this.Dest_terminal_Id = new String(content, offset, 21).trim();
+		offset += 21;
 		// SMSC_sequence 4 Unsigned Integer 取自SMSC发送状态报告的消息体中的消息标识。
-		this.SMSC_sequence = ByteConvert.byte2int(content,offset);
+		this.SMSC_sequence = ByteConvert.byte2int(content, offset);
 	}
 
 	private String getSataString(String stat)
@@ -79,6 +85,37 @@ public class Report
 		return ret;
 
 	}
+	
+	public String getMsg_Id()
+	{
+		return Msg_Id;
+	}
+
+	public String getStat()
+	{
+		return Stat;
+	}
+
+	public String getSubmit_time()
+	{
+		return Submit_time;
+	}
+
+	public String getDone_time()
+	{
+		return Done_time;
+	}
+
+	public String getDest_terminal_Id()
+	{
+		return Dest_terminal_Id;
+	}
+
+	public int getSMSC_sequence()
+	{
+		return SMSC_sequence;
+	}
+
 
 	public String toString()
 	{
@@ -93,12 +130,5 @@ public class Report
 		sb.append("\t\r\n***********************************************\r\n");
 		return sb.toString();
 	}
-
-	private String Msg_Id;
-	private String Stat;
-	private String Submit_time;
-	private String Done_time;
-	private String Dest_terminal_Id;
-	private int SMSC_sequence;
 
 }
