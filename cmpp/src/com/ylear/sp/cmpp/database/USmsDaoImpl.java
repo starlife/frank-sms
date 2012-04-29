@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.Transaction;
 
 import com.ylear.sp.cmpp.database.pojo.USms;
-import com.ylear.sp.cmpp.util.DateUtils;
 
 /**
  * A data access object (DAO) providing persistence and search support for Sms
@@ -92,14 +91,6 @@ public class USmsDaoImpl extends DBDaoImpl
 		return list;
 	}
 
-	public static void main(String[] args)
-	{
-		USmsDaoImpl impl = new USmsDaoImpl();
-		List<USms> list = impl.getReadySendSms(DateUtils.getCurrentTimeShort());
-		for (int i = 0; i < list.size(); i++)
-		{
-			System.out.println("###########################" + list.get(i));
-		}
-	}
+	
 
 }
