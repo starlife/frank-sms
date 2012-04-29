@@ -1,6 +1,5 @@
 package com.ylear.sp.cmpp.database.pojo;
 
-import java.util.Date;
 
 /**
  * SLogsmssubmit entity.
@@ -17,26 +16,27 @@ public class SubmitBean implements java.io.Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String msgid;
-	private Integer pkTotal;
-	private Integer pkNumber;
-	private String msgSrc;
-	private String srcId;
-	private String destId;
-	private Integer msgFmt;
-	private Integer msgLength;
-	private String msgContent;
-	private String feetype;
-	private String feecode;
-	private String serviceId;
-	private String linkid;//在CMPP2.0协议中该字段无效
-	private Date sendtime;//CMPP_SUBMIT消息的提交时间
-	private Integer resultCode;//CMPP_SUBMIT_RESP中的提交结果状态
-	private String resultStr;//CMPP_SUBMIT_RESP中的提交结果状态
-	private Date submitTime;//CMPP_REPORT中的Submit_time
-	private Date doneTime;//CMPP_REPORT中的done_time
-	private String stat;//CMPP_REPORT中的Stat
+	private Long id;// 唯一主键
+	private String msgid;// 消息id 值唯一
+	private Integer pkTotal;// 总消息数，不为空
+	private Integer pkNumber;// 当前第几条 不为空
+	private String msgSrc;// spid 不为空
+	private String srcId;// spnumber 不为空
+	private String destId;// 接收手机号码 不为空
+	private Integer msgFmt;// 消息格式 不为空
+	private Integer msgLength;// 消息长度 不为空
+	private String msgContent;// 消息内容 不为空
+	private String feetype;// 计费类型 不为空
+	private String feecode;// 计费号码 不为空
+	private String serviceId;// 业务id 不为空
+	private String linkid;// 在CMPP2.0协议中该字段无效，可以为空
+	private String sendtime;// CMPP_SUBMIT消息的提交时间 yyyyMMddHHmmss 不为空
+	private Integer resultCode;// CMPP_SUBMIT_RESP中的提交结果状态 不为空
+	private String resultStr;// CMPP_SUBMIT_RESP中的提交结果状态 不为空
+	private String submitTime;// CMPP_REPORT中的Submit_time yyyyMMddHHmm 可以为空
+	private String doneTime;// CMPP_REPORT中的done_time yyyyMMddHHmm 可以为空
+	private String stat;// CMPP_REPORT中的Stat，可以为空
+	private Long sessionid;// 消息的sessionid，可以为空
 
 	// Constructors
 
@@ -49,8 +49,8 @@ public class SubmitBean implements java.io.Serializable
 	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
 			String msgSrc, String srcId, String destId, Integer msgFmt,
 			String msgContent, String feetype, String feecode,
-			String serviceId, String linkid, Date sendtime, Date sendresptime,
-			Date tomttime, String errcode, String errmsg)
+			String serviceId, String linkid, String sendtime,
+			String sendresptime, String tomttime, String errcode, String errmsg)
 	{
 		this.msgid = msgid;
 		this.pkTotal = pkTotal;
@@ -199,41 +199,111 @@ public class SubmitBean implements java.io.Serializable
 		this.linkid = linkid;
 	}
 
-	public Date getSendtime()
+	public String getSendtime()
 	{
 		return this.sendtime;
 	}
 
-	public void setSendtime(Date sendtime)
+	public void setSendtime(String sendtime)
 	{
 		this.sendtime = sendtime;
 	}
 
-	
-	public  String  toString()
+	public Integer getMsgLength()
 	{
-		StringBuffer sb=new StringBuffer();
-		sb.append("Msg_id:"+msgid+"\r\n");
-		sb.append("Pk_total:"+pkTotal+"\r\n");
-		sb.append("Pk_number:"+pkNumber+"\r\n");
-		sb.append("Msg_src:"+msgSrc+"\r\n");
-		sb.append("Src_id:"+srcId+"\r\n");
-		sb.append("Dest_id:"+destId+"\r\n");
-		sb.append("Service_id:"+serviceId+"\r\n");
-		sb.append("Msg_fmt:"+msgFmt+"\r\n");
-		sb.append("Msg_Length:"+msgLength+"\r\n");
-		sb.append("Msg_Content:"+msgContent+"\r\n");
-		sb.append("Feetype:"+feetype+"\r\n");
-		sb.append("Feecode:"+feecode+"\r\n");
-		sb.append("Msg_SendTime:"+sendtime+"\r\n");
-		sb.append("Linkid:"+linkid+"\r\n");
-		sb.append("ResultCode:"+resultCode+"\r\n");
-		sb.append("ResultStr:"+resultStr+"\r\n");
-		sb.append("Submit_time:"+submitTime+"\r\n");
-		sb.append("Done_time:"+doneTime+"\r\n");
-		sb.append("Stat:"+stat+"\r\n");
-		sb.append("Submit_time");
+		return msgLength;
+	}
+
+	public void setMsgLength(Integer msgLength)
+	{
+		this.msgLength = msgLength;
+	}
+
+	public Integer getResultCode()
+	{
+		return resultCode;
+	}
+
+	public void setResultCode(Integer resultCode)
+	{
+		this.resultCode = resultCode;
+	}
+
+	public String getResultStr()
+	{
+		return resultStr;
+	}
+
+	public void setResultStr(String resultStr)
+	{
+		this.resultStr = resultStr;
+	}
+
+	public String getSubmitTime()
+	{
+		return submitTime;
+	}
+
+	public void setSubmitTime(String submitTime)
+	{
+		this.submitTime = submitTime;
+	}
+
+	public String getDoneTime()
+	{
+		return doneTime;
+	}
+
+	public void setDoneTime(String doneTime)
+	{
+		this.doneTime = doneTime;
+	}
+
+	public String getStat()
+	{
+		return stat;
+	}
+
+	public void setStat(String stat)
+	{
+		this.stat = stat;
+	}
+
+	public Long getSessionid()
+	{
+		return sessionid;
+	}
+
+	public void setSessionid(Long sessionid)
+	{
+		this.sessionid = sessionid;
+	}
+	
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("Msg_id:" + msgid + "\r\n");
+		sb.append("Pk_total:" + pkTotal + "\r\n");
+		sb.append("Pk_number:" + pkNumber + "\r\n");
+		sb.append("Msg_src:" + msgSrc + "\r\n");
+		sb.append("Src_id:" + srcId + "\r\n");
+		sb.append("Dest_id:" + destId + "\r\n");
+		sb.append("Service_id:" + serviceId + "\r\n");
+		sb.append("Msg_fmt:" + msgFmt + "\r\n");
+		sb.append("Msg_Length:" + msgLength + "\r\n");
+		sb.append("Msg_Content:" + msgContent + "\r\n");
+		sb.append("Feetype:" + feetype + "\r\n");
+		sb.append("Feecode:" + feecode + "\r\n");
+		sb.append("Msg_SendTime:" + sendtime + "\r\n");
+		sb.append("Linkid:" + linkid + "\r\n");
+		sb.append("ResultCode:" + resultCode + "\r\n");
+		sb.append("ResultStr:" + resultStr + "\r\n");
+		sb.append("Submit_time:" + submitTime + "\r\n");
+		sb.append("Done_time:" + doneTime + "\r\n");
+		sb.append("Stat:" + stat + "\r\n");
+		sb.append("Sessionid:" + sessionid + "\r\n");
 		return sb.toString();
 	}
+
 
 }
