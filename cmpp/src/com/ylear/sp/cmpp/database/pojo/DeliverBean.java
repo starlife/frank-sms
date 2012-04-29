@@ -18,17 +18,17 @@ public class DeliverBean implements java.io.Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;//唯一主键
-	private String msgid;//值唯一
-	private String destId;//接收号码spnumber
-	private String srcId;//发送号码，个人手机号码
-	private Integer tpPid;//消息pid 一般为0
-	private Integer tpUdhi;//消息udhi 0或1 1表示包含消息头
-	private String serviceId;//业务id
-	private Integer msgFmt;//消息编码
-	private String msgContent;//消息内容
-	private Integer msgLength;//消息长度
-	private Date recvtime;//消息上行时间
-	private String linkid;//cmpp2.0中没有该值
+	private String msgid;//消息id，值唯一,不为空
+	private String destId;//接收号码spnumber，不为空
+	private String srcId;//发送号码，个人手机号码 不为空
+	private Integer tpPid;//消息pid 一般为0 不为空 不为空
+	private Integer tpUdhi;//消息udhi 0或1 1表示包含消息头 不为空
+	private String serviceId;//业务id 不为空
+	private Integer msgFmt;//消息编码  不为空
+	private String msgContent;//消息内容 不为空
+	private Integer msgLength;//消息长度  不为空
+	private Date recvtime;//消息上行时间  不为空
+	private String linkid;//cmpp2.0中没有该值  为空
 
 	// Constructors
 

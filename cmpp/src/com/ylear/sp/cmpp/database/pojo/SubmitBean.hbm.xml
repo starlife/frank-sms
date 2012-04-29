@@ -31,6 +31,9 @@
         <property name="msgFmt" type="java.lang.Integer">
             <column name="msg_fmt" not-null="true" />
         </property>
+         <property name="msgLength" type="java.lang.Integer">
+            <column name="msg_length" not-null="true" />
+        </property>
         <property name="msgContent" type="java.lang.String">
             <column name="Msg_content" length="150" not-null="true" />
         </property>
