@@ -11,7 +11,7 @@
             <generator class="native" />
         </id>
         <property name="msgid" type="java.lang.String">
-            <column name="msgid" length="20" not-null="true" />
+            <column name="msgid" length="20" not-null="true" unique="true"  />
         </property>
         <property name="pkTotal" type="java.lang.Integer">
             <column name="pk_total" not-null="true" />
