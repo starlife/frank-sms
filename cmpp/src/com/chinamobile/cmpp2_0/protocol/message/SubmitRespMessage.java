@@ -59,7 +59,7 @@ public class SubmitRespMessage extends APackage implements Recv
 		return buf;
 	}
 
-	private String getStatus(int status)
+	public String getStatus(int status)
 	{
 
 		switch (status)
