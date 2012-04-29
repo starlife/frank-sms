@@ -16,7 +16,7 @@ import com.chinamobile.cmpp3_0.protocol.message.ConnectMessage;
 import com.chinamobile.cmpp3_0.protocol.message.ConnectRespMessage;
 import com.chinamobile.cmpp3_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp3_0.protocol.message.TerminateMessage;
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * 通道类（最重要的类） 约定如下： 
