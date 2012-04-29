@@ -11,37 +11,34 @@
             <generator class="native" />
         </id>
         <property name="msgid" type="java.lang.String">
-            <column name="msgid" length="20" />
+            <column name="msgid" length="20" not-null="true" />
         </property>
         <property name="destId" type="java.lang.String">
-            <column name="dest_id" length="21" />
+            <column name="dest_id" length="21" not-null="true" />
         </property>
         <property name="srcId" type="java.lang.String">
-            <column name="src_id" length="21" />
+            <column name="src_id" length="21" not-null="true" />
         </property>
         <property name="tpPid" type="java.lang.Integer">
-            <column name="tp_pid" />
+            <column name="tp_pid" not-null="true" />
         </property>
         <property name="tpUdhi" type="java.lang.Integer">
-            <column name="tp_udhi" />
+            <column name="tp_udhi" not-null="true" />
         </property>
         <property name="serviceId" type="java.lang.String">
-            <column name="service_id" length="10" />
-        </property>
-        <property name="registeredDelivery" type="java.lang.Integer">
-            <column name="registered_delivery" />
+            <column name="service_id" length="10" not-null="true" />
         </property>
         <property name="msgFmt" type="java.lang.Integer">
-            <column name="msg_fmt" />
+            <column name="msg_fmt" not-null="true" />
         </property>
         <property name="msgContent" type="java.lang.String">
-            <column name="msg_content" length="150" />
+            <column name="msg_content" length="150" not-null="true" />
         </property>
         <property name="msgLength" type="java.lang.Integer">
-            <column name="msg_length" />
+            <column name="msg_length" not-null="true" />
         </property>
-        <property name="recvtime" type="java.util.Date">
-            <column name="recvtime" length="23" />
+        <property name="recvtime" type="java.lang.String">
+            <column name="recvtime" length="14" not-null="true" />
         </property>
         <property name="linkid" type="java.lang.String">
             <column name="linkid" length="20" />

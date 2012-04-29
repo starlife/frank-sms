@@ -1,6 +1,5 @@
 package com.ylear.sp.cmpp.database.pojo;
 
-import java.util.Date;
 
 /**
  * DeliverBean
@@ -27,7 +26,7 @@ public class DeliverBean implements java.io.Serializable
 	private Integer msgFmt;//消息编码  不为空
 	private String msgContent;//消息内容 不为空
 	private Integer msgLength;//消息长度  不为空
-	private Date recvtime;//消息上行时间  不为空
+	private String recvtime;//消息上行时间 yyyyMMddHHmmss 不为空
 	private String linkid;//cmpp2.0中没有该值  为空
 
 	// Constructors
@@ -37,10 +36,27 @@ public class DeliverBean implements java.io.Serializable
 	{
 	}
 
+	/** minimal constructor */
+	public DeliverBean(String msgid, String destId, String srcId,
+			Integer tpPid, Integer tpUdhi, String serviceId, Integer msgFmt,
+			String msgContent, Integer msgLength, String recvtime)
+	{
+		this.msgid = msgid;
+		this.destId = destId;
+		this.srcId = srcId;
+		this.tpPid = tpPid;
+		this.tpUdhi = tpUdhi;
+		this.serviceId = serviceId;
+		this.msgFmt = msgFmt;
+		this.msgContent = msgContent;
+		this.msgLength = msgLength;
+		this.recvtime = recvtime;
+	}
+
 	/** full constructor */
 	public DeliverBean(String msgid, String destId, String srcId,
-			Integer tpPid, Integer tpUdhi, String serviceId,Integer msgFmt, String msgContent,
-			Integer msgLength, Date recvtime, String linkid)
+			Integer tpPid, Integer tpUdhi, String serviceId, Integer msgFmt,
+			String msgContent, Integer msgLength, String recvtime, String linkid)
 	{
 		this.msgid = msgid;
 		this.destId = destId;
@@ -54,6 +70,8 @@ public class DeliverBean implements java.io.Serializable
 		this.recvtime = recvtime;
 		this.linkid = linkid;
 	}
+
+
 
 	// Property accessors
 
@@ -157,12 +175,12 @@ public class DeliverBean implements java.io.Serializable
 		this.msgLength = msgLength;
 	}
 
-	public Date getRecvtime()
+	public String getRecvtime()
 	{
 		return this.recvtime;
 	}
 
-	public void setRecvtime(Date recvtime)
+	public void setRecvtime(String recvtime)
 	{
 		this.recvtime = recvtime;
 	}
