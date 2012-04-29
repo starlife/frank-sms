@@ -46,7 +46,7 @@ public class SubmitBean implements java.io.Serializable
 
 	/** minimal constructor */
 	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
-			String msgSrc, String srcId, String destId, Integer msgFmt,
+			String msgSrc, String srcId, String destId, Integer msgFmt,Integer msgLength,
 			String msgContent, String feetype, String feecode,
 			String serviceId, String sendtime, Integer resultcode,
 			String resultstr)
@@ -58,6 +58,7 @@ public class SubmitBean implements java.io.Serializable
 		this.srcId = srcId;
 		this.destId = destId;
 		this.msgFmt = msgFmt;
+		this.msgLength=msgLength;
 		this.msgContent = msgContent;
 		this.feetype = feetype;
 		this.feecode = feecode;
@@ -69,7 +70,7 @@ public class SubmitBean implements java.io.Serializable
 
 	/** full constructor */
 	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
-			String msgSrc, String srcId, String destId, Integer msgFmt,
+			String msgSrc, String srcId, String destId, Integer msgFmt,Integer msgLength,
 			String msgContent, String feetype, String feecode,
 			String serviceId, String linkid, String sendtime,
 			Integer resultcode, String resultstr, String submitTime,
@@ -82,6 +83,7 @@ public class SubmitBean implements java.io.Serializable
 		this.srcId = srcId;
 		this.destId = destId;
 		this.msgFmt = msgFmt;
+		this.msgLength=msgLength;
 		this.msgContent = msgContent;
 		this.feetype = feetype;
 		this.feecode = feecode;
@@ -297,7 +299,17 @@ public class SubmitBean implements java.io.Serializable
 	{
 		this.sessionid = sessionid;
 	}
+	
+	public Integer getMsgLength()
+	{
+		return msgLength;
+	}
 
+	public void setMsgLength(Integer msgLength)
+	{
+		this.msgLength = msgLength;
+	}
+	
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
@@ -323,5 +335,7 @@ public class SubmitBean implements java.io.Serializable
 		sb.append("Sessionid:" + sessionid + "\r\n");
 		return sb.toString();
 	}
+
+	
 
 }
