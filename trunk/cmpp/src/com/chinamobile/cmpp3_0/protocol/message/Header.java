@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp3_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.TypeConvert;
+import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 
 /**
  * 消息首，一旦设定，不能改变
@@ -20,9 +20,9 @@ public class Header {
 		this.commandID = requestId;
 		this.sequenceID = sequenceId;
 
-		System.arraycopy(TypeConvert.int2byte(packetLength), 0, buf, 0, 4);
-		System.arraycopy(TypeConvert.int2byte(requestId), 0, buf, 4, 4);
-		System.arraycopy(TypeConvert.int2byte(sequenceId), 0, buf, 8, 4);
+		System.arraycopy(ByteConvert.int2byte(packetLength), 0, buf, 0, 4);
+		System.arraycopy(ByteConvert.int2byte(requestId), 0, buf, 4, 4);
+		System.arraycopy(ByteConvert.int2byte(sequenceId), 0, buf, 8, 4);
 	}
 
 	/**

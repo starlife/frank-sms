@@ -4,7 +4,7 @@ package com.chinamobile.cmpp3_0.protocol.message;
  * @author Administrator
  */
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 public class ConnectRespMessage extends APackage implements Recv
 {
@@ -30,7 +30,7 @@ public class ConnectRespMessage extends APackage implements Recv
 		this.buf = pack.getBytes();
 		// init data
 		int loc = 12;
-		this.Status = TypeConvert.byte2int(buf, loc);
+		this.Status = ByteConvert.byte2int(buf, loc);
 		loc += 4;
 		System.arraycopy(buf, loc, AuthenticatorServer, 0, 16);
 		loc += 16;

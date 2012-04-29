@@ -7,7 +7,7 @@ package com.chinamobile.cmpp3_0.protocol.message.bean;
 
 import java.io.UnsupportedEncodingException;
 
-import com.chinamobile.cmpp3_0.protocol.util.Hex;
+import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
 /**
  * 处理Deliver消息的body逻辑

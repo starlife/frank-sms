@@ -1,7 +1,7 @@
 package com.chinamobile.cmpp3_0.protocol.message;
 
 import com.chinamobile.cmpp3_0.protocol.message.bean.Submit;
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * @author Administrator
@@ -18,7 +18,7 @@ public class SubmitMessage extends APackage implements Send
 	{
 		this.submit = submit;
 		int loc = 0;
-		byte[] destTermIdByte = TypeConvert.getBytes(submit.destTermID, 32);
+		byte[] destTermIdByte = ByteConvert.getBytes(submit.destTermID, 32);
 		buf = new byte[getPackLength(destTermIdByte.length, submit.msgLength)];
 		// set header
 		head = new Header(buf.length, CommandID.CMPP_SUBMIT, Header

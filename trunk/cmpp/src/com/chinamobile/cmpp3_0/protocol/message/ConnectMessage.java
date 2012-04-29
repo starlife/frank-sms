@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp3_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 public class ConnectMessage extends APackage implements Send
 {
@@ -35,7 +35,7 @@ public class ConnectMessage extends APackage implements Send
 		// (16)
 		loc += 16;// authbyte 长度
 		buf[loc++] = (byte) version; // version (1)
-		TypeConvert.int2byte(Integer.parseInt(timestamp), buf, loc);// timeStamp
+		ByteConvert.int2byte(Integer.parseInt(timestamp), buf, loc);// timeStamp
 		// (4)
 
 	}

@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp3_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * @author Administrator
@@ -24,7 +24,7 @@ public class SubmitRespMessage extends APackage implements Recv
 		System.arraycopy(buf, loc, msgidByte, 0, msgidByte.length);
 		loc += 8;
 		MsgID = Hex.rhex(msgidByte);
-		Status = TypeConvert.byte2int(buf, loc);
+		Status = ByteConvert.byte2int(buf, loc);
 	}
 
 	public int getStatus()

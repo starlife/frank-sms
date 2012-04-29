@@ -1,6 +1,6 @@
 package com.chinamobile.cmpp3_0.protocol.message;
 
-import com.chinamobile.cmpp3_0.protocol.util.*;
+import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * 该类用于接收电信的数据包
@@ -16,8 +16,8 @@ public class BasePackage extends APackage
 	public BasePackage(byte[] buf)
 	{
 		this.buf = buf;
-		head = new Header(TypeConvert.byte2int(buf, 0), TypeConvert.byte2int(
-				buf, 4), TypeConvert.byte2int(buf, 8));
+		head = new Header(ByteConvert.byte2int(buf, 0), ByteConvert.byte2int(
+				buf, 4), ByteConvert.byte2int(buf, 8));
 		this.timestamp = System.currentTimeMillis();
 
 	}

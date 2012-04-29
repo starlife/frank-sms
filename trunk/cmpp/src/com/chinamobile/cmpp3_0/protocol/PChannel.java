@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
+import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 import com.chinamobile.cmpp3_0.protocol.message.APackage;
 import com.chinamobile.cmpp3_0.protocol.message.ActiveTestMessage;
 import com.chinamobile.cmpp3_0.protocol.message.BasePackage;
@@ -458,7 +459,7 @@ public class PChannel extends Thread
 		{
 			byte[] lenByte = new byte[4];
 			in.read(lenByte);//读前面四个字节，包长度
-			int PackLen = TypeConvert.byte2int(lenByte);
+			int PackLen = ByteConvert.byte2int(lenByte);
 			byte[] buf = new byte[PackLen];
 			System.arraycopy(lenByte, 0, buf, 0, 4);//拷贝
 			in.read(buf, 4, buf.length - 4);
