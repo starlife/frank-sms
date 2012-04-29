@@ -56,7 +56,7 @@ public class USmsDaoImpl extends DBDaoImpl
 
 			String sql = "from USms obj where  obj.status=0 and obj.sendtime< '"
 					+ value + "'";
-			List temp = this.list(sql);
+			List<?> temp = this.list(sql);
 
 			if (temp.size() > 0)
 			{
@@ -68,6 +68,7 @@ public class USmsDaoImpl extends DBDaoImpl
 					Query queryObject = getSession().createQuery(sql);
 					queryObject.setParameter(0, value);
 					int i = queryObject.executeUpdate();
+					log.info("update:"+i);
 					t.commit();
 				}
 				catch (Exception ex)
