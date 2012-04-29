@@ -19,7 +19,7 @@ import com.chinamobile.cmpp3_0.protocol.message.SubmitRespMessage;
 import com.chinamobile.cmpp3_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp3_0.protocol.message.TerminateRespMessage;
 import com.chinamobile.cmpp3_0.protocol.message.bean.Deliver;
-import com.chinamobile.cmpp3_0.protocol.util.Hex;
+import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
 /**
  * 取消息接受队列中的消息并加于处理 该类需要定义几个给子类继承的方法： doDeliver(); doReport();

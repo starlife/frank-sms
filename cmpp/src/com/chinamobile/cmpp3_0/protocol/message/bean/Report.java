@@ -1,7 +1,7 @@
 package com.chinamobile.cmpp3_0.protocol.message.bean;
 
-import com.chinamobile.cmpp3_0.protocol.util.Hex;
-import com.chinamobile.cmpp3_0.protocol.util.TypeConvert;
+import com.chinamobile.cmpp2_0.protocol.util.Hex;
+import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 
 /**
  * @author meisq
@@ -28,7 +28,7 @@ public class Report
 		// Dest_terminal_Id 32 Octet String 目的终端MSISDN号码(SP发送CMPP_SUBMIT消息的目标终端)
 		this.Dest_terminal_Id = new String(content, 35, 32);
 		// SMSC_sequence 4 Unsigned Integer 取自SMSC发送状态报告的消息体中的消息标识。
-		this.SMSC_sequence = TypeConvert.byte2int(content, 67);
+		this.SMSC_sequence = ByteConvert.byte2int(content, 67);
 	}
 
 	private String getSataString(String stat)
