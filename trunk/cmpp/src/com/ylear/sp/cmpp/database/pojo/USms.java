@@ -95,7 +95,7 @@ public class USms implements java.io.Serializable
 	{
 		StringBuffer sb=new StringBuffer();
 		
-		sb.append("Msg_Content:"+msgContent+"r\n");
+		sb.append("Msg_Content:"+msgContent+"\r\n");
 		sb.append("Recipient:"+recipient+"\r\n");
 		sb.append("Sendtime:"+sendtime+"\r\n");
 		sb.append("Status:"+status+"\r\n");
