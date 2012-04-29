@@ -1,6 +1,5 @@
 package com.ylear.sp.cmpp.database.pojo;
 
-
 /**
  * SLogsmssubmit entity.
  * 
@@ -45,12 +44,36 @@ public class SubmitBean implements java.io.Serializable
 	{
 	}
 
+	/** minimal constructor */
+	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
+			String msgSrc, String srcId, String destId, Integer msgFmt,
+			String msgContent, String feetype, String feecode,
+			String serviceId, String sendtime, Integer resultcode,
+			String resultstr)
+	{
+		this.msgid = msgid;
+		this.pkTotal = pkTotal;
+		this.pkNumber = pkNumber;
+		this.msgSrc = msgSrc;
+		this.srcId = srcId;
+		this.destId = destId;
+		this.msgFmt = msgFmt;
+		this.msgContent = msgContent;
+		this.feetype = feetype;
+		this.feecode = feecode;
+		this.serviceId = serviceId;
+		this.sendtime = sendtime;
+		this.resultCode = resultcode;
+		this.resultStr = resultstr;
+	}
+
 	/** full constructor */
 	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
 			String msgSrc, String srcId, String destId, Integer msgFmt,
 			String msgContent, String feetype, String feecode,
 			String serviceId, String linkid, String sendtime,
-			String sendresptime, String tomttime, String errcode, String errmsg)
+			Integer resultcode, String resultstr, String submitTime,
+			String doneTime, String stat, Long sessionid)
 	{
 		this.msgid = msgid;
 		this.pkTotal = pkTotal;
@@ -65,6 +88,12 @@ public class SubmitBean implements java.io.Serializable
 		this.serviceId = serviceId;
 		this.linkid = linkid;
 		this.sendtime = sendtime;
+		this.resultCode = resultcode;
+		this.resultStr = resultstr;
+		this.submitTime = submitTime;
+		this.doneTime = doneTime;
+		this.stat = stat;
+		this.sessionid = sessionid;
 	}
 
 	// Property accessors
@@ -209,39 +238,29 @@ public class SubmitBean implements java.io.Serializable
 		this.sendtime = sendtime;
 	}
 
-	public Integer getMsgLength()
-	{
-		return msgLength;
-	}
-
-	public void setMsgLength(Integer msgLength)
-	{
-		this.msgLength = msgLength;
-	}
-
 	public Integer getResultCode()
 	{
-		return resultCode;
+		return this.resultCode;
 	}
 
-	public void setResultCode(Integer resultCode)
+	public void setResultCode(Integer resultcode)
 	{
-		this.resultCode = resultCode;
+		this.resultCode = resultcode;
 	}
 
 	public String getResultStr()
 	{
-		return resultStr;
+		return this.resultStr;
 	}
 
-	public void setResultStr(String resultStr)
+	public void setResultStr(String resultstr)
 	{
-		this.resultStr = resultStr;
+		this.resultStr = resultstr;
 	}
 
 	public String getSubmitTime()
 	{
-		return submitTime;
+		return this.submitTime;
 	}
 
 	public void setSubmitTime(String submitTime)
@@ -251,7 +270,7 @@ public class SubmitBean implements java.io.Serializable
 
 	public String getDoneTime()
 	{
-		return doneTime;
+		return this.doneTime;
 	}
 
 	public void setDoneTime(String doneTime)
@@ -261,7 +280,7 @@ public class SubmitBean implements java.io.Serializable
 
 	public String getStat()
 	{
-		return stat;
+		return this.stat;
 	}
 
 	public void setStat(String stat)
@@ -271,14 +290,14 @@ public class SubmitBean implements java.io.Serializable
 
 	public Long getSessionid()
 	{
-		return sessionid;
+		return this.sessionid;
 	}
 
 	public void setSessionid(Long sessionid)
 	{
 		this.sessionid = sessionid;
 	}
-	
+
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
@@ -304,6 +323,5 @@ public class SubmitBean implements java.io.Serializable
 		sb.append("Sessionid:" + sessionid + "\r\n");
 		return sb.toString();
 	}
-
 
 }

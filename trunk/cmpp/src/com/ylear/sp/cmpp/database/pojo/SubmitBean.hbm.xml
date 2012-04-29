@@ -11,55 +11,61 @@
             <generator class="native" />
         </id>
         <property name="msgid" type="java.lang.String">
-            <column name="msgid" length="20" />
+            <column name="msgid" length="20" not-null="true" />
         </property>
         <property name="pkTotal" type="java.lang.Integer">
-            <column name="pk_total" />
+            <column name="pk_total" not-null="true" />
         </property>
         <property name="pkNumber" type="java.lang.Integer">
-            <column name="pk_number" />
+            <column name="pk_number" not-null="true" />
         </property>
         <property name="msgSrc" type="java.lang.String">
-            <column name="msg_src" length="6" />
+            <column name="msg_src" length="6" not-null="true" />
         </property>
         <property name="srcId" type="java.lang.String">
-            <column name="src_id" length="21" />
+            <column name="src_id" length="21" not-null="true" />
         </property>
         <property name="destId" type="java.lang.String">
-            <column name="dest_id" length="21" />
+            <column name="dest_id" length="21" not-null="true" />
         </property>
         <property name="msgFmt" type="java.lang.Integer">
-            <column name="msg_fmt" />
+            <column name="msg_fmt" not-null="true" />
         </property>
         <property name="msgContent" type="java.lang.String">
-            <column name="Msg_content" length="150" />
+            <column name="Msg_content" length="150" not-null="true" />
         </property>
         <property name="feetype" type="java.lang.String">
-            <column name="feetype" length="2" />
+            <column name="feetype" length="2" not-null="true" />
         </property>
         <property name="feecode" type="java.lang.String">
-            <column name="feecode" length="6" />
+            <column name="feecode" length="6" not-null="true" />
         </property>
         <property name="serviceId" type="java.lang.String">
-            <column name="service_id" length="10" />
+            <column name="service_id" length="10" not-null="true" />
         </property>
         <property name="linkid" type="java.lang.String">
             <column name="linkid" length="20" />
         </property>
-        <property name="sendtime" type="java.util.Date">
-            <column name="sendtime" length="23" />
+        <property name="sendtime" type="java.lang.String">
+            <column name="sendtime" length="14" not-null="true" />
         </property>
-        <property name="sendresptime" type="java.util.Date">
-            <column name="sendresptime" length="23" />
+        <property name="resultCode" type="java.lang.Integer">
+            <column name="resultcode" not-null="true" />
         </property>
-        <property name="tomttime" type="java.util.Date">
-            <column name="tomttime" length="23" />
+        <property name="resultStr" type="java.lang.String">
+            <column name="resultstr" length="100" not-null="true" />
         </property>
-        <property name="errcode" type="java.lang.String">
-            <column name="errcode" length="10" />
+        <property name="submitTime" type="java.lang.String">
+            <column name="submit_time" length="10" />
         </property>
-        <property name="errmsg" type="java.lang.String">
-            <column name="errmsg" length="100" />
+        <property name="doneTime" type="java.lang.String">
+            <column name="done_time" length="10" />
+        </property>
+        <property name="stat" type="java.lang.String">
+            <column name="stat" length="50" />
+        </property>
+        <property name="sessionid" type="java.lang.Long">
+            <column name="sessionid" scale="0" />
         </property>
     </class>
 </hibernate-mapping>
