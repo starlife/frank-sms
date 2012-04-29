@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * @author Administrator
  *
  */
-public class ThreadManager extends Thread
+public class ManagerThread extends Thread
 {
 	private volatile boolean stop = false;
 
@@ -21,12 +21,12 @@ public class ThreadManager extends Thread
 	private int sendThreadCount = 1;
 	private int recvThreadCount = 1;
 
-	public ThreadManager()
+	public ManagerThread()
 	{
 		this.setDaemon(true);
 	}
 
-	public ThreadManager(int sendThreadCount, int recvThreadCount)
+	public ManagerThread(int sendThreadCount, int recvThreadCount)
 	{
 		this.sendThreadCount = sendThreadCount;
 		this.recvThreadCount = recvThreadCount;

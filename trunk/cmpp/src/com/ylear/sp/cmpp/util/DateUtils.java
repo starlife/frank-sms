@@ -8,8 +8,11 @@ public class DateUtils
 	private static final SimpleDateFormat SDF_FULL = new SimpleDateFormat(
 	"yyyy-MM-dd HH:mm:ss");
 	
-	private static final SimpleDateFormat SDF_SHORT = new SimpleDateFormat(
+	private static final SimpleDateFormat SDF_14 = new SimpleDateFormat(
 	"yyyyMMddHHmmss");
+	
+	private static final SimpleDateFormat SDF_10 = new SimpleDateFormat(
+	"yyMMddHHmm");
 	
 	
 	public static String getCurrentTimeFull()
@@ -17,8 +20,23 @@ public class DateUtils
 		return SDF_FULL.format(new Date());
 	}
 	
-	public static String getCurrentTimeShort()
+	public static String getTimestamp10()
 	{
-		return SDF_SHORT.format(new Date());
+		return SDF_10.format(new Date());
+	}
+	
+	public static String getTimestamp10(long l)
+	{
+		return SDF_10.format(new Date(l));
+	}
+	
+	public static String getTimestamp14()
+	{
+		return SDF_14.format(new Date());
+	}
+	
+	public static String getTimestamp14(long l)
+	{
+		return SDF_14.format(new Date(l));
 	}
 }

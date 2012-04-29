@@ -10,11 +10,11 @@ package com.ylear.sp.cmpp.frame;
  *
  */
 public class Main {
-	private ThreadManager tm;
+	private ManagerThread tm;
 	private boolean stop = false;
 
 	public void start() {
-		tm = new ThreadManager();
+		tm = new ManagerThread();
 		tm.start();
 		while (!stop) {
 			;
