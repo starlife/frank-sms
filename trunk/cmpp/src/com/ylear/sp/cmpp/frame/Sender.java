@@ -22,9 +22,9 @@ import com.ylear.sp.cmpp.util.DateUtils;
 public class Sender extends PSender
 {
 	static final Map<Integer, Long> sessionMap = new HashMap<Integer, Long>();// 保存sessionid
+	static final LinkedBlockingQueue<APackage> que = new LinkedBlockingQueue<APackage>();
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃包日志
 	private USmsDaoImpl dao = USmsDaoImpl.getInstance();
-	private final LinkedBlockingQueue<APackage> que = new LinkedBlockingQueue<APackage>();
 	private String[] dest_term_id = null;
 	private int maxDestId = 10;// 群发每条短信最大的接收号码
 	private String spnumber;
