@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import com.chinamobile.cmpp2_0.protocol.message.APackage;
 import com.chinamobile.cmpp2_0.protocol.message.ActiveTestMessage;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
+import com.chinamobile.cmpp2_0.protocol.util.RateControl;
 
 /**
  * 取得消息并提交给消息发送队列 该类需要定义几个给子类继承的方法： doSubmit();
@@ -17,7 +18,7 @@ import com.chinamobile.cmpp2_0.protocol.util.Hex;
 public class PSender extends Thread
 {
 	public static final long HEARTBEAT_TIME = 5000;// 发送心跳包频率（ms）
-
+	
 	private static final Log log = LogFactory.getLog(PSender.class);// 记录日志
 
 	private static final Log lose = LogFactory.getLog("lose");// 记录日志
@@ -85,6 +86,8 @@ public class PSender extends Thread
 							log.error(null, ex);
 						}
 					}
+					//这里做流量控制
+					RateControl.controlRate();
 					// 取包发送
 					APackage pack = this.doSubmit();
 					if (pack == null)
@@ -135,7 +138,8 @@ public class PSender extends Thread
 		}
 
 	}
-
+	
+	
 	/**
 	 * 该方法提供给运用程序继承
 	 * 
