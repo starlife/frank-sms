@@ -73,7 +73,7 @@ public class Sender extends PSender
 				// 短信sessionid
 				Long sessionid = sms.getId();
 				// 短信内容
-				sms.getMsgContent();
+				//sms.getMsgContent();
 				// 解析号码
 				String[] numbers = parse(sms.getRecipient());
 				for (int j = 0; j < numbers.length; j++)
