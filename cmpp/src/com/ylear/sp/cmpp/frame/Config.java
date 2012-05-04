@@ -19,7 +19,6 @@ public class Config
 
 	private static final Log log = LogFactory.getLog(Config.class);// 记录日志
 
-	
 	private static Config cfg = new Config();
 
 	/**
@@ -33,8 +32,8 @@ public class Config
 	private String spnumber;
 	private String spid;
 	private String servicecode;
-	
-	private int version=48;//cmpp3.0
+
+	private int version = 32;// cmpp2.0
 
 	/**
 	 * 计费配置
@@ -45,30 +44,19 @@ public class Config
 	/**
 	 * 程序配置
 	 */
-	private int sendThread = 1;// 发送线程数
-	private int sendQueSize = 100000;// 发送队列最大数
-	private int revQueSize = 100000;// 接收队列最大数
-	private int retryQueSize = 100000;// 重试队列最大数
+	private int sendThreadCount = 1;// 发送线程数
+	private int recvThreadCount = 1;// 接收线程数
+
+	private int maxSpeed = 20;// 每秒最大提交数
+
+	private int timeout = 60000;// 通道超时时间
+	private int heartbeat = 5000;// 心跳频率(ms)
+	private int respTime = 60000;// 包等待确认时间
+
 	private int retryTime = 3;// 最大重试次数，超过这个数之后丢弃
 
 	private int multisendMaxTel = 10;// 最发最大接收号码数
 
-	/**
-	 * logPath 日志目录
-	 */
-	// public String logPath;
-	// public int display;
-	/**
-	 * feeFlag 计费标志 feeCode 计费多少
-	 */
-	// public String feeflag;
-	// public String topid;
-	// public int maxsrcid=50;
-	/**
-	 * 额外的 blackMobile 号码黑名单 trustIp 信任IP
-	 */
-	// public String blackMobile = "";
-	// /public String trustIp;
 	private Config()
 	{
 		load();
@@ -136,12 +124,13 @@ public class Config
 			this.setFeecode(getString(pps, "sp.sms.feecode"));
 			this.setFeetype(getString(pps, "sp.sms.feetype"));
 
-			this.setSendThread(getNumber(pps, "sp.sms.send.thread"));
-			this.setSendQueSize(getNumber(pps, "sp.sms.send.quesize"));
-			this.setRevQueSize(getNumber(pps, "sp.sms.receive.quesize"));
-			this.setRetryQueSize(getNumber(pps, "sp.sms.retry.quesize"));
+			this.setSendThreadCount(getNumber(pps, "sp.sms.send.thread"));
+			this.setRecvThreadCount(getNumber(pps, "sp.sms.recv.thread"));
+			this.setMaxSpeed(getNumber(pps, "sp.sms.send.maxspeed"));
+			this.setTimeout(getNumber(pps, "sp.sms.timeout"));
+			this.setHeartbeat(getNumber(pps, "sp.sms.heartbeat"));
+			this.setRespTime(getNumber(pps, "sp.sms.resp.time"));
 			this.setRetryTime(getNumber(pps, "sp.sms.retry.maxretry"));
-
 			this.setMultisendMaxTel(getNumber(pps, "sp.sms.multisend.number"));
 
 		}
@@ -157,22 +146,23 @@ public class Config
 	{
 
 		StringBuffer sb = new StringBuffer();
-		sb.append("remoteServer=" + remoteServer + "\r\n");
-		sb.append("remotePort=" + remotePort + "\r\n");
-		sb.append("loginName=" + loginName + "\r\n");
-		sb.append("loginPswd=" + loginPswd + "\r\n");
-		sb.append("spnumber=" + spnumber + "\r\n");
-		sb.append("spid=" + spid + "\r\n");
-		sb.append("servicecode=" + servicecode + "\r\n");
-		sb.append("feecode=" + feecode + "\r\n");
-		sb.append("feetype=" + feetype + "\r\n");
-		sb.append("String spid=" + spid + "\r\n");
-		sb.append("sendThread=" + sendThread + "\r\n");
-		sb.append("sendQueSize=" + sendQueSize + "\r\n");
-		sb.append("revQueSize=" + revQueSize + "\r\n");
-		sb.append("retryQueSize=" + retryQueSize + "\r\n");
-		sb.append("retryTime=" + retryTime + "\r\n");
-		sb.append("multisendMaxTel=" + multisendMaxTel + "\r\n");
+		sb.append("RemoteServer=").append(remoteServer).append("\r\n");
+		sb.append("RemotePort=").append(remotePort).append("\r\n");
+		sb.append("LoginName=").append(loginName).append("\r\n");
+		sb.append("LoginPswd=").append(loginPswd).append("\r\n");
+		sb.append("Spnumber=").append(spnumber).append("\r\n");
+		sb.append("Spid=").append(spid).append("\r\n");
+		sb.append("Servicecode=").append(servicecode).append("\r\n");
+		sb.append("Feecode=").append(feecode).append("\r\n");
+		sb.append("Feetype=").append(feetype).append("\r\n");
+		sb.append("SendThreadCount=").append(sendThreadCount).append("\r\n");
+		sb.append("RecvThreadCount=").append(recvThreadCount).append("\r\n");
+		sb.append("MaxSpeed=").append(maxSpeed).append("\r\n");
+		sb.append("Timeout=").append(timeout).append("\r\n");
+		sb.append("Heartbeat=").append(heartbeat).append("\r\n");
+		sb.append("RespTime=").append(respTime).append("\r\n");
+		sb.append("RetryTime=").append(retryTime).append("\r\n");
+		sb.append("MultisendMaxTel=").append(multisendMaxTel).append("\r\n");
 
 		return sb.toString();
 
@@ -295,55 +285,81 @@ public class Config
 		}
 	}
 
-	public int getSendThread()
+	public int getSendThreadCount()
 	{
-		return sendThread;
+		return sendThreadCount;
 	}
 
-	void setSendThread(Integer sendThread)
+	public void setSendThreadCount(Integer sendThreadCount)
 	{
-		if (sendThread != null)
+		if (sendThreadCount != null)
 		{
-			this.sendThread = sendThread;
+			this.sendThreadCount = sendThreadCount;
 		}
 	}
 
-	public int getSendQueSize()
+	public int getRecvThreadCount()
 	{
-		return sendQueSize;
+		return recvThreadCount;
 	}
 
-	void setSendQueSize(Integer sendQueSize)
+	public void setRecvThreadCount(Integer recvThreadCount)
 	{
-		if (sendQueSize != null)
+		if (recvThreadCount != null)
 		{
-			this.sendQueSize = sendQueSize;
+			this.recvThreadCount = recvThreadCount;
 		}
 	}
 
-	public int getRevQueSize()
+	public int getMaxSpeed()
 	{
-		return revQueSize;
+		return maxSpeed;
 	}
 
-	void setRevQueSize(Integer revQueSize)
+	public void setMaxSpeed(Integer maxSpeed)
 	{
-		if (revQueSize != null)
+		if (maxSpeed != null)
 		{
-			this.revQueSize = revQueSize;
+			this.maxSpeed = maxSpeed;
 		}
 	}
 
-	public int getRetryQueSize()
+	public int getTimeout()
 	{
-		return retryQueSize;
+		return timeout;
 	}
 
-	void setRetryQueSize(Integer retryQueSize)
+	public void setTimeout(Integer timeout)
 	{
-		if (retryQueSize != null)
+		if (timeout != null)
 		{
-			this.retryQueSize = retryQueSize;
+			this.timeout = timeout;
+		}
+	}
+
+	public int getHeartbeat()
+	{
+		return heartbeat;
+	}
+
+	public void setHeartbeat(Integer heartbeat)
+	{
+		if (heartbeat != null)
+		{
+			this.heartbeat = heartbeat;
+		}
+	}
+
+	public int getRespTime()
+	{
+		return respTime;
+	}
+
+	public void setRespTime(Integer respTime)
+	{
+		if (respTime != null)
+		{
+			this.respTime = respTime;
 		}
 	}
 
@@ -373,18 +389,22 @@ public class Config
 		}
 	}
 
-	public static void main(String[] args)
-	{
-		System.out.println(Config.getInstance());
-	}
-
 	public int getVersion()
 	{
 		return version;
 	}
 
-	public void setVersion(int version)
+	public void setVersion(Integer version)
 	{
-		this.version = version;
+		if (version != null)
+		{
+			this.version = version;
+		}
 	}
+
+	public static void main(String[] args)
+	{
+		System.out.println(Config.getInstance());
+	}
+
 }
