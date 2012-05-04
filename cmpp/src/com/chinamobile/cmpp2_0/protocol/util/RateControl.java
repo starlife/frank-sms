@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 public class RateControl
 {
 	//流量控制
-	public static int maxSpeed=40;//每秒40s发送消息
+	public static int maxSpeed=20;//每秒20s发送消息
 	private static String curTime="";//格式为yyyyMMddHHmmss
 	private static int tps=0;//当前第几条发送消息
 	
