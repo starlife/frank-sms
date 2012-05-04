@@ -82,8 +82,8 @@ public class Receiver extends PReceiver
 		{
 			//流量控制错,需要重新发送这个SubmitMessage消息，并且记录下出现了这个错误
 			Sender.que.offer(sm);
-			speed.info("当前速率"+RateControl.maxSpeed+"过大，需要调整为"+(RateControl.maxSpeed-1));
-			RateControl.maxSpeed--;
+			speed.info("当前速率"+RateControl.maxSpeed+"过大");
+			//RateControl.maxSpeed--;
 			return;			
 		}
 		SubmitBean bean = new SubmitBean();
