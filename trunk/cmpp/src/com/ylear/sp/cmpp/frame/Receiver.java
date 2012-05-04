@@ -9,7 +9,7 @@ import com.chinamobile.cmpp2_0.protocol.message.DeliverMessage;
 import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp2_0.protocol.message.SubmitRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.bean.Report;
-import com.chinamobile.cmpp2_0.protocol.util.RateControl;
+import com.chinamobile.cmpp2_0.protocol.util.Constants;
 import com.ylear.sp.cmpp.database.DeliverDaoImpl;
 import com.ylear.sp.cmpp.database.SubmitDaoImpl;
 import com.ylear.sp.cmpp.database.pojo.DeliverBean;
@@ -26,8 +26,8 @@ import com.ylear.sp.cmpp.util.DateUtils;
 public class Receiver extends PReceiver
 {
 	private static final Log log = LogFactory.getLog(Receiver.class);
-	
-	private static final Log speed = LogFactory.getLog("speed");//流量控制错
+
+	private static final Log speed = LogFactory.getLog("speed");// 流量控制错
 
 	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 	private DeliverDaoImpl deliverDao = DeliverDaoImpl.getInstance();
@@ -78,13 +78,12 @@ public class Receiver extends PReceiver
 	public void doSubmitResp(SubmitMessage sm, SubmitRespMessage srm)
 	{
 		// 写Sumit消息到数据库中
-		if(srm.getMsgId().equals("0000000000000000"))
+		if (srm.getMsgId().equals("0000000000000000"))
 		{
-			//流量控制错,需要重新发送这个SubmitMessage消息，并且记录下出现了这个错误
+			// 流量控制错,需要重新发送这个SubmitMessage消息，并且记录下出现了这个错误
 			Sender.que.offer(sm);
-			speed.info("当前速率"+RateControl.maxSpeed+"过大");
-			//RateControl.maxSpeed--;
-			return;			
+			speed.info("当前速率" + Constants.MAX_SPEED + "过大");
+			return;
 		}
 		SubmitBean bean = new SubmitBean();
 		bean.setMsgid(srm.getMsgId());
