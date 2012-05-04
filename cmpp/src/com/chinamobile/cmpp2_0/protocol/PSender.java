@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.chinamobile.cmpp2_0.protocol.message.APackage;
 import com.chinamobile.cmpp2_0.protocol.message.ActiveTestMessage;
+import com.chinamobile.cmpp2_0.protocol.util.Constants;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 import com.chinamobile.cmpp2_0.protocol.util.RateControl;
 
@@ -17,19 +18,20 @@ import com.chinamobile.cmpp2_0.protocol.util.RateControl;
  */
 public class PSender extends Thread
 {
-	public static final long HEARTBEAT_TIME = 5000;// 发送心跳包频率（ms）
 	
 	private static final Log log = LogFactory.getLog(PSender.class);// 记录日志
 
 	private static final Log lose = LogFactory.getLog("lose");// 记录日志
+	
+	private static final Object lock = new Object();
 
-	// 保存发送提交失败的包，便于重新发送
+	/**
+	 * 保存发送提交失败的包，便于重新发送
+	 */
 	private final LinkedBlockingQueue<APackage> buffer = new LinkedBlockingQueue<APackage>(
 			10000);
 
 	private volatile boolean stop = false;
-
-	private static final Object lock = new Object();
 
 	private volatile long lastActiveTime = System.currentTimeMillis();// 上一次链路使用时间
 
@@ -98,7 +100,7 @@ public class PSender extends Thread
 					{
 						// 确认是否需要发送链路检测包
 						long curTime = System.currentTimeMillis();
-						if (curTime > (lastActiveTime + HEARTBEAT_TIME))
+						if (curTime > (lastActiveTime + Constants.HEARTBEAT))
 						{
 							log.info("链路空闲,发送链路检测包...");
 							pack = new ActiveTestMessage();
