@@ -23,6 +23,7 @@ import com.chinamobile.cmpp2_0.protocol.message.SubmitRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.bean.Deliver;
+import com.chinamobile.cmpp2_0.protocol.util.Constants;
 import com.chinamobile.cmpp2_0.protocol.util.DateUtil;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
@@ -34,15 +35,14 @@ import com.chinamobile.cmpp2_0.protocol.util.Hex;
 public class PReceiver extends Thread
 {
 
-	public static final long RESP_TIME = 60 * 1000;// 包等待确认时间 超过了重发
-	public static final int RESEND_TIME = 3;// 重发次数
-
 	private static final Log log = LogFactory.getLog(PReceiver.class);// 记录日志
 
 	private static final Log discard = LogFactory.getLog("discard");// 记录丢弃包日志
 
-	private volatile boolean stop = false;
 	private static final List<SubmitMessage> SLIDE = new LinkedList<SubmitMessage>();// 滑动窗口
+	private static final Object lock = new Object();
+
+	private volatile boolean stop = false;
 
 	public PReceiver()
 	{
@@ -230,7 +230,8 @@ public class PReceiver extends Thread
 			}
 			else
 			{
-				log.debug("checkPackage没找到对应包");
+				log.debug("checkPackage没找到【SubmitRespMessage("
+						+ ap.getSequenceID() + ")】的对应包");
 			}
 		}
 		return p;
@@ -242,76 +243,79 @@ public class PReceiver extends Thread
 	 * @param submitResp
 	 * @return
 	 */
-	private synchronized SubmitMessage checkInSlide(SubmitRespMessage submitResp)
+	private SubmitMessage checkInSlide(SubmitRespMessage submitResp)
 	{
-		long curtime = System.currentTimeMillis();
-
-		// 先在滑动窗口找，如果没找到，那么再needRespQue队列找
-		synchronized (SLIDE)
+		synchronized (lock)
 		{
-			Iterator<SubmitMessage> it = SLIDE.iterator();
-			while (it.hasNext())
+			long curtime = System.currentTimeMillis();
+
+			// 先在滑动窗口找，如果没找到，那么再needRespQue队列找
+			synchronized (SLIDE)
 			{
-				SubmitMessage p = it.next();
-				if (p.getHead().getSequenceId() == submitResp.getHead()
-						.getSequenceId())
+				Iterator<SubmitMessage> it = SLIDE.iterator();
+				while (it.hasNext())
 				{
-					it.remove();
-					if (log.isDebugEnabled())
+					SubmitMessage p = it.next();
+					if (p.getHead().getSequenceId() == submitResp.getHead()
+							.getSequenceId())
 					{
-						log.debug("从滑动窗口中取出包SubmitMessage("
-								+ p.getHead().getSequenceId() + ")，当前滑动窗口长度："
-								+ SLIDE.size());
-
-					}
-					return p;
-				}
-				// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
-				if ((curtime - p.getTimeStamp()) > RESP_TIME)
-				{
-					it.remove();
-					// 重发次数一般设置为3
-					if (p.getTryTimes() < RESEND_TIME)
-					{
-						// 重发
-						log.info("该包超时未收到回应，需要重发" + p);
-						p.addTimes();
-						PChannel channel = PChannel.getChannel();
-						if (channel != null)
+						it.remove();
+						if (log.isDebugEnabled())
 						{
-							try
+							log.debug("从滑动窗口中取出包SubmitMessage("
+									+ p.getHead().getSequenceId()
+									+ ")，当前滑动窗口长度：" + SLIDE.size());
+
+						}
+						return p;
+					}
+					// 如果找到的包超时了，没有回应，需要重发,超时时间一般设置为1分钟
+					if ((curtime - p.getTimeStamp()) > Constants.RESP_TIME)
+					{
+						it.remove();
+						// 重发次数一般设置为3
+						if (p.getTryTimes() < Constants.RESEND_TIME)
+						{
+							// 重发
+							log.info("该包超时未收到回应，需要重发" + p);
+							p.addTimes();
+							PChannel channel = PChannel.getChannel();
+							if (channel != null)
 							{
-								channel.sendPacket(p);
+								try
+								{
+									channel.sendPacket(p);
+								}
+								catch (Exception e)
+								{
+									// TODO Auto-generated catch block
+									log.info(null, e);
+								}
 							}
-							catch (Exception e)
+
+						}
+						else
+						{
+							// 丢弃
+							log.info("重发次数过多 丢弃");
+							if (discard.isInfoEnabled())
 							{
-								// TODO Auto-generated catch block
-								log.info(null, e);
+								discard.info(p);
 							}
 						}
 
 					}
-					else
-					{
-						// 丢弃
-						log.info("重发次数过多 丢弃");
-						if (discard.isInfoEnabled())
-						{
-							discard.info(p);
-						}
-					}
-
 				}
 			}
-		}
 
-		// 如果还未找到，那么从NeedResp队列中找
-		SubmitMessage p = checkInNeedRespQue(submitResp);
-		if (p != null)
-		{
-			return p;
+			// 如果还未找到，那么从NeedResp队列中找
+			SubmitMessage p = checkInNeedRespQue(submitResp);
+			if (p != null)
+			{
+				return p;
+			}
+			return null;
 		}
-		return null;
 
 	}
 
