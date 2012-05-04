@@ -19,6 +19,7 @@ import com.chinamobile.cmpp2_0.protocol.message.ConnectRespMessage;
 import com.chinamobile.cmpp2_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp2_0.protocol.message.TerminateMessage;
 import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
+import com.chinamobile.cmpp2_0.protocol.util.Constants;
 import com.chinamobile.cmpp2_0.protocol.util.DateUtil;
 import com.chinamobile.cmpp2_0.protocol.util.Hex;
 
@@ -38,7 +39,7 @@ public class PChannel
 	private static final Object lockRecv = new Object();
 
 	private final LinkedBlockingQueue<SubmitMessage> needRespQue = new LinkedBlockingQueue<SubmitMessage>(
-			10000);
+			Constants.NEEDRESPQUE_SIZE);
 
 	/**
 	 * 单实例对象
@@ -67,7 +68,7 @@ public class PChannel
 	/**
 	 * 通道超时时间，可设置
 	 */
-	private int timeout = 60 * 1000;// 60s
+	private int timeout = Constants.TIMEOUT;// 60s
 
 	private PChannel(String ip, int port, String loginname, String loginpass,
 			int version)
