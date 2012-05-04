@@ -13,15 +13,12 @@
 		<property name="myeclipse.connection.profile">mssql_lyear</property>
 		<property name="connection.password">root</property>
 		<property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-		<property name="hibernate.hbm2ddl.auto">create</property> 
+		<!--<property name="hibernate.hbm2ddl.auto">create</property>  -->
 		<mapping
-			resource="com/ylear/sp/cmpp/database/pojo/SLogsmsdeliver.hbm.xml" />
+			resource="com/ylear/sp/cmpp/database/pojo/DeliverBean.hbm.xml" />
 		<mapping
-			resource="com/ylear/sp/cmpp/database/pojo/SLogsmssubmit.hbm.xml" />
+			resource="com/ylear/sp/cmpp/database/pojo/SubmitBean.hbm.xml" />
 		<mapping resource="com/ylear/sp/cmpp/database/pojo/USms.hbm.xml" />	
-		<mapping resource="com/ylear/sp/cmpp/database/pojo/UPhoneaddress.hbm.xml" />	
-			
-
 	</session-factory>
 
 </hibernate-configuration>
