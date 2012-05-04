@@ -14,7 +14,7 @@ public class Main {
 	private boolean stop = false;
 
 	public void start() {
-		tm = new ManagerThread();
+		tm = new ManagerThread(1,2);
 		tm.start();
 		while (!stop) {
 			;
