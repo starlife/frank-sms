@@ -23,7 +23,7 @@
 	</appender>
 	<appender name="dailyAppender"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="logs/cmpp.log" />
+		<param name="File" value="logs/mms.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
