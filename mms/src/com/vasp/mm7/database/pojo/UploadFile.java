@@ -1,8 +1,5 @@
 package com.vasp.mm7.database.pojo;
 
-import java.sql.Blob;
-import java.util.Date;
-
 /**
  * UploadFile entity.
  * 
@@ -17,11 +14,10 @@ public class UploadFile implements java.io.Serializable
 	private Long id;
 	private MmsFile mmsFile;
 	private String filename;
-	private Blob filedata;
+	private String filedata;
 	private Long filesize;
-	private String localname;
-	private Date uploadtime;
-	private Integer framenumber;
+	private String uploadtime;
+	private Integer frameid;
 	private String filetype;
 
 	// Constructors
@@ -32,28 +28,27 @@ public class UploadFile implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public UploadFile(MmsFile mmsFile, String filename, Blob filedata,
-			Long filesize, String filetype)
+	public UploadFile(String filename, String filedata, Long filesize,
+			String uploadtime, Integer frameid, String filetype)
 	{
-		this.mmsFile = mmsFile;
 		this.filename = filename;
 		this.filedata = filedata;
 		this.filesize = filesize;
+		this.uploadtime = uploadtime;
+		this.frameid = frameid;
 		this.filetype = filetype;
 	}
 
 	/** full constructor */
-	public UploadFile(MmsFile mmsFile, String filename, Blob filedata,
-			Long filesize, String localname, Date uploadtime,
-			Integer framenumber, String filetype)
+	public UploadFile(MmsFile mmsFile, String filename, String filedata,
+			Long filesize, String uploadtime, Integer frameid, String filetype)
 	{
 		this.mmsFile = mmsFile;
 		this.filename = filename;
 		this.filedata = filedata;
 		this.filesize = filesize;
-		this.localname = localname;
 		this.uploadtime = uploadtime;
-		this.framenumber = framenumber;
+		this.frameid = frameid;
 		this.filetype = filetype;
 	}
 
@@ -89,12 +84,12 @@ public class UploadFile implements java.io.Serializable
 		this.filename = filename;
 	}
 
-	public Blob getFiledata()
+	public String getFiledata()
 	{
 		return this.filedata;
 	}
 
-	public void setFiledata(Blob filedata)
+	public void setFiledata(String filedata)
 	{
 		this.filedata = filedata;
 	}
@@ -109,34 +104,24 @@ public class UploadFile implements java.io.Serializable
 		this.filesize = filesize;
 	}
 
-	public String getLocalname()
-	{
-		return this.localname;
-	}
-
-	public void setLocalname(String localname)
-	{
-		this.localname = localname;
-	}
-
-	public Date getUploadtime()
+	public String getUploadtime()
 	{
 		return this.uploadtime;
 	}
 
-	public void setUploadtime(Date uploadtime)
+	public void setUploadtime(String uploadtime)
 	{
 		this.uploadtime = uploadtime;
 	}
 
-	public Integer getFramenumber()
+	public Integer getFrameid()
 	{
-		return this.framenumber;
+		return this.frameid;
 	}
 
-	public void setFramenumber(Integer framenumber)
+	public void setFrameid(Integer frameid)
 	{
-		this.framenumber = framenumber;
+		this.frameid = frameid;
 	}
 
 	public String getFiletype()
