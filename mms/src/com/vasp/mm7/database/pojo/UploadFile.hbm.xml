@@ -11,28 +11,25 @@
             <generator class="native" />
         </id>
         <many-to-one name="mmsFile" class="com.vasp.mm7.database.pojo.MmsFile" fetch="select">
-            <column name="mmsid" scale="0" not-null="true" />
+            <column name="mmsid" scale="0" />
         </many-to-one>
         <property name="filename" type="java.lang.String">
             <column name="filename" length="100" not-null="true" />
         </property>
-        <property name="filedata" type="java.sql.Blob">
+        <property name="filedata" type="java.lang.String">
             <column name="filedata" not-null="true" />
         </property>
         <property name="filesize" type="java.lang.Long">
             <column name="filesize" scale="0" not-null="true" />
         </property>
-        <property name="localname" type="java.lang.String">
-            <column name="localname" length="100" />
+        <property name="uploadtime" type="java.lang.String">
+            <column name="uploadtime" length="14" not-null="true" />
         </property>
-        <property name="uploadtime" type="java.util.Date">
-            <column name="uploadtime" length="23" />
-        </property>
-        <property name="framenumber" type="java.lang.Integer">
-            <column name="framenumber" />
+        <property name="frameid" type="java.lang.Integer">
+            <column name="frameid" not-null="true" />
         </property>
         <property name="filetype" type="java.lang.String">
-            <column name="filetype" length="10" not-null="true" />
+            <column name="filetype" length="50" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
