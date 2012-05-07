@@ -16,7 +16,7 @@
         <property name="filename" type="java.lang.String">
             <column name="filename" length="100" not-null="true" />
         </property>
-        <property name="filedata" type="java.lang.String">
+        <property name="filedata" type="java.sql.Blob">
             <column name="filedata" not-null="true" />
         </property>
         <property name="filesize" type="java.lang.Long">
