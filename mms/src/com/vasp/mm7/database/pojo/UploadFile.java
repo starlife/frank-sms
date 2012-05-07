@@ -1,5 +1,7 @@
 package com.vasp.mm7.database.pojo;
 
+import java.sql.Blob;
+
 /**
  * UploadFile entity.
  * 
@@ -11,10 +13,14 @@ public class UploadFile implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private MmsFile mmsFile;
 	private String filename;
-	private String filedata;
+	private Blob filedata;
 	private Long filesize;
 	private String uploadtime;
 	private Integer frameid;
@@ -28,7 +34,7 @@ public class UploadFile implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public UploadFile(String filename, String filedata, Long filesize,
+	public UploadFile(String filename, Blob filedata, Long filesize,
 			String uploadtime, Integer frameid, String filetype)
 	{
 		this.filename = filename;
@@ -40,7 +46,7 @@ public class UploadFile implements java.io.Serializable
 	}
 
 	/** full constructor */
-	public UploadFile(MmsFile mmsFile, String filename, String filedata,
+	public UploadFile(MmsFile mmsFile, String filename, Blob filedata,
 			Long filesize, String uploadtime, Integer frameid, String filetype)
 	{
 		this.mmsFile = mmsFile;
@@ -84,12 +90,12 @@ public class UploadFile implements java.io.Serializable
 		this.filename = filename;
 	}
 
-	public String getFiledata()
+	public Blob getFiledata()
 	{
 		return this.filedata;
 	}
 
-	public void setFiledata(String filedata)
+	public void setFiledata(Blob filedata)
 	{
 		this.filedata = filedata;
 	}
@@ -132,6 +138,18 @@ public class UploadFile implements java.io.Serializable
 	public void setFiletype(String filetype)
 	{
 		this.filetype = filetype;
+	}
+	
+	public String toString()
+	{
+		StringBuffer sb=new StringBuffer();
+		sb.append("Mmsid:"+(mmsFile!=null?mmsFile.getId():"")+"\r\n");
+		sb.append("Filename:"+filename+"\r\n");
+		sb.append("Filesize:"+filesize+"\r\n");
+		sb.append("Filetype:"+filetype+"\r\n");
+		sb.append("Frameid:"+frameid+"\r\n");
+		sb.append("Uploadtime:"+uploadtime+"\r\n");
+		return sb.toString();
 	}
 
 }
