@@ -1,7 +1,7 @@
 package com.vasp.mm7.database.pojo;
 
-import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -15,14 +15,20 @@ public class MmsFile implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String mmsName;
 	private Integer frames;
-	private String contentSmil;
 	private String smilname;
-	private Integer contentSize;
-	private Date createtime;
-	private Set uploadFiles = new HashSet(0);
+	private String smildate;
+	private Long smilsize;
+	private Long mmsSize;
+	private String createtime;
+	// private Set UMmses = new HashSet(0);
+	private Set<UploadFile> uploadFiles = new HashSet<UploadFile>(0);
 
 	// Constructors
 
@@ -32,22 +38,27 @@ public class MmsFile implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public MmsFile(String contentSmil, String smilname)
+	public MmsFile(Integer frames, String smilname, String smildate,
+			Long smilsize, Long mmsSize)
 	{
-		this.contentSmil = contentSmil;
+		this.frames = frames;
 		this.smilname = smilname;
+		this.smildate = smildate;
+		this.smilsize = smilsize;
+		this.mmsSize = mmsSize;
 	}
 
 	/** full constructor */
-	public MmsFile(String mmsName, Integer frames, String contentSmil,
-			String smilname, Integer contentSize, Date createtime,
-			Set uploadFiles)
+	public MmsFile(String mmsName, Integer frames, String smilname,
+			String smildate, Long smilsize, Long mmsSize, String createtime,
+			Set<UploadFile> uploadFiles)
 	{
 		this.mmsName = mmsName;
 		this.frames = frames;
-		this.contentSmil = contentSmil;
 		this.smilname = smilname;
-		this.contentSize = contentSize;
+		this.smildate = smildate;
+		this.smilsize = smilsize;
+		this.mmsSize = mmsSize;
 		this.createtime = createtime;
 		this.uploadFiles = uploadFiles;
 	}
@@ -84,16 +95,6 @@ public class MmsFile implements java.io.Serializable
 		this.frames = frames;
 	}
 
-	public String getContentSmil()
-	{
-		return this.contentSmil;
-	}
-
-	public void setContentSmil(String contentSmil)
-	{
-		this.contentSmil = contentSmil;
-	}
-
 	public String getSmilname()
 	{
 		return this.smilname;
@@ -104,34 +105,95 @@ public class MmsFile implements java.io.Serializable
 		this.smilname = smilname;
 	}
 
-	public Integer getContentSize()
+	public String getSmildate()
 	{
-		return this.contentSize;
+		return this.smildate;
 	}
 
-	public void setContentSize(Integer contentSize)
+	public void setSmildate(String smildate)
 	{
-		this.contentSize = contentSize;
+		this.smildate = smildate;
 	}
 
-	public Date getCreatetime()
+	public Long getSmilsize()
+	{
+		return this.smilsize;
+	}
+
+	public void setSmilsize(Long smilsize)
+	{
+		this.smilsize = smilsize;
+	}
+
+	public Long getMmsSize()
+	{
+		return this.mmsSize;
+	}
+
+	public void autoSetMmsSize()
+	{
+		long mmsSize = 0;
+		synchronized (uploadFiles)
+		{
+			Iterator<UploadFile> it = uploadFiles.iterator();
+			while (it.hasNext())
+			{
+				UploadFile upload = it.next();
+				mmsSize += upload.getFilesize();
+			}
+		}
+		mmsSize += this.getSmilsize();
+		this.mmsSize = mmsSize;
+	}
+
+	public void setMmsSize(Long mmsSize)
+	{
+		this.mmsSize = mmsSize;
+	}
+
+	public String getCreatetime()
 	{
 		return this.createtime;
 	}
 
-	public void setCreatetime(Date createtime)
+	public void setCreatetime(String createtime)
 	{
 		this.createtime = createtime;
 	}
 
-	public Set getUploadFiles()
+	public boolean addUploadFile(UploadFile upload)
+	{
+		return this.uploadFiles.add(upload);
+	}
+
+	public Set<UploadFile> getUploadFiles()
 	{
 		return this.uploadFiles;
 	}
 
-	public void setUploadFiles(Set uploadFiles)
+	public void setUploadFiles(Set<UploadFile> uploadFiles)
 	{
 		this.uploadFiles = uploadFiles;
+	}
+
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("MmsName:" + mmsName + "\r\n");
+		sb.append("Frames:" + frames + "\r\n");
+		sb.append("Smilname:" + smilname + "\r\n");
+		sb.append("Smildate:" + smildate + "\r\n");
+		sb.append("Smilsize:" + smilsize + "\r\n");
+		sb.append("MmsSize:" + mmsSize + "\r\n");
+		sb.append("Createtime:" + createtime + "\r\n");
+		sb.append("=============attachments=======\r\n");
+		Iterator<UploadFile> it = uploadFiles.iterator();
+		while (it.hasNext())
+		{
+			sb.append(it.next());
+		}
+		sb.append("=============end=======\r\n");
+		return sb.toString();
 	}
 
 }
