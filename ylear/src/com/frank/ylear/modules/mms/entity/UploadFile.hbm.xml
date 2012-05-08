@@ -22,14 +22,14 @@
         <property name="filesize" type="java.lang.Long">
             <column name="filesize" scale="0" not-null="true" />
         </property>
-        <property name="uploadtime" type="java.util.Date">
-            <column name="uploadtime" length="23" />
+        <property name="uploadtime" type="java.lang.String">
+            <column name="uploadtime" length="14" not-null="true" />
         </property>
-        <property name="framenumber" type="java.lang.Integer">
-            <column name="framenumber" not-null="true" />
+        <property name="frameid" type="java.lang.Integer">
+            <column name="frameid" not-null="true" />
         </property>
         <property name="filetype" type="java.lang.String">
-            <column name="filetype" length="100" not-null="true" />
+            <column name="filetype" length="50" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
