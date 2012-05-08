@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean name="/login" class="com.frank.ylear.modules.login.action.LoginAction" singleton="false">
+        <property name="loginManager">
+            <ref bean="loginManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addOperator" class="com.frank.ylear.modules.login.action.AddOperatorAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/resource" class="com.frank.ylear.modules.login.action.ResourceAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/editCharge" class="com.frank.ylear.modules.login.action.EditChargeAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/editChargeRule" class="com.frank.ylear.modules.login.action.EditChargeRuleAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addCustomer" class="com.frank.ylear.modules.login.action.AddCustomerAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addUser" class="com.frank.ylear.modules.login.action.AddUserAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean>
+</beans>

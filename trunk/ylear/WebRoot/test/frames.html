@@ -1,0 +1,358 @@
+<script src="scripts/validate.js"></script>
+<script src="scripts/icommon.js"></script>
+<script src="scripts/DatePicker/WdatePicker.js"></script>
+<script src="scripts/jquery/jquery.js"></script>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta content="text/html;charset=utf-8">
+<html lang="zh-CN">
+<head>
+	<title>新建/编辑彩信</title>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<style type="text/css">
+/*帧框css*/
+#frames {
+	height: 300px;
+	width: 800px;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+/*设置行内联*/
+.box {
+	display: inline-block;
+	text-align: left;
+	margin-right: 10px;
+	width: 150px;
+	height: 250px;
+	border: red solid thin;
+	outline-style: dotted;
+	outline-color: #00ff00;
+}
+
+.box { *
+	display: inline;
+	margin-right: 10px;
+	width: 150px;
+	height: 250px;
+	border: red solid thin;
+	outline-style: dotted;
+	outline-color: #00ff00;
+}
+
+.mmsDetail {
+	text-align: left;
+	overflow: auto;
+	height: 280px;
+	width: 100%;
+}
+
+/*每一帧内容*/
+.framecontent {
+	width: 130px;
+	height: 194px;
+	text-align: center;
+	vertical-align: top;
+	border: 1px solid black;
+	padding-top: 1px;
+}
+
+.framecontent.image {
+	width: 126px;
+	height: 126px;
+	border-width: 0px;
+	cursor: hand;
+}
+
+.framecontent.txt {
+	width: 126px;
+	height: 62px;
+	text-align: left;
+	overflow: auto;
+	word-wrap: break-word;
+	word-break: normal;
+}
+
+.framediscription {
+	width: 128px;
+	text-align: center;
+}
+
+.link {
+	cursor: pointer;;
+	text-decoration: underline;
+}
+</style>
+	<script type="text/javascript">
+	function openW()
+	{
+		window.open("mmseditor.html","","width=400,height=300");
+	}
+	
+	/*添加一帧*/
+	function addFrame()
+	{
+		var currentframenumber=0;
+		var values=document.getElementsByName("radioselect");
+		if(values.length==0)
+		{
+			currentframenumber=0;
+		}
+		else
+		{
+			for(i=0;i<values.length;i++)
+			{
+				if(values[i].checked)
+				{
+					currentframenumber=values[i].value;
+					break;
+					
+				}
+			}
+		}
+		document.getElementById("currentFrameNumber").value=currentframenumber;
+		doSubmit("addFrame");
+	}
+	/*删除一帧*/
+	function delFrame(currentframenumber)
+	{
+		if(confirm("您确认删除当前帧吗？"))
+		{
+			document.getElementById("currentFrameNumber").value=currentframenumber;
+			doSubmit("delFrame");
+		}
+		
+	}
+	
+	
+	/*上传和清除图片，文字，音频*/
+	function mysubmit(method)
+	{
+		//做一些提交之前的处理，需要用到的参数为当前选中的帧
+		if(!setCurrentFrameNumber())
+		{
+			return;
+		}
+		doSubmit(method);
+		
+	}
+	
+	/*点击单选框 选中某一帧时调用*/
+	function changeFrame(currentframenumber)
+	{
+		//alert(currentframenumber);
+		document.getElementById("currentFrameNumber").value=currentframenumber;
+	
+	}
+	
+	function setCurrentFrameNumber()
+	{
+		var values=document.getElementsByName("radioselect");
+		if(values.length==0)
+		{
+			alert("当前没有帧，请先添加帧!");
+			return false;
+		}
+		var currentframenumber= -1;
+		for(i=0;i<values.length;i++)
+		{
+			if(values[i].checked)
+			{
+				currentframenumber=values[i].value;
+				alert(currentframenumber);
+				break;
+				
+			}
+		}
+		document.getElementById("currentFrameNumber").value=currentframenumber;
+		return true;
+		
+	}
+	
+</script>
+</head>
+
+<body class="main">
+	<form name="mmsForm" method="POST" action="/lyear/mms.do" enctype="multipart/form-data">
+		<input type="hidden" name="method" value="doAdd">
+		<input type="hidden" name="item.currentFrameNumber" value="" id="currentFrameNumber">
+		<input type="hidden" name="item.fileType" value="" id="fileType">
+		<span style="font-weight: bold;">新建/编辑彩信</span>
+		<table class="input_table" border="0" cellPadding="3" cellSpacing="0">
+			<tr>
+				<td class="input_title" style="width: 20%;">
+					彩信名称:
+					<span style="color: red;">*</span>
+				</td>
+				<td class="input_content">
+					<input type="text" name="item.mmsName" size="50" value="">
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					选择要设置的帧：
+				</td>
+				<td class="input_content">
+					<input type="button" value="添加帧" onclick="addFrame();">
+					<!--<input class="input_content" type="button" value="删除" onclick="delframe();">
+			 <input class="input_content" type="button" value="打开一个新窗口" onclick="openW();"> -->
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="input_content">
+					<div class="mmsDetail">
+						<table cellspacing="0" align="Left" border="0"
+							style="border-collapse: collapse;">
+							<tr>
+								
+									<td>
+										<table>
+											<tr>
+												<td align="center">
+													<input name="radioselect" type="radio" checked="checked"
+														value="1" onchange="changeFrame(1);" />
+													选择|
+													<a class="link" onclick="delFrame(1);">删除</a>
+
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<!-- 下面是每一帧的内容 -->
+													<div class="framecontent">
+														
+														<div class="txt">
+															<pre> 豆瓣电台桌面版-豆瓣FM桌面版是豆瓣FM客户端软件产品，豆瓣电台桌面版的使用体验和网页上的完全一致，豆瓣电台桌面版完全免费</pre>
+														</div>
+													</div>
+													<div class="framediscription">
+														第1帧
+													</div>
+
+												</td>
+											</tr>
+										</table>
+									</td>
+
+								
+									<td>
+										<table>
+											<tr>
+												<td align="center">
+													<input name="radioselect" type="radio" checked="checked"
+														value="2" onchange="changeFrame(2);" />
+													选择|
+													<a class="link" onclick="delFrame(2);">删除</a>
+
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<!-- 下面是每一帧的内容 -->
+													<div class="framecontent">
+														
+														
+																<img  class="image" 
+																 src="E:\myworkspace\.metadata\.plugins\com.genuitec.eclipse.easie.tomcat.myeclipse\tomcat\webapps\lyear\upload\temp\外滩1.jpg" />
+															
+														
+														<div class="txt">
+															<pre> 豆瓣电台桌面版-豆瓣FM桌面版是豆瓣FM客户端软件产品，豆瓣电台桌面版的使用体验和网页上的完全一致，豆瓣电台桌面版完全免费</pre>
+														</div>
+													</div>
+													<div class="framediscription">
+														第2帧
+													</div>
+
+												</td>
+											</tr>
+										</table>
+									</td>
+
+								
+							</tr>
+						</table>
+					</div>
+
+
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					本彩信总大小：
+				</td>
+				<td class="input_content">
+					93.35KB &nbsp &nbsp(注意：彩信总大小不能超过100KB)
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					当前帧大小:
+				</td>
+				<td class="input_content">
+					&nbsp;
+					<input type="text" name="item.contentSize" value="">
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					当前帧播放时间：
+				</td>
+				<td class="input_content">
+					<input type="text" name="item.interval" size="3" value="" onchange="alert('');">
+					(秒)
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					设置图片：
+				</td>
+				<td class="input_content">
+
+					<input type="file" name="item.uploadFileImage" size="35" value="">
+					<input type="button" value="上传"
+						onclick="mysubmit('uploadFileImage');" />
+					&nbsp
+					<input type="button" value="清除"
+						onclick="mysubmit('clearFileImage);" />
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					设置铃声：
+				</td>
+				<td class="input_content">
+					<input type="file" name="item.uploadFileAudio" size="35" value="">
+					<input type="button" value="上传"
+						onclick="mysubmit('uploadFileAudio');" />
+					&nbsp
+					<input type="button" value="清除"
+						onclick="mysubmit('clearFileAudio');" />
+				</td>
+			</tr>
+			<tr>
+				<td class="input_title" width="20%;">
+					设置文字：
+				</td>
+				<td class="input_content">
+					<textarea name="item.text" cols="50" rows="6"></textarea>
+					<input type="button" value="确认"
+						onclick="mysubmit('uploadFileText');" />
+					<input type="button" value="清空"
+						onclick="mysubmit('clearFileText');" />
+				</td>
+			</tr>
+
+		</table>
+		<div class="button_bar">
+			<button onclick="save();">
+				保存
+			</button>
+		</div>
+		<script>
+		/*build_validate("item.recipient","接收手机号码不能为空","Limit","1","1000");
+		build_validate("item.msgContent","短信内容不能为空","Limit","1","150");*/
+		</script>
+	</form>
+</body>
+</html>

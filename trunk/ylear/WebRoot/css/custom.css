@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+/* CSS Document */
+html {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	text-align: center;
+	background: white;
+}
+
+hr {
+	color: black;
+	height: 1px;
+}
+
+#container {
+	width: 96%;
+	font-size: 14px;
+}
+
+/*表边框*/
+table.ui-widget {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 14px;
+	text-align: left;
+}
+
+table.ui-widget thead {
+	font-size: 18px;
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+table.ui-widget td {
+	border: 1px solid #ddd;
+	padding: 2px;
+	vertical-align: middle;
+	float: none !important;
+}
+
+/* Remove annoying border on linked images. */
+a img {
+	border: none;
+}
+
+/* Remember to define your own focus styles! */
+:focus {
+	outline: 0;
+}
+
+/*控制struts2错误输出格式*/
+.errorMessage {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+/*控制jquery-validate.js错误输出格式*/
+form label.error {
+	color: red;
+	display: none;
+	font-weight: bold;
+}
+
+form input.error {
+	border: 1px dotted red;
+}

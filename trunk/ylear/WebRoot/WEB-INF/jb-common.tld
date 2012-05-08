@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.2</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>common</shortname>
+	<uri>http://www.jb-aptech.com.cn/taglibs/common</uri>
+	<tag>
+		<name>pager</name>
+		<tagclass>com.frank.ylear.common.taglib.PaginationTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>form</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

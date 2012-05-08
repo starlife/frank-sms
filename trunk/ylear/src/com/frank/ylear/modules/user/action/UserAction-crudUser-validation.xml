@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+  		"-//Apache Struts//XWork Validator 1.0.2//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<validators>
+	
+  <field name="user.usrPassword">
+      <field-validator type="requiredstring">
+          <message>${getText("user.usrPassword.null")}</message>
+      </field-validator>
+  </field>
+  <field name="reUsrPassword">
+      <field-validator type="requiredstring" short-circuit="true">
+          <message>${getText("reUsrPassword.null")}</message>
+      </field-validator>
+      <field-validator type="fieldexpression"> 
+            <param name="expression"><![CDATA[reUsrPassword.equals(user.usrPassword)]]></param> 
+            <message>${getText("reUsrPassword.error")}</message>    
+      </field-validator>
+  </field>
+</validators>
+

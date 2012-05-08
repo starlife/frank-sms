@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="loginForm" type="com.frank.ylear.modules.login.web.form.LoginForm" />
+		<form-bean name="addressForm" type="com.frank.ylear.modules.phoneaddress.web.form.AddressForm" />
+		<form-bean name="smsForm" type="com.frank.ylear.modules.sms.web.form.SmsForm" />
+		<form-bean name="mmsForm" type="com.frank.ylear.modules.mms.web.form.MmsForm" />
+	</form-beans>
+  <global-forwards>
+    <forward name="success" path="/WEB-INF/jsp/global/success.jsp" />
+    <forward name="error" path="/WEB-INF/jsp/global/error.jsp" />
+  </global-forwards>
+	<action-mappings>
+		<action path="/home" parameter="method" scope="session"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="header" path="/WEB-INF/jsp/home/header.jsp" />
+			<forward name="footer" path="/WEB-INF/jsp/home/footer.jsp" />
+			<forward name="menu" path="/WEB-INF/jsp/home/menu.jsp" />
+			<forward name="welcome" path="/WEB-INF/jsp/home/welcome.jsp" />
+		</action>
+		<action name="loginForm" path="/login" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+		</action>			
+		<action name="addressForm" path="/address" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="list" path="/WEB-INF/jsp/address/list.jsp" />
+			<forward name="list1" path="/WEB-INF/jsp/address/list1.jsp" />
+			<forward name="add" path="/WEB-INF/jsp/address/add.jsp" />
+			<forward name="edit" path="/WEB-INF/jsp/address/edit.jsp" />
+		</action>
+		<action name="smsForm" path="/sms" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="list" path="/WEB-INF/jsp/sms/list.jsp" />
+			<forward name="add" path="/WEB-INF/jsp/sms/add.jsp" />
+			<!-- 短信群发 -->
+			<forward name="adds" path="/WEB-INF/jsp/sms/adds.jsp" />
+			<forward name="next" path="/WEB-INF/jsp/sms/next.jsp" />
+		</action>
+		<action name="mmsForm" path="/mms" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="list" path="/WEB-INF/jsp/mms/list.jsp" />
+			<forward name="add" path="/WEB-INF/jsp/mms/add.jsp" />
+			<forward name="mmseditor" path="/WEB-INF/jsp/mms/mmseditor.jsp" />
+			<forward name="showmms" path="/WEB-INF/jsp/mms/showmms.jsp" />
+		</action>
+		<!-- 
+		<action name="roleForm" path="/role" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="list" path="/WEB-INF/jsp/role/list.jsp" />
+			<forward name="add" path="/WEB-INF/jsp/role/add.jsp" />
+			<forward name="assign_rights" path="/WEB-INF/jsp/role/assign_rights.jsp" />
+		</action> -->
+	</action-mappings>
+	<message-resources
+		parameter="ApplicationResources" />
+	<!--plug-in
+		className="org.springframework.web.struts.ContextLoaderPlugIn">
+		<set-property property="contextConfigLocation"
+			value="classpath:applicationContext.xml" />
+	</plug-in-->
+
+</struts-config>
+
