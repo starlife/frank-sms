@@ -1,7 +1,6 @@
 package com.frank.ylear.modules.mms.entity;
 
 import java.sql.Blob;
-import java.util.Date;
 
 /**
  * UploadFile entity.
@@ -14,14 +13,18 @@ public class UploadFile implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private MmsFile mmsFile;
 	private String filename;
 	private Blob filedata;
-	private String filetype;
 	private Long filesize;
-	private Date uploadtime;
-	private Integer framenumber;
+	private String uploadtime;
+	private Integer frameid;
+	private String filetype;
 
 	// Constructors
 
@@ -32,25 +35,26 @@ public class UploadFile implements java.io.Serializable
 
 	/** minimal constructor */
 	public UploadFile(String filename, Blob filedata, Long filesize,
-			Integer framenumber, String filetype)
+			String uploadtime, Integer frameid, String filetype)
 	{
 		this.filename = filename;
 		this.filedata = filedata;
 		this.filesize = filesize;
-		this.framenumber = framenumber;
+		this.uploadtime = uploadtime;
+		this.frameid = frameid;
 		this.filetype = filetype;
 	}
 
 	/** full constructor */
 	public UploadFile(MmsFile mmsFile, String filename, Blob filedata,
-			Long filesize, Date uploadtime, Integer framenumber, String filetype)
+			Long filesize, String uploadtime, Integer frameid, String filetype)
 	{
 		this.mmsFile = mmsFile;
 		this.filename = filename;
 		this.filedata = filedata;
 		this.filesize = filesize;
 		this.uploadtime = uploadtime;
-		this.framenumber = framenumber;
+		this.frameid = frameid;
 		this.filetype = filetype;
 	}
 
@@ -106,24 +110,24 @@ public class UploadFile implements java.io.Serializable
 		this.filesize = filesize;
 	}
 
-	public Date getUploadtime()
+	public String getUploadtime()
 	{
 		return this.uploadtime;
 	}
 
-	public void setUploadtime(Date uploadtime)
+	public void setUploadtime(String uploadtime)
 	{
 		this.uploadtime = uploadtime;
 	}
 
-	public Integer getFramenumber()
+	public Integer getFrameid()
 	{
-		return this.framenumber;
+		return this.frameid;
 	}
 
-	public void setFramenumber(Integer framenumber)
+	public void setFrameid(Integer frameid)
 	{
-		this.framenumber = framenumber;
+		this.frameid = frameid;
 	}
 
 	public String getFiletype()
@@ -134,6 +138,18 @@ public class UploadFile implements java.io.Serializable
 	public void setFiletype(String filetype)
 	{
 		this.filetype = filetype;
+	}
+
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("Mmsid:" + (mmsFile != null ? mmsFile.getId() : "") + "\r\n");
+		sb.append("Filename:" + filename + "\r\n");
+		sb.append("Filesize:" + filesize + "\r\n");
+		sb.append("Filetype:" + filetype + "\r\n");
+		sb.append("Frameid:" + frameid + "\r\n");
+		sb.append("Uploadtime:" + uploadtime + "\r\n");
+		return sb.toString();
 	}
 
 }
