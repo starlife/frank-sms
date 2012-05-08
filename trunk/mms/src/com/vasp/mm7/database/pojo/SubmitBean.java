@@ -1,5 +1,6 @@
 package com.vasp.mm7.database.pojo;
 
+import com.vasp.mm7.util.Constants;
 
 /**
  * SLogMmssubmit entity.
@@ -17,25 +18,27 @@ public class SubmitBean implements java.io.Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String messageid;//MM7_submit.RES中messageid 字段 不为空
-	private String transactionid;//不为空
-	private String mm7version;//可以为空
-	private String senderAddress;//不为空
-	private String toAddress;//不为空
-	private String subject;//不为空
-	private String sendtime;//不为空
-	private String vaspid;//不为空
-	private String vasid;//不为空
-	private String serviceCode;//不为空
-	private String linkid;//可以为空
-	private Integer status;//MM7_submit.RES中Request Status 字段 不为空
-	private String statusText;//MM7_submit.RES中Request Status Text字段 可以为空
-	private String reportTime;//MM7_delivery_report.REQ中Date and time 字段 可以为空
-	private Integer mmStatus;//MM7_delivery_report.REQ中MM Status 字段 可以为空
-	private String mmStatusText;//MM7_delivery_report.REQ中MM Status text字段 可以为空
-	private String readyTime;//MM7_read_reply_report.REQ中Date and time字段 可以为空
-	private Integer readStatus;//MM7_read_reply_report.REQ中Read Status 字段 可以为空
-	private String readStatusText;//MM7_read_reply_report.REQ中Read Status text字段  可以为空
+	private String messageid;// MM7_submit.RES中messageid 字段 不为空
+	private String transactionid;// 不为空
+	private String mm7version;// 可以为空
+	private String senderAddress;// 不为空
+	private String toAddress;// 不为空
+	private String subject;// 不为空
+	private String sendtime;// 不为空
+	private String vaspid;// 不为空
+	private String vasid;// 不为空
+	private String serviceCode;// 不为空
+	private String linkid;// 可以为空
+	private Integer status;// MM7_submit.RES中Request Status 字段 不为空
+	private String statusText;// MM7_submit.RES中Request Status Text字段 可以为空
+	private String reportTime;// MM7_delivery_report.REQ中Date and time 字段 可以为空
+	private Integer mmStatus;// MM7_delivery_report.REQ中MM Status 字段 可以为空
+	private String mmStatusText;// MM7_delivery_report.REQ中MM Status text字段 可以为空
+	private String readyTime;// MM7_read_reply_report.REQ中Date and time字段
+	// 可以为空
+	private Integer readStatus;// MM7_read_reply_report.REQ中Read Status 字段 可以为空
+	private String readStatusText;// MM7_read_reply_report.REQ中Read Status
+	// text字段 可以为空
 	private Long sessionid;
 
 	// Constructors
@@ -304,6 +307,33 @@ public class SubmitBean implements java.io.Serializable
 		this.sessionid = sessionid;
 	}
 
-
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("Messageid:").append(messageid + Constants.NEWLINE);
+		sb.append("Transactionid:").append(transactionid).append(
+				Constants.NEWLINE);
+		sb.append("Mm7version:").append(mm7version).append(Constants.NEWLINE);
+		sb.append("SenderAddress:").append(senderAddress).append(
+				Constants.NEWLINE);
+		sb.append("ToAddress:").append(toAddress).append(Constants.NEWLINE);
+		sb.append("Subject:").append(subject).append(Constants.NEWLINE);
+		sb.append("Sendtime:").append(sendtime).append(Constants.NEWLINE);
+		sb.append("Vaspid:").append(vaspid).append(Constants.NEWLINE);
+		sb.append("Vasid:").append(vasid).append(Constants.NEWLINE);
+		sb.append("ServiceCode:").append(serviceCode).append(Constants.NEWLINE);
+		sb.append("Linkid:").append(linkid).append(Constants.NEWLINE);
+		sb.append("Status:").append(status).append(Constants.NEWLINE);
+		sb.append("StatusText:").append(statusText).append(Constants.NEWLINE);
+		sb.append("ReportTime:").append(reportTime).append(Constants.NEWLINE);
+		sb.append("MmStatus:").append(mmStatus).append(Constants.NEWLINE);
+		sb.append("MmStatusText:" + mmStatusText).append(Constants.NEWLINE);
+		sb.append("ReadyTime:").append(readyTime).append(Constants.NEWLINE);
+		sb.append("ReadStatus:").append(readStatus).append(Constants.NEWLINE);
+		sb.append("ReadStatusText:").append(readStatusText).append(
+				Constants.NEWLINE);
+		sb.append("Sessionid:").append(sessionid).append(Constants.NEWLINE);
+		return sb.toString();
+	}
 
 }
