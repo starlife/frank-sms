@@ -14,10 +14,10 @@
             <column name="msg_content" length="300" not-null="true" />
         </property>
         <property name="recipient" type="java.lang.String">
-            <column name="recipient" length="1000" not-null="true" />
+            <column name="recipient" not-null="true" />
         </property>
-        <property name="sendtime" type="java.util.Date">
-            <column name="sendtime" length="23" not-null="true" />
+        <property name="sendtime" type="java.lang.String">
+            <column name="sendtime" length="14" not-null="true" />
         </property>
         <property name="status" type="java.lang.Integer">
             <column name="status" not-null="true" />
