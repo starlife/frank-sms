@@ -1,6 +1,6 @@
 package com.vasp.mm7.database.pojo;
 
-import java.util.Date;
+import com.vasp.mm7.util.Constants;
 
 /**
  * SLogMmsdeliver entity.
@@ -13,6 +13,10 @@ public class DeliverBean implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String transactionid;
 	private String messageid;
@@ -23,8 +27,8 @@ public class DeliverBean implements java.io.Serializable
 	private String sendAddress;
 	private String recipientAddress;
 	private String servicecode;
-	private String linkedId;
-	private Date dateTime;
+	private String linkid;
+	private String recvTime;
 	private String subject;
 	private String content;
 
@@ -39,7 +43,7 @@ public class DeliverBean implements java.io.Serializable
 	public DeliverBean(String transactionid, String messageid,
 			String messagetype, String mm7version, String vaspid, String vasid,
 			String sendAddress, String recipientAddress, String servicecode,
-			String linkedId, Date dateTime, String subject, String content)
+			String linkedId, String dateTime, String subject, String content)
 	{
 		this.transactionid = transactionid;
 		this.messageid = messageid;
@@ -50,8 +54,8 @@ public class DeliverBean implements java.io.Serializable
 		this.sendAddress = sendAddress;
 		this.recipientAddress = recipientAddress;
 		this.servicecode = servicecode;
-		this.linkedId = linkedId;
-		this.dateTime = dateTime;
+		this.linkid = linkedId;
+		this.recvTime = dateTime;
 		this.subject = subject;
 		this.content = content;
 	}
@@ -158,24 +162,24 @@ public class DeliverBean implements java.io.Serializable
 		this.servicecode = servicecode;
 	}
 
-	public String getLinkedId()
+	public String getLinkId()
 	{
-		return this.linkedId;
+		return this.linkid;
 	}
 
-	public void setLinkedId(String linkedId)
+	public void setLinkId(String linkedId)
 	{
-		this.linkedId = linkedId;
+		this.linkid = linkedId;
 	}
 
-	public Date getDateTime()
+	public String getRecvTime()
 	{
-		return this.dateTime;
+		return this.recvTime;
 	}
 
-	public void setDateTime(Date dateTime)
+	public void setRecvTime(String dateTime)
 	{
-		this.dateTime = dateTime;
+		this.recvTime = dateTime;
 	}
 
 	public String getSubject()
@@ -196,6 +200,28 @@ public class DeliverBean implements java.io.Serializable
 	public void setContent(String content)
 	{
 		this.content = content;
+	}
+
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("Messageid:").append(messageid).append(Constants.NEWLINE);
+		sb.append("Transactionid:").append(transactionid).append(
+				Constants.NEWLINE);
+		sb.append("Messagetype:").append(messagetype).append(Constants.NEWLINE);
+		sb.append("Mm7version:").append(mm7version).append(Constants.NEWLINE);
+		sb.append("Vaspid:").append(vaspid).append(Constants.NEWLINE);
+		sb.append("Vasid:").append(vasid).append(Constants.NEWLINE);
+		sb.append("Servicecode:").append(servicecode).append(Constants.NEWLINE);
+		sb.append("SendAddress:").append(sendAddress).append(Constants.NEWLINE);
+		sb.append("RecipientAddress:").append(recipientAddress).append(
+				Constants.NEWLINE);
+		sb.append("LinkedId:").append(linkid).append(Constants.NEWLINE);
+		sb.append("DateTime:").append(recvTime).append(Constants.NEWLINE);
+		sb.append("Subject:").append(subject).append(Constants.NEWLINE);
+		sb.append("Content:").append(content).append(Constants.NEWLINE);
+		return sb.toString();
+
 	}
 
 }
