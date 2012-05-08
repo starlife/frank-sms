@@ -11,12 +11,14 @@ public class UMms implements java.io.Serializable
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Long mmsid;
 	private String subject;
 	private String recipient;
-	private Float mmsSize;
-	private Integer frames;
 	private String sendtime;
 	private Integer status;
 
@@ -27,15 +29,23 @@ public class UMms implements java.io.Serializable
 	{
 	}
 
+	/** minimal constructor */
+	public UMms(String subject, String recipient, String sendtime,
+			Integer status)
+	{
+		this.subject = subject;
+		this.recipient = recipient;
+		this.sendtime = sendtime;
+		this.status = status;
+	}
+
 	/** full constructor */
-	public UMms(Long mmsid, String subject, String recipient, Float mmsSize,
-			Integer frames, String sendtime, Integer status)
+	public UMms(Long mmsid, String subject, String recipient,
+			String sendtime, Integer status)
 	{
 		this.mmsid = mmsid;
 		this.subject = subject;
 		this.recipient = recipient;
-		this.mmsSize = mmsSize;
-		this.frames = frames;
 		this.sendtime = sendtime;
 		this.status = status;
 	}
@@ -80,26 +90,6 @@ public class UMms implements java.io.Serializable
 	public void setRecipient(String recipient)
 	{
 		this.recipient = recipient;
-	}
-
-	public Float getMmsSize()
-	{
-		return this.mmsSize;
-	}
-
-	public void setMmsSize(Float mmsSize)
-	{
-		this.mmsSize = mmsSize;
-	}
-
-	public Integer getFrames()
-	{
-		return this.frames;
-	}
-
-	public void setFrames(Integer frames)
-	{
-		this.frames = frames;
 	}
 
 	public String getSendtime()
