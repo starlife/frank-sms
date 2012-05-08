@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+
+	<package name="struts2" extends="struts-default">
+		<!-- 设置自定义图片返回类型 -->
+		<result-types>
+			<result-type name="ValidateImage" class="com.frank.ylear.modules.image.ImageResult" />
+		</result-types>
+		
+		<interceptors>
+			<interceptor name="sessionout"  
+                class="com.frank.ylear.common.interceptor.SessionInterceptor">
+            </interceptor>
+            <!-- 设置自定义拦截器栈，添加登陆session过期拦截器功能 -->
+            <interceptor-stack name="mydefault">  
+           		<interceptor-ref name="defaultStack" />  
+           		<interceptor-ref name="sessionout" /> 
+            </interceptor-stack>  
+            
+            <interceptor-stack name="mybasic">  
+           		<interceptor-ref name="basicStack" />  
+           		<interceptor-ref name="sessionout" /> 
+            </interceptor-stack>  
+        </interceptors> 
+        <!-- <default-interceptor-ref name="mydefault"/> -->
+          
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="success">/jsp/global/success.jsp</result>
+			<result name="error">/jsp/global/error.jsp</result>		
+		</global-results>
+		
+		
+	
+        <!-- If no class attribute is specified the framework will assume success and 
+        render the result index.jsp -->
+        <!-- If no name value for the result node is specified the success value is the default -->
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		
+		<!--定义生成验证码 action--> 
+		<action name="genValidateImage" class="com.frank.ylear.modules.image.ImageAction" method="default">
+			<result name="image" type="ValidateImage" />
+		</action>
+		
+		<!--登录 action--> 
+		<action name="loginAction" class="com.frank.ylear.modules.user.action.UserAction" method="login">
+	    	<result name="input">/login.jsp</result>
+	    	<result name="success" type="redirectAction">homeAction</result>
+	    	<result name="index" type="redirect">/login.jsp</result>
+	    </action>
+	    <action name="logoutAction" class="com.frank.ylear.modules.user.action.UserAction" method="logout">
+	    	<result name="index" type="redirect">/login.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
+	    <action name="changePasswordAction" class="com.frank.ylear.modules.user.action.UserAction" method="changePassword">
+	    	<result name="input">/jsp/user/changePassword.jsp</result>
+	    	<result name="error">/jsp/user/changePasswordERROR.jsp</result>
+	    	<result name="success">/jsp/user/changePasswordOK.jsp</result>
+	    </action>
+	    
+		<!--框架 action--> 
+	    <action name="homeAction" class="com.frank.ylear.modules.home.action.HomeAction" method="main">
+	    	<result name="main">main.jsp</result>
+	    	<result name="header">/jsp/home/header.jsp</result>
+	    	<result name="menu">/jsp/home/menu.jsp</result>
+	    	<result name="welcome">/jsp/home/welcome.jsp</result>
+	    	<result name="footer">/jsp/home/footer.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <!--用户操作 action--> 
+	    <action name="listUser" class="com.frank.ylear.modules.user.action.UserAction" method="list">
+	    	<result name="success">/jsp/user/userList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <action name="delUser" class="com.frank.ylear.modules.user.action.UserAction" method="del">
+	    	<result name="success" type="redirectAction">listUser</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <action name="crudUser" class="com.frank.ylear.modules.user.action.UserAction" method="input">
+	    	<result name="input">/jsp/user/userForm.jsp</result>
+	    	<result name="success" type="redirectAction">listUser</result>
+	    </action>
+	    
+	    <!-- 通讯类管理 action--> 
+	    <action name="listAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="list">
+	    	<result name="success">/jsp/address/addressList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
+	    <action name="listCustomAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="listCustom">
+	    	<result name="success">/jsp/address/customAddressList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
+	     <action name="delAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="del">
+	    	<result name="success" type="redirectAction">listAddress</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
+	    <action name="crudAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="input">
+	    	<result name="input">/jsp/address/addressForm.jsp</result>
+	    	<result name="success" type="redirectAction">listAddress</result>
+	    	<!--<result name="error">/jsp/address/error.jsp</result>
+	    	<result name="list1">/jsp/address/list1.jsp</result>-->
+	    </action>
+	    
+	    <!--短信管理 action--> 
+	    <action name="listSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="list">
+	    	<result name="success">/jsp/sms/smsList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>  
+	     <action name="delSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="del">
+	    	<result name="success" type="redirectAction">listSms</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>  
+	    <action name="crudSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="input">
+	    	<result name="input">/jsp/sms/smsForm.jsp</result>
+	    	<result name="success" type="redirectAction">listSms</result>
+	    </action>
+	    
+	    <!--彩信管理 action--> 
+	    <action name="listMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="list">
+	    	<result name="success">/jsp/mms/mmsList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	     <action name="delMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="del">
+	    	<result name="success" type="redirectAction">listMms</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <action name="crudMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="input">
+	    	<result name="input">/jsp/mms/mmsForm.jsp</result>
+	    	<result name="success" type="redirectAction">listMms</result>
+	    </action>
+	    <!-- 彩信编辑器 -->
+	    <action name="mmsEditor" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="execute">
+	    	<result name="input">jsp/mms/ui.jsp</result>
+	    	<result name="showui">jsp/mms/ui.jsp</result>
+	    	<result name="success">/jsp/mms/mmseditor.jsp</result>
+	    </action>
+	    
+	     <action name="showMms" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="showMms">
+	    	<result name="success">/jsp/mms/mmsshow.jsp</result>
+	    </action>
+	    
+	     <!-- 彩信发送分析工具 -->
+	     <action name="mmsAnalysis" class="com.frank.ylear.modules.mms.action.MmsAnalysisAction" method="list">
+	    	<result name="success">/jsp/mms/analysisList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <action name="delMmsSubmit" class="com.frank.ylear.modules.mms.action.MmsAnalysisAction" method="del">
+	    	<result name="success" type="redirectAction">mmsAnalysis</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
+	    <action name="actionTagAction" 
+		class="test.ActionTagAction" >
+		<result name="success">/action.jsp</result>
+	</action>
+ 
+	<action name="sayHelloAction" 
+		class="test.ActionTagAction"    
+                method="sayHello">
+ 
+		<result name="sayHello">/sayHello.jsp</result>
+		<result name="sayStruts2">/sayStruts2.jsp</result>
+		<result name="saySysOut">/saySysOut.jsp</result>
+	</action>
+ 
+	    
+
+	</package>
+
+</struts>

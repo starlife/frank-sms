@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+		</property>
+		<property name="url"
+			value="jdbc:sqlserver://127.0.0.1:1433;databaseName=lyear">
+		</property>
+		<property name="username" value="sa"></property>
+		<property name="password" value="root"></property>	
+		
+	</bean>
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>			
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<!-- user module -->
+				<value>com/frank/ylear/modules/user/entity/SysUser.hbm.xml</value>
+				<value>com/frank/ylear/modules/user/entity/SysRole.hbm.xml</value>
+				<value>com/frank/ylear/modules/user/entity/SysRoleRight.hbm.xml</value>
+				<value>com/frank/ylear/modules/user/entity/SysRight.hbm.xml</value>		
+				<!-- address module -->
+				<value>com/frank/ylear/modules/phoneaddress/entity/UPhoneaddress.hbm.xml</value>
+				<!-- sms module -->
+				<value>com/frank/ylear/modules/sms/entity/USms.hbm.xml</value>
+				<!-- mms module -->
+				<value>com/frank/ylear/modules/mms/entity/MmsFile.hbm.xml</value>
+				<value>com/frank/ylear/modules/mms/entity/UploadFile.hbm.xml</value>
+				<value>com/frank/ylear/modules/mms/entity/UMms.hbm.xml</value>
+				<value>com/frank/ylear/modules/mms/entity/SLogMmssubmit.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 1. DAO -->
+	<bean id="baseDao"
+		class="com.frank.ylear.modules.base.dao.impl.BaseDaoImpl">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+	
+	<!-- 2. Service -->
+	<bean id="baseService" class="com.frank.ylear.modules.base.service.BaseService" abstract="true">
+		<property name="baseDao" ref="baseDao"/>
+	</bean>
+	<bean id="userService"
+		class="com.frank.ylear.modules.user.service.impl.UserServiceImpl" parent="baseService">
+	</bean>
+	<bean id="addressService"
+		class="com.frank.ylear.modules.phoneaddress.service.impl.AddressServiceImpl" parent="baseService">
+	</bean>
+	<bean id="smsService"
+		class="com.frank.ylear.modules.sms.service.impl.SmsServiceImpl" parent="baseService">
+	</bean>
+	<bean id="mmsService"
+		class="com.frank.ylear.modules.mms.service.impl.MmsServiceImpl" parent="baseService">
+	</bean>
+	<bean id="mmsFileService"
+		class="com.frank.ylear.modules.mms.service.impl.MmsFileServiceImpl" parent="baseService">
+	</bean>
+	<bean id="mmsAnalysisService"
+		class="com.frank.ylear.modules.mms.service.impl.MmsAnalysisServiceImpl" parent="baseService">
+	</bean>
+	
+	
+	<!-- <bean name="addressAction" class="com.frank.ylear.modules.phoneaddress.action.AddressAction">
+		<property name="addressService">
+			<ref bean="addressService" />
+		</property>
+	</bean>
+	<bean name="smsAction" class="com.frank.ylear.modules.sms.action.SmsAction">
+		<property name="smsService">
+			<ref bean="smsService" />
+		</property>
+	</bean>
+	<bean name="mmsAction" class="com.frank.ylear.modules.mms.action.MmsAction">
+		<property name="mmsService">
+			<ref bean="mmsService" />
+		</property>
+	</bean>
+	<bean name="mmsFileAction" class="com.frank.ylear.modules.mms.action.MmsFileAction">
+		<property name="mmsFileService">
+			<ref bean="mmsFileService" />
+		</property>
+	</bean>
+	<bean name="/role" class="com.frank.ylear.modules.y272.team0.web.action.RoleAction">
+		<property name="roleBiz">
+			<ref bean="roleBiz" />
+		</property>
+	</bean>
+	
+	<bean name="/login" class="com.frank.ylear.modules.user.action.LoginAction" singleton="false">
+        <property name="loginManager">
+            <ref bean="loginManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addOperator" class="com.frank.ylear.modules.user.action.AddOperatorAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/resource" class="com.frank.ylear.modules.user.action.ResourceAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/editCharge" class="com.frank.ylear.modules.user.action.EditChargeAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/editChargeRule" class="com.frank.ylear.modules.user.action.EditChargeRuleAction" singleton="false">
+        <property name="adminOperatorManager">
+            <ref bean="adminOperatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addCustomer" class="com.frank.ylear.modules.user.action.AddCustomerAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean>
+    
+    <bean name="/addUser" class="com.frank.ylear.modules.user.action.AddUserAction" singleton="false">
+        <property name="operatorManager">
+            <ref bean="operatorManager"/>
+        </property>
+    </bean> -->
+	</beans>
