@@ -19,8 +19,8 @@
         <property name="smilname" type="java.lang.String">
             <column name="smilname" length="100" not-null="true" />
         </property>
-        <property name="smildate" type="java.lang.String">
-            <column name="smildate" length="1073741823" not-null="true" />
+        <property name="smildata" type="java.lang.String">
+            <column name="smildata" length="1073741823" not-null="true" />
         </property>
         <property name="smilsize" type="java.lang.Long">
             <column name="smilsize" scale="0" not-null="true" />
