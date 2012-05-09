@@ -1,6 +1,5 @@
 package com.frank.ylear.modules.mms.entity;
 
-import java.util.Date;
 /**
  * UMms entity.
  * 
@@ -12,22 +11,20 @@ public class UMms implements java.io.Serializable
 
 	// Fields
 
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private MmsFile mmsFile;
 	private String subject;
 	private String recipient;
-	private Date sendtime;
+	private String sendtime;
 	private Integer status;
+
 	// 自定义类型
-	
+
 	private String beginTime;
 	private String endTime;
-	
-	private String sendtimeStr;
-	
-	// Constructors
 
-	
+	// Constructors
 
 	/** default constructor */
 	public UMms()
@@ -35,7 +32,7 @@ public class UMms implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public UMms(String subject, String recipient, Date sendtime,
+	public UMms(String subject, String recipient, String sendtime,
 			Integer status)
 	{
 		this.subject = subject;
@@ -46,7 +43,7 @@ public class UMms implements java.io.Serializable
 
 	/** full constructor */
 	public UMms(MmsFile mmsFile, String subject, String recipient,
-			Date sendtime, Integer status)
+			String sendtime, Integer status)
 	{
 		this.mmsFile = mmsFile;
 		this.subject = subject;
@@ -97,13 +94,12 @@ public class UMms implements java.io.Serializable
 		this.recipient = recipient;
 	}
 
-	
-	public Date getSendtime()
+	public String getSendtime()
 	{
 		return this.sendtime;
 	}
 
-	public void setSendtime(Date sendtime)
+	public void setSendtime(String sendtime)
 	{
 		this.sendtime = sendtime;
 	}
@@ -138,13 +134,4 @@ public class UMms implements java.io.Serializable
 		this.endTime = endTime;
 	}
 
-	public String getSendtimeStr()
-	{
-		return sendtimeStr;
-	}
-
-	public void setSendtimeStr(String sendtimeStr)
-	{
-		this.sendtimeStr = sendtimeStr;
-	}
 }
