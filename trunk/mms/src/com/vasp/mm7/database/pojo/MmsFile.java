@@ -23,7 +23,7 @@ public class MmsFile implements java.io.Serializable
 	private String mmsName;
 	private Integer frames;
 	private String smilname;
-	private String smildate;
+	private String smildata;
 	private Long smilsize;
 	private Long mmsSize;
 	private String createtime;
@@ -38,25 +38,25 @@ public class MmsFile implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public MmsFile(Integer frames, String smilname, String smildate,
+	public MmsFile(Integer frames, String smilname, String smildata,
 			Long smilsize, Long mmsSize)
 	{
 		this.frames = frames;
 		this.smilname = smilname;
-		this.smildate = smildate;
+		this.smildata = smildata;
 		this.smilsize = smilsize;
 		this.mmsSize = mmsSize;
 	}
 
 	/** full constructor */
 	public MmsFile(String mmsName, Integer frames, String smilname,
-			String smildate, Long smilsize, Long mmsSize, String createtime,
+			String smildata, Long smilsize, Long mmsSize, String createtime,
 			Set<UploadFile> uploadFiles)
 	{
 		this.mmsName = mmsName;
 		this.frames = frames;
 		this.smilname = smilname;
-		this.smildate = smildate;
+		this.smildata = smildata;
 		this.smilsize = smilsize;
 		this.mmsSize = mmsSize;
 		this.createtime = createtime;
@@ -105,14 +105,14 @@ public class MmsFile implements java.io.Serializable
 		this.smilname = smilname;
 	}
 
-	public String getSmildate()
+	public String getSmildata()
 	{
-		return this.smildate;
+		return this.smildata;
 	}
 
-	public void setSmildate(String smildate)
+	public void setSmildata(String smildata)
 	{
-		this.smildate = smildate;
+		this.smildata = smildata;
 	}
 
 	public Long getSmilsize()
@@ -182,7 +182,7 @@ public class MmsFile implements java.io.Serializable
 		sb.append("MmsName:" + mmsName + "\r\n");
 		sb.append("Frames:" + frames + "\r\n");
 		sb.append("Smilname:" + smilname + "\r\n");
-		sb.append("Smildate:" + smildate + "\r\n");
+		sb.append("Smildate:" + smildata + "\r\n");
 		sb.append("Smilsize:" + smilsize + "\r\n");
 		sb.append("MmsSize:" + mmsSize + "\r\n");
 		sb.append("Createtime:" + createtime + "\r\n");
