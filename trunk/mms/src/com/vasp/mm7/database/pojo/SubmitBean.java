@@ -50,51 +50,51 @@ public class SubmitBean implements java.io.Serializable
 
 	/** minimal constructor */
 	public SubmitBean(String messageid, String transactionid,
-			String mm7version, String toAddress, String subject, String vaspid,
-			String vasid, String servicecode, Integer statuscode,
-			String statustext, Integer isdeliverreport, Integer isreadreply)
+			String senderAddress, String toAddress, String subject,
+			String vaspid, String vasid, String serviceCode, String sendtime,
+			Integer status)
 	{
 		this.messageid = messageid;
 		this.transactionid = transactionid;
-		this.mm7version = mm7version;
+		this.senderAddress = senderAddress;
 		this.toAddress = toAddress;
 		this.subject = subject;
 		this.vaspid = vaspid;
 		this.vasid = vasid;
-		this.serviceCode = servicecode;
-		this.status = statuscode;
-		this.statusText = statustext;
+		this.serviceCode = serviceCode;
+		this.sendtime = sendtime;
+		this.status = status;
 	}
 
 	/** full constructor */
 	public SubmitBean(String messageid, String transactionid,
-			String mm7version, String toAddress, String ccAddress,
-			String bccAddress, String subject, String sendtime, String vaspid,
-			String vasid, String servicecode, String linkedid,
-			Integer statuscode, String statustext, Integer isdeliverreport,
-			Integer isreadreply, String deliverreportTime, Integer mmstatus,
-			String mmstatustext, String readyreplyTime, Integer readstatus,
-			String readstatustext, Long ummsid)
+			String mm7version, String senderAddress, String toAddress,
+			String subject, String vaspid, String vasid, String serviceCode,
+			String linkid, String sendtime, Integer status, String statusText,
+			String reportTime, Integer mmStatus, String mmStatusText,
+			String readyTime, Integer readStatus, String readStatusText,
+			Long sessionid)
 	{
 		this.messageid = messageid;
 		this.transactionid = transactionid;
 		this.mm7version = mm7version;
+		this.senderAddress = senderAddress;
 		this.toAddress = toAddress;
 		this.subject = subject;
-		this.sendtime = sendtime;
 		this.vaspid = vaspid;
 		this.vasid = vasid;
-		this.serviceCode = servicecode;
-		this.linkid = linkedid;
-		this.status = statuscode;
-		this.statusText = statustext;
-		this.reportTime = deliverreportTime;
-		this.mmStatus = mmstatus;
-		this.mmStatusText = mmstatustext;
-		this.readyTime = readyreplyTime;
-		this.readStatus = readstatus;
-		this.readStatusText = readstatustext;
-		this.sessionid = ummsid;
+		this.serviceCode = serviceCode;
+		this.linkid = linkid;
+		this.sendtime = sendtime;
+		this.status = status;
+		this.statusText = statusText;
+		this.reportTime = reportTime;
+		this.mmStatus = mmStatus;
+		this.mmStatusText = mmStatusText;
+		this.readyTime = readyTime;
+		this.readStatus = readStatus;
+		this.readStatusText = readStatusText;
+		this.sessionid = sessionid;
 	}
 
 	public Long getId()
