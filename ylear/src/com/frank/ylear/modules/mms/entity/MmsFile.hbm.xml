@@ -16,20 +16,20 @@
         <property name="frames" type="java.lang.Integer">
             <column name="frames" not-null="true" />
         </property>
-        <property name="contentSmil" type="java.lang.String">
-            <column name="content_smil" not-null="true" />
-        </property>
         <property name="smilname" type="java.lang.String">
             <column name="smilname" length="100" not-null="true" />
         </property>
-        <property name="contentSize" type="java.lang.Integer">
-            <column name="content_size" not-null="true" />
+        <property name="smildata" type="java.lang.String">
+            <column name="smildata" length="1073741823" not-null="true" />
         </property>
-        <property name="mmsSize" type="java.lang.Integer">
-            <column name="mms_size"/>
+        <property name="smilsize" type="java.lang.Long">
+            <column name="smilsize" scale="0" not-null="true" />
         </property>
-        <property name="createtime" type="java.util.Date">
-            <column name="createtime" length="23" />
+        <property name="mmsSize" type="java.lang.Long">
+            <column name="mms_size" scale="0" not-null="true" />
+        </property>
+        <property name="createtime" type="java.lang.String">
+            <column name="createtime" length="14" />
         </property>
         <set name="UMmses" inverse="true">
             <key>
@@ -37,7 +37,7 @@
             </key>
             <one-to-many class="com.frank.ylear.modules.mms.entity.UMms" />
         </set>
-        <set name="uploadFiles" inverse="false" cascade="all">
+        <set name="uploadFiles" inverse="false" cascade="all" lazy="false">
             <key>
                 <column name="mmsid" scale="0" />
             </key>
