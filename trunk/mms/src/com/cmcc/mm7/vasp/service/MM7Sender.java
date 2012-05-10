@@ -10,15 +10,20 @@ import java.net.*;
 import java.util.*;
 import java.text.*;
 import sun.misc.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdom.*;
 import org.jdom.input.*;
 import java.security.*;
 import com.cmcc.mm7.vasp.common.*;
 import com.cmcc.mm7.vasp.conf.*;
 import com.cmcc.mm7.vasp.message.*;
+import com.vasp.mm7.frame.Sender;
 
 public class MM7Sender
 {
+	private static final Log log = LogFactory.getLog(MM7Sender.class);
   private MM7Config mm7Config;
   private BufferedOutputStream sender;
   private BufferedInputStream receiver;
@@ -906,9 +911,13 @@ public class MM7Sender
       ////////
       sender.write(sendbaos.toByteArray());
       sender.flush();
+      log.debug("before receiveMessge");
       if(this.receiveMessge())
       {
+    	  log.debug("after receiveMessge");
+    	  log.debug("before parseXML");
         res = parseXML();
+        log.debug("after parseXML");
         return res;
       }
       else
@@ -925,7 +934,9 @@ public class MM7Sender
       this.TimeOutFlag = true;
           sendBaos = getSendMessage(this.TimeOutbCount);
           if (sendBaos != null) {
+        	 log.debug("before SendandReceiveMessage");
             res = SendandReceiveMessage(sendBaos);
+            log.debug("end SendandReceiveMessage");
             if(res!=null)
             {
               this.TimeOutFlag = false;
