@@ -34,6 +34,7 @@ public class Sender extends Thread
 	private static final Log log = LogFactory.getLog(Sender.class);
 
 	private static final Log db = LogFactory.getLog("db");
+	private static final Log lose = LogFactory.getLog("lose");//保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
@@ -69,18 +70,28 @@ public class Sender extends Thread
 
 	public void run()
 	{
+		log.info("正在启动发送线程。。。");
 		while (!stop)
 		{
-			// 取彩信并发送
-			MM7SubmitReq submitMsg = this.doSubmit();
-			if (submitMsg != null)
+			try
 			{
-				// 发送
-				MM7RSRes res = sender.send(submitMsg);
-				log.info("res.statuscode=" + res.getStatusCode()
-						+ ";res.statusText=" + res.getStatusText());
-				// 写数据库日志
-				dealSubmit(submitMsg, res);
+				// 取彩信并发送
+				MM7SubmitReq submitMsg = this.doSubmit();
+				if (submitMsg != null)
+				{
+					// 发送
+					log.debug("发送前");
+					MM7RSRes res = sender.send(submitMsg);
+					log.debug("发送后");
+					log.info("res.statuscode=" + res.getStatusCode()
+							+ ";res.statusText=" + res.getStatusText());
+					// 写数据库日志
+					dealSubmit(submitMsg, res);
+				}
+			}
+			catch(Exception ex)
+			{
+				log.error(null,ex);
 			}
 		}
 	}
@@ -127,7 +138,7 @@ public class Sender extends Thread
 							content);
 					submitReq.addTo(numbers[j]);
 					que.add(submitReq);
-
+					//处理session
 					synchronized (sessionMap)
 					{
 						// 如果sessionMap大于100000，说明程序有错误，需要清理
@@ -152,39 +163,39 @@ public class Sender extends Thread
 	 */
 	public void dealSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
 	{
-		String trasactionid = submitMsg.getTransactionID();
-		// 从sessionMap取得对应关系的ummsid
-		Long sessionid = null;
-		synchronized (Sender.sessionMap)
-		{
-			sessionid = Sender.sessionMap.remove(trasactionid);
-		}
-
-		String messageid = null;
 		if (res instanceof MM7SubmitRes)
 		{
 			MM7SubmitRes submitRes = (MM7SubmitRes) res;
-			messageid = submitRes.getMessageID();
+			String messageid = submitRes.getMessageID();
+			String trasactionid = submitMsg.getTransactionID();
+			// 从sessionMap取得对应关系的ummsid
+			Long sessionid = null;
+			synchronized (sessionMap)
+			{
+				sessionid = sessionMap.remove(trasactionid);
+			}
+			SubmitBean submitBean = new SubmitBean();
+			submitBean.setMessageid(messageid);
+			submitBean.setTransactionid(trasactionid);
+			submitBean.setMm7version(submitMsg.getMM7Version());
+			submitBean.setToAddress((String) submitMsg.getTo().get(0));
+			submitBean.setSubject(submitMsg.getSubject());
+			submitBean.setSendtime(DateUtils.getTimestamp14());
+			submitBean.setVaspid(submitMsg.getVASPID());
+			submitBean.setVasid(submitMsg.getVASID());
+			submitBean.setServiceCode(submitMsg.getServiceCode());
+			submitBean.setLinkid(submitMsg.getLinkedID());
+			submitBean.setStatus(res.getStatusCode());
+			submitBean.setStatusText(res.getStatusText());
+			submitBean.setSessionid(sessionid);
+			db.info(submitBean);
 
+
+		}else
+		{
+			lose.error("处理"+submitMsg+"时收到错误回应包 "+res);
 		}
-		SubmitBean submitBean = new SubmitBean();
-		submitBean.setTransactionid(trasactionid);
-		submitBean.setMm7version(submitMsg.getMM7Version());
-		submitBean.setToAddress((String) submitMsg.getTo().get(0));
-		// submitBean.setCcAddress(submitMsg.getCc());
-		// submitBean.setBccAddress(submitMsg.getBcc());
-		submitBean.setSubject(submitMsg.getSubject());
-		submitBean.setSendtime(DateUtils.getTimestamp14(submitMsg
-				.getTimeStamp()));
-		submitBean.setVaspid(submitMsg.getVASPID());
-		submitBean.setVasid(submitMsg.getVASID());
-		submitBean.setServiceCode(submitMsg.getServiceCode());
-		submitBean.setLinkid(submitMsg.getLinkedID());
-		submitBean.setStatus(res.getStatusCode());
-		submitBean.setStatusText(res.getStatusText());
-		submitBean.setSessionid(sessionid);
-		submitBean.setMessageid(messageid);
-		db.info(submitBean);
+		
 		// ummsDao.save(submitBean);
 		/*
 		 * for(int i=0;i<submitMsg.getTo().size();i++) { SLogMmssubmit
@@ -239,7 +250,7 @@ public class Sender extends Thread
 		MM7SubmitReq submitReq = new MM7SubmitReq();
 		submitReq.setTransactionID(trasactionid);
 		// submitReq.addTo("13915002000");
-		submitReq.setVASID("895192");
+		submitReq.setVASPID("895192");
 		submitReq.setVASID("106573061704");
 		submitReq.setServiceCode("1113329901");
 		submitReq.setSubject(subject);
@@ -260,7 +271,7 @@ public class Sender extends Thread
 		MMContent content = new MMContent();
 		content.setContentType(MMConstants.ContentType.MULTIPART_MIXED);
 		// 添加smil和各个附件
-		MMContent subSmil = MMContent.createFromString(mmsFile.getSmildate());
+		MMContent subSmil = MMContent.createFromString(mmsFile.getSmildata());
 		subSmil.setContentID(mmsFile.getSmilname());
 		subSmil.setContentType(MMConstants.ContentType.SMIL);
 		content.addSubContent(subSmil);
