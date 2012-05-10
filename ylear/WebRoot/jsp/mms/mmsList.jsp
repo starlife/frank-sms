@@ -95,7 +95,7 @@
 				<td ><s:text name="global.format.size.k">
 					<s:param value="mmsFile.mmsSize/1024.0" /></s:text></td>
 				<td ><s:property value="mmsFile.frames" default=" "/></td>
-				<td ><s:date name="sendtime" format="yyyy-MM-dd hh:mm:ss"/><br></td>
+				<td ><s:property value="sendtime" default=" "/></td>
 				<td >
 					<s:if test="status==0">未发送</s:if>
 					<s:else>已发送</s:else>
@@ -124,11 +124,12 @@
 				</td>
 			</tr>
 		</s:iterator>
-		<s:if test="#request.page.list.size()==0">
-		<tr><td style="text-align:center;height:40px;">没有记录</td></tr>
-		</s:if> 
 		</tbody>
 		</table>
+		<s:if test="#request.page.list.size()==0">
+		<table><tr ><td style="text-align:center;height:40px;">没有记录</td></tr></table>
+		</s:if> 
+		
 	</div>
   	
 		<jb:pager/>
