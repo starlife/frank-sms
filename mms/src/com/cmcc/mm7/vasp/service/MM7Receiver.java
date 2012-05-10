@@ -11,6 +11,10 @@ import java.text.*;
 import java.util.*;
 import sun.misc.*;
 import java.security.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.cmcc.mm7.vasp.message.*;
 import com.cmcc.mm7.vasp.conf.*;
 import com.cmcc.mm7.vasp.common.*;
@@ -18,6 +22,7 @@ import util.concurrent.*;
 
 public class MM7Receiver implements MM7AbstractReceiver
 {
+	private static final Log log = LogFactory.getLog(MM7Receiver.class);
   protected MM7Config Config;
   private int port;
   private InetAddress ip;
@@ -163,6 +168,7 @@ public class MM7Receiver implements MM7AbstractReceiver
   {
     try{
       SSocket = new ServerSocket(port,BackLog,ip);
+      log.info("监听端口："+SSocket.getLocalSocketAddress());
     }catch(UnknownHostException uhe){
       System.err.println("该计算机没有连接上DNS服务器或主机没有找到！"+uhe);
       SevereBuffer.append("[该计算机没有连接上DNS服务器或主机没有找到！"+uhe+"]");
@@ -209,6 +215,7 @@ public class MM7Receiver implements MM7AbstractReceiver
                 if(!SSocket.isClosed())
                 {
                   CSocket = SSocket.accept();
+                  log.debug("收到客户端连接："+CSocket.getRemoteSocketAddress());
                   ServiceConnect(CSocket, 1);
                   /*poolexe.execute(new Runnable() {
                     public void run() {
