@@ -26,7 +26,7 @@ public class MM7Receiver implements MM7AbstractReceiver
   protected MM7Config Config;
   private int port;
   private InetAddress ip;
-  private int maxLongLinkNumber;
+  //private int maxLongLinkNumber;
   private Thread ListenThread = null;
   private ServerSocket SSocket;
   private int BackLog;
@@ -55,7 +55,7 @@ public class MM7Receiver implements MM7AbstractReceiver
   {
     reset();
     port = 80;
-    maxLongLinkNumber = 20;
+    //maxLongLinkNumber = 20;
     BackLog = 50;
     try{
       ip = InetAddress.getLocalHost();
@@ -71,7 +71,7 @@ public class MM7Receiver implements MM7AbstractReceiver
   private void reset()
   {
     port = 80;
-    maxLongLinkNumber = 20;
+    //maxLongLinkNumber = 20;
     BackLog = 50;
     Finerbaos = new ByteArrayOutputStream();
     TempBuffer = new StringBuffer();
@@ -101,7 +101,7 @@ public class MM7Receiver implements MM7AbstractReceiver
       this.setLongLink(true);
     else
       this.setLongLink(false);
-    maxLongLinkNumber = pool.getServerMaxSize();
+    //maxLongLinkNumber = pool.getServerMaxSize();
     port = Config.getListenPort();
     try{
       ip = InetAddress.getByName(Config.getListenIP());
@@ -150,7 +150,7 @@ public class MM7Receiver implements MM7AbstractReceiver
       this.setLongLink(true);
     else
       this.setLongLink(false);
-    maxLongLinkNumber = pool.getServerMaxSize();
+    //maxLongLinkNumber = pool.getServerMaxSize();
     port = Config.getListenPort();
     try{
       ip = InetAddress.getByName(Config.getListenIP());
