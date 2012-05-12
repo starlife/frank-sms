@@ -1,15 +1,12 @@
 /**
- * File Name:MM7Sender.java Company: 中国移动集团公司 Date : 2004-1-17
+ * File Name:MM7Sender.java Company: 中国移动2011
  */
-
 package com.cmcc.mm7.vasp.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.Socket;
@@ -18,13 +15,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,76 +49,50 @@ public class MM7Sender1
 	private MM7Config mm7Config;
 	private BufferedOutputStream sender;
 	private BufferedInputStream receiver;
-	private StringBuffer sb;
 	private StringBuffer beforAuth;
 	private String AuthInfor;
-	private String DigestInfor;
+	//private String DigestInfor;
 	private StringBuffer afterAuth;
 	private StringBuffer entityBody;
-	private MM7RSRes res;
-	private ByteArrayOutputStream baos;
 	private ConnectionPool pool;
 	private ConnectionWrap connWrap;
 	private int ResendCount;
 	private Socket client;
 	private int ReadTimeOutCount = 0;
-	private ByteArrayOutputStream sendBaos;
-	private StringBuffer FinerBuffer;
-	private ByteArrayOutputStream Severebaos;
-	private ByteArrayOutputStream Infobaos;
-	private ByteArrayOutputStream Finerbaos;
-	private long LogTimeBZ;
-	private long SameMinuteTime;
-	private int N;
-	private SimpleDateFormat sdf;
-	private DecimalFormat df;
-	private String logFileName;
+	//private ByteArrayOutputStream sendBaos;
 	private byte[] TimeOutbCount;
-	private ConnectionWrap TimeOutWrap;
-	private boolean TimeOutFlag;
-	public int tempnum = 0;
+	
+	
+
 
 	public MM7Sender1() // 构造方法
 	{
 		reset();
 	}
 
+	
 	private void reset()
 	{
-		File f;
+		// File f;
 		mm7Config = new MM7Config();
 		sender = null;
 		receiver = null;
 		AuthInfor = "";
-		DigestInfor = "";
-		sb = new StringBuffer();
-		beforAuth = new StringBuffer();
+		//beforAuth = new StringBuffer();
 		afterAuth = new StringBuffer();
 		entityBody = new StringBuffer();
-		res = new MM7RSRes();
-		baos = new ByteArrayOutputStream();
+		// res = new MM7RSRes();
 		ResendCount = 0;
 		connWrap = null;
 		// Modify by hudm 2004-06-09
 		// pool = ConnectionPool.getInstance();
-		pool = new ConnectionPool();
+		pool = ConnectionPool.getInstance();
 		// /end Modify by hudm 2004-06-09
 		client = null;
-		sendBaos = new ByteArrayOutputStream();
-		FinerBuffer = new StringBuffer();
-		Severebaos = new ByteArrayOutputStream();
-		Infobaos = new ByteArrayOutputStream();
-		Finerbaos = new ByteArrayOutputStream();
-		LogTimeBZ = System.currentTimeMillis();
-		SameMinuteTime = System.currentTimeMillis();
-		N = 1;
-		sdf = new SimpleDateFormat("yyyyMMddHHmm");
-		df = new DecimalFormat();
-		df.applyLocalizedPattern("0000");
-		logFileName = "";
+		
+
 		TimeOutbCount = null;
-		TimeOutWrap = null;
-		TimeOutFlag = false;
+		
 	}
 
 	/** 构造方法 */
@@ -149,29 +114,13 @@ public class MM7Sender1
 		return (mm7Config);
 	}
 
-	private void setSameMinuteTime(long time)
-	{
-		SameMinuteTime = time;
-	}
-
-	private long getSameMinuteTime()
-	{
-		return SameMinuteTime;
-	}
-
 	public MM7RSRes send(MM7VASPReq mm7VASPReq) // 发送消息
 	{
-		tempnum++;
-		sb = new StringBuffer();
+		MM7RSRes res = null;
+		//tempnum++;
 		beforAuth = new StringBuffer();
 		afterAuth = new StringBuffer();
 		entityBody = new StringBuffer();
-		sendBaos = new ByteArrayOutputStream();
-		FinerBuffer = new StringBuffer();
-
-		this.Severebaos = new ByteArrayOutputStream();
-		this.Finerbaos = new ByteArrayOutputStream();
-		this.Infobaos = new ByteArrayOutputStream();
 
 		sender = null;
 		receiver = null;
@@ -180,11 +129,11 @@ public class MM7Sender1
 		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		if (mm7VASPReq == null)
 		{
-			MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
-			ErrorRes.setStatusCode(-105);
-			ErrorRes.setStatusText("待发送的消息为空!");
-			log.error(LogHelper.logRSErrorRes(ErrorRes));
-			return ErrorRes;
+			res = new MM7RSErrorRes();
+			res.setStatusCode(-105);
+			res.setStatusText("待发送的消息为空!");
+			log.error(LogHelper.logRSErrorRes((MM7RSErrorRes) res));
+			return res;
 		}
 		try
 		{
@@ -214,9 +163,9 @@ public class MM7Sender1
 			if (mm7VASPReq instanceof MM7SubmitReq)
 			{
 				MM7SubmitReq submitReq = (MM7SubmitReq) mm7VASPReq;
-				
+
 				log.info(LogHelper.logSubmitReq(submitReq));
-				
+
 				if (submitReq.isContentExist())
 					beforAuth
 							.append("Content-Type:multipart/related; boundary=\"--NextPart_0_2817_24856\";"
@@ -229,9 +178,9 @@ public class MM7Sender1
 			else if (mm7VASPReq instanceof MM7ReplaceReq)
 			{
 				MM7ReplaceReq replaceReq = (MM7ReplaceReq) mm7VASPReq;
-				
+
 				log.info(LogHelper.logReplaceReq(replaceReq));
-				
+
 				if (replaceReq.isContentExist())
 					beforAuth
 							.append("Content-Type:multipart/related; boundary=\"--NextPart_0_2817_24856\";"
@@ -243,9 +192,9 @@ public class MM7Sender1
 			else if (mm7VASPReq instanceof MM7CancelReq)
 			{
 				MM7CancelReq cancelReq = (MM7CancelReq) mm7VASPReq;
-				
+
 				log.info(LogHelper.logCancelReq(cancelReq));
-				
+
 				beforAuth.append("Content-Type:text/xml;charset=\""
 						+ mm7Config.getCharSet() + "\"" + "\r\n");
 			}
@@ -291,236 +240,58 @@ public class MM7Sender1
 				return ErrorRes;
 			}
 			this.TimeOutbCount = bcontent;
-			String env = "";
-			try
+			
+			// 设置消息体长度
+			afterAuth.append("Content-Length:" + bcontent.length + "\r\n");
+			afterAuth.append("Mime-Version:1.0" + "\r\n");
+			afterAuth.append("\r\n");
+			entityBody.append(new String(bcontent));
+			ByteArrayOutputStream sendBaos = getSendMessage(beforAuth.toString(),AuthInfor,afterAuth.toString(),bcontent);
+			
+			if (sendBaos != null)
 			{
-				ByteArrayOutputStream tempbaos = new ByteArrayOutputStream();
-				tempbaos.write(bcontent);
-				int envbeg = tempbaos.toString().indexOf(
-						MMConstants.BEGINXMLFLAG);
-				int envend = tempbaos.toString().indexOf("</env:Envelope>");
-				env = tempbaos.toString().substring(envbeg, envend);
-				env = env + "</env:Envelope>";
+				res = SendandReceiveMessage(sendBaos);
 			}
-			catch (IOException ioe)
+			else
 			{
-				ioe.printStackTrace();
+				MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
+				ErrorRes.setStatusCode(-104);
+				ErrorRes.setStatusText("Socket不通！");
+				log.error(LogHelper.logRSErrorRes(ErrorRes));
+				return ErrorRes;
 			}
-			finally
+
+			
+			log.info(bcontent);
+
+			/** ********** */
+			if (res instanceof MM7SubmitRes)
 			{
-				// 设置消息体长度
-				afterAuth.append("Content-Length:" + bcontent.length + "\r\n");
-				afterAuth.append("Mime-Version:1.0" + "\r\n");
-				afterAuth.append("\r\n");
-				entityBody.append(new String(bcontent));
-				sendBaos = getSendMessage(bcontent);
-				String time = "["
-						+ simple.format(new Date(System.currentTimeMillis()))
-						+ "]";
-				if (sendBaos != null)
-				{
-					res = SendandReceiveMessage(sendBaos);
-				}
-				else
-				{
-					MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
-					ErrorRes.setStatusCode(-104);
-					ErrorRes.setStatusText("Socket不通！");
-					log.error(LogHelper.logRSErrorRes(ErrorRes));
-					return ErrorRes;
-				}
-
-				log.info(env);
-				
-				
-				
-				
-				Finerbaos.write(FinerBuffer.toString().getBytes());
-				Finerbaos.write(bcontent);
-
-				/** ********** */
-				if (res instanceof MM7SubmitRes) {
-			          log.info(LogHelper.logSubmitRes((MM7SubmitRes)res));
-			        }
-			        else if (res instanceof MM7CancelRes) {
-			        	log.info(LogHelper.logCancelRes((MM7CancelRes)res));
-			        }
-			        else if (res instanceof MM7ReplaceRes) {
-			        	log.info(LogHelper.logReplaceRes((MM7ReplaceRes)res));
-			        }
-			        else if (res instanceof MM7RSErrorRes) {
-			        	log.error(LogHelper.logRSErrorRes((MM7RSErrorRes)res));
-			        }
-				
-				
-				
-				
-				
-				
-				
-				int envbeg = baos.toString().indexOf(MMConstants.BEGINXMLFLAG);
-				int envend = baos.toString().indexOf("</env:Envelope>");
-				if (envbeg > 0 && envend > 0)
-					env = baos.toString().substring(envbeg);
-				log.info(env);
-				
-
-				
-				Finerbaos.write(FinerBuffer.toString().getBytes());
-				/** ********** */
-
-				int LogLevel = mm7Config.getLogLevel();
-				if (LogLevel > 0)
-				{
-					log.info("LogLevel大于0");
-					String LogPath = mm7Config.getLogPath();
-					int LogNum = mm7Config.getLogNum();
-					int LogInterval = mm7Config.getLogInterval();
-					int LogSize = mm7Config.getLogSize();
-					long Interval = System.currentTimeMillis() - LogTimeBZ;
-					String sTimeNow = sdf.format(new Date(System
-							.currentTimeMillis()));
-					long timeNow, timeFile = 0;
-					timeNow = sdf.parse(sTimeNow).getTime();
-					if (logFileName.length() > 0)
-					{
-						File logFile = new File(logFileName);
-						int index1 = logFileName.indexOf(mm7Config.getMmscId()
-								+ "_");
-						int index11 = index1 + mm7Config.getMmscId().length()
-								+ 1;
-						int index2 = logFileName.indexOf(".", index11);
-						String sTimeFile = logFileName.substring(index1
-								+ mm7Config.getMmscId().length() + 1, index2);
-						timeFile = sdf.parse(sTimeFile).getTime();
-
-						if (timeNow - timeFile > (long) LogInterval * 60 * 1000)
-						{
-							N = 1;
-							this.deleteFile(LogPath, LogNum, mm7Config
-									.getMmscId());
-							logFileName = LogPath + "/" + mm7Config.getMmscId()
-									+ "_" + sTimeNow + "." + df.format(N)
-									+ ".log";
-						}
-						else
-						{
-							if (logFile.length() > LogSize * 1024)
-							{
-								if (N < LogNum)
-									N++;
-								else
-									N = 1;
-								this.deleteFile(LogPath, LogNum, mm7Config
-										.getMmscId());
-								logFileName = LogPath + "/"
-										+ mm7Config.getMmscId() + "_"
-										+ sTimeFile + "." + df.format(N)
-										+ ".log";
-							}
-						}
-					}
-					else
-					{
-						N = 1;
-						this.deleteFile(LogPath, LogNum, mm7Config.getMmscId());
-						logFileName = LogPath + "/" + mm7Config.getMmscId()
-								+ "_" + sTimeNow + "." + df.format(N) + ".log";
-					}
-					switch (LogLevel)
-					{
-						case 1:
-							try
-							{
-								FileOutputStream fos = new FileOutputStream(
-										logFileName, true);
-								fos.write(Severebaos.toByteArray());
-								fos.close();
-								
-							}
-							catch (IOException ioe)
-							{
-								ioe.printStackTrace();
-							}
-							break;
-						case 2:
-							break;
-						case 3:
-							try
-							{
-								FileOutputStream fos = new FileOutputStream(
-										logFileName, true);
-								fos.write(Infobaos.toByteArray());
-								fos.close();
-								Infobaos.reset();
-							}
-							catch (IOException ioe)
-							{
-								ioe.printStackTrace();
-							}
-							break;
-						case 4:
-							break;
-						case 6:
-							try
-							{
-								FileOutputStream fos = new FileOutputStream(
-										logFileName, true);
-								fos.write(Finerbaos.toByteArray());
-								fos.close();
-								Finerbaos = new ByteArrayOutputStream();
-							}
-							catch (IOException ioe)
-							{
-								ioe.printStackTrace();
-							}
-							break;
-						case 7:
-							break;
-						default:
-							break;
-					}
-				}
+				log.info(LogHelper.logSubmitRes((MM7SubmitRes) res));
 			}
+			else if (res instanceof MM7CancelRes)
+			{
+				log.info(LogHelper.logCancelRes((MM7CancelRes) res));
+			}
+			else if (res instanceof MM7ReplaceRes)
+			{
+				log.info(LogHelper.logReplaceRes((MM7ReplaceRes) res));
+			}
+			else if (res instanceof MM7RSErrorRes)
+			{
+				log.error(LogHelper.logRSErrorRes((MM7RSErrorRes) res));
+			}
+
+			
 			return res;
 		}
 		catch (Exception e)
 		{
+			log.error(null, e);
 			MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
-			e.printStackTrace();
 			ErrorRes.setStatusCode(-100);
 			ErrorRes.setStatusText("系统错误！原因：" + e);
 			return ErrorRes;
-		}
-	}
-
-	private void deleteFile(String logpath, int lognum, String MMSCID)
-	{
-		File parfile = new File(logpath);
-		if (parfile.isDirectory())
-		{
-			File[] subfile = parfile.listFiles();
-			List list = new ArrayList();
-			for (int i = 0; i < subfile.length; i++)
-			{
-				String name = subfile[i].getName();
-				if (name.indexOf(MMSCID) >= 0)
-				{
-					list.add(name);
-				}
-			}
-			if (list.size() >= lognum)
-			{
-				int deleteLength = list.size() - lognum + 1;
-				Comparator comp = Collections.reverseOrder();
-				Collections.sort(list, comp);
-				for (int i = list.size() - deleteLength; i < list.size(); i++)
-				{
-					String strfile = (String) list.get(i);
-					File ff = new File(logpath + "/" + strfile);
-					ff.delete();
-				}
-			}
 		}
 	}
 
@@ -535,7 +306,7 @@ public class MM7Sender1
 		}
 		catch (Exception e)
 		{
-			System.err.println(e);
+			log.error(null,e);
 		}
 		b = encoder.getMessage();
 		return (b);
@@ -550,7 +321,7 @@ public class MM7Sender1
 		return (BaseEncode.encode(value.getBytes()));
 	}
 
-	private MM7RSRes parseXML()
+	private MM7RSRes parseXML(ByteArrayOutputStream baos)
 	{
 		SAXBuilder sax = new SAXBuilder();
 		log.info("recv=" + baos.toString() + "\r\n");
@@ -647,8 +418,7 @@ public class MM7Sender1
 					Element transID = (Element) envHeader.getChildren().get(0);
 					String transactionID = transID.getTextTrim();
 					int size = Message.getChildren().size();
-					log.info("Message.getName()="
-							+ Message.getName() + "\r\n");
+					log.info("Message.getName()=" + Message.getName() + "\r\n");
 					if (Message.getName().equals("SubmitRsp"))
 					{
 						MM7SubmitRes submitRes = new MM7SubmitRes();
@@ -791,7 +561,7 @@ public class MM7Sender1
 		catch (JDOMException jdome)
 		{
 			MM7RSErrorRes error = new MM7RSErrorRes();
-			log.error(null,jdome);
+			log.error(null, jdome);
 			error.setStatusCode(-109);
 			error.setStatusText("XML解析错误！原因：" + jdome);
 			log.error(LogHelper.logRSErrorRes(error));
@@ -799,16 +569,42 @@ public class MM7Sender1
 		}
 		catch (Exception e)
 		{
-			log.error(null,e);
+			log.error(null, e);
 			MM7RSErrorRes error = new MM7RSErrorRes();
 			error.setStatusCode(-100);
 			error.setStatusText("系统错误！原因：" + e);
 			return error;
 		}
 	}
-
-	private ByteArrayOutputStream getSendMessage(byte[] bcontent)
+	
+	
+	private ByteArrayOutputStream getSendMessage(String beforAuth,String AuthInfor,String afterAuth, byte[] bcontent)
 	{
+		ByteArrayOutputStream sendBaos = new ByteArrayOutputStream();
+		StringBuffer sb = new StringBuffer();
+		sb.append(beforAuth);
+		sb.append(AuthInfor);
+		sb.append(afterAuth);
+		try
+		{
+			log.debug("!part of send message is:" + sb.toString()
+					+ "!\r\n");
+			sendBaos.write(sb.toString().getBytes());
+			sendBaos.write(bcontent);
+			return sendBaos;
+		}
+		catch (IOException e)
+		{
+			log.error(null,e);
+			return null;
+		}
+	}
+
+	
+	private ByteArrayOutputStream getSendMessage1(String beforAuth,String AuthInfor,String afterAuth, byte[] bcontent)
+	{
+		ByteArrayOutputStream sendBaos = new ByteArrayOutputStream();
+		MM7RSRes res = null;
 		try
 		{
 			/**
@@ -816,47 +612,9 @@ public class MM7Sender1
 			 */
 			if (pool.getKeepAlive().equals("on"))
 			{
-				if (this.TimeOutFlag == true)
-				{
-					log.debug("TimeOutFlag=true\r\n");
-					if (pool.deleteURL(TimeOutWrap))
-					{
-						log.debug("  TimeOutWrap=" + TimeOutWrap);
-						log.debug("  pool.deleteURL(TimeOutWrap)");
-						// //Add by hudm 2004-06-07
-						/*
-						 * String MMSCIP = (String)mm7Config.getMMSCIP().get(0);
-						 * int index = MMSCIP.indexOf(":"); String ip; int port;
-						 * if(index == -1) { ip = MMSCIP; port = 80; } else { ip =
-						 * MMSCIP.substring(0,index); port =
-						 * Integer.parseInt(MMSCIP.substring(index+1)); } client =
-						 * new Socket(ip,port);
-						 */
-						// //end add by hudm
-						connWrap = pool.getConnWrap();
-						this.TimeOutWrap = connWrap;
-						if (connWrap != null)
-						{
-							log.debug("  connWrap != null");
-							client = connWrap.getSocket();
-						}
-						else
-						{
-							log.debug("   client=null");
-							client = null;
-						}
-					}
-					else
-					{
-						log.debug("deleteURL is false!");
-						return null;
-					}
-				}
-				else
-				{
 					// SevereBuffer.append("!767!TimeOutFlag==false");
 					connWrap = pool.getConnWrap();
-					this.TimeOutWrap = connWrap;
+					
 					if (connWrap != null)
 					{
 						// SevereBuffer.append(" connWrap != null");
@@ -866,10 +624,11 @@ public class MM7Sender1
 						if (connWrap.getUserfulFlag() == false
 								|| client.isConnected() == false)
 						{
-							log.debug("!771!connWrap.getUserfulFlag() == false || client.isConnected() == false");
+							log
+									.debug("!771!connWrap.getUserfulFlag() == false || client.isConnected() == false");
 							pool.deleteURL(connWrap);
 							connWrap = pool.getConnWrap();
-							this.TimeOutWrap = connWrap;
+							
 						}
 						if (connWrap.getAuthFlag() == true)
 						{
@@ -879,18 +638,7 @@ public class MM7Sender1
 					}
 					else
 						client = null;
-				}
-				/*
-				 * (connWrap != null) { SevereBuffer.append("!768!connWrap !=
-				 * null"); if (connWrap.getUserfulFlag() == false ||
-				 * client.isConnected() == false) { //从连接池中删除该条连接
-				 * SevereBuffer.append("!771!connWrap.getUserfulFlag() == false ||
-				 * client.isConnected() == false"); pool.deleteURL(connWrap);
-				 * //////// connWrap = pool.getConnWrap(); this.TimeOutWrap =
-				 * connWrap; /////// //return null; } if (connWrap.getAuthFlag() ==
-				 * true) { AuthInfor = connWrap.getDigestInfor(); } } else {
-				 * SevereBuffer.append("!785!connWrap==null"); return null; }
-				 */
+				
 			}
 			else
 			{
@@ -918,15 +666,14 @@ public class MM7Sender1
 				client.setSoTimeout(mm7Config.getTimeOut());
 				client.setKeepAlive(true);
 
-				sb = new StringBuffer();
+				StringBuffer sb = new StringBuffer();
 				sb.append(beforAuth);
 				sb.append(AuthInfor);
 				sb.append(afterAuth);
 				try
 				{
-					sendBaos = new ByteArrayOutputStream();
-					log.debug("!part of send message is:"
-							+ sb.toString() + "!\r\n");
+					log.debug("!part of send message is:" + sb.toString()
+							+ "!\r\n");
 					sendBaos.write(sb.toString().getBytes());
 					sendBaos.write(bcontent);
 					return sendBaos;
@@ -947,13 +694,13 @@ public class MM7Sender1
 		catch (UnknownHostException uhe)
 		{
 			// System.out.println("UnknownHostExcepion!原因："+uhe);
-			log.error(null,uhe);
+			log.error(null, uhe);
 			return null;
 		}
 		catch (SocketException se)
 		{
 			// System.out.println("SocketException!原因："+se);
-			log.error(null,se);
+			log.error(null, se);
 			return null;
 		}
 		/**
@@ -961,12 +708,21 @@ public class MM7Sender1
 		 */
 		catch (InterruptedIOException iioe)
 		{
-			this.TimeOutFlag = true;
+			log.debug("TimeOutWrap="+connWrap);
+			if (pool.deleteURL(connWrap))
+			{
+				log.debug("  pool.deleteURL(TimeOutWrap)");			
+			}
+			else
+			{
+				log.debug("deleteURL is false!");
+			}
+			
 			for (int j = 0; j < mm7Config.getReSendCount(); j++)
 			{
-				sendBaos = getSendMessage(bcontent);
-				if (sendBaos != null)
-					res = this.SendandReceiveMessage(sendBaos);
+				//sendBaos = getSendMessage(bcontent);
+				//if (sendBaos != null)
+				//	res = this.SendandReceiveMessage(sendBaos);
 			}
 			res.setStatusCode(-101);
 			res.setStatusText("超时发送失败！原因：" + iioe);
@@ -985,6 +741,7 @@ public class MM7Sender1
 
 	private MM7RSRes SendandReceiveMessage(ByteArrayOutputStream sendbaos)
 	{
+		MM7RSRes res = null;
 		try
 		{
 			// ///////
@@ -993,11 +750,21 @@ public class MM7Sender1
 			sender.write(sendbaos.toByteArray());
 			sender.flush();
 			log.debug("before receiveMessge");
-			if (this.receiveMessge())
+			ByteArrayOutputStream baos=new ByteArrayOutputStream();
+			if (this.receiveMessge(baos))
 			{
+				log.info("收到消息："+baos.toString());
+				///log
+				/*String env = "";
+				int envbeg = baos.toString().indexOf(MMConstants.BEGINXMLFLAG);
+				int envend = baos.toString().indexOf("</env:Envelope>");
+				if (envbeg > 0 && envend > 0)
+					env = baos.toString().substring(envbeg);
+				log.info(env);*/
+				
 				log.debug("after receiveMessge");
 				log.debug("before parseXML");
-				res = parseXML();
+				res = parseXML(baos);
 				log.debug("after parseXML");
 				return res;
 			}
@@ -1012,50 +779,27 @@ public class MM7Sender1
 		}
 		catch (IOException ioe)
 		{
-			this.TimeOutFlag = true;
-			sendBaos = getSendMessage(this.TimeOutbCount);
-			if (sendBaos != null)
+			if (pool.deleteURL(connWrap))
 			{
-				log.debug("before SendandReceiveMessage");
-				res = SendandReceiveMessage(sendBaos);
-				log.debug("end SendandReceiveMessage");
-				if (res != null)
-				{
-					this.TimeOutFlag = false;
-					return res;
-				}
-				else
-				{
-					MM7RSErrorRes error = new MM7RSErrorRes();
-					error.setStatusCode(-103);
-					error.setStatusText("没有返回正确的消息");
-					log.info(LogHelper.logRSErrorRes(error));
-					return error;
-				}
-				/*
-				 * if (res.getStatusCode() == MMConstants.RequestStatus.SUCCESS) {
-				 * this.TimeOutFlag = false; return res; } else { MM7RSErrorRes
-				 * error = new MM7RSErrorRes(); error.setStatusCode( -110);
-				 * error.setStatusText("原因:" + ioe);
-				 * SevereBuffer.append("[Message_Type=MM7RSErrorRes]");
-				 * SevereBuffer.append("[Comments={-103;" +
-				 * error.getStatusText() + "}]"); return error; }
-				 */
+				log.debug("  pool.deleteURL(TimeOutWrap)");			
 			}
 			else
 			{
-				MM7RSErrorRes error = new MM7RSErrorRes();
-				error.setStatusCode(-104);
-				// error.setStatusText("Socket不通！原因:" + ioe);
-				error.setStatusText(" " + ioe);
-				log.info(LogHelper.logRSErrorRes(error));
-				return error;
+				log.debug("deleteURL is false!");
 			}
+			log.debug("TimeOutWrap="+connWrap);
+			log.error(null,ioe);
+			
 		}
+		return res;
 	}
 
-	public boolean receiveMessge() throws IOException
+	public boolean receiveMessge(ByteArrayOutputStream baos) throws IOException
 	{
+		if(baos==null)
+		{
+			return false;
+		}
 		try
 		{
 			baos.reset();
@@ -1132,7 +876,7 @@ public class MM7Sender1
 											ConnectionFlag = baos.toString()
 													.substring(connlength,
 															connectionend);
-										sb = new StringBuffer();
+										StringBuffer sb = new StringBuffer();
 										sb.append(beforAuth);
 										sb.append(clientAuthInfor);
 										sb.append(afterAuth);
@@ -1240,7 +984,7 @@ public class MM7Sender1
 												.getReSendCount())
 										{
 											ResendCount = ResendCount + 1;
-											receiveMessge();
+											receiveMessge(baos);
 										}
 										else
 										{
@@ -1367,9 +1111,9 @@ public class MM7Sender1
 										// System.out.println("正常接收结束");
 										// add by hudm to test 104 problem
 										// 2004-06-09
-										if (this.TimeOutFlag == true)
+										
 											log.debug("baos.tostring()=="
-															+ baos.toString());
+													+ baos.toString());
 										// end add by hudm
 										if (pool.getKeepAlive().equals("off"))
 										{
@@ -1396,30 +1140,33 @@ public class MM7Sender1
 
 					}
 				}
-				/*
-				 * else { //System.out.println("第1083行。"); this.TimeOutFlag =
-				 * true; sendBaos = getSendMessage(this.TimeOutbCount); if
-				 * (sendBaos != null) { //System.out.println("第1087行。"); res =
-				 * SendandReceiveMessage(sendBaos); if(res != null) {
-				 * this.TimeOutFlag = false; return true; } } else return false; }
-				 */
+				
 			}
 			return bReceive;
 		}
 		catch (SocketTimeoutException ste)
 		{
+			MM7RSRes res = null;
 			// System.out.println("第1100行。");
-			this.TimeOutFlag = true;
+			log.debug("TimeOutWrap="+connWrap);
+			if (pool.deleteURL(connWrap))
+			{
+				log.debug("  pool.deleteURL(TimeOutWrap)");			
+			}
+			else
+			{
+				log.debug("deleteURL is false!");
+			}
 			ReadTimeOutCount++;
 			if (ReadTimeOutCount < mm7Config.getReSendCount())
 			{
-				sendBaos = getSendMessage(this.TimeOutbCount);
+				ByteArrayOutputStream sendBaos = getSendMessage(beforAuth.toString(),AuthInfor,afterAuth.toString(),this.TimeOutbCount);
 				if (sendBaos != null)
 				{
 					res = SendandReceiveMessage(sendBaos);
 					if (res != null)
 					{
-						this.TimeOutFlag = false;
+						
 						return true;
 					}
 					/*
@@ -1431,7 +1178,7 @@ public class MM7Sender1
 				else
 					return false;
 			}
-			this.TimeOutFlag = false;
+		
 			res.setStatusCode(-101);
 			res.setStatusText("超时发送失败！");
 			log.debug("[Comments={-101;" + res.getStatusText() + "}]");
@@ -1660,11 +1407,11 @@ public class MM7Sender1
 		content.addSubContent(sub4);
 
 		submit.setContent(content);
-		//System.out.println(submit);
+		// System.out.println(submit);
 		MM7RSRes res = mm7Sender.send(submit);
-		//System.out.println("#####################");
-		//System.out.println(res);
-		//System.out.println("res.statuscode=" + res.getStatusCode()
-		///		+ ";res.statusText=" + res.getStatusText());
+		// System.out.println("#####################");
+		// System.out.println(res);
+		// System.out.println("res.statuscode=" + res.getStatusCode()
+		// / + ";res.statusText=" + res.getStatusText());
 	}
 }
