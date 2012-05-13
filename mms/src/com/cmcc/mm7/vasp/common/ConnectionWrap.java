@@ -1,132 +1,114 @@
-/**File Name:MM7Config.java
- * Company:  中国移动集团公司
- * Date  :   2004-1-3
- * */
+/**
+ * File Name:MM7Config.java Company: 中国移动集团公司 Date : 2004-1-3
+ */
 
 package com.cmcc.mm7.vasp.common;
 
-import com.cmcc.mm7.vasp.conf.MM7Config;
-import java.net.*;
+import java.net.Socket;
 
-public class ConnectionWrap {
-  MM7Config mm7c;
-  private Socket socket;
-  private boolean Free;  //标志是否空闲
-  public long start;
-  private boolean AuthFlag;  //标志是否经过了摘要鉴权
-  private String DigestInfor;
-  private int ConnectIndex;
-  private boolean UserfulFlag=true;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-  public ConnectionWrap()
-  {
-    Free = true;
-    AuthFlag = false;
-    DigestInfor = "";
-    start = 0;
-  }
-  public ConnectionWrap(MM7Config mm7config) throws Exception
-  {
-    mm7c = mm7config;
+public class ConnectionWrap
+{
+	private static final Log log = LogFactory.getLog(ConnectionWrap.class);
+	private String mmscIP = null;
+	private Socket socket = null;
+	private boolean free = false; // 标志是否空闲
+	public long activeTime = System.currentTimeMillis();
+	// private boolean AuthFlag; // 标志是否经过了摘要鉴权
 
-    /*try{
-      String MMSCIP = (String)mm7c.getMMSCIP().get(0);
-      int index = MMSCIP.indexOf(":");
-      String ip;
-      int port;
-      if(index == -1)
-      {
-        ip = MMSCIP;
-        port = 80;
-      }
-      else
-      {
-        ip = MMSCIP.substring(0,index);
-        port = Integer.parseInt(MMSCIP.substring(index+1));
-      }
-      socket = new Socket(ip,port);
-      //socket = new Socket( (String) mm7c.getMMSCIP().get(0), 80);
-      Free = true;
-      start = 0;
-    }catch(Exception e)
-    {
-      System.out.println(e);
-    }*/
-  }
+	/**
+	 * 表示链路是否有效（false表示该链路将会被删除）
+	 */
+	private boolean del = false;
 
-  public boolean BuidLink()
-  {
-    try{
-      String MMSCIP = (String)mm7c.getMMSCIP().get(0);
-      int index = MMSCIP.indexOf(":");
-      String ip;
-      int port;
-      if(index == -1)
-      {
-        ip = MMSCIP;
-        port = 80;
-      }
-      else
-      {
-        ip = MMSCIP.substring(0,index);
-        port = Integer.parseInt(MMSCIP.substring(index+1));
-      }
-      socket = new Socket(ip,port);
-      //socket = new Socket( (String) mm7c.getMMSCIP().get(0), 80);
-      Free = true;
-      start = 0;
-      return true;
-    }catch(Exception e)
-    {
-      System.out.println("没有成功建链！原因："+e);
-      return false;
-    }
+	public ConnectionWrap(String mmscIP)
+	{
+		this.mmscIP = mmscIP;
 
-  }
+	}
 
+	public boolean buildLink()
+	{
+		try
+		{
+			int index = mmscIP.indexOf(":");
+			String ip;
+			int port;
+			if (index == -1)
+			{
+				ip = mmscIP;
+				port = 80;
+			}
+			else
+			{
+				ip = mmscIP.substring(0, index);
+				port = Integer.parseInt(mmscIP.substring(index + 1));
+			}
+			socket = new Socket(ip, port);
+			socket.setKeepAlive(true);
 
-  public Socket getSocket()
-  {
-    return socket;
-  }
-  public boolean getFree()
-  {
-    return(Free);
-  }
-  public void setFree(boolean bfree)
-  {
-    Free = bfree;
-  }
-  public void setAuthFlag(boolean authflag)
-  {
-    AuthFlag = authflag;
-  }
-  public boolean getAuthFlag()
-  {
-    return AuthFlag;
-  }
-  public void setDigestInfor(String infor)
-  {
-    DigestInfor = infor;
-  }
-  public String getDigestInfor()
-  {
-    return DigestInfor;
-  }
-  public void setConnectIndex(int index)
-  {
-    this.ConnectIndex = index;
-  }
-  public int getConnectIndex()
-  {
-    return ConnectIndex;
-  }
-  public void setUserfulFlag(boolean flag)
-  {
-    this.UserfulFlag = flag;
-  }
-  public boolean getUserfulFlag()
-  {
-    return UserfulFlag;
-  }
+			free = true;// 初始设置链路为可用
+			activeTime = 0;
+			return true;
+		}
+		catch (Exception e)
+		{
+			log.error(null, e);
+			return false;
+		}
+
+	}
+
+	public void close()
+	{
+		this.setDel(true);
+		try
+		{
+			if (socket == null)
+			{
+				return;
+			}
+			socket.getInputStream().close();
+			socket.getOutputStream().close();
+			socket.close();
+
+		}
+		catch (Exception ex)
+		{
+			log.error(null, ex);
+		}
+
+	}
+
+	public Socket getSocket()
+	{
+		return socket;
+	}
+
+	public boolean getFree()
+	{
+		return free;
+	}
+
+	public void setFree(boolean bfree)
+	{
+		free = bfree;
+	}
+
+	/*
+	 * public void setAuthFlag(boolean authflag) { AuthFlag = authflag; } public
+	 * boolean getAuthFlag() { return AuthFlag; }
+	 */
+
+	public boolean isDel()
+	{
+		return del;
+	}
+
+	public void setDel(boolean del)
+	{
+		this.del = del;
+	}
 }
