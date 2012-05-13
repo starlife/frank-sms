@@ -6,4 +6,9 @@
 package com.cmcc.mm7.vasp.message;
 
 public class MM7ReplaceRes extends MM7RSRes {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 }
