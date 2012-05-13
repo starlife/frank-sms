@@ -1,13 +1,18 @@
-/**File Name:SOAPDecodeException.java
- * Company:  中国移动集团公司
- * Date  :   2004-1-8
- * */
+/**
+ * File Name:SOAPDecodeException.java Company: 中国移动2011
+ */
 
 package com.cmcc.mm7.vasp.common;
 
 public class SOAPDecodeException extends Exception
 {
-  public SOAPDecodeException(String errorMessage){
-    super(errorMessage);
-  }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public SOAPDecodeException(String errorMessage)
+	{
+		super(errorMessage);
+	}
 }
