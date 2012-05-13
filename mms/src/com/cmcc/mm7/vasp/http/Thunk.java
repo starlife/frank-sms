@@ -143,11 +143,19 @@ public class Thunk
 			return 0;
 		}
 		byte[] bytes = Hex.rstr(hex);
-		for (int i = 0; i < bytes.length; i++)
+		for (int i = 0; i<bytes.length; i++)
 		{
-			length += (bytes[i] + 256 * (i - 0));
+			System.out.println(bytes[i]);
+			length += bytes[i]<<((bytes.length-1-i)*8);
 		}
 		return length;
+	}
+	
+	public static void main(String[] args)
+	{
+		System.out.println(getThunkedLength("0125\r\n"));
+		System.out.println(Integer.toHexString(293));
+		System.out.println((1<<8)+(2<<4)+5);
 	}
 
 }
