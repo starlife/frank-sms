@@ -17,7 +17,7 @@ public class Http
 {
 	private static final Log log = LogFactory.getLog(Http.class);
 	private final HttpHead httpHead = new HttpHead();
-	private final ByteArrayOutputStream body = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
 
 	public Http()
 	{
@@ -35,7 +35,7 @@ public class Http
 		// 如果有包体，读取包体
 		try
 		{
-			String contentLen = httpHead.getHeaderValue("Content-Length");
+			String contentLen = this.getHeaderValue("Content-Length");
 			if (contentLen != null)
 			{
 				int length = Integer.parseInt(contentLen);
@@ -44,12 +44,28 @@ public class Http
 						.read(tbytebuf, temp, length - temp)
 						+ temp)
 					;
-				body.write(tbytebuf);
-			}
+				bodyBaos.write(tbytebuf);
+			}		
 			else
 			{
+				//这里添加对truck传输类型的处理
+				String transferEncoding=this.getHeaderValue("transfer-encoding");
+				if(transferEncoding.equalsIgnoreCase("chunked"))
+				{
+					Thunk thunk =new Thunk();
+					if(!thunk.recvData(input))
+					{
+						log.warn("尝试接收chunked类型数据失败");
+						return false;
+					}
+					bodyBaos.write(thunk.getData());
+					return true;
+				}
+				///////////-end
+				
 				for (int j = input.read(); j != -1; j = input.read())
-					body.write(j);
+					bodyBaos.write(j);
+				
 
 			}
 			return true;
@@ -60,7 +76,10 @@ public class Http
 			return false;
 		}
 	}
-
+	
+	
+	
+	
 	public boolean recvData(Socket socket, int timeout)
 	{
 		try
@@ -87,7 +106,7 @@ public class Http
 		try
 		{
 			buf.write(httpHead.getData());
-			buf.write(body.toByteArray());
+			buf.write(bodyBaos.toByteArray());
 		}
 		catch (IOException ex)
 		{
@@ -99,7 +118,7 @@ public class Http
 	
 	public byte[] getBody()
 	{
-		return body.toByteArray();
+		return bodyBaos.toByteArray();
 	}
 	
 	public String getHeaderValue(String key)
