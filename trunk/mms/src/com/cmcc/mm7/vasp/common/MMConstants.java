@@ -144,6 +144,12 @@ public class MMConstants {
   public static final String DELIVERREQ = "DeliverReq";
   public static final String DELIVERYREPORTREQ = "DeliveryReportReq";
   public static final String READREPLYREQ = "ReadReplyReq";
+  public static final String SUBMITRSP = "SubmitRsp";
+  public static final String CANCELRSP = "CancelRsp";
+  public static final String REPLACERSP = "ReplaceRsp";
+  public static final String DELIVERSP = "DeliverRsp";
+  public static final String DELIVERYREPORTRSP = "DeliveryReportRsp";
+  public static final String READREPLYRSP = "ReadReplyRsp";
   public static final String STATUS = "Status";
   public static final String STATUSCODE = "StatusCode";
   public static final String STATUSTEXT = "StatusText";

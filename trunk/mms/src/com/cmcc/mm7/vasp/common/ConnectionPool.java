@@ -1,269 +1,282 @@
-/**File Name:ConnectionPool.java
- * Company:  中国移动集团公司
- * Date  :   2004-1-9
- * */
+/**
+ * File Name:ConnectionPool.java Company: 中国移动集团公司 Date : 2004-1-9
+ */
 
 package com.cmcc.mm7.vasp.common;
 
-import java.util.*;
-import java.util.HashMap;
-import com.cmcc.mm7.vasp.conf.*;
-import com.cmcc.mm7.vasp.common.ConnectionWrap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.cmcc.mm7.vasp.conf.MM7Config;
+import com.cmcc.mm7.vasp.conf.MM7ConfigManager;
 
 public class ConnectionPool implements Runnable
 {
-  //public static List ClientList;
-  public List ClientList;
-  private static boolean isCreate;
-  public HashMap hashmap;
-  private long time;
-  private int IPCount;
-  private MM7Config Mm7Config;
-  private String NonceCount;
-  private int ServerMaxSize;
-  private String KeepAlive;
-  private static final ConnectionPool m_instance = new ConnectionPool();
+	private static final Log log = LogFactory.getLog(ConnectionPool.class);
+	// public static List ClientList;
+	private static final List<ConnectionWrap> que = new LinkedList<ConnectionWrap>();;
+	private static boolean isCreate;
+	// public HashMap hashmap;
+	// private long time;
+	// private int IPCount;
+	// private MM7Config Mm7Config;
+	//private String NonceCount;
+	private int ServerMaxSize;
+	private String KeepAlive;
+	private long KeepAliveTimeout;
+	private int minCount;// 最小连接数
+	private int maxCount;// 最大连接数
+	private int step;// 连接递增步长
+	private String[] mmscIpList = null;
 
-  public ConnectionPool()
-  {
-    hashmap = new HashMap();
-    isCreate = false;
-    ClientList = null;
-    IPCount = 0;
-    Mm7Config = null;
-    NonceCount = "00000001";
-    ServerMaxSize = 0;
-    KeepAlive = "off";
-  }
-  public static ConnectionPool getInstance()
-  {
-    return m_instance;
-  }
-  public void setConfig(MM7Config mm7config)
-  {
-    Mm7Config = mm7config;
-    if(ClientList == null)
-      init();
-    if(!isCreate)
-    {
-      Thread thread = new Thread(this);
-      thread.run();
-      isCreate = true;
-    }
-  }
-  //主要是为了实现MMSCIP的平均分配而设置的顺序。
-  public void setIPCount(int count)
-  {
-    IPCount = count;
-  }
-  //得到当前应该分配给第几个MMSCIP。
-  public int getIPCount()
-  {
-    return(IPCount);
-  }
-  public void setNonceCount(String nc)
-  {
-    NonceCount = nc;
-  }
-  public String getNonceCount()
-  {
-    return NonceCount;
-  }
-  public void setInitNonceCount()
-  {
-    setNonceCount("00000001");
-  }
-  public MM7Config getConfig()
-  {
-    return Mm7Config;
-  }
-  private void setServerMaxSize(int size)
-  {
-    ServerMaxSize = size;
-  }
-  public int getServerMaxSize()
-  {
-    return ServerMaxSize;
-  }
-  private void setKeepAlive(String conn)
-  {
-    KeepAlive = conn;
-  }
-  public String getKeepAlive()
-  {
-    return KeepAlive;
-  }
+	private static int mmscIpIndex = 0;
 
-  // 从配置文件中获得一些基本信息
-  private void init()
-  {
-    hashmap.clear();
-    MM7ConfigManager confManager = new MM7ConfigManager();
-    String name = Mm7Config.getConnConfigName();
-    if(!name.equals(""))
-    {
-      confManager.load(name);
-      hashmap = confManager.hashmap;
-      if(!hashmap.isEmpty())
-      {
-        this.setKeepAlive((String)hashmap.get("KeepAlive"));
-        this.setServerMaxSize(Integer.parseInt((String)hashmap.get("ServerMaxKeepAlive")));
-      }
-    }
-    if(this.getKeepAlive().equals("on"))
-    {
-      /**若支持长连接，则建最小长连接数，若不支持，则建一条短连接*/
-      addURL(Integer.parseInt( (String) hashmap.get("MinKeepAliveRequests")));
-    }
-  }
-  //获得空闲的连接
-  public synchronized ConnectionWrap getConnWrap()
-  {
-    if(ClientList == null)
-    {
-      addURL(1);
-      ConnectionWrap connWrap;
-      if(ClientList.isEmpty())
-      {
-        return null;
-      }
-      else
-      {
-          connWrap = (ConnectionWrap) ClientList.get(0);
-          connWrap.setFree(false);
-          connWrap.setConnectIndex(0);
-          return connWrap;
-      }
-    }
-    else
-    {
-        //寻找空闲的连接
-        for (int i = 0; i < ClientList.size(); i++) {
-          ConnectionWrap conn = (ConnectionWrap) ClientList.get(i);
-          if (conn != null && conn.getFree()) {
-            conn.setFree(false);
-            conn.setConnectIndex(i);
-            conn.start = System.currentTimeMillis();
-            return conn;
-          }
-          else if(conn == null){
-            continue;
-          }
-        }
-        //没有空闲连接的话，若size小于最大连接数，则建step步长的连接。
-        int MaxCount = Integer.parseInt( (String) hashmap.get(
-            "MaxKeepAliveRequests"));
-        if (ClientList.size() < MaxCount) {
-          int step = Integer.parseInt((String) hashmap.get("step"));
-          /**判断目前已有连接加入要新建的连接是否超过最大连接数，若不超，则建setp个连接，否则
-           * 新建（最大连接数－现有连接数）个连接。
-           * */
-          if (ClientList.size() + step <= MaxCount)
-            addURL(step);
-          else
-            addURL(MaxCount - ClientList.size());
-          if(ClientList.isEmpty()==true)
-          {
-            //addURL(step);
-            return null;
-          }
-          else
-          {
-            ConnectionWrap conn = (ConnectionWrap) ClientList.get(ClientList.size() -
-                step);
-            conn.setFree(false);
-            conn.setConnectIndex(ClientList.size() - step);
-            return conn;
-          }
-        }
-        //建一条短连接
-        else {
-          try {
-            ConnectionWrap conn = new ConnectionWrap(Mm7Config);
-            if(conn.BuidLink())
-              return conn;
-            else
-              return null;
-          }
-          catch (Exception e) {
-            System.err.println(e);
-            return null;
-          }
-        }
-    }
-  }
+	private static final ConnectionPool m_instance = new ConnectionPool();
 
-  //增加count个新的URL连接
-  public void addURL(int count)
-  {
-    //System.out.println("addURL"+count);
-    if(ClientList == null)
-      ClientList = new ArrayList(count);
-    try{
-      for(int i=0;i<count;i++)
-      {
-        ConnectionWrap conn = new ConnectionWrap(Mm7Config);
-        if(conn.BuidLink())
-        {
-          ClientList.add(conn);
-        }
-      }
-    }catch(Exception e){
-      e.printStackTrace();
-    }
-  }
+	private ConnectionPool()
+	{
+		// hashmap = new HashMap();
+		isCreate = false;
+		// Mm7Config = null;
+		//NonceCount = "00000001";
+		ServerMaxSize = 0;
+		KeepAlive = "off";
+	}
 
-  //删除一个连接
-  public boolean deleteURL(ConnectionWrap connwrap)
-  {
-    if(connwrap != null)
-    {
-      int index = connwrap.getConnectIndex();
-      //System.out.println("connwrap != null!index="+index);
-      if (ClientList.isEmpty() == true)
-        return false;
-      else {
-        //System.out.println("size="+ClientList.size());
-        for (int i = 0; i < ClientList.size(); i++) {
-          if (index == i) {
-            ClientList.remove(index);
-            //重新排序
-            Collections.reverse(ClientList);
-            return true;
-          }
-        }
-        return false;
-      }
-    }else
-      return false;
-  }
+	public static ConnectionPool getInstance()
+	{
+		return m_instance;
+	}
 
-  public void run () {
-    long interval = Long.parseLong((String)hashmap.get("KeepAliveTimeout"));
-    //while (true) {
-      try {
-          Thread.sleep(interval);
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      scan ();
-  }
-  //管理连接。一些超时的连接刷新
-  private void scan () {
-    int timeout = Integer.parseInt((String)hashmap.get("KeepAliveTimeout")); //取得最长连接时间
-    if(ClientList != null)
-    {
-      if(!ClientList.isEmpty())
-      {
-        for (int i = 0; i < ClientList.size(); i++) {
-          ConnectionWrap conn = (ConnectionWrap) ClientList.get(i);
-          if (conn.start > 0) {
-            time = System.currentTimeMillis() - conn.start;
-            if (time >= timeout)
-              conn.setFree(true);
-          }
-        }
-      }
-    }
-  }
+	public void setConfig(MM7Config mm7config)
+	{
+		// Mm7Config = mm7config;
+		init(mm7config);
+		if (!isCreate)
+		{
+			Thread thread = new Thread(this);
+			thread.run();
+			isCreate = true;
+		}
+	}
+
+	/*public void setNonceCount(String nc)
+	{
+		NonceCount = nc;
+	}
+
+	public String getNonceCount()
+	{
+		return NonceCount;
+	}*/
+
+	/*public void setInitNonceCount()
+	{
+		setNonceCount("00000001");
+	}*/
+
+	private void setServerMaxSize(int size)
+	{
+		ServerMaxSize = size;
+	}
+
+	public int getServerMaxSize()
+	{
+		return ServerMaxSize;
+	}
+
+	private void setKeepAlive(String conn)
+	{
+		KeepAlive = conn;
+	}
+
+	public String getKeepAlive()
+	{
+		return KeepAlive;
+	}
+
+	// 从配置文件中获得一些基本信息
+	private void init(MM7Config config)
+	{
+		// hashmap.clear();
+		MM7ConfigManager confManager = new MM7ConfigManager();
+		this.mmscIpList = new String[config.getMMSCIP().size()];
+		for (int i = 0; i < config.getMMSCIP().size(); i++)
+		{
+			mmscIpList[i] = (String) config.getMMSCIP().get(i);
+		}
+		String name = config.getConnConfigName();
+		if (!name.equals(""))
+		{
+			confManager.load(name);
+			// 长连接开关
+			String keepAlive = (String) confManager.hashmap.get("KeepAlive");
+			if (keepAlive != null)
+			{
+				this.setKeepAlive(keepAlive);
+			}
+			// 服务端最大连接数
+			String serverMaxSize = (String) confManager.hashmap
+					.get("ServerMaxKeepAlive");
+			if (serverMaxSize != null)
+			{
+				this.setServerMaxSize(Integer.parseInt(serverMaxSize));
+			}
+			String KeepAliveTimeout = (String) confManager.hashmap
+					.get("KeepAliveTimeout");
+
+			if (KeepAliveTimeout != null)
+			{
+				this.KeepAliveTimeout = Long.parseLong(KeepAliveTimeout);
+			}
+			String minKeepAliveRequests = (String) confManager.hashmap
+					.get("MinKeepAliveRequests");
+			if (minKeepAliveRequests != null)
+			{
+				this.minCount = Integer.parseInt(minKeepAliveRequests);
+			}
+			String MaxKeepAliveRequests = (String) confManager.hashmap
+					.get("MaxKeepAliveRequests");
+			if (MaxKeepAliveRequests != null)
+			{
+				this.maxCount = Integer.parseInt(MaxKeepAliveRequests);
+			}
+			String step = (String) confManager.hashmap.get("step");
+			if (step != null)
+			{
+				this.step = Integer.parseInt(step);
+			}
+
+		}
+
+	}
+	
+	private int getIndex()
+	{
+		if (mmscIpList == null || mmscIpList.length == 0)
+		{
+			return 0;
+		}
+		mmscIpIndex++;
+		mmscIpIndex = mmscIpIndex % mmscIpList.length;
+		return mmscIpIndex;
+	}
+
+	
+	
+	
+	
+	// 获得空闲的连接
+	public synchronized ConnectionWrap getConnWrap()
+	{
+		if (mmscIpList == null || mmscIpList.length == 0)
+		{
+			return null;
+		}
+
+		ConnectionWrap conn = null;
+		// 如果是长连接，那么从队列中找可用的连接
+		if (getKeepAlive().equals("on"))
+		{
+			// 寻找空闲的连接
+			synchronized (que)
+			{
+				Iterator<ConnectionWrap> it = que.iterator();
+				while (it.hasNext())
+				{
+					conn = it.next();
+					if (conn == null)
+					{
+						continue;
+					}
+					if (!conn.isDel()
+							|| !conn.getSocket().isConnected())
+					{
+						// 删除失效的链接
+						log.debug("删除失败连接：" + conn);
+						it.remove();
+						conn.close();
+						continue;
+					}
+
+					if (!conn.getFree())
+					{
+						continue;
+					}
+					conn.setFree(false);
+					// conn.setConnectIndex(i);
+					conn.activeTime = System.currentTimeMillis();
+					return conn;
+				}
+				if (que.size() < this.maxCount)
+				{
+					// 判断目前已有连接加入要新建的连接是否超过最大连接数
+
+					conn = new ConnectionWrap(this.mmscIpList[getIndex()]);
+					if (conn.buildLink())
+					{
+						que.add(conn);
+						return conn;
+					}
+
+				}
+			}
+
+		}
+		// 建一条短连接
+		else
+		{
+
+			conn = new ConnectionWrap(this.mmscIpList[getIndex()]);
+			if (conn.buildLink())
+				return conn;
+
+		}
+		return null;
+
+	}
+
+	public void run()
+	{
+
+		// while (true) {
+		try
+		{
+			Thread.sleep(this.KeepAliveTimeout);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		scan();
+	}
+
+	
+	// 管理连接。一些超时的连接刷新
+	private void scan()
+	{
+
+		if (que != null)
+		{
+			if (!que.isEmpty())
+			{
+				for (int i = 0; i < que.size(); i++)
+				{
+					ConnectionWrap conn = (ConnectionWrap) que.get(i);
+					if (conn.activeTime > 0)
+					{
+						long time = System.currentTimeMillis()
+								- conn.activeTime;
+						if (time >= this.KeepAliveTimeout)
+							conn.setFree(true);
+					}
+				}
+			}
+		}
+	}
+
 }

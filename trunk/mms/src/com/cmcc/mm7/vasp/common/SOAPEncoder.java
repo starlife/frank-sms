@@ -37,7 +37,7 @@ public class SOAPEncoder
     bMessageExist = false;
     bEncoder = false;
     byteOutput = null;
-    mm7Config = null;
+    //mm7Config = null;
   }
   /**设置MM7VASPReq类型的消息*/
   public void setMessage(MM7VASPReq mm7vaspreq)
