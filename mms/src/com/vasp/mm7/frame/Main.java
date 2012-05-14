@@ -1,9 +1,13 @@
 package com.vasp.mm7.frame;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.cmcc.mm7.vasp.conf.MM7Config;
 
 public class Main
 {
+	private static final Log log = LogFactory.getLog(Main.class);
 	// private MM7Config config=null;
 	private Receiver receiver = null;
 	private Sender sender = null;
@@ -18,8 +22,9 @@ public class Main
 
 	public void start()
 	{
-		receiver.start();
+		log.info("Æô¶¯²ÊÐÅ³ÌÐò...");
 		sender.start();
+		receiver.start();
 		while (!stop)
 		{
 			;
@@ -28,13 +33,14 @@ public class Main
 
 	public void stop()
 	{
-		sender.mystop();
-		receiver.stop();
+		sender.myStop();
+		receiver.mystop();
 		stop = true;
 	}
 
 	public static void main() throws Exception
 	{
+		
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
 		mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
