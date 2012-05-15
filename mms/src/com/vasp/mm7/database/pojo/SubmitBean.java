@@ -21,7 +21,7 @@ public class SubmitBean implements java.io.Serializable
 	private String messageid;// MM7_submit.RES中messageid 字段 不为空
 	private String transactionid;// 不为空
 	private String mm7version;// 可以为空
-	private String senderAddress;// 不为空
+	//private String senderAddress;// 不为空
 	private String toAddress;// 不为空
 	private String subject;// 不为空
 	private String sendtime;// 不为空
@@ -34,10 +34,10 @@ public class SubmitBean implements java.io.Serializable
 	private String reportTime;// MM7_delivery_report.REQ中Date and time 字段 可以为空
 	private Integer mmStatus;// MM7_delivery_report.REQ中MM Status 字段 可以为空
 	private String mmStatusText;// MM7_delivery_report.REQ中MM Status text字段 可以为空
-	private String readyTime;// MM7_read_reply_report.REQ中Date and time字段
+	//private String readyTime;// MM7_read_reply_report.REQ中Date and time字段
 	// 可以为空
-	private Integer readStatus;// MM7_read_reply_report.REQ中Read Status 字段 可以为空
-	private String readStatusText;// MM7_read_reply_report.REQ中Read Status
+	//private Integer readStatus;// MM7_read_reply_report.REQ中Read Status 字段 可以为空
+	//private String readStatusText;// MM7_read_reply_report.REQ中Read Status
 	// text字段 可以为空
 	private Long sessionid;
 
@@ -50,13 +50,11 @@ public class SubmitBean implements java.io.Serializable
 
 	/** minimal constructor */
 	public SubmitBean(String messageid, String transactionid,
-			String senderAddress, String toAddress, String subject,
-			String vaspid, String vasid, String serviceCode, String sendtime,
-			Integer status)
+			String toAddress, String subject, String vaspid, String vasid,
+			String serviceCode, String sendtime, Integer status)
 	{
 		this.messageid = messageid;
 		this.transactionid = transactionid;
-		this.senderAddress = senderAddress;
 		this.toAddress = toAddress;
 		this.subject = subject;
 		this.vaspid = vaspid;
@@ -68,17 +66,14 @@ public class SubmitBean implements java.io.Serializable
 
 	/** full constructor */
 	public SubmitBean(String messageid, String transactionid,
-			String mm7version, String senderAddress, String toAddress,
-			String subject, String vaspid, String vasid, String serviceCode,
-			String linkid, String sendtime, Integer status, String statusText,
-			String reportTime, Integer mmStatus, String mmStatusText,
-			String readyTime, Integer readStatus, String readStatusText,
-			Long sessionid)
+			String mm7version, String toAddress, String subject, String vaspid,
+			String vasid, String serviceCode, String linkid, String sendtime,
+			Integer status, String statusText, String reportTime,
+			Integer mmStatus, String mmStatusText, Long sessionid)
 	{
 		this.messageid = messageid;
 		this.transactionid = transactionid;
 		this.mm7version = mm7version;
-		this.senderAddress = senderAddress;
 		this.toAddress = toAddress;
 		this.subject = subject;
 		this.vaspid = vaspid;
@@ -91,9 +86,7 @@ public class SubmitBean implements java.io.Serializable
 		this.reportTime = reportTime;
 		this.mmStatus = mmStatus;
 		this.mmStatusText = mmStatusText;
-		this.readyTime = readyTime;
-		this.readStatus = readStatus;
-		this.readStatusText = readStatusText;
+	
 		this.sessionid = sessionid;
 	}
 
@@ -137,15 +130,7 @@ public class SubmitBean implements java.io.Serializable
 		this.mm7version = mm7version;
 	}
 
-	public String getSenderAddress()
-	{
-		return senderAddress;
-	}
 
-	public void setSenderAddress(String senderAddress)
-	{
-		this.senderAddress = senderAddress;
-	}
 
 	public String getToAddress()
 	{
@@ -167,15 +152,6 @@ public class SubmitBean implements java.io.Serializable
 		this.subject = subject;
 	}
 
-	public String getSendtime()
-	{
-		return sendtime;
-	}
-
-	public void setSendtime(String sendtime)
-	{
-		this.sendtime = sendtime;
-	}
 
 	public String getVaspid()
 	{
@@ -217,6 +193,15 @@ public class SubmitBean implements java.io.Serializable
 		this.linkid = linkid;
 	}
 
+	public String getSendtime()
+	{
+		return sendtime;
+	}
+
+	public void setSendtime(String sendtime)
+	{
+		this.sendtime = sendtime;
+	}
 	public Integer getStatus()
 	{
 		return status;
@@ -267,36 +252,7 @@ public class SubmitBean implements java.io.Serializable
 		this.mmStatusText = mmStatusText;
 	}
 
-	public String getReadyTime()
-	{
-		return readyTime;
-	}
-
-	public void setReadyTime(String readyTime)
-	{
-		this.readyTime = readyTime;
-	}
-
-	public Integer getReadStatus()
-	{
-		return readStatus;
-	}
-
-	public void setReadStatus(Integer readStatus)
-	{
-		this.readStatus = readStatus;
-	}
-
-	public String getReadStatusText()
-	{
-		return readStatusText;
-	}
-
-	public void setReadStatusText(String readStatusText)
-	{
-		this.readStatusText = readStatusText;
-	}
-
+	
 	public Long getSessionid()
 	{
 		return sessionid;
@@ -314,8 +270,6 @@ public class SubmitBean implements java.io.Serializable
 		sb.append("Transactionid:").append(transactionid).append(
 				Constants.NEWLINE);
 		sb.append("Mm7version:").append(mm7version).append(Constants.NEWLINE);
-		sb.append("SenderAddress:").append(senderAddress).append(
-				Constants.NEWLINE);
 		sb.append("ToAddress:").append(toAddress).append(Constants.NEWLINE);
 		sb.append("Subject:").append(subject).append(Constants.NEWLINE);
 		sb.append("Sendtime:").append(sendtime).append(Constants.NEWLINE);
@@ -328,10 +282,6 @@ public class SubmitBean implements java.io.Serializable
 		sb.append("ReportTime:").append(reportTime).append(Constants.NEWLINE);
 		sb.append("MmStatus:").append(mmStatus).append(Constants.NEWLINE);
 		sb.append("MmStatusText:" + mmStatusText).append(Constants.NEWLINE);
-		sb.append("ReadyTime:").append(readyTime).append(Constants.NEWLINE);
-		sb.append("ReadStatus:").append(readStatus).append(Constants.NEWLINE);
-		sb.append("ReadStatusText:").append(readStatusText).append(
-				Constants.NEWLINE);
 		sb.append("Sessionid:").append(sessionid).append(Constants.NEWLINE);
 		return sb.toString();
 	}
