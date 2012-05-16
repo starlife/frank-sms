@@ -20,6 +20,7 @@ import com.cmcc.mm7.vasp.message.MM7SubmitReq;
 import com.cmcc.mm7.vasp.message.MM7SubmitRes;
 import com.cmcc.mm7.vasp.service.MM7Sender;
 import com.vasp.mm7.database.MmsFileDaoImpl;
+import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.UMmsDaoImpl;
 import com.vasp.mm7.database.pojo.MmsFile;
 import com.vasp.mm7.database.pojo.SubmitBean;
@@ -33,13 +34,15 @@ public class Sender extends MM7Sender
 
 	private static final Log log = LogFactory.getLog(Sender.class);
 
-	private static final Log db = LogFactory.getLog("db");
+	//private static final Log db = LogFactory.getLog("db");
 	private static final Log lose = LogFactory.getLog("lose");//保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
 	 */
 	private static final LinkedBlockingQueue<MM7SubmitReq> que = new LinkedBlockingQueue<MM7SubmitReq>();
+	
+	public static int maxSrcID=10;
 
 	//private MM7Config config = null;
 	/**
@@ -52,11 +55,12 @@ public class Sender extends MM7Sender
 	private UMmsDaoImpl ummsDao = UMmsDaoImpl.getInstance();
 
 	private MmsFileDaoImpl mmsFileDao = MmsFileDaoImpl.getInstance();
+	
+	private SubmitDaoImpl submitDao=SubmitDaoImpl.getInstance();
 
 	/**
 	 * 群发每条彩信最大的接收号码
 	 */
-	public static final int MAX_NUMBER = 10;
 
 	private static int allocTransactionId = 0;
 
@@ -98,6 +102,8 @@ public class Sender extends MM7Sender
 		submitReq.setVASPID("895192");
 		submitReq.setVASID("106573061704");
 		submitReq.setServiceCode("1113329901");
+		submitReq.setDeliveryReport(true);
+		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
 		submitReq.setContent(content);
 		return submitReq;
@@ -216,7 +222,7 @@ public class Sender extends MM7Sender
 				// 休息1s
 				try
 				{
-					TimeUnit.SECONDS.sleep(1);
+					TimeUnit.SECONDS.sleep(2);
 				}
 				catch (InterruptedException e)
 				{
@@ -236,14 +242,19 @@ public class Sender extends MM7Sender
 				MMContent content = createSubmitReqContent(mmsFile);
 
 				MM7SubmitReq submitReq = null;
-				for (int j = 0; j < numbers.length; j++)
+				for (int j = 0; j < numbers.length;j+=maxSrcID)
 				{
 					// 重新赋值submitReq
 					String trasactionid = allocTransactionID();
 
 					submitReq = createSubmitReq(trasactionid, mms.getSubject(),
 							content);
-					submitReq.addTo(numbers[j]);
+					for(int k=j;k<Math.min(j+maxSrcID,numbers.length);k++)
+					{
+						submitReq.addTo(numbers[k]);
+					}
+						
+					
 					que.add(submitReq);
 					//处理session
 					synchronized (sessionMap)
@@ -268,7 +279,7 @@ public class Sender extends MM7Sender
 	 * @param submitMsg
 	 * @param res
 	 */
-	public void doSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
+	public void dealSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
 	{
 		if (res instanceof MM7SubmitRes)
 		{
@@ -281,25 +292,32 @@ public class Sender extends MM7Sender
 			{
 				sessionid = sessionMap.remove(trasactionid);
 			}
-			SubmitBean submitBean = new SubmitBean();
-			submitBean.setMessageid(messageid);
-			submitBean.setTransactionid(trasactionid);
-			submitBean.setMm7version(submitMsg.getMM7Version());
-			submitBean.setToAddress((String) submitMsg.getTo().get(0));
-			submitBean.setSubject(submitMsg.getSubject());
-			submitBean.setSendtime(DateUtils.getTimestamp14());
-			submitBean.setVaspid(submitMsg.getVASPID());
-			submitBean.setVasid(submitMsg.getVASID());
-			submitBean.setServiceCode(submitMsg.getServiceCode());
-			submitBean.setLinkid(submitMsg.getLinkedID());
-			submitBean.setStatus(res.getStatusCode());
-			submitBean.setStatusText(res.getStatusText());
-			submitBean.setSessionid(sessionid);
-			db.info(submitBean);
+			List<String> numbers=submitMsg.getTo();
+			for(int i=0;i<numbers.size();i++)
+			{
+				SubmitBean submitBean = new SubmitBean();
+				submitBean.setMessageid(messageid);
+				submitBean.setTransactionid(trasactionid);
+				submitBean.setMm7version(submitMsg.getMM7Version());
+				submitBean.setToAddress((String) submitMsg.getTo().get(i));
+				submitBean.setSubject(submitMsg.getSubject());
+				submitBean.setSendtime(DateUtils.getTimestamp14());
+				submitBean.setVaspid(submitMsg.getVASPID());
+				submitBean.setVasid(submitMsg.getVASID());
+				submitBean.setServiceCode(submitMsg.getServiceCode());
+				submitBean.setLinkid(submitMsg.getLinkedID());
+				submitBean.setStatus(res.getStatusCode());
+				submitBean.setStatusText(res.getStatusText());
+				submitBean.setSessionid(sessionid);
+				//db.info(submitBean);
+				submitDao.save(submitBean);
+			}
+			
 
 
 		}else
 		{
+			log.debug("丢失包，请查看lose日志");
 			lose.error("处理"+submitMsg+"时收到错误回应包 "+res);
 		}
 		

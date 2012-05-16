@@ -13,9 +13,9 @@ import com.cmcc.mm7.vasp.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.message.MM7VASPRes;
 import com.cmcc.mm7.vasp.service.MM7Receiver;
+import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.pojo.DeliverBean;
-import com.vasp.mm7.database.pojo.SLogMmsreadreply;
-import com.vasp.mm7.database.pojo.SLogMmsreport;
+import com.vasp.mm7.database.pojo.SubmitBean;
 import com.vasp.mm7.util.DateUtils;
 
 public class Receiver extends MM7Receiver
@@ -23,7 +23,9 @@ public class Receiver extends MM7Receiver
 
 	private static final Log log = LogFactory.getLog(Receiver.class);
 
-	private static final Log db = LogFactory.getLog("db");
+	//private static final Log db = LogFactory.getLog("db");
+	
+	private SubmitDaoImpl submitDao=SubmitDaoImpl.getInstance();
 
 	/**
 	 * 数据库访问对象
@@ -107,27 +109,18 @@ public class Receiver extends MM7Receiver
 	public void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
 		// 这里更新s_log_mmssubmit表
-		/*
-		 * String messageid=deliverReportReq.getMessageID();
-		 * if(!Tools.isBlank(messageid)) { SubmitBean
-		 * bean=dao.getSubmitBeanByMessageid(messageid); if(bean!=null) {
-		 * bean.setDeliverreportTime(deliverReportReq.getTimeStamp());
-		 * bean.setMmstatus((int)deliverReportReq.getMMStatus());
-		 * bean.setMmstatustext(deliverReportReq.getStatusText());
-		 * dao.update(bean); } }
-		 */
-		// 这里插入记录到s_log_mmsreport
-		SLogMmsreport reportBean = new SLogMmsreport();
-		reportBean.setMessageid(deliverReportReq.getMessageID());
-		reportBean.setTrasactionid(deliverReportReq.getTransactionID());
-		reportBean.setDateTime(deliverReportReq.getTimeStamp());
-		reportBean.setMm7version(deliverReportReq.getMM7Version());
-		reportBean.setMmstatus((int) deliverReportReq.getMMStatus());
-		reportBean.setMmstatustext(deliverReportReq.getStatusText());
-		reportBean.setSenderAddress(deliverReportReq.getSender());
-		reportBean.setRecipientAddress(deliverReportReq.getRecipient());
-		// dao.save(reportBean);
-		log.info(deliverReportReq);
+		String messageid=deliverReportReq.getMessageID();
+		String to=deliverReportReq.getRecipient();
+		SubmitBean bean=submitDao.getSubmitBean(messageid, to);
+		if(bean!=null)
+		{
+			bean.setTransactionid(deliverReportReq.getTransactionID());
+			bean.setReportTime(DateUtils.getTimestamp14(deliverReportReq.getTimeStamp()));
+			bean.setMmStatus((int)deliverReportReq.getMMStatus());
+			bean.setMmStatusText(deliverReportReq.getStatusText());
+			submitDao.save(bean);
+		}
+		
 	}
 
 	public void dealReadReply(MM7ReadReplyReq mm7ReadReplyReq)
@@ -143,17 +136,6 @@ public class Receiver extends MM7Receiver
 		 * dao.update(bean); } }
 		 */
 		// 这里插入记录到s_log_mmsreadreply
-		SLogMmsreadreply readreplyBean = new SLogMmsreadreply();
-		readreplyBean.setMessageid(mm7ReadReplyReq.getMessageID());
-		readreplyBean.setTrasactionid(mm7ReadReplyReq.getTransactionID());
-		readreplyBean.setDateTime(mm7ReadReplyReq.getTimeStamp());
-		readreplyBean.setMm7version(mm7ReadReplyReq.getMM7Version());
-		readreplyBean.setReadstatus((int) mm7ReadReplyReq.getMMStatus());
-		readreplyBean.setReadstatustext(mm7ReadReplyReq.getStatusText());
-		readreplyBean.setSenderAddress(mm7ReadReplyReq.getSender());
-		readreplyBean.setRecipientAddress(mm7ReadReplyReq.getRecipient());
-		// dao.save(readreplyBean);
-		db.info(readreplyBean);
 	}
 
 	// Main方法
