@@ -11,10 +11,10 @@
             <generator class="native" />
         </id>
         <property name="messageid" type="java.lang.String">
-            <column name="messageid" length="20" not-null="true" />
+            <column name="messageid" length="21" not-null="true" />
         </property>
         <property name="transactionid" type="java.lang.String">
-            <column name="transactionid" length="20" not-null="true" />
+            <column name="transactionid" length="30" not-null="true" />
         </property>
         <property name="mm7version" type="java.lang.String">
             <column name="mm7version" length="10" />
