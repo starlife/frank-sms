@@ -13,7 +13,7 @@ public class UMms implements java.io.Serializable
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private MmsFile mmsFile;
+	private Long mmsid;
 	private String subject;
 	private String recipient;
 	private String sendtime;
@@ -42,10 +42,10 @@ public class UMms implements java.io.Serializable
 	}
 
 	/** full constructor */
-	public UMms(MmsFile mmsFile, String subject, String recipient,
+	public UMms(Long mmsid, String subject, String recipient,
 			String sendtime, Integer status)
 	{
-		this.mmsFile = mmsFile;
+		this.mmsid = mmsid;
 		this.subject = subject;
 		this.recipient = recipient;
 		this.sendtime = sendtime;
@@ -64,14 +64,14 @@ public class UMms implements java.io.Serializable
 		this.id = id;
 	}
 
-	public MmsFile getMmsFile()
+	public Long getMmsid()
 	{
-		return this.mmsFile;
+		return this.mmsid;
 	}
 
-	public void setMmsFile(MmsFile mmsFile)
+	public void setMmsid(Long mmsid)
 	{
-		this.mmsFile = mmsFile;
+		this.mmsid = mmsid;
 	}
 
 	public String getSubject()
