@@ -10,9 +10,12 @@
             <column name="id" scale="0" />
             <generator class="native" />
         </id>
-        <many-to-one name="mmsFile" class="com.frank.ylear.modules.mms.entity.MmsFile" fetch="select">
+       <!--  <many-to-one name="mmsFile" class="com.vasp.mm7.database.pojo.MmsFile" fetch="select">
             <column name="mmsid" scale="0" />
-        </many-to-one>
+        </many-to-one> -->
+        <property name="mmsid" type="java.lang.Long">
+            <column name="mmsid" scale="0" not-null="true" />
+        </property>
         <property name="subject" type="java.lang.String">
             <column name="subject" length="100" not-null="true" />
         </property>
