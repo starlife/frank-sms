@@ -7,53 +7,55 @@ import com.frank.ylear.modules.base.service.BaseService;
 import com.frank.ylear.modules.mms.entity.UMms;
 import com.frank.ylear.modules.mms.service.MmsService;
 
-
 public class MmsServiceImpl extends BaseService implements MmsService
 {
-	
+
 	/**
 	 * 
 	 */
-	public void getMmsList(UMms mms, PageBean pageResult) {
-		String hql = "select obj from UMms obj inner join fetch obj.mmsFile where 1=1 ";
-		if (null!=mms){
-			if (isItemNotEmpty(mms.getBeginTime())){
-				hql += "and obj.sendtime >='"
-						+mms.getBeginTime()+"' ";				
+	public void getMmsList(UMms mms, PageBean<UMms> pageResult)
+	{
+		String hql = "select obj from UMms obj where 1=1 ";
+		if (null != mms)
+		{
+			if (isItemNotEmpty(mms.getBeginTime()))
+			{
+				hql += "and obj.sendtime >='" + mms.getBeginTime() + "' ";
 			}
-			if (isItemNotEmpty(mms.getEndTime())){
-				hql += "and obj.sendtime <='"
-						+mms.getEndTime()+"' ";				
+			if (isItemNotEmpty(mms.getEndTime()))
+			{
+				hql += "and obj.sendtime <='" + mms.getEndTime() + "' ";
 			}
 		}
-		
-		baseDao.listByPage(hql,pageResult);
+
+		baseDao.listByPage(hql, pageResult);
 	}
+
 	/**
 	 * 删除
 	 */
-	public void delMms(Long id){
+	public void delMms(Long id)
+	{
 		baseDao.del(UMms.class, id);
 	}
+
 	/**
 	 * 添加
 	 */
-	public Serializable saveMms(UMms mms){
-		//对时间进行处理	
-		//添加
-		return baseDao.add(mms);	
+	public Serializable saveMms(UMms mms)
+	{
+		// 对时间进行处理
+		// 添加
+		return baseDao.add(mms);
 	}
-	
-	
+
 	/**
 	 * 取得单个元素
-	 */	
-	public UMms getMms(Long id){
-		UMms obj=(UMms) baseDao.get(UMms.class, id);
+	 */
+	public UMms getMms(Long id)
+	{
+		UMms obj = (UMms) baseDao.get(UMms.class, id);
 		return obj;
 	}
-	
-	
-	
 
 }
