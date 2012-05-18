@@ -531,6 +531,29 @@ public class MMSFileHelper
 
 		return smil.getSmil();
 	}
+	
+	public static boolean cleanAllUploadFile(String dir)
+	{
+		boolean b=false;
+		File path = new File(dir);
+		if (!path.exists())
+		{
+			path.mkdirs();
+		}
+		else
+		{
+			if (path.isDirectory())
+			{
+				File[] files=path.listFiles();
+				for(int i=0;i<files.length;i++)
+				{
+					b=files[i].delete();
+				}
+			}
+		}
+		return b;
+
+	}
 
 	public static void main(String[] args) throws IOException, SQLException
 	{
