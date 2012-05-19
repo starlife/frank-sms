@@ -30,5 +30,14 @@ public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 		//Ìí¼Ó	
 		return baseDao.add(mmsfile);		
 	}
+
+	public List<MmsFile> getRecentMms(int num)
+	{
+		// TODO Auto-generated method stub
+		String sql="from MmsFile";
+		return baseDao.listByPage(sql,0,num);
+	}
+
+
 	
 }
