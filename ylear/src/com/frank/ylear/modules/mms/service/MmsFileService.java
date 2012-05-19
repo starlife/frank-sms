@@ -3,6 +3,7 @@ package com.frank.ylear.modules.mms.service;
 import java.io.Serializable;
 import java.util.List;
 
+import com.frank.ylear.common.model.PageBean;
 import com.frank.ylear.modules.mms.entity.MmsFile;
 
 public interface MmsFileService
@@ -13,5 +14,7 @@ public interface MmsFileService
 	public MmsFile getMms(Long id);
 	
 	public List<MmsFile> getRecentMms(int num);
+	
+	public void getMmsFileList(PageBean<MmsFile> pageResult);
 	
 }

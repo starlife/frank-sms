@@ -13,9 +13,9 @@
         <message key="mms.subject.null"/>
       </field-validator>
   </field>
-  <field name="mms.mmsFile.id">
+  <field name="mms.mmsid">
      <field-validator type="required">
-        <message key="mms.mmsFile.id.null"/>
+        <message key="mms.mmsid.null"/>
       </field-validator>
   </field>
 </validators>

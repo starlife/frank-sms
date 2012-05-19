@@ -27,7 +27,7 @@ public class MmsServiceImpl extends BaseService implements MmsService
 				hql += "and obj.sendtime <='" + mms.getEndTime() + "' ";
 			}
 		}
-
+        hql+=" order by obj.id desc";
 		baseDao.listByPage(hql, pageResult);
 	}
 
