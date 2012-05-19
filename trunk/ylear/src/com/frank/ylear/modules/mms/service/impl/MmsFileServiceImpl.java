@@ -3,6 +3,7 @@ package com.frank.ylear.modules.mms.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.frank.ylear.common.model.PageBean;
 import com.frank.ylear.modules.base.service.BaseService;
 import com.frank.ylear.modules.mms.entity.MmsFile;
 import com.frank.ylear.modules.mms.service.MmsFileService;
@@ -36,6 +37,15 @@ public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 		// TODO Auto-generated method stub
 		String sql="from MmsFile";
 		return baseDao.listByPage(sql,0,num);
+	}
+	
+	/**
+	 * 
+	 */
+	public void getMmsFileList(PageBean<MmsFile> pageResult)
+	{
+		String hql = "from MmsFile order by id desc";
+		baseDao.listByPage(hql, pageResult);
 	}
 
 

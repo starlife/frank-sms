@@ -93,12 +93,14 @@ public class MmsAction extends BaseAction
 		else
 		{
 			// 检查时间戳值格式是否正确
-			if (!DateUtils.isValidTimestamp14(this.getMms().getSendtime()))
+			String sendtime=DateUtils.getTimestamp14(this.getMms().getSendtime());
+			if(sendtime==null)
 			{
 				this.addFieldError("mms.sendtime",
 						getText("mms.sendtime.error"));
 				return;
 			}
+			this.getMms().setSendtime(sendtime);
 		}
 		mms.setStatus(0);// 0表示未发送，1表示已发送
 	}

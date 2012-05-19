@@ -111,7 +111,7 @@ public class MMSFileHelper
 					uploadFile.setFilename(fr.getTextFileName());// 设置文件名
 					uploadFile.setFrameid(key);// 设置帧号
 					uploadFile.setUploadtime(DateUtils.getTimestamp14());
-					uploadFile.setFiletype(Constants.FILE_TYPE_TEXT);
+					uploadFile.setFiletype(fr.getTextFileType());
 					mmsFile.getUploadFiles().add(uploadFile);
 
 				}
@@ -396,7 +396,7 @@ public class MMSFileHelper
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
 		// 设置image
-		long fileSize = text.length();
+		long fileSize = text.getBytes().length;
 		String fileName = mmsFile.getCurrentFrameId() + ".txt";
 
 		fr.setText(text);
