@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.frank.ylear.modules.mms.util.MmsFrame;
+
 /**
  * MmsFile entity.
  * 
@@ -26,7 +28,7 @@ public class MmsFile implements java.io.Serializable
 	private Long smilsize;
 	private Long mmsSize;
 	private String createtime;
-	private Set UMmses = new HashSet(0);
+	//private Set UMmses = new HashSet(0);
 	private Set<UploadFile> uploadFiles = new HashSet<UploadFile>(0);
 
 /* 下面是一些自定义属性 */
@@ -57,7 +59,7 @@ public class MmsFile implements java.io.Serializable
 	/** full constructor */
 	public MmsFile(String mmsName, Integer frames, String smilname,
 			String smildata, Long smilsize, Long mmsSize, String createtime,
-			Set UMmses, Set<UploadFile> uploadFiles)
+			Set<UploadFile> uploadFiles)
 	{
 		this.mmsName = mmsName;
 		this.frames = frames;
@@ -66,7 +68,7 @@ public class MmsFile implements java.io.Serializable
 		this.smilsize = smilsize;
 		this.mmsSize = mmsSize;
 		this.createtime = createtime;
-		this.UMmses = UMmses;
+		//this.UMmses = UMmses;
 		this.uploadFiles = uploadFiles;
 	}
 
@@ -167,7 +169,7 @@ public class MmsFile implements java.io.Serializable
 		this.createtime = createtime;
 	}
 
-	public Set getUMmses()
+	/*public Set getUMmses()
 	{
 		return this.UMmses;
 	}
@@ -175,7 +177,7 @@ public class MmsFile implements java.io.Serializable
 	public void setUMmses(Set UMmses)
 	{
 		this.UMmses = UMmses;
-	}
+	}*/
 	public boolean addUploadFile(UploadFile upload)
 	{
 		return this.uploadFiles.add(upload);
