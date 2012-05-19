@@ -27,115 +27,102 @@
 		}
 	)
 	
-	function GetXmlHttpObject()
-	{
-  		var xmlHttp=null;
-  		try
-    	{
-	    	// Firefox, Opera 8.0+, Safari
-	    	xmlHttp=new XMLHttpRequest();
-	    }
- 	 	catch (e)
-    	{
-		    // Internet Explorer
-		    try
-		      {
-		      xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-		      }
-		    catch (e)
-		      {
-		      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-		      }
-    	}
- 		 return xmlHttp;
-	}
 	
 	function cancelMethod()
 	{
-
-	  	xmlHttp=GetXmlHttpObject()
-	  
-	  	if (xmlHttp==null)
-	    {
-		    alert ("您的浏览器不支持AJAX！请升级您的浏览器");
-		    return;
-	    }
+		var url=$("#closeurl").html();
+		$.get(url,function(result){
+				if(result=="true")
+				{
+					//关闭窗口
+	  				window.close();
+				}
+		})
+	}  	
 	
-		var url=document.getElementById("closeurl").innerHTML;
-		xmlHttp.onreadystatechange=callbackClose;
-		xmlHttp.open("GET",url,true);
-		xmlHttp.send("sid="+Math.random());
-	}
-	function callbackClose() 
-	{ 
-	  if (xmlHttp.readyState==4)
-	  { 
-	  	alert(xmlHttp.responseText);
-	  	if("true"==xmlHttp.responseText)
-	  	{
-	  		//关闭窗口
-	  		window.close();
-	  	}
-	  }
-	}
 	
 	
 	function saveMethod()
 	{
-		var mmsName=document.getElementById("mmsName").value;
+		var mmsName=$("#mmsName").val();
 		if(!mmsName)
 		{
 			alert("彩信名称不能为空");
 			return;
 		}
-	  	xmlHttp=GetXmlHttpObject();
-	  
-	  	if (xmlHttp==null)
-	    {
-		    alert ("您的浏览器不支持AJAX！请升级您的浏览器");
-		    return;
-	    }
-	
-		var url=document.getElementById("saveurl").innerHTML;
-		var mmsName=document.getElementById("mmsName").value;
-		var param="mmsName="+mmsName;
-		xmlHttp.open("POST",url,true);  
-       	xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");  
-        xmlHttp.onreadystatechange=callbackSave;
-		xmlHttp.send(param); 
+	  	
+	  	var url=$("#saveurl").html();
+		$.post(url,{"mmsName":mmsName},function(result){
+			var values=result.split(",");
+			if(values[0]=="false")
+  			{
+  				var tip="";
+  				if(values[1])
+  				{
+  					tip=values[1];
+  					
+  				}
+  				if(tip=="mmsName.null")
+  				{
+  						alert("彩信名称不能为空");
+  				}
+  				else if(tip=="mmsSize.null")
+  				{
+  					alert("彩信大小不能为空");
+  				}
+  				else
+  				{
+  					alert("保存失败，请重试!");
+  				}
+  			}else
+  			{
+  				if(window.opener)
+  				{
+			  		//写数据到调用者页面，然后关闭自己
+			  		var retStr=result;
+			  		var values=retStr.split(",");
+			  		var mmsid= values[1];
+			  		var frameCount=values[2];
+			  		var mmsSize=$("#mmsSize").html();
+			  		//需要写回彩信大小，彩信帧数，彩信名称，彩信id
+			  		window.opener.document.getElementById("mmsName").innerHTML=mmsName;
+			  		window.opener.document.getElementById("mms.mmsid").value=mmsid;
+			  		window.opener.document.getElementById("frameCount").innerHTML=frameCount;
+			  		window.opener.document.getElementById("mmsSize").innerHTML=mmsSize;
+			  		window.close();//关闭窗口
+		  		}else
+		  		{
+		  			alert("彩信保存成功"+result);
+		  		}
+  			}
+		})
 		
 	}
 	
-	
-	function callbackSave() 
-	{ 
-	  if (xmlHttp.readyState==4)
-	  { 
-	  	if("false"==xmlHttp.responseText)
-	  	{
-	  		alert("保存失败，请重试!");
-	  	}else
-	  	{
-	  		//写数据到调用者页面，然后关闭自己
-	  		var retStr=xmlHttp.responseText;
-	  		var values=retStr.split(",");
-	  		var mmsid= values[1];
-	  		var frames=values[2];
-	  		var mmsName=document.getElementById("mmsName").value;
-	  		var mmsSize=document.getElementById("mmsSize").innerHTML;
-	  		//需要写会彩信大小，彩信帧数，彩信名称
-	  		window.opener.document.getElementById("mms.mmsName").innerHTML=mmsName;
-	  		window.opener.document.getElementById("mms.mmsFile.id").value=mmsid;
-	  		window.opener.document.getElementById("frames").innerHTML=frames;
-	  		window.opener.document.getElementById("mmsSize").innerHTML=mmsSize;
-	  		window.close();//关闭窗口
-	  	}
-	  }
+	function test()
+	{
+		if(window.opener)
+		{
+			var element=window.opener.document.getElementById("mmsName");
+			if(element);
+			alert(window.opener.document.getElementById("mmsName1").innerHTML);
+		}else
+		{
+			alert("彩信保存成功");
+		}
+  		//需要写回彩信大小，彩信帧数，彩信名称，彩信id
+  		//window.opener.document.getElementById("mmsName").innerHTML=mmsName;
+  		//window.opener.document.getElementById("mms.mmsid").value=mmsid;
+  		//window.opener.document.getElementById("frameCount").innerHTML=frameCount;
+  		//window.opener.document.getElementById("mmsSize").innerHTML=mmsSize;
+  		//window.close();//关闭窗口
+  		
 	}
 	
+
 	/**************************下面是所有回调函数****************************/
 	/*addFrame,changeFrame,delFrame时回调*/
-	function chooseFrame_callback(frameid,mmsSize,frameSize,duringTime,frameText)
+	function choiceFrame_callback(frameid,mmsSize,frameSize,duringTime,frameText)
 	{	
 		//alert("changeFrame_callback"+id);
 		setCurrentFrameId(frameid);//设置帧
@@ -234,7 +221,7 @@
 	}
 	
 	/*选择另一帧*/
-	function chooseFrameMethod(frameid,url)
+	function choiceFrameMethod(frameid,url)
 	{	
 		$("#frameId").val(frameid);
 		document.forms[0].action=url;
@@ -347,7 +334,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<span id="iframeURL" style="display:none"><s:url action="mmsEditor!show"/></span>
+							<span id="iframeURL" style="display:none"><s:url action="mmsEditor!showui"/></span>
 							<iframe id="ui" name="ui" src=''
 								width="100%" height="280px" frameborder="0" scrolling="none"></iframe>
 
@@ -444,6 +431,7 @@
 						onclick="saveMethod();" />
 					<input type="button" name="cancelBtn" value="关闭"
 						onclick="cancelMethod();" />
+						
 				</div>
 			</s:form>
 		</div>

@@ -113,15 +113,18 @@
 										<s:property value="recipient" default=" " />
 									</td>
 									<td>
-									<s:url id="showURL" action="showMms">
-											<s:param name="id" value="mmsFile.id" />
-										</s:url>
+									<s:url id="showURL" action="mmsViewer" >
+											<s:param name="id" value="mmsid" />
+									</s:url>
 									<a href="#"  onclick="showMmsMethod('<s:property value="%{#showURL}"/>')">查看彩信</a>
 										
 									</td>
 									
 									<td>
-										<s:property value="sendtime" default=" " />
+										<script>
+											document.write(formatDateStr('<s:property value="sendtime" default=" " />'));
+										</script>
+										
 									</td>
 									<td>
 										<s:if test="status==0">未发送</s:if>

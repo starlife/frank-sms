@@ -14,13 +14,12 @@ body {
 }
 
 #container {
-	position:absolute;
-	top:5px;
-	left:5px;
+	position: absolute;
+	top: 5px;
+	left: 5px;
 	padding: 0px;
 	text-align: left;
-	/*background-color:#eee;*/
-	/*overflow: auto;*/
+	/*background-color:#eee;*/ /*overflow: auto;*/
 }
 
 /*每一帧内容*/
@@ -69,10 +68,52 @@ body {
 }
 </style>
 		<script type="text/javascript">
-
+	/**************************下面是所有回调函数****************************/
+	function choiceFrame_callback()
+	{
+		var frameid=document.getElementById("currentFrameId").innerHTML;
+		var mmsSize=document.getElementById("mmsSize").innerHTML;
+		var frameSize=document.getElementById("currentFrameSize").innerHTML;
+		var duringTime=document.getElementById("currentDuringTime").innerHTML;
+		var frameText=document.getElementById("currentFrameText").innerHTML;
+		parent.choiceFrame_callback(frameid,mmsSize,frameSize,duringTime,frameText);
+	}
 	
-
-</script>
+	/*uploadImage,uploadAudio,uploadText时回调*/
+	function upload_callback()
+	{
+		//帧大小，彩信大小
+		var mmsSize=document.getElementById("mmsSize").innerHTML;
+		var frameSize=document.getElementById("currentFrameSize").innerHTML;
+		parent.upload_callback(mmsSize,frameSize);
+	}
+	
+	
+	/*clearImage时回调*/
+	function clearImage_callback()
+	{
+		var mmsSize=document.getElementById("mmsSize").innerHTML;
+		var frameSize=document.getElementById("currentFrameSize").innerHTML;
+		parent.clearImage_callback(mmsSize,frameSize);
+	}
+	
+	/*clearAudio时回调*/
+	function clearAudio_callback()
+	{
+		var mmsSize=document.getElementById("mmsSize").innerHTML;
+		var frameSize=document.getElementById("currentFrameSize").innerHTML;
+		parent.clearAudio_callback(mmsSize,frameSize);
+	}
+	
+	/*clearText时回调*/
+	function clearText_callback()
+	{
+		var mmsSize=document.getElementById("mmsSize").innerHTML;
+		var frameSize=document.getElementById("currentFrameSize").innerHTML;
+		parent.clearText_callback(mmsSize,frameSize);
+	}
+	/**************************end****************************/
+	</script>
 	</head>
 	<body>
 		<div id="container">
@@ -83,22 +124,20 @@ body {
 					name="global.format.size.k">
 					<s:param value="#mmsFile.mmsSize/1024.0" />
 				</s:text> </span>
-			<s:hidden id="currentFrameId" name="currentFrameId" />
+
+			<span id="currentFrameSize" style="display: none"> <s:text
+					name="global.format.size.k">
+					<s:param value="#mmsFile.currentFrameSize/1024.0" />
+				</s:text> </span>
+			<span id="currentFrameId" style="display: none" />${mmsFile.currentFrameId}</span>
+			<span id="currentDuringTime" style="display: none" />${mmsFile.currentDuringTime}</span>
+			<span id="currentFrameText" style="display: none" />${mmsFile.currentFrameText}</span>
 			<!-- ======================================================= -->
 
 			<table>
 				<tr>
 
 					<s:iterator value="#mmsFile.frameMap">
-						<!-- ======================================================= -->
-						<!-- 记录frameSize -->
-						<span id='frsize${key}' style="display: none"> <s:text
-								name="global.format.size.k">
-								<s:param value="value.frameSize/1024.0" />
-							</s:text> </span>
-						<!-- 记录帧播放时间 -->
-						<span id='frameDuringTime${key}' style="display: none">${value.durTime}</span>
-						<!-- ======================================================= -->
 
 						<td>
 
@@ -106,10 +145,11 @@ body {
 								<tr>
 									<td align="center">
 										<input name="radioselect" type="radio"
-											<s:if test="key==currentFrameId">
+											<s:if test="key==#mmsFile.currentFrameId">
 								checked="checked"
 							</s:if>
-											value="${key}" onclick="chooseFrame(${key});" />
+											value="${key}"
+											onclick="parent.choiceFrameMethod(${key},'<s:url action="mmsEditor!choiceFrame"/>');" />
 										选择|
 										<a class="link"
 											onclick="parent.delFrameMethod(${key},'<s:url action="mmsEditor!delFrame"/>');">删除</a>
@@ -149,7 +189,7 @@ body {
 									</td>
 								</tr>
 								<tr>
-									<td class="framedesc" >
+									<td class="framedesc">
 										第${key}帧
 									</td>
 								</tr>
