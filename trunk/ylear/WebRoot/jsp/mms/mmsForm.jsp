@@ -11,14 +11,14 @@
 	//jquery
 	$(document).ready(
 		function(){
-			
+			$("input[type='button']").button();
 			$("#submitBtn").button();
 			$("#cancelBtn").button();
-			$("#addressBtn").button();
-			$("#addMmsBtn").button();
-			$("#mms\\.sendtimeStr").css({"display":"none"});//初始设为隐藏
-			$("#sendby1").click(function(){$("#mms\\.sendtimeStr").css({"display":"none"});});
-			$("#sendby2").click(function(){$("#mms\\.sendtimeStr").css({"display":""});});
+			//$("#addressBtn").button();
+			//$("#addMmsBtn").button();
+			$("#mms\\.sendtime").css({"display":"none"});//初始设为隐藏
+			$("#sendby1").click(function(){$("#mms\\.sendtime").css({"display":"none"});});
+			$("#sendby2").click(function(){$("#mms\\.sendtime").css({"display":""});});
 			////初始化通讯类工具窗口
 			$("#dialog:ui-dialog" ).dialog( "destroy" );
 			$("#dialog").dialog({
@@ -35,11 +35,32 @@
 				}
 			});
 			
+			$("#dialog1").dialog({
+				autoOpen:false,
+				resizable: false,
+				height:600,
+				width:"60%",
+				modal: true,
+				title:'选择彩信',
+				closeOnEscape:false,//关闭按 esc 退出
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				}
+			});
+			
 			//点击窗口打开iframe
 			$("#addressBtn").click(
 				function(){
 					$("#addressTool").attr("src","listCustomAddress.action");
 					$("#dialog").dialog("open");
+				}
+			);
+			
+			$("#selectMmsBtn").click(
+				function(){
+					$("#dialog1frame").attr("src","mmsList.action");
+					$("#dialog1").dialog("open");
 				}
 			);
 		}
@@ -69,6 +90,17 @@
 		$(obj).val(value.split(";").unique().join(";"));
 		$("#dialog").dialog("close");
 	}
+	
+	function choiceMmsFile_callback(id,mmsName,frames,mmsSize)
+	{
+		document.getElementById("mmsName").innerHTML=mmsName;
+		document.getElementById("mms.mmsid").value=id;
+		document.getElementById("frameCount").innerHTML=frames;
+		document.getElementById("mmsSize").innerHTML=mmsSize;
+	}
+	
+	
+	
 		
 	</script>
   </head>
@@ -78,6 +110,12 @@
 <div id="container">
   <div id="dialog" style="font-size: 14px;display: none;">
 	<iframe id="addressTool" name="addressTool" 
+	src="" width="100%" 
+	height="100%" frameborder="0" scrolling="no" ></iframe>
+</div>
+
+<div id="dialog1" style="font-size: 14px;display: none;">
+	<iframe id="dialog1frame" name="dialog1frame" 
 	src="" width="100%" 
 	height="100%" frameborder="0" scrolling="no" ></iframe>
 </div>
@@ -108,10 +146,11 @@
 	  <tr>
 	  	<td>彩信名称<font color="red">*</font></td>
 	  	<td><div id="mmsName"></div>
-	  	<s:textfield name="mms.mmsFile.id" id="mms.mmsFile.id"></s:textfield>
+	  	<s:textfield name="mms.mmsid" id="mms.mmsid"></s:textfield>
+	  	<input id="selectMmsBtn" type="button" value="选择彩信" />	
 		<input id="addMmsBtn" type="button" value="新建编辑彩信" 
 		onclick="openWindow('<s:url action="mmsEditor"/>');"/>	
-		<s:fielderror  fieldName="mms.mmsFile.id"/>
+		<s:fielderror  fieldName="mms.mmsid"/>
 		</td>
 	  </tr>
 	  
@@ -133,7 +172,7 @@
 	  	<td>发送方式</td>
 	  	<td><input type=radio id="sendby1" name="sendby"  checked />立即发送 
 				<input type=radio id="sendby2" name="sendby" />定时发送
-				<s:textfield id="mms.sendtimeStr" name="mms.sendtimeStr" size="25" 
+				<s:textfield id="mms.sendtime" name="mms.sendtime" size="25" 
 				onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 				
 		</td>
