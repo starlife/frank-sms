@@ -45,7 +45,7 @@
 		</table>
 		
 	</div>
-	<s:form action="mmsReport" method="post" theme="simple">
+	<s:form action="smsReport" method="post" theme="simple">
 	<s:hidden name="queryBean.sessionid"/>
 	<s:hidden name="reportBean.allCount"/>
 	<s:hidden name="reportBean.successCount"/>	
@@ -83,35 +83,36 @@
 		<tbody class="ui-widget-content">
 		<s:iterator value="#request.page.list">
 			<!-- 已经收到了读报告，则发送成功 -->
-			<s:if test="mmStatus==1">
+			<s:if test="stat=='DELIVRD'">
 				<s:set id="status" value="'发送成功'"/>
 				<s:set id="statusText" value="'无'"/>
 			</s:if>
 			<!-- 如果没收到发送回应包或者收到了回应失败包（不等于1000） -->
-			<s:elseif test="mmStatus==null">
+			<s:elseif test="stat==null">
 				<s:set id="status" value="'未获取状态报告'"/>
 				<s:set id="statusText" value="'无'"/>
 			</s:elseif>
-			<!-- 如果收到了回应成功包，且收到了提交状态包但提交失败，还是应该标记为发送失败 -->
-			<s:elseif test="mmStatusText=='6640'">
+			<s:elseif test="stat=='DB:0140'">
 				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="'6640(用户未点播)'"/>
+				<s:set id="statusText" value="'DB:0140(用户未点播)'"/>
 			</s:elseif>
+			<!-- 如果收到了回应成功包，且收到了提交状态包但提交失败，还是应该标记为发送失败 -->
 			<s:else>
 				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="%{mmStatusText}"/>
+				<s:set id="statusText" value="%{stat}"/>
 			</s:else>
 			<tr class="ui-widget-content" align="center">
-				<td ><s:property value="toAddress"/></td>
+				<td ><s:property value="destId"/></td>
 				<td ><s:property value="#status"/></td>
 				<td ><s:property value="#statusText"/></td>
-				<td ><script>
+				<td >
+					<script>
 						document.write(formatDateStr('<s:property value="sendtime"/>'));
 					</script>
 				</td>
 				<td>
 				<!-- 定义url -->
-				<s:url id="delURL" action="delMmsSubmit">
+				<s:url id="delURL" action="delSmsSubmit">
 					<s:param name="id" value="id"/>
 				</s:url>
 					<input type="button" value="删除"
