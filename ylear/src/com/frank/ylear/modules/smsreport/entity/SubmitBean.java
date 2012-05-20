@@ -1,9 +1,7 @@
 package com.frank.ylear.modules.smsreport.entity;
 
-import com.frank.ylear.common.constant.Constants;
-
 /**
- * SLogmmssubmit entity.
+ * SLogsmssubmit entity.
  * 
  * @author MyEclipse Persistence Tools
  */
@@ -13,32 +11,26 @@ public class SubmitBean implements java.io.Serializable
 
 	// Fields
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String messageid;
-	private String transactionid;
-	private String mm7version;
-	//private String senderAddress;// 不为空
-	private String toAddress;
-	private String subject;
-	private String vaspid;
-	private String vasid;
-	private String serviceCode;
+	private String msgid;
+	private Integer pkTotal;
+	private Integer pkNumber;
+	private String msgSrc;
+	private String srcId;
+	private String destId;
+	private Integer msgFmt;
+	private Integer msgLength;
+	private String msgContent;
+	private String feetype;
+	private String feecode;
+	private String serviceId;
 	private String linkid;
 	private String sendtime;
-	private Integer status;
-	private String statusText;
-	private String reportTime;
-	private Integer mmStatus;
-	private String mmStatusText;
-	//private String readyTime;// MM7_read_reply_report.REQ中Date and time字段
-	// 可以为空
-	//private Integer readStatus;// MM7_read_reply_report.REQ中Read Status 字段 可以为空
-	//private String readStatusText;// MM7_read_reply_report.REQ中Read Status
-	// text字段 可以为空
+	private Integer resultcode;
+	private String resultstr;
+	private String submitTime;
+	private String doneTime;
+	private String stat;
 	private Long sessionid;
 
 	// Constructors
@@ -49,44 +41,56 @@ public class SubmitBean implements java.io.Serializable
 	}
 
 	/** minimal constructor */
-	public SubmitBean(String messageid, String transactionid,
-			String toAddress, String subject, String vaspid, String vasid,
-			String serviceCode, String sendtime, Integer status)
+	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
+			String msgSrc, String srcId, String destId, Integer msgFmt,
+			Integer msgLength, String msgContent, String feetype,
+			String feecode, String serviceId, String sendtime,
+			Integer resultcode, String resultstr)
 	{
-		this.messageid = messageid;
-		this.transactionid = transactionid;
-		this.toAddress = toAddress;
-		this.subject = subject;
-		this.vaspid = vaspid;
-		this.vasid = vasid;
-		this.serviceCode = serviceCode;
+		this.msgid = msgid;
+		this.pkTotal = pkTotal;
+		this.pkNumber = pkNumber;
+		this.msgSrc = msgSrc;
+		this.srcId = srcId;
+		this.destId = destId;
+		this.msgFmt = msgFmt;
+		this.msgLength = msgLength;
+		this.msgContent = msgContent;
+		this.feetype = feetype;
+		this.feecode = feecode;
+		this.serviceId = serviceId;
 		this.sendtime = sendtime;
-		this.status = status;
+		this.resultcode = resultcode;
+		this.resultstr = resultstr;
 	}
 
 	/** full constructor */
-	public SubmitBean(String messageid, String transactionid,
-			String mm7version, String toAddress, String subject, String vaspid,
-			String vasid, String serviceCode, String linkid, String sendtime,
-			Integer status, String statusText, String reportTime,
-			Integer mmStatus, String mmStatusText, Long sessionid)
+	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
+			String msgSrc, String srcId, String destId, Integer msgFmt,
+			Integer msgLength, String msgContent, String feetype,
+			String feecode, String serviceId, String linkid, String sendtime,
+			Integer resultcode, String resultstr, String submitTime,
+			String doneTime, String stat, Long sessionid)
 	{
-		this.messageid = messageid;
-		this.transactionid = transactionid;
-		this.mm7version = mm7version;
-		this.toAddress = toAddress;
-		this.subject = subject;
-		this.vaspid = vaspid;
-		this.vasid = vasid;
-		this.serviceCode = serviceCode;
+		this.msgid = msgid;
+		this.pkTotal = pkTotal;
+		this.pkNumber = pkNumber;
+		this.msgSrc = msgSrc;
+		this.srcId = srcId;
+		this.destId = destId;
+		this.msgFmt = msgFmt;
+		this.msgLength = msgLength;
+		this.msgContent = msgContent;
+		this.feetype = feetype;
+		this.feecode = feecode;
+		this.serviceId = serviceId;
 		this.linkid = linkid;
 		this.sendtime = sendtime;
-		this.status = status;
-		this.statusText = statusText;
-		this.reportTime = reportTime;
-		this.mmStatus = mmStatus;
-		this.mmStatusText = mmStatusText;
-	
+		this.resultcode = resultcode;
+		this.resultstr = resultstr;
+		this.submitTime = submitTime;
+		this.doneTime = doneTime;
+		this.stat = stat;
 		this.sessionid = sessionid;
 	}
 
@@ -102,86 +106,124 @@ public class SubmitBean implements java.io.Serializable
 		this.id = id;
 	}
 
-	public String getMessageid()
+	public String getMsgid()
 	{
-		return this.messageid;
+		return this.msgid;
 	}
 
-	public void setMessageid(String messageid)
+	public void setMsgid(String msgid)
 	{
-		this.messageid = messageid;
+		this.msgid = msgid;
 	}
 
-	public String getTransactionid()
+	public Integer getPkTotal()
 	{
-		return this.transactionid;
+		return this.pkTotal;
 	}
 
-	public void setTransactionid(String transactionid)
+	public void setPkTotal(Integer pkTotal)
 	{
-		this.transactionid = transactionid;
+		this.pkTotal = pkTotal;
 	}
 
-	public String getMm7version()
+	public Integer getPkNumber()
 	{
-		return this.mm7version;
+		return this.pkNumber;
 	}
 
-	public void setMm7version(String mm7version)
+	public void setPkNumber(Integer pkNumber)
 	{
-		this.mm7version = mm7version;
+		this.pkNumber = pkNumber;
 	}
 
-
-
-	public String getToAddress()
+	public String getMsgSrc()
 	{
-		return this.toAddress;
+		return this.msgSrc;
 	}
 
-	public void setToAddress(String toAddress)
+	public void setMsgSrc(String msgSrc)
 	{
-		this.toAddress = toAddress;
+		this.msgSrc = msgSrc;
 	}
 
-	public String getSubject()
+	public String getSrcId()
 	{
-		return this.subject;
+		return this.srcId;
 	}
 
-	public void setSubject(String subject)
+	public void setSrcId(String srcId)
 	{
-		this.subject = subject;
+		this.srcId = srcId;
 	}
 
-	public String getVaspid()
+	public String getDestId()
 	{
-		return this.vaspid;
+		return this.destId;
 	}
 
-	public void setVaspid(String vaspid)
+	public void setDestId(String destId)
 	{
-		this.vaspid = vaspid;
+		this.destId = destId;
 	}
 
-	public String getVasid()
+	public Integer getMsgFmt()
 	{
-		return this.vasid;
+		return this.msgFmt;
 	}
 
-	public void setVasid(String vasid)
+	public void setMsgFmt(Integer msgFmt)
 	{
-		this.vasid = vasid;
+		this.msgFmt = msgFmt;
 	}
 
-	public String getServiceCode()
+	public Integer getMsgLength()
 	{
-		return this.serviceCode;
+		return this.msgLength;
 	}
 
-	public void setServiceCode(String serviceCode)
+	public void setMsgLength(Integer msgLength)
 	{
-		this.serviceCode = serviceCode;
+		this.msgLength = msgLength;
+	}
+
+	public String getMsgContent()
+	{
+		return this.msgContent;
+	}
+
+	public void setMsgContent(String msgContent)
+	{
+		this.msgContent = msgContent;
+	}
+
+	public String getFeetype()
+	{
+		return this.feetype;
+	}
+
+	public void setFeetype(String feetype)
+	{
+		this.feetype = feetype;
+	}
+
+	public String getFeecode()
+	{
+		return this.feecode;
+	}
+
+	public void setFeecode(String feecode)
+	{
+		this.feecode = feecode;
+	}
+
+	public String getServiceId()
+	{
+		return this.serviceId;
+	}
+
+	public void setServiceId(String serviceId)
+	{
+		this.serviceId = serviceId;
 	}
 
 	public String getLinkid()
@@ -204,57 +246,56 @@ public class SubmitBean implements java.io.Serializable
 		this.sendtime = sendtime;
 	}
 
-	public Integer getStatus()
+	public Integer getResultcode()
 	{
-		return this.status;
+		return this.resultcode;
 	}
 
-	public void setStatus(Integer status)
+	public void setResultcode(Integer resultcode)
 	{
-		this.status = status;
+		this.resultcode = resultcode;
 	}
 
-	public String getStatusText()
+	public String getResultstr()
 	{
-		return this.statusText;
+		return this.resultstr;
 	}
 
-	public void setStatusText(String statusText)
+	public void setResultstr(String resultstr)
 	{
-		this.statusText = statusText;
+		this.resultstr = resultstr;
 	}
 
-	public String getReportTime()
+	public String getSubmitTime()
 	{
-		return this.reportTime;
+		return this.submitTime;
 	}
 
-	public void setReportTime(String reportTime)
+	public void setSubmitTime(String submitTime)
 	{
-		this.reportTime = reportTime;
+		this.submitTime = submitTime;
 	}
 
-	public Integer getMmStatus()
+	public String getDoneTime()
 	{
-		return this.mmStatus;
+		return this.doneTime;
 	}
 
-	public void setMmStatus(Integer mmStatus)
+	public void setDoneTime(String doneTime)
 	{
-		this.mmStatus = mmStatus;
+		this.doneTime = doneTime;
 	}
 
-	public String getMmStatusText()
+	public String getStat()
 	{
-		return this.mmStatusText;
+		return this.stat;
 	}
 
-	public void setMmStatusText(String mmStatusText)
+	public void setStat(String stat)
 	{
-		this.mmStatusText = mmStatusText;
+		this.stat = stat;
 	}
 
-	
 	public Long getSessionid()
 	{
 		return this.sessionid;
@@ -265,26 +306,31 @@ public class SubmitBean implements java.io.Serializable
 		this.sessionid = sessionid;
 	}
 
+
+
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("Messageid:").append(messageid + Constants.NEWLINE);
-		sb.append("Transactionid:").append(transactionid).append(
-				Constants.NEWLINE);
-		sb.append("Mm7version:").append(mm7version).append(Constants.NEWLINE);
-		sb.append("ToAddress:").append(toAddress).append(Constants.NEWLINE);
-		sb.append("Subject:").append(subject).append(Constants.NEWLINE);
-		sb.append("Sendtime:").append(sendtime).append(Constants.NEWLINE);
-		sb.append("Vaspid:").append(vaspid).append(Constants.NEWLINE);
-		sb.append("Vasid:").append(vasid).append(Constants.NEWLINE);
-		sb.append("ServiceCode:").append(serviceCode).append(Constants.NEWLINE);
-		sb.append("Linkid:").append(linkid).append(Constants.NEWLINE);
-		sb.append("Status:").append(status).append(Constants.NEWLINE);
-		sb.append("StatusText:").append(statusText).append(Constants.NEWLINE);
-		sb.append("ReportTime:").append(reportTime).append(Constants.NEWLINE);
-		sb.append("MmStatus:").append(mmStatus).append(Constants.NEWLINE);
-		sb.append("MmStatusText:" + mmStatusText).append(Constants.NEWLINE);
-		sb.append("Sessionid:").append(sessionid).append(Constants.NEWLINE);
+		sb.append("Msg_id:" + msgid + "\r\n");
+		sb.append("Pk_total:" + pkTotal + "\r\n");
+		sb.append("Pk_number:" + pkNumber + "\r\n");
+		sb.append("Msg_src:" + msgSrc + "\r\n");
+		sb.append("Src_id:" + srcId + "\r\n");
+		sb.append("Dest_id:" + destId + "\r\n");
+		sb.append("Service_id:" + serviceId + "\r\n");
+		sb.append("Msg_fmt:" + msgFmt + "\r\n");
+		sb.append("Msg_Length:" + msgLength + "\r\n");
+		sb.append("Msg_Content:" + msgContent + "\r\n");
+		sb.append("Feetype:" + feetype + "\r\n");
+		sb.append("Feecode:" + feecode + "\r\n");
+		sb.append("Msg_SendTime:" + sendtime + "\r\n");
+		sb.append("Linkid:" + linkid + "\r\n");
+		sb.append("Resultcode:" + resultcode + "\r\n");
+		sb.append("Resultstr:" + resultstr + "\r\n");
+		sb.append("Submit_time:" + submitTime + "\r\n");
+		sb.append("Done_time:" + doneTime + "\r\n");
+		sb.append("Stat:" + stat + "\r\n");
+		sb.append("Sessionid:" + sessionid + "\r\n");
 		return sb.toString();
 	}
 }
