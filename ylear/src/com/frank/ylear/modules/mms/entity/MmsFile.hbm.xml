@@ -31,7 +31,7 @@
         <property name="createtime" type="java.lang.String">
             <column name="createtime" length="14" />
         </property>
-        <set name="uploadFiles" inverse="true">
+        <set name="uploadFiles" inverse="false" cascade="all">
             <key>
                 <column name="mmsid" scale="0" />
             </key>
