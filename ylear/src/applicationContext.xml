@@ -41,11 +41,14 @@
 				<value>com/frank/ylear/modules/phoneaddress/entity/UPhoneaddress.hbm.xml</value>
 				<!-- sms module -->
 				<value>com/frank/ylear/modules/sms/entity/USms.hbm.xml</value>
+				<!-- smsreport module -->
+				<value>com/frank/ylear/modules/smsreport/entity/SmsSubmitBean.hbm.xml</value>
 				<!-- mms module -->
 				<value>com/frank/ylear/modules/mms/entity/MmsFile.hbm.xml</value>
 				<value>com/frank/ylear/modules/mms/entity/UploadFile.hbm.xml</value>
 				<value>com/frank/ylear/modules/mms/entity/UMms.hbm.xml</value>
-				<value>com/frank/ylear/modules/mms/entity/SLogMmssubmit.hbm.xml</value>
+				<!-- mmsreport module -->
+				<value>com/frank/ylear/modules/mmsreport/entity/SubmitBean.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -70,82 +73,22 @@
 	<bean id="smsService"
 		class="com.frank.ylear.modules.sms.service.impl.SmsServiceImpl" parent="baseService">
 	</bean>
+	<!-- smsreort module -->
+	<bean id="smsReportService"
+		class="com.frank.ylear.modules.smsreport.service.impl.SmsReportServiceImpl" parent="baseService">
+	</bean>
+	<!-- mms module -->
 	<bean id="mmsService"
 		class="com.frank.ylear.modules.mms.service.impl.MmsServiceImpl" parent="baseService">
 	</bean>
 	<bean id="mmsFileService"
 		class="com.frank.ylear.modules.mms.service.impl.MmsFileServiceImpl" parent="baseService">
 	</bean>
-	<bean id="mmsAnalysisService"
-		class="com.frank.ylear.modules.mms.service.impl.MmsAnalysisServiceImpl" parent="baseService">
+	<!-- mmsreort module -->
+	<bean id="mmsReportService"
+		class="com.frank.ylear.modules.mmsreport.service.impl.MmsReportServiceImpl" parent="baseService">
 	</bean>
 	
 	
-	<!-- <bean name="addressAction" class="com.frank.ylear.modules.phoneaddress.action.AddressAction">
-		<property name="addressService">
-			<ref bean="addressService" />
-		</property>
-	</bean>
-	<bean name="smsAction" class="com.frank.ylear.modules.sms.action.SmsAction">
-		<property name="smsService">
-			<ref bean="smsService" />
-		</property>
-	</bean>
-	<bean name="mmsAction" class="com.frank.ylear.modules.mms.action.MmsAction">
-		<property name="mmsService">
-			<ref bean="mmsService" />
-		</property>
-	</bean>
-	<bean name="mmsFileAction" class="com.frank.ylear.modules.mms.action.MmsFileAction">
-		<property name="mmsFileService">
-			<ref bean="mmsFileService" />
-		</property>
-	</bean>
-	<bean name="/role" class="com.frank.ylear.modules.y272.team0.web.action.RoleAction">
-		<property name="roleBiz">
-			<ref bean="roleBiz" />
-		</property>
-	</bean>
 	
-	<bean name="/login" class="com.frank.ylear.modules.user.action.LoginAction" singleton="false">
-        <property name="loginManager">
-            <ref bean="loginManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/addOperator" class="com.frank.ylear.modules.user.action.AddOperatorAction" singleton="false">
-        <property name="operatorManager">
-            <ref bean="operatorManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/resource" class="com.frank.ylear.modules.user.action.ResourceAction" singleton="false">
-        <property name="adminOperatorManager">
-            <ref bean="adminOperatorManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/editCharge" class="com.frank.ylear.modules.user.action.EditChargeAction" singleton="false">
-        <property name="adminOperatorManager">
-            <ref bean="adminOperatorManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/editChargeRule" class="com.frank.ylear.modules.user.action.EditChargeRuleAction" singleton="false">
-        <property name="adminOperatorManager">
-            <ref bean="adminOperatorManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/addCustomer" class="com.frank.ylear.modules.user.action.AddCustomerAction" singleton="false">
-        <property name="operatorManager">
-            <ref bean="operatorManager"/>
-        </property>
-    </bean>
-    
-    <bean name="/addUser" class="com.frank.ylear.modules.user.action.AddUserAction" singleton="false">
-        <property name="operatorManager">
-            <ref bean="operatorManager"/>
-        </property>
-    </bean> -->
 	</beans>
