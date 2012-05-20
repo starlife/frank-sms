@@ -50,6 +50,14 @@ $.extend({
 	
 });   
 */
+
+function  openWindow(url)
+{
+	//window.open("mms.do?method=toMmsEdit","_blank",
+	//alert(url);
+	window.open(url,"_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
+}
+
 function  doSubmit(url)
 {
 	document.forms[0].action=url;
@@ -68,6 +76,17 @@ function setNavTitle(title)
 		//alert("error");
 	}
 } 
+
+function formatDateStr(str)
+{
+	var year=str.substring(0,4);
+	var month=str.substring(4,6);
+	var day=str.substring(6,8);
+	var hour=str.substring(8,10);
+	var minute=str.substring(10,12);
+	var second=str.substring(12,14);
+	return year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+}
 
 Array.prototype.unique = function() { 
 	var a = {}, c = [], l = this.length; 
