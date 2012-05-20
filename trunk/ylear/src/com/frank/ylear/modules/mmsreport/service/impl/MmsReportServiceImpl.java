@@ -57,7 +57,7 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 	public ReportBean getReport(SubmitBean submit)
 	{
 		// TODO Auto-generated method stub
-		String hql = "select mmStatus,count(*) count from SubmitBean obj where 1=1 ";
+		String hql = "select mmStatus,count(*) from SubmitBean obj where 1=1 ";
 		if (null!=submit){
 			if (isItemNotEmpty(submit.getSessionid())){
 				hql += "and obj.sessionid ="
@@ -66,16 +66,33 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 		}
 		hql +="group by mmStatus";
 		List list=baseDao.list(hql);
+		long total=0;
+		long success=0;
+		long failed=0;
+		long unknow=0;
 		for(int i=0;i<list.size();i++)
 		{
-			list.get(0);
+			Object line=list.get(i);
+			Object[] tuple=(Object[])line;
+			Integer t1=(Integer)tuple[0];
+			Long t2=(Long)tuple[1];
+			if(t1==null)
+			{
+				unknow=t2;
+			}else if(t1==1)
+			{
+				success=t2;
+			}else
+			{
+				failed+=t2;
+			}
 		}
 		ReportBean report=new ReportBean();
-		report.setAllCount(1000L);
-		report.setFailCount(100L);
-		report.setSuccessCount(700L);
-		report.setUnknowCount(200L);
-		return null;
+		report.setAllCount(success+failed+unknow);
+		report.setFailCount(failed);
+		report.setSuccessCount(success);
+		report.setUnknowCount(unknow);
+		return report;
 	}
 	
 

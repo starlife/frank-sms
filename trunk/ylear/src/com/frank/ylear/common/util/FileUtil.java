@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.frank.ylear.common.constant.Constants;
 
 public class FileUtil
 {
-	
+	private static final Log log = LogFactory.getLog(FileUtil.class);
 	/**
 	 * 得到流的数据
 	 * @param in
@@ -36,7 +39,7 @@ public class FileUtil
 		catch (Exception e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(null,e);
 		}finally
 		{
 			try
@@ -46,7 +49,7 @@ public class FileUtil
 			catch (IOException e)
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(null,e);
 			}
 		}
 		return data;
@@ -72,7 +75,7 @@ public class FileUtil
 			buf=null;
 		}catch(IOException ex)
 		{
-			ex.printStackTrace();
+			log.error(null,ex);
 		}finally
 		{
 			try
@@ -86,7 +89,7 @@ public class FileUtil
 			catch (IOException e)
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(null,e);
 			}
 		}
 		

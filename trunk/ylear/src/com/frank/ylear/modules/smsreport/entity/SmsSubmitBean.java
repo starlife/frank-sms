@@ -6,7 +6,7 @@ package com.frank.ylear.modules.smsreport.entity;
  * @author MyEclipse Persistence Tools
  */
 
-public class SubmitBean implements java.io.Serializable
+public class SmsSubmitBean implements java.io.Serializable
 {
 
 	// Fields
@@ -36,12 +36,12 @@ public class SubmitBean implements java.io.Serializable
 	// Constructors
 
 	/** default constructor */
-	public SubmitBean()
+	public SmsSubmitBean()
 	{
 	}
 
 	/** minimal constructor */
-	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
+	public SmsSubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
 			String msgSrc, String srcId, String destId, Integer msgFmt,
 			Integer msgLength, String msgContent, String feetype,
 			String feecode, String serviceId, String sendtime,
@@ -65,7 +65,7 @@ public class SubmitBean implements java.io.Serializable
 	}
 
 	/** full constructor */
-	public SubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
+	public SmsSubmitBean(String msgid, Integer pkTotal, Integer pkNumber,
 			String msgSrc, String srcId, String destId, Integer msgFmt,
 			Integer msgLength, String msgContent, String feetype,
 			String feecode, String serviceId, String linkid, String sendtime,

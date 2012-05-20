@@ -25,7 +25,7 @@ public class MmsReportAction extends BaseAction
 
 	private ReportBean reportBean;
 
-	public void setReportBean(SubmitBean submit)
+	public void setReport(SubmitBean submit)
 	{
 		this.setReportBean(mmsReportService.getReport(submit));
 
@@ -47,7 +47,10 @@ public class MmsReportAction extends BaseAction
 		{
 			queryBean.setSessionid(Long.parseLong(this.getSessionid()));
 		}
-		setReportBean(queryBean);
+		if((queryBean.getToAddress()==null||queryBean.getToAddress().equals(""))&&(this.getStatus()==null||this.getStatus()==-1))
+		{
+			setReport(queryBean);
+		}
 		mmsReportService.getList(queryBean, this.getStatus(), this.getPage());
 		return SUCCESS;
 	}
