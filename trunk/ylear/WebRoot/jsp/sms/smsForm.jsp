@@ -16,18 +16,18 @@
 			$("#reset").button();
 			$("#addressBtn").button();
 			
-			$("#sms\\.sendtimeStr").hide();//初始设为隐藏
+			$("#sms\\.sendtime").hide();//初始设为隐藏
 			//立即发送
 			$("#radio1").click(
 				function(){
-					$("#sms\\.sendtimeStr").hide();
-					$("#sms\\.sendtimeStr").val("");
+					$("#sms\\.sendtime").hide();
+					$("#sms\\.sendtime").val("");
 				}
 			);
 			//定时发送
 			$("#radio2").click(
 				function(){
-					$("#sms\\.sendtimeStr").css({"display":""});
+					$("#sms\\.sendtime").css({"display":""});
 				}
 			);
 			
@@ -75,7 +75,7 @@
 				}, "输入号码个数过多");
 			
 			var validator = $("#sendForm").validate({
-				debug:true,
+				debug:false,
 				rules:{
                       "sms.msgContent":{
                       	required:true,
@@ -137,8 +137,8 @@
 	 	//定时发送
 	 	if(obj.checked)
 	 	{
-	 		var sendtimeStr=document.getElementById("sms.sendtimeStr");
-	 		if(!sendtimeStr.value)
+	 		var sendtime=document.getElementById("sms.sendtime");
+	 		if(!sendtime.value)
 	 		{
 	 			alert("您选择了定时发送，请输入发送时间");
 	 			return false;
@@ -201,7 +201,7 @@
 								立即发送
 								<input type=radio id="radio2" name="sendby" />
 								定时发送
-								<s:textfield id="sms.sendtimeStr" name="sms.sendtimeStr"
+								<s:textfield id="sms.sendtime" name="sms.sendtime"
 									size="25"
 									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
 							</td>

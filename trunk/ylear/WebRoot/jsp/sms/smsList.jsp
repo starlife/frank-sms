@@ -61,7 +61,11 @@
 			<tr>
 				<td ><s:property value="recipient" default=" "/></td>
 				<td ><s:property value="msgContent" default=" "/></td>
-				<td ><s:date name="sendtime" format="yyyy-MM-dd hh:mm:ss"/></td>
+				<td >
+					<script>
+						document.write(formatDateStr('<s:property value="sendtime" default=" " />'));
+					</script>
+				</td>
 				<td ><s:if test="status==0">未发送</s:if>
 					<s:else>已发送</s:else></td>
 				<td>
