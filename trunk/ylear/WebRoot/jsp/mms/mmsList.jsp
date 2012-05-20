@@ -33,6 +33,18 @@
 				}
 			}
 		});
+		$("tr td").each(function(i){   
+         	//获取td当前对象的文本,如果长度大于25;   
+         	if($(this).text().length>25){   
+                //给td设置title属性,并且设置td的完整值.给title属性.   
+    			$(this).attr("title",$(this).text());   
+                //获取td的值,进行截取。赋值给text变量保存.   
+    			var text=$(this).text().substring(0,25)+"...";   
+             	//重新为td赋值;   
+             	$(this).text(text);   
+         	}   
+      	});   
+		
 		
 		
 	});
@@ -82,10 +94,10 @@
 					<table class="ui-widget">
 						<thead class="ui-widget-header">
 							<tr>
-								<td width="15%">
+								<td width="20%">
 									彩信标题
 								</td>
-								<td width="20%">
+								<td width="25%">
 									彩信收件人
 								</td>
 								<td width="10%">
@@ -95,7 +107,7 @@
 								<td width="15%">
 									发送时间
 								</td>
-								<td width="10%">
+								<td width="15%">
 									发送状态
 								</td>
 								<td>
@@ -127,8 +139,11 @@
 										
 									</td>
 									<td>
+										<s:url id="reportURL" action="mmsReport" >
+											<s:param name="sessionid" value="id" />
+										</s:url>
 										<s:if test="status==0">未发送</s:if>
-										<s:else>已发送</s:else>
+										<s:else>已发送(<a href="#"  onclick="openWindow('<s:property value="%{#reportURL}"/>')">发送报告</a>)</s:else>
 
 									</td>
 									<td>
@@ -136,16 +151,11 @@
 										<s:url id="delURL" action="delMms">
 											<s:param name="id" value="id" />
 										</s:url>
-										<s:url id="analysisURL" action="mmsAnalysis">
-											<s:param name="ummsid" value="id" />
-										</s:url>
+										
 										<input type="button" value="删除"
 											onclick="window.location.href='<s:property value="%{#delURL}"/>'" />
 
-										<s:if test="status==1">
-											<input type="button" value="发送报告"
-												onclick="window.location.href='<s:property value="%{#analysisURL}"/>'" />
-										</s:if>
+										
 									</td>
 								</tr>
 							</s:iterator>
