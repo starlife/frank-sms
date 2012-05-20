@@ -79,7 +79,7 @@
 				rules:{
                       "sms.msgContent":{
                       	required:true,
-                      	maxlength:70
+                      	maxlength:300
                       },
                       "sms.recipient":{
                       	required:true,
@@ -90,7 +90,7 @@
                 messages:{
                   	  "sms.msgContent":{
                   	  	required:"短信内容不能为空！",
-                  	  	maxlength:'短信不能超过70个文字！'
+                  	  	maxlength:'短信不能超过300个文字！'
                   	  },
                   	  "sms.recipient":{
                   	  required:"接收手机号码不能为空！",
@@ -175,7 +175,7 @@
 							</td>
 							<td>
 								<s:textarea name="sms.msgContent" cols="100" rows="3"></s:textarea>
-								<span>短信内容小于70个字符</span>
+								<span>短信内容小于300个字符</span>
 								<s:fielderror fieldName="sms.msgContent"/>
 							</td>
 						</tr>
