@@ -16,10 +16,7 @@
 		
 	});
 		
-		function doShowMms(mmsid)
-		{
-			window.location.href = "?method=doShowMms&mmsid=" + mmsid;
-		}
+		
 	</script>
   </head>
   <body>
@@ -27,29 +24,33 @@
 	<div>
 		<table class="ui-widget ui-widget-header" >
 			<tr height="25px;">
-				<td width="20%">总接收号码个数：</td>
-				<td width="30%"><s:property value="analysisBean.allCount+'（个）'" default=" "/>	
+				<td width="20%">总发送号码个数：</td>
+				<td width="30%"><s:property value="reportBean.allCount+'（个）'" default=" "/><s:hidden name="reportBean.allCount"/>	
 				</td>
-				<td width="20%">接收成功数：</td>
+				<td width="20%">发送成功数：</td>
 				<td width="30%" >
-					<s:property value="analysisBean.successCount+'（个）'" default=" "/>	
+					<s:property value="reportBean.successCount+'（个）'" default=" "/><s:hidden name="reportBean.successCount"/>		
 				</td>					
 			</tr>
 			<tr height="25px;">
-				<td >等待接收数：</td>
+				<td >未获取发送结果数：</td>
 				<td >
-					<s:property value="analysisBean.unknowCount+'（个）'" default=" "/>
+					<s:property value="reportBean.unknowCount+'（个）'" default=" "/><s:hidden name="reportBean.unknowCount"/>	
 				</td>
-				<td >接收失败数：</td>
+				<td >发送失败数：</td>
 				<td >
-					<s:property value="analysisBean.failCount+'（个）'" default=" "/>	
+					<s:property value="reportBean.failCount+'（个）'" default=" "/>	<s:hidden name="reportBean.failCount"/>	
 				</td>					
 			</tr>
 		</table>
 		
 	</div>
-	<s:form action="mmsAnalysis" method="post" theme="simple">
-	<s:hidden name="queryBean.ummsid"/>
+	<s:form action="mmsReport" method="post" theme="simple">
+	<s:hidden name="queryBean.sessionid"/>
+	<s:hidden name="reportBean.allCount"/>
+	<s:hidden name="reportBean.successCount"/>	
+	<s:hidden name="reportBean.unknowCount"/>	
+	<s:hidden name="reportBean.failCount"/>	
 	<div>
 		<table class="ui-widget ui-widget-header" >
 			<tr>
@@ -57,10 +58,8 @@
 				<td >
 					<s:textfield name="queryBean.toAddress" />
 				</td>
-				<td >发送状态：<s:select list="#{-1:'全部',0:'接收成功',1:'接收失败'}" 
-				name="status" listKey="key" listValue="value"></s:select> &nbsp;
-					用户读状态:<s:select list="#{-1:'全部',0:'已读取',1:'未读被删'}" 
-				name="readstatus" listKey="key" listValue="value"></s:select>
+				<td >发送状态：<s:select list="#{-1:'全部',0:'发送成功',1:'发送失败',2:'未获取发送结果'}" 
+				name="status" listKey="key" listValue="value"></s:select> 
 				</td>
 				<td ><s:submit id="queryBtn" value="查询"/></td>		
 				
@@ -84,30 +83,25 @@
 		<tbody class="ui-widget-content">
 		<s:iterator value="#request.page.list">
 			<!-- 已经收到了读报告，则发送成功 -->
-			<s:if test="readstatus!=null">
-				<s:set id="status" value="'接收成功'"/>
-				<s:set id="readstatus" value="%{readstatustext}"/>
+			<s:if test="mmStatus==1">
+				<s:set id="status" value="'发送成功'"/>
+				<s:set id="statusText" value="'无'"/>
 			</s:if>
 			<!-- 如果没收到发送回应包或者收到了回应失败包（不等于1000） -->
-			<s:elseif test="messageid==null||statuscode==null||statuscode!=1000">
-				<s:set id="status" value="'接收失败'"/>
-				<s:set id="readstatus" value="'发送失败'"/>
+			<s:elseif test="mmStatus==null">
+				<s:set id="status" value="'未获取状态报告'"/>
+				<s:set id="statusText" value="'无'"/>
 			</s:elseif>
 			<!-- 如果收到了回应成功包，且收到了提交状态包但提交失败，还是应该标记为发送失败 -->
-			<s:elseif test="mmstatus!=null&&mmstatus!=1">
-				<s:set id="status" value="'接收失败'"/>
-				<s:set id="readstatus" value="%{mmstatustext}"/>
-			</s:elseif>
-			<!-- 如果以上条件都不符合，那么就只有收到了回应成功包，但是提交报表未收到 -->
 			<s:else>
-				<s:set id="status" value="'等待接收'"/>
-				<s:set id="readstatus" value="'未获取状态报告'"/>
+				<s:set id="status" value="'发送失败'"/>
+				<s:set id="statusText" value="'失败描述'"/>
 			</s:else>
 			<tr class="ui-widget-content" align="center">
 				<td ><s:property value="toAddress"/></td>
 				<td ><s:property value="#status"/></td>
-				<td ><s:property value="#readstatus" default="无"/></td>
-				<td ><s:date name="sendtime" format="yyyy-MM-dd HH:mm:ss"/></td>
+				<td ><s:property value="#statusText"/></td>
+				<td ><s:property value="sendtime"/></td>
 				<td>
 				<!-- 定义url -->
 				<s:url id="delURL" action="delMmsSubmit">
@@ -127,8 +121,6 @@
 	</div>
   
 		<table width="100%" style="border: 0px;font-size: 14px;"><tr style="border: 0px;"><td style="border: 0px;">
-				<s:url id="back" action="listMms"/>
-				<s:a id="backBtn" href="%{#back}">返回</s:a>
 				</td><td style="border: 0px;">
 					<jb:pager/>
 					</td>

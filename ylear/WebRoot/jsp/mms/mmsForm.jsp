@@ -66,13 +66,6 @@
 		}
 	);		
 	setNavTitle("系统管理 >> 彩信管理 >> 群发彩信");		
-	function  openWindow(url)
-	{
-		//window.open("mms.do?method=toMmsEdit","_blank",
-		//alert(url);
-		window.open(url,"_blank",
-		"toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
-	}
 	
 	function addSelectedPhone_callback(phones)
 	{
