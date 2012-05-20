@@ -28,6 +28,7 @@ public class SmsServiceImpl extends BaseService implements SmsService
 						+sms.getEndTime()+"' ";				
 			}
 		}
+		hql+=" order by obj.id desc";
 		baseDao.listByPage(hql,pageResult);
 	}
 	/**

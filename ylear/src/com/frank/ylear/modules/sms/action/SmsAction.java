@@ -1,9 +1,7 @@
 package com.frank.ylear.modules.sms.action;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import com.frank.ylear.common.constant.Constants;
+import com.frank.ylear.common.util.DateUtils;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.sms.entity.USms;
 import com.frank.ylear.modules.sms.service.SmsService;
@@ -37,26 +35,21 @@ public class SmsAction extends BaseAction
 		{
 			return;
 		}
-		if (this.getSms().getSendtimeStr() == null
-				|| this.getSms().getSendtimeStr().trim().equals(""))
+		if (this.getSms().getSendtime() == null
+				|| this.getSms().getSendtime().trim().equals(""))
 		{
-			this.getSms().setSendtime(new Date());
+			this.getSms().setSendtime(DateUtils.getTimestamp14());
 		}
 		else
 		{
-
-			try
-			{
-				Date d=Constants.SDF.parse(this.getSms().getSendtimeStr());
-				this.getSms().setSendtime(d);
-
-			}
-			catch (ParseException ex)
+			String sendtime=DateUtils.getTimestamp14(this.getSms().getSendtime());
+			if(sendtime==null)
 			{
 				this.addFieldError("sms.sendtime",
 						getText("sms.sendtime.error"));
 				return;
 			}
+			this.getSms().setSendtime(sendtime);
 		}
 		this.getSms().setStatus(0);// 0表示未发送，1表示已发送
 	}

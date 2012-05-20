@@ -15,7 +15,7 @@ public interface BaseDao
 	public void update(Object o);
 	public List  list(String sql);
 	public void listByPage(String hql, PageBean  pageResult);
-	/*Ãÿ ‚∑Ω∑®*/
-	//public SysUser getSysUserIncludeSysRight( Serializable id);
+	public List listByPage(final String hql,final int offset,final int length);
+	
 
 }

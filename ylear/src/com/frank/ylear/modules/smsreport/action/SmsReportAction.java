@@ -2,8 +2,8 @@ package com.frank.ylear.modules.smsreport.action;
 
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.mmsreport.entity.ReportBean;
-import com.frank.ylear.modules.mmsreport.entity.SubmitBean;
-import com.frank.ylear.modules.mmsreport.service.MmsReportService;
+import com.frank.ylear.modules.smsreport.entity.SmsSubmitBean;
+import com.frank.ylear.modules.smsreport.service.SmsReportService;
 
 public class SmsReportAction extends BaseAction
 {
@@ -13,9 +13,9 @@ public class SmsReportAction extends BaseAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private MmsReportService mmsReportService;
+	private SmsReportService smsReportService;
 
-	private SubmitBean queryBean = null;
+	private SmsSubmitBean queryBean = null;
 
 	private String id = null;
 
@@ -25,9 +25,9 @@ public class SmsReportAction extends BaseAction
 
 	private ReportBean reportBean;
 
-	public void setReport(SubmitBean submit)
+	public void setReport(SmsSubmitBean submit)
 	{
-		this.setReportBean(mmsReportService.getReport(submit));
+		this.setReportBean(smsReportService.getReport(submit));
 
 	}
 
@@ -41,17 +41,17 @@ public class SmsReportAction extends BaseAction
 	{
 		if (queryBean == null)
 		{
-			queryBean = new SubmitBean();
+			queryBean = new SmsSubmitBean();
 		}
 		if (this.getSessionid() != null)
 		{
 			queryBean.setSessionid(Long.parseLong(this.getSessionid()));
 		}
-		if((queryBean.getToAddress()==null||queryBean.getToAddress().equals(""))&&(this.getStatus()==null||this.getStatus()==-1))
+		if((queryBean.getDestId()==null||queryBean.getDestId().equals(""))&&(this.getStatus()==null||this.getStatus()==-1))
 		{
 			setReport(queryBean);
 		}
-		mmsReportService.getList(queryBean, this.getStatus(), this.getPage());
+		smsReportService.getList(queryBean, this.getStatus(), this.getPage());
 		return SUCCESS;
 	}
 
@@ -59,27 +59,27 @@ public class SmsReportAction extends BaseAction
 	{
 		if (this.getId() != null)
 		{
-			mmsReportService.del(Long.parseLong(this.getId()));
+			smsReportService.del(Long.parseLong(this.getId()));
 		}
 		return SUCCESS;
 	}
 
-	public MmsReportService getMmsReportService()
+	public SmsReportService getSmsReportService()
 	{
-		return mmsReportService;
+		return smsReportService;
 	}
 
-	public void setMmsReportService(MmsReportService mmsReportService)
+	public void setSmsReportService(SmsReportService smsReportService)
 	{
-		this.mmsReportService = mmsReportService;
+		this.smsReportService = smsReportService;
 	}
 
-	public SubmitBean getQueryBean()
+	public SmsSubmitBean getQueryBean()
 	{
 		return queryBean;
 	}
 
-	public void setQueryBean(SubmitBean queryBean)
+	public void setQueryBean(SmsSubmitBean queryBean)
 	{
 		this.queryBean = queryBean;
 	}

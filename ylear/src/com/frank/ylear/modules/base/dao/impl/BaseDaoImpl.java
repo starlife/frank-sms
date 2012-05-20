@@ -1,13 +1,16 @@
 package com.frank.ylear.modules.base.dao.impl;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.frank.ylear.common.model.PageBean;
@@ -165,7 +168,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * @param length 一次查询几条记录
      * @return
      */
-    /*public List listByPage(final String hql,final int offset,final int length){
+    public List listByPage(final String hql,final int offset,final int length){
         List list = getHibernateTemplate().executeFind(new HibernateCallback(){
             public Object doInHibernate(Session session) throws HibernateException,SQLException{
                 Query query = session.createQuery(hql);
@@ -176,7 +179,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
             }
         });
         return list;
-    }*/
+    }
     
     
     
