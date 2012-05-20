@@ -128,6 +128,16 @@
 	    	<result name="success" type="redirectAction">listSms</result>
 	    </action>
 	    
+	     <!-- 短信报表工具 -->
+	     <action name="smsReport" class="com.frank.ylear.modules.smsreport.action.SmsReportAction" method="list">
+	    	<result name="success">/jsp/sms/report/reportList.jsp</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    <action name="delSmsSubmit" class="com.frank.ylear.modules.smsreport.action.SmsReportAction" method="del">
+	    	<result name="success" type="redirectAction">smsReport</result>
+	    	<interceptor-ref name="basicStack"/>
+	    </action>
+	    
 	    <!--彩信管理 action--> 
 	    <action name="listMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="list">
 	    	<result name="success">/jsp/mms/mmsList.jsp</result>
@@ -142,23 +152,27 @@
 	    	<result name="success" type="redirectAction">listMms</result>
 	    </action>
 	    <!-- 彩信编辑器 -->
-	    <action name="mmsEditor" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="execute">
-	    	<result name="input">jsp/mms/ui.jsp</result>
-	    	<result name="showui">jsp/mms/ui.jsp</result>
-	    	<result name="success">/jsp/mms/mmseditor.jsp</result>
+	    <action name="mmsEditor" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="mmsEditor">
+	    	<result name="input">jsp/mms/mmsfile/mmsUI.jsp</result>
+	    	<result name="showui">jsp/mms/mmsfile/mmsUI.jsp</result>
+	    	<result name="success">/jsp/mms/mmsfile/mmsEditor.jsp</result>
 	    </action>
 	    
-	     <action name="showMms" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="showMms">
-	    	<result name="success">/jsp/mms/mmsshow.jsp</result>
+	     <action name="mmsViewer" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="mmsViewer">
+	    	<result name="success">/jsp/mms/mmsfile/mmsViewer.jsp</result>
 	    </action>
 	    
-	     <!-- 彩信发送分析工具 -->
-	     <action name="mmsAnalysis" class="com.frank.ylear.modules.mms.action.MmsAnalysisAction" method="list">
-	    	<result name="success">/jsp/mms/analysisList.jsp</result>
+	    <action name="mmsList" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="list">
+	    	<result name="success">/jsp/mms/mmsfile/mmsFileList.jsp</result>
+	    </action>
+	    
+	     <!-- 彩信报表工具 -->
+	     <action name="mmsReport" class="com.frank.ylear.modules.mmsreport.action.MmsReportAction" method="list">
+	    	<result name="success">/jsp/mms/report/reportList.jsp</result>
 	    	<interceptor-ref name="basicStack"/>
 	    </action>
-	    <action name="delMmsSubmit" class="com.frank.ylear.modules.mms.action.MmsAnalysisAction" method="del">
-	    	<result name="success" type="redirectAction">mmsAnalysis</result>
+	    <action name="delMmsSubmit" class="com.frank.ylear.modules.mmsreport.action.MmsReportAction" method="del">
+	    	<result name="success" type="redirectAction">mmsReport</result>
 	    	<interceptor-ref name="basicStack"/>
 	    </action>
 	    
