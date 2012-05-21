@@ -38,7 +38,7 @@ public class Tools
 		Iterator<String> it = set.iterator();
 		while (it.hasNext())
 		{
-			sb.append(it.next()).append(";");
+			sb.append(it.next()).append(",");
 		}
 		if (sb.length() > 1)
 		{

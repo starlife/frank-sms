@@ -97,7 +97,7 @@ public class AddressServiceImpl extends BaseService implements AddressService
 		List list=baseDao.list(hql);
 		for(int i=0;i<list.size();i++)
 		{
-			phones.append(list.get(i)+";");
+			phones.append(list.get(i)+",");
 		}
 		return phones.toString();
 	}

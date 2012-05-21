@@ -67,15 +67,18 @@ public class UserAction extends BaseAction
 			this.setRoleList(userService.getAllRole());
 			return;
 		}
-		//如果用户名存在，那么返回用户已经存在
-		SysUser user=userService.checkSysUserExist(this.getUser().getUsrName());
-		if(user!=null)
+		if(this.getUser().getId()==null)
 		{
-			//该用户已经存在
-			this.addFieldError("user.usrName","该用户已经存在");
-			//取得所有role
-			this.setRoleList(userService.getAllRole());
-			return;
+			//如果用户名存在，那么返回用户已经存在
+			SysUser user=userService.checkSysUserExist(this.getUser().getUsrName());
+			if(user!=null)
+			{
+				//该用户已经存在
+				this.addFieldError("user.usrName","该用户已经存在");
+				//取得所有role
+				this.setRoleList(userService.getAllRole());
+				return;
+			}
 		}
 		
 	}
