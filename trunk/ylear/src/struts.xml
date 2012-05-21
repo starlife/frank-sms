@@ -62,7 +62,11 @@
 	    	<interceptor-ref name="basicStack"/>
 	    </action>
 	    
-	    <action name="changePasswordAction" class="com.frank.ylear.modules.user.action.UserAction" method="changePassword">
+	    <action name="changePasswordAction" class="com.frank.ylear.modules.user.action.PasswordAction" method="input">
+	    	 <!--<interceptor-ref name="basicStack" >  
+      			将所有的save方法加入到validation框架验证中
+      			<param name="validation.excluteMethods">changePassword</param>   
+    		</interceptor-ref> -->
 	    	<result name="input">/jsp/user/changePassword.jsp</result>
 	    	<result name="error">/jsp/user/changePasswordERROR.jsp</result>
 	    	<result name="success">/jsp/user/changePasswordOK.jsp</result>
