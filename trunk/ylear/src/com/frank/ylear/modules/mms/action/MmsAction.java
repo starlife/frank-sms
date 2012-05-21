@@ -2,6 +2,7 @@ package com.frank.ylear.modules.mms.action;
 
 import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.common.util.DateUtils;
+import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.mms.entity.UMms;
 import com.frank.ylear.modules.mms.service.MmsService;
@@ -102,6 +103,8 @@ public class MmsAction extends BaseAction
 			}
 			this.getMms().setSendtime(sendtime);
 		}
+		//过滤非法号码，重复号码
+		this.getMms().setRecipient(Tools.parse(this.getMms().getRecipient()));
 		mms.setStatus(0);// 0表示未发送，1表示已发送
 	}
 

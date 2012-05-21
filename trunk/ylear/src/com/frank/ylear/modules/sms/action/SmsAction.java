@@ -2,6 +2,7 @@ package com.frank.ylear.modules.sms.action;
 
 import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.common.util.DateUtils;
+import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.sms.entity.USms;
 import com.frank.ylear.modules.sms.service.SmsService;
@@ -51,6 +52,8 @@ public class SmsAction extends BaseAction
 			}
 			this.getSms().setSendtime(sendtime);
 		}
+		//过滤非法号码，重复号码
+		this.getSms().setRecipient(Tools.parse(this.getSms().getRecipient()));
 		this.getSms().setStatus(0);// 0表示未发送，1表示已发送
 	}
 
