@@ -2,63 +2,50 @@ package com.frank.ylear.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Tools
 {
-	private static Random rand = new Random(1000);
+	// private static Random rand = new Random(1000);
 
 	public static final int BUFSIZE = 1024;
 
-	
-	
-	
-	
-	
-	
 	/**
-	 * 得到一个随机的文件名，名字类似 number+rand.ext
+	 * 过滤非法号码，重复号码
 	 * 
-	 * @param number
-	 * @param postfix
+	 * @param numbers
 	 * @return
 	 */
-	public static String getRandomFileName(String frameid, String ext)
+	public static String parse(String numbers)
 	{
-		String r = String.valueOf(rand.nextInt());
-		if (r.length() > 4)
+		String[] nums = numbers.split("[;；,，]");
+		StringBuffer sb = new StringBuffer();
+		Set<String> set = new HashSet<String>();
+		for (int i = 0; i < nums.length; i++)
 		{
-			r = r.substring(1, r.length());
+			String number = nums[i].trim();
+			if (isValidPhoneNum(number))
+			{
+				set.add(number);
+				// sb.append(number).append(",");
+			}
 		}
-
-		return frameid + "_" + r + "." + ext;
-	}
-
-	public static String getRandomFileName(String frameid, File originalfileName)
-	{
-		String ext = Tools.getFileExt(originalfileName);
-		String r = String.valueOf(rand.nextInt());
-		if (r.length() > 4)
+		Iterator<String> it = set.iterator();
+		while (it.hasNext())
 		{
-			r = r.substring(1, r.length());
+			sb.append(it.next()).append(";");
 		}
-
-		return frameid + "_" + r + "." + ext;
-	}
-
-	public static String getRandomFileName(int frameid, String originalfileName)
-	{
-		String ext = Tools.getFileExt(originalfileName);
-		String r = String.valueOf(rand.nextInt());
-		if (r.length() > 4)
+		if (sb.length() > 1)
 		{
-			r = r.substring(1, r.length());
+			// 删除最后一个";"
+			sb.deleteCharAt(sb.length() - 1);
 		}
-
-		return frameid + "_" + r + "." + ext;
+		return sb.toString();
 	}
 
 	public static boolean isNotEmpty(String str)
@@ -127,6 +114,21 @@ public class Tools
 		}
 		return flag;
 
+	}
+
+	public static boolean isValidPhoneNum(String phone)
+	{
+		String regex = "^((\\+86)|(86))?(1)\\d{10}$";
+		return Pattern.matches(regex, phone);
+	}
+
+	public static void main(String[] args)
+	{
+		System.out.println(isValidPhoneNum("133778023866"));
+		System.out.println(isValidPhoneNum("8613377802386"));
+		System.out.println(isValidPhoneNum("+8613377802386"));
+		String p = parse("13777802386;13777802385;13777802385;13333");
+		System.out.println(p);
 	}
 
 }
