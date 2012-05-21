@@ -1,16 +1,13 @@
 package com.frank.ylear.modules.user.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.frank.ylear.common.model.PageBean;
 import com.frank.ylear.modules.base.service.BaseService;
 import com.frank.ylear.modules.user.entity.SysRight;
 import com.frank.ylear.modules.user.entity.SysRole;
-import com.frank.ylear.modules.user.entity.SysRoleRight;
 import com.frank.ylear.modules.user.entity.SysUser;
 import com.frank.ylear.modules.user.service.UserService;
 
@@ -33,6 +30,20 @@ public class UserServiceImpl extends BaseService implements UserService
 		}
 		return sysUser;
 	}
+	
+	public SysUser checkSysUserExist(String username)
+	{
+		// TODO Auto-generated method stub
+		SysUser sysUser=null;
+		String hsql="from SysUser obj where obj.usrName='"+username+"'";
+		List list=baseDao.list(hsql);
+		if(list.size()==1)
+		{
+			sysUser=(SysUser)list.get(0);
+		}
+		return sysUser;
+	}
+
 	
 	/**
 	 * 查询用户列表 
@@ -159,6 +170,9 @@ public class UserServiceImpl extends BaseService implements UserService
 		return sysUser;
 		
 	}*/
+
+	
+	
 	
 	/*public List<SysRight> getAllSysRight()
 	{
