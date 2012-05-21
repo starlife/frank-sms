@@ -173,8 +173,8 @@
 								短信内容
 								<font color="red">*</font>
 							</td>
-							<td>
-								<s:textarea name="sms.msgContent" cols="100" rows="3"></s:textarea>
+							<td title="必填,长度超过70个字符将自动用长短信形式下发">
+								<s:textarea name="sms.msgContent" cols="100" rows="5"></s:textarea>
 								<span>短信内容小于300个字符</span>
 								<s:fielderror fieldName="sms.msgContent"/>
 							</td>

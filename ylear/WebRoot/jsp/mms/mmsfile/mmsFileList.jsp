@@ -45,7 +45,7 @@
 	</head>
 	<body>
 		<div id="container">
-			<s:form action="listMms" method="post" theme="simple">
+			<s:form action="mmsList" method="post" theme="simple">
 				
 				<hr />
 				<!-- 列表数据 -->

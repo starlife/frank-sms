@@ -63,6 +63,47 @@
 					$("#dialog1").dialog("open");
 				}
 			);
+			
+			//表单验证
+			jQuery.validator.addMethod("phonenumber", function(phone_number, element) {
+					phone_number = phone_number.replace(/\s+/g, "");
+					var patten = new RegExp(/^(((086)|(86))?[0-9]{11};*)+$/);
+					return patten.test(phone_number);
+				}, "电话号码格式有误");
+			
+			jQuery.validator.addMethod("maxphonecount", function(phone_number, element,param) {
+					var array=phone_number.split(";");
+					var count=0;
+					for(i=0;i<array.length;i++)
+					{
+					 	if(array[i]!="")
+					 	{
+					 	 	count++;
+					 	}
+					}
+					return (count<=param);
+				}, "输入号码个数过多");
+			
+			var validator = $("#sendForm").validate({
+				debug:false,
+				rules:{
+                      "mms.recipient":{
+                      	required:true,
+                      	maxphonecount:5,
+                      	phonenumber:true
+                      }
+                  },
+                messages:{
+                  	  "sms.recipient":{
+                  	  required:"接收手机号码不能为空！",
+                  	  maxphonecount:"最多只能输入10000个号码",
+                  	  phonenumber:"手机号码有误，请检查，多个号码之间以';'分隔！"
+                  	  }
+                  }  
+			});
+			$("#reset").click(function() {
+        		validator.resetForm();
+    		});
 		}
 	);		
 	setNavTitle("系统管理 >> 彩信管理 >> 群发彩信");		
@@ -86,7 +127,7 @@
 	
 	function choiceMmsFile_callback(id,mmsName,frames,mmsSize)
 	{
-		document.getElementById("mmsName").innerHTML=mmsName;
+		document.getElementById("mmsName").value=mmsName;
 		document.getElementById("mms.mmsid").value=id;
 		document.getElementById("frameCount").innerHTML=frames;
 		document.getElementById("mmsSize").innerHTML=mmsSize;
@@ -113,7 +154,7 @@
 	height="100%" frameborder="0" scrolling="no" ></iframe>
 </div>
 
-<s:form action="crudMms!save" method="post" theme="simple">
+<s:form id="sendForm" action="crudMms!save" method="post" theme="simple">
   <table class="ui-widget">
   <thead class="ui-widget-header">
 	  <tr>
@@ -129,8 +170,8 @@
 	  	</td>
 	  </tr>
 	  <tr>
-	  	<td>彩信收件人<font color="red">*</font></td>
-	  	<td><s:textarea id="mms.recipient"  name="mms.recipient" cols="100" rows="8"></s:textarea>
+	  	<td >彩信收件人<font color="red">*</font></td>
+	  	<td title="必填，可以手动输入，也可以从通讯录中查找，多个手机号码之间以封号分隔"><s:textarea id="mms.recipient"  name="mms.recipient" cols="100" rows="8"></s:textarea>
 	  	<input id="addressBtn" type="button" value="打开通讯录" />
 	  	<s:fielderror  fieldName="mms.recipient"/>	
 		</td>
@@ -138,11 +179,12 @@
 	  
 	  <tr>
 	  	<td>彩信名称<font color="red">*</font></td>
-	  	<td><div id="mmsName"></div>
-	  	<s:textfield name="mms.mmsid" id="mms.mmsid"></s:textfield>
+	  	<td>
+	  	<s:textfield name="mmsName" id="mmsName"></s:textfield>
 	  	<input id="selectMmsBtn" type="button" value="选择彩信" />	
 		<input id="addMmsBtn" type="button" value="新建编辑彩信" 
 		onclick="openWindow('<s:url action="mmsEditor"/>');"/>	
+		<div style="display: none"><s:textfield name="mms.mmsid" id="mms.mmsid"></s:textfield></div>
 		<s:fielderror  fieldName="mms.mmsid"/>
 		</td>
 	  </tr>
