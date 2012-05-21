@@ -3,7 +3,6 @@ package com.frank.ylear.modules.user.service;
 import java.util.List;
 
 import com.frank.ylear.common.model.PageBean;
-import com.frank.ylear.modules.phoneaddress.entity.UPhoneaddress;
 import com.frank.ylear.modules.user.entity.SysRight;
 import com.frank.ylear.modules.user.entity.SysRole;
 import com.frank.ylear.modules.user.entity.SysUser;
@@ -14,6 +13,13 @@ public interface UserService
 	 * 验证用户名密码
 	 * */
 	public SysUser checkSysUserExist(SysUser obj);
+	
+	/**
+	 * 验证用户名是否存在
+	 * @param obj
+	 * @return
+	 */
+	public SysUser checkSysUserExist(String username);
 	/**
 	 * 列出所有权限
 	 * @return
@@ -30,6 +36,9 @@ public interface UserService
 	 * 取得单个元素
 	 */	
 	public SysUser getUser(Long id);
+	
+	
+	
 	
 	
 	/**
