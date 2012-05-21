@@ -34,7 +34,7 @@
 		$("input[type='checkbox']:checked").not("#checkall").each(
 			function()
 			{
-				phones= phones+$(this).closest("td").next().text()+";";
+				phones= phones+$(this).closest("td").next().text()+",";
 			}
 		)
 		//回调函数

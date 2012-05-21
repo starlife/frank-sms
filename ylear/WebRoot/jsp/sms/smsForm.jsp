@@ -57,12 +57,12 @@
 			//表单验证
 			jQuery.validator.addMethod("phonenumber", function(phone_number, element) {
 					phone_number = phone_number.replace(/\s+/g, "");
-					var patten = new RegExp(/^(((086)|(86))?[0-9]{11};*)+$/);
+					var patten = new RegExp(/^(((086)|(86))?[0-9]{11},*)+$/);
 					return patten.test(phone_number);
 				}, "电话号码格式有误");
 			
 			jQuery.validator.addMethod("maxphonecount", function(phone_number, element,param) {
-					var array=phone_number.split(";");
+					var array=phone_number.split(",");
 					var count=0;
 					for(i=0;i<array.length;i++)
 					{
@@ -95,7 +95,7 @@
                   	  "sms.recipient":{
                   	  required:"接收手机号码不能为空！",
                   	  maxphonecount:"最多只能输入10000个号码",
-                  	  phonenumber:"手机号码有误，请检查，多个号码之间以';'分隔！"
+                  	  phonenumber:"手机号码有误，请检查，多个号码之间以','分隔！"
                   	  }
                   }  
 			});
@@ -117,7 +117,7 @@
 	{
 		var obj=$("#sms\\.recipient");
 		var value=$(obj).val()+phones;
-		$(obj).val(value.split(";").unique().join(";"));
+		$(obj).val(value.split(",").unique().join(","));
 		$("#dialog").dialog("close");
 	}
 	/**
@@ -128,7 +128,7 @@
 		var obj=$("#sms\\.recipient");
 		var value=$(obj).val()+phones;
 		//过滤重复值
-		$(obj).val(value.split(";").unique().join(";"));
+		$(obj).val(value.split(",").unique().join(","));
 		$("#dialog").dialog("close");
 	}
 	function beforeSend()
@@ -184,7 +184,7 @@
 								接收手机号码
 								<font color="red">*</font>
 							</td>
-							<td title="必填，可以手动输入，也可以从通讯录中查找，多个手机号码之间以封号分隔">
+							<td title="必填，可以手动输入，也可以从通讯录中查找，多个手机号码之间以逗号分隔">
 								<s:textarea id="sms.recipient" name="sms.recipient" cols="100"
 									rows="8"></s:textarea>
 								<input id="addressBtn" type="button" class="button"
