@@ -22,7 +22,7 @@
   <div id="container">
   <table class="ui-state-default" height="200px" width="100%">
   <tr><td align="center">
-	  		密码修改成功，下次请用新密码登陆！
+	  		密码修改失败，请重试！
 		  
 	 </td></tr></table>
 	</div>	
