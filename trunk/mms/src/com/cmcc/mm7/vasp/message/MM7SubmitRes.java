@@ -4,6 +4,7 @@
 
 package com.cmcc.mm7.vasp.message;
 
+
 public class MM7SubmitRes extends MM7RSRes
 {
 	/**
@@ -35,9 +36,10 @@ public class MM7SubmitRes extends MM7RSRes
 
 	public String toString() // 返回对象的文本表示
 	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("MessageID=" + MessageID + "\n");
-		sb.append("MessageIDExist=" + MessageIDExist + "\n");
+		StringBuffer sb=new StringBuffer();
+		sb.append("[TransactionID="
+				+ getTransactionID() + "]");
+		sb.append("[Message_Type=MM7SubmitRes]");
 		return sb.toString();
 	}
 }
