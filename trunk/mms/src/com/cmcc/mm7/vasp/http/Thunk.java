@@ -10,7 +10,7 @@ import com.cmcc.mm7.vasp.util.Hex;
 
 public class Thunk
 {
-	private static final Log log = LogFactory.getLog(Http.class);
+	private static final Log log = LogFactory.getLog(HttpResponse.class);
 	private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 	public boolean recvData(InputStream input)

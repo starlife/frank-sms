@@ -10,45 +10,43 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class HttpHead
+public class HttpHeadResponse
 {
-	private static final Log log = LogFactory.getLog(HttpHead.class);
+	private static final Log log = LogFactory.getLog(HttpHeadResponse.class);
 	private final ByteArrayOutputStream headBaos = new ByteArrayOutputStream();
 	private String httpVersion;
 	private int statusCode;
 	private String reasonPhrase;
 
-	public HttpHead()
+	public HttpHeadResponse()
 	{
 
 	}
 
-	public boolean recvData(InputStream input)
+	public boolean recvData(InputStream input) throws IOException
 	{
 		// 先读http头信息
 		if (input == null)
 		{
 			log.warn("input is null");
 			return false;
-		}
-		try
+		}	
+		while (true)
 		{
-			while (true)
+			// byte[] b=new byte[1];
+			int i = input.read();
+			if (i == -1)
 			{
-				int i = input.read();
-				headBaos.write(i);
-				if (isComplete(headBaos.toString()))
-					break;
-				if (i != -1)
-					continue;
-				log.warn("读取包时未读完遇到-1，失败");
+				// socket被另一端关闭
+				log.error("读取包时未读完遇到-1");
+				throw new  IOException("peer socket is closed");
+			}
+			headBaos.write(i);
+			if (isComplete(headBaos.toString()))
+			{
 				break;
 			}
-		}
-		catch (IOException ex)
-		{
-			log.error("读取包头时错误", ex);
-			return false;
+
 		}
 		if (!parseStatusLine())
 		{
@@ -57,8 +55,6 @@ public class HttpHead
 		}
 		return true;
 	}
-
-
 
 	private boolean parseStatusLine()
 	{
