@@ -1,6 +1,5 @@
 package com.cmcc.mm7.vasp.protocol;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
@@ -9,13 +8,13 @@ import org.apache.commons.logging.LogFactory;
 
 import sun.misc.BASE64Encoder;
 
-import com.cmcc.mm7.vasp.message.MM7CancelReq;
-import com.cmcc.mm7.vasp.message.MM7ReplaceReq;
-import com.cmcc.mm7.vasp.message.MM7SubmitReq;
-import com.cmcc.mm7.vasp.message.MM7VASPReq;
-import com.cmcc.mm7.vasp.message.MM7VASPRes;
-import com.cmcc.mm7.vasp.service.Global;
-import com.cmcc.mm7.vasp.util.ByteUtil;
+import com.cmcc.mm7.vasp.Global;
+import com.cmcc.mm7.vasp.protocol.message.MM7CancelReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReplaceReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
+import com.cmcc.mm7.vasp.protocol.util.ByteUtil;
 
 public class MM7Helper
 {
@@ -31,7 +30,7 @@ public class MM7Helper
 
 		//byte[] bcontent = SOAPEncoder.encodeVASPReqMessage(mm7VASPReq, charset
 		//		.toString());
-		byte[] bcontent = EncodeMM7.getBytes4MM7VASPReq(mm7VASPReq, charset);
+		byte[] bcontent = EncodeMM7.encodeMM7VASPReq(mm7VASPReq, charset);
 
 		if (mmscURL == null)
 		{
@@ -69,7 +68,7 @@ public class MM7Helper
 		}
 		else if (mm7VASPReq instanceof MM7CancelReq)
 		{
-			MM7CancelReq cancelReq = (MM7CancelReq) mm7VASPReq;
+			//MM7CancelReq cancelReq = (MM7CancelReq) mm7VASPReq;
 
 			beforAuth.append("Content-Type:text/xml;charset=\"" + charset
 					+ "\"" + "\r\n");
@@ -121,7 +120,7 @@ public class MM7Helper
 	{
 		//byte[] bodyByte = SOAPEncoder.encodeVASPResMessage(mm7VASPRes, charset
 		//		.toString());
-		byte[] bodyByte = EncodeMM7.getBytes4MM7VASPRes(mm7VASPRes, charset);
+		byte[] bodyByte = EncodeMM7.encodeMM7VASPRes(mm7VASPRes, charset);
 
 		StringBuffer header = new StringBuffer();
 

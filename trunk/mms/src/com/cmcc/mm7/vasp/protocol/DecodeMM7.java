@@ -20,9 +20,9 @@ import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.common.MMContentType;
 import com.cmcc.mm7.vasp.http.MIMEMessage;
-import com.cmcc.mm7.vasp.message.MM7DeliverReq;
-import com.cmcc.mm7.vasp.message.MM7RSReq;
-import com.cmcc.mm7.vasp.message.MM7RSRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7RSReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7RSRes;
 
 public class DecodeMM7
 {
@@ -32,7 +32,7 @@ public class DecodeMM7
 	
 	public static MM7RSRes decodeResMessage(byte[] xmlByte,Charset charset)
 	{
-		return XML2Message.parseResXML(xmlByte);
+		return SOAPDecoder.parseResXML(xmlByte);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class DecodeMM7
 			int xmlbeg = bodyMessage.indexOf(MMConstants.BEGINXMLFLAG);
 			int xmlend=	bodyMessage.indexOf(MMConstants.ENDXMLFLAG)+MMConstants.ENDXMLFLAG.length();
 			String xmlMessage=bodyMessage.substring(xmlbeg,xmlend);
-			req = XML2Message.parseReqXML(xmlMessage.getBytes(charset));
+			req = SOAPDecoder.parseReqXML(xmlMessage.getBytes(charset));
 			
 			if(boundary!=null&&(req instanceof MM7DeliverReq)&&(baos.size()>xmlend))
 			{
