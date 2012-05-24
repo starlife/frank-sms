@@ -11,14 +11,14 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cmcc.mm7.vasp.MM7Sender;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.common.MMContentType;
-import com.cmcc.mm7.vasp.conf.MM7Config;
-import com.cmcc.mm7.vasp.message.MM7RSRes;
-import com.cmcc.mm7.vasp.message.MM7SubmitReq;
-import com.cmcc.mm7.vasp.message.MM7SubmitRes;
-import com.cmcc.mm7.vasp.service.MM7Sender;
+import com.cmcc.mm7.vasp.protocol.message.MM7RSRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7SubmitRes;
+import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.MmsFileDaoImpl;
 import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.UMmsDaoImpl;
@@ -34,29 +34,28 @@ public class Sender extends MM7Sender
 
 	private static final Log log = LogFactory.getLog(Sender.class);
 
-	//private static final Log db = LogFactory.getLog("db");
-	private static final Log lose = LogFactory.getLog("lose");//保存丢失包
+	// private static final Log db = LogFactory.getLog("db");
+	private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
 	 */
 	private static final LinkedBlockingQueue<MM7SubmitReq> que = new LinkedBlockingQueue<MM7SubmitReq>();
-	
-	public static int maxSrcID=10;
 
-	//private MM7Config config = null;
-	/**
-	 * 发送对象
-	 */
-	//private MM7Sender sender = null;
+	public static int maxSrcID = 10;
+
+	private String vaspid = "";// spid
+	private String vasid = "";// 接入号
+	private String serviceCode = "";
+
 	/**
 	 * 数据库访问对象
 	 */
 	private UMmsDaoImpl ummsDao = UMmsDaoImpl.getInstance();
 
 	private MmsFileDaoImpl mmsFileDao = MmsFileDaoImpl.getInstance();
-	
-	private SubmitDaoImpl submitDao=SubmitDaoImpl.getInstance();
+
+	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 
 	/**
 	 * 群发每条彩信最大的接收号码
@@ -64,14 +63,21 @@ public class Sender extends MM7Sender
 
 	private static int allocTransactionId = 0;
 
-
-	public Sender(MM7Config config) throws Exception
+	public Sender(MM7Config mm7Config) throws Exception
 	{
-		super(config);
+
+		super(mm7Config.getMMSCIP(), mm7Config.getMMSCURL(), mm7Config
+				.getAuthenticationMode(), mm7Config.getUserName(), mm7Config
+				.getPassword(), mm7Config.getCharSet(), mm7Config
+				.getMaxMsgSize(), mm7Config.isKeepAlive(), mm7Config
+				.getTimeOut());
+
+		vaspid = mm7Config.getVASPID();
+		vasid = mm7Config.getVASID();
+		serviceCode = mm7Config.getServiceCode();
+
 	}
-	
-	
-	
+
 	/**
 	 * 解析号码列表
 	 * 
@@ -99,9 +105,12 @@ public class Sender extends MM7Sender
 		MM7SubmitReq submitReq = new MM7SubmitReq();
 		submitReq.setTransactionID(trasactionid);
 		// submitReq.addTo("13915002000");
-		submitReq.setVASPID("895192");
-		submitReq.setVASID("106573061704");
-		submitReq.setServiceCode("1113329901");
+		// submitReq.setVASPID("895192");
+		submitReq.setVASPID(vaspid);
+		submitReq.setVASID(vasid);
+		submitReq.setServiceCode(serviceCode);
+		// submitReq.setVASID("106573061704");
+		// submitReq.setServiceCode("1113329901");
 		submitReq.setDeliveryReport(true);
 		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
@@ -208,7 +217,6 @@ public class Sender extends MM7Sender
 		return String.valueOf(allocTransactionId);
 	}
 
-
 	public MM7SubmitReq doSubmit()
 	{
 		// 从队列中取数据，如果没有，那么从数据库中取并加入到队列中
@@ -242,21 +250,20 @@ public class Sender extends MM7Sender
 				MMContent content = createSubmitReqContent(mmsFile);
 
 				MM7SubmitReq submitReq = null;
-				for (int j = 0; j < numbers.length;j+=maxSrcID)
+				for (int j = 0; j < numbers.length; j += maxSrcID)
 				{
 					// 重新赋值submitReq
 					String trasactionid = allocTransactionID();
 
 					submitReq = createSubmitReq(trasactionid, mms.getSubject(),
 							content);
-					for(int k=j;k<Math.min(j+maxSrcID,numbers.length);k++)
+					for (int k = j; k < Math.min(j + maxSrcID, numbers.length); k++)
 					{
 						submitReq.addTo(numbers[k]);
 					}
-						
-					
+
 					que.add(submitReq);
-					//处理session
+					// 处理session
 					synchronized (sessionMap)
 					{
 						// 如果sessionMap大于100000，说明程序有错误，需要清理
@@ -292,8 +299,8 @@ public class Sender extends MM7Sender
 			{
 				sessionid = sessionMap.remove(trasactionid);
 			}
-			List<String> numbers=submitMsg.getTo();
-			for(int i=0;i<numbers.size();i++)
+			List<String> numbers = submitMsg.getTo();
+			for (int i = 0; i < numbers.size(); i++)
 			{
 				SubmitBean submitBean = new SubmitBean();
 				submitBean.setMessageid(messageid);
@@ -309,18 +316,17 @@ public class Sender extends MM7Sender
 				submitBean.setStatus(res.getStatusCode());
 				submitBean.setStatusText(res.getStatusText());
 				submitBean.setSessionid(sessionid);
-				//db.info(submitBean);
+				// db.info(submitBean);
 				submitDao.save(submitBean);
 			}
-			
 
-
-		}else
+		}
+		else
 		{
 			log.debug("丢失包，请查看lose日志");
-			lose.error("处理"+submitMsg+"时收到错误回应包 "+res);
+			lose.error("处理" + submitMsg + "时收到错误回应包 " + res);
 		}
-		
+
 		// ummsDao.save(submitBean);
 		/*
 		 * for(int i=0;i<submitMsg.getTo().size();i++) { SLogMmssubmit
@@ -348,7 +354,6 @@ public class Sender extends MM7Sender
 
 	}
 
-	
 	public static void main(String[] args) throws Exception
 	{
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");

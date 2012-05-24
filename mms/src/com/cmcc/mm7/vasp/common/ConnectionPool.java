@@ -4,18 +4,24 @@
 
 package com.cmcc.mm7.vasp.common;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
 
 public class ConnectionPool
 {
 	private static final Log log = LogFactory.getLog(ConnectionPool.class);
 	// public static List ClientList;
-	private static final List<ConnectionWrap> que = new LinkedList<ConnectionWrap>();;
+	//private static final LinkedBlockingQueue<Socket> que = new LinkedBlockingQueue<Socket>(5);
 	// private static boolean isCreate;
 	// public HashMap hashmap;
 	// private long time;
@@ -32,33 +38,20 @@ public class ConnectionPool
 	private boolean keepAlive=false;
 	private String mmscIp = null;
 	private int timeout = 10000;
+	
+	private Socket socket=null;
 
 	//private static final ConnectionPool m_instance = new ConnectionPool();
 
-	public ConnectionPool(String mmscIp,int timeout,boolean keepAlive)
+	public ConnectionPool(String mmscIp,boolean keepAlive,int timeout)
 	{
 		this.mmscIp=mmscIp;
-		this.timeout=timeout;
 		this.keepAlive=keepAlive;
+		this.timeout=timeout;
 	}
 
 	
-	/*public void setConfig(MM7Config mm7config)
-	{
-		// Mm7Config = mm7config;
-		init(mm7config);
-
-	}*/
-
-	/*
-	 * public void setNonceCount(String nc) { NonceCount = nc; } public String
-	 * getNonceCount() { return NonceCount; }
-	 */
-
-	/*
-	 * public void setInitNonceCount() { setNonceCount("00000001"); }
-	 */
-
+	
 	
 	// 从配置文件中获得一些基本信息
 	/*private void init(MM7Config config)
@@ -97,21 +90,29 @@ public class ConnectionPool
 
 	}*/
 
-	public void offer(ConnectionWrap conn)
+	/*public void offer(Socket conn)
 	{
 		// 如果是长连接，那么重新设置为可用，如果是短连接，那么关闭
 		if (keepAlive)
 		{
-			conn.setFree(true);
+			que.offer(conn);
 		}
 		else
 		{
-			conn.close();
+			try
+			{
+				conn.close();
+			}
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
+	}*/
 
 	// 获得空闲的连接
-	public synchronized ConnectionWrap poll()
+	/*public synchronized Socket poll()
 	{
 		if (this.mmscIp == null)
 		{
@@ -178,6 +179,67 @@ public class ConnectionPool
 		}
 		return null;
 
+	}*/
+	private boolean buildLink()
+	{
+		try
+		{
+			int index = this.mmscIp.indexOf(":");
+			String ip;
+			int port;
+			if (index == -1)
+			{
+				ip = mmscIp;
+				port = 80;
+			}
+			else
+			{
+				ip = mmscIp.substring(0, index);
+				port = Integer.parseInt(mmscIp.substring(index + 1));
+			}
+			socket = new Socket(ip,port);
+			socket.setSoTimeout(timeout);
+			log.debug("建立新socket连接成功" + socket.getLocalSocketAddress()
+					+ socket.getRemoteSocketAddress());
+
+			//free = true;// 初始设置链路为可用
+			//activeTime = System.currentTimeMillis();
+			return true;
+		}
+		catch (Exception e)
+		{
+			log.error(null, e);
+			return false;
+		}
+
 	}
+	
+	public synchronized Socket getConn()
+	{
+		if(!isSocketAvail(socket))
+		{
+			if(!buildLink())
+			{
+				log.debug("创建socket连接失败");
+				socket=null;
+			}
+		}
+		return socket;
+	}
+	
+	
+	public static boolean isSocketAvail(Socket socket)
+	{
+		if (socket == null)
+		{
+			return false;
+		}
+		else
+		{
+			return socket.isConnected() && !socket.isClosed()
+					&& !socket.isInputShutdown() && !socket.isOutputShutdown();
+		}
+	}
+
 
 }

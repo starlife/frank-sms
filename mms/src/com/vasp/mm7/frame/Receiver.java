@@ -3,16 +3,16 @@ package com.vasp.mm7.frame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cmcc.mm7.vasp.MM7Receiver;
 import com.cmcc.mm7.vasp.common.MMConstants;
-import com.cmcc.mm7.vasp.conf.MM7Config;
-import com.cmcc.mm7.vasp.message.MM7DeliverReq;
-import com.cmcc.mm7.vasp.message.MM7DeliverRes;
-import com.cmcc.mm7.vasp.message.MM7DeliveryReportReq;
-import com.cmcc.mm7.vasp.message.MM7DeliveryReportRes;
-import com.cmcc.mm7.vasp.message.MM7ReadReplyReq;
-import com.cmcc.mm7.vasp.message.MM7ReadReplyRes;
-import com.cmcc.mm7.vasp.message.MM7VASPRes;
-import com.cmcc.mm7.vasp.service.MM7Receiver;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliverRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
+import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.pojo.DeliverBean;
 import com.vasp.mm7.database.pojo.SubmitBean;
@@ -34,7 +34,7 @@ public class Receiver extends MM7Receiver
 
 	public Receiver(MM7Config config)
 	{
-		super(config);
+		super(config.getListenIP(),config.getListenPort(),config.getBackLog(),true,config.getCharSet());
 	}
 
 	/**
@@ -111,6 +111,13 @@ public class Receiver extends MM7Receiver
 		// 这里更新s_log_mmssubmit表
 		String messageid=deliverReportReq.getMessageID();
 		String to=deliverReportReq.getRecipient();
+		if(to.startsWith("+86"))
+		{
+			to=to.substring(3,to.length());
+		}else if(to.startsWith("86"))
+		{
+			to=to.substring(2,to.length());
+		}
 		SubmitBean bean=submitDao.getSubmitBean(messageid, to);
 		if(bean!=null)
 		{

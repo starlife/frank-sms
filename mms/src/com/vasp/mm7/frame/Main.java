@@ -3,7 +3,7 @@ package com.vasp.mm7.frame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cmcc.mm7.vasp.conf.MM7Config;
+import com.vasp.mm7.conf.MM7Config;
 
 public class Main
 {
@@ -42,7 +42,8 @@ public class Main
 	{
 		
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		mm7Config.setConnConfigName("./config/ConnConfig.xml");
+		System.out.println(mm7Config);
+		//mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
 		try
 		{
