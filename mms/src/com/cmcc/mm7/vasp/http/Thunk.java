@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cmcc.mm7.vasp.util.Hex;
+import com.cmcc.mm7.vasp.protocol.util.Hex;
 
 public class Thunk
 {

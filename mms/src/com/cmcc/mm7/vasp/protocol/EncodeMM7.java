@@ -14,15 +14,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cmcc.mm7.vasp.common.MMContent;
-import com.cmcc.mm7.vasp.message.MM7CancelReq;
-import com.cmcc.mm7.vasp.message.MM7DeliverRes;
-import com.cmcc.mm7.vasp.message.MM7DeliveryReportRes;
-import com.cmcc.mm7.vasp.message.MM7ReadReplyRes;
-import com.cmcc.mm7.vasp.message.MM7ReplaceReq;
-import com.cmcc.mm7.vasp.message.MM7SubmitReq;
-import com.cmcc.mm7.vasp.message.MM7VASPErrorRes;
-import com.cmcc.mm7.vasp.message.MM7VASPReq;
-import com.cmcc.mm7.vasp.message.MM7VASPRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7CancelReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliverRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReplaceReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPErrorRes;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 
 /**
  * 把MM7VASPReq消息和MM7VASPRes消息解析为Byte[]形式
@@ -40,26 +40,26 @@ public class EncodeMM7
 
 	
 
-	public static byte[] getBytes4MM7VASPRes(MM7VASPRes mm7VASPRes,
+	public static byte[] encodeMM7VASPRes(MM7VASPRes mm7VASPRes,
 			Charset charset)
 	{
 		
 		if (mm7VASPRes instanceof MM7DeliverRes)
 		{
-			return Message2XML.deliverRes2Xml((MM7DeliverRes) mm7VASPRes, charset).getBytes(charset);
+			return SOAPEncoder.deliverRes2Xml((MM7DeliverRes) mm7VASPRes, charset).getBytes(charset);
 		}
 		else if (mm7VASPRes instanceof MM7DeliveryReportRes)
 		{
-			return Message2XML.deliveryReportRes2Xml((MM7DeliveryReportRes) mm7VASPRes, charset).getBytes(charset);
+			return SOAPEncoder.deliveryReportRes2Xml((MM7DeliveryReportRes) mm7VASPRes, charset).getBytes(charset);
 		}
 		else if (mm7VASPRes instanceof MM7ReadReplyRes)
 		{
-			return Message2XML.readReplyRes2Xml((MM7ReadReplyRes) mm7VASPRes,
+			return SOAPEncoder.readReplyRes2Xml((MM7ReadReplyRes) mm7VASPRes,
 					charset).getBytes(charset);
 		}
 		else if (mm7VASPRes instanceof MM7VASPErrorRes)
 		{
-			return Message2XML.vaspErrorRes2Xml((MM7VASPErrorRes) mm7VASPRes,
+			return SOAPEncoder.vaspErrorRes2Xml((MM7VASPErrorRes) mm7VASPRes,
 					charset).getBytes(charset);
 		}
 		else
@@ -69,12 +69,12 @@ public class EncodeMM7
 
 	}
 
-	public static byte[] getBytes4MM7VASPReq(MM7VASPReq mm7VaspReq,
+	public static byte[] encodeMM7VASPReq(MM7VASPReq mm7VaspReq,
 			Charset charset)
 	{
 		if (mm7VaspReq instanceof MM7SubmitReq)
 		{
-			return getBytes4MM7SubmitReq((MM7SubmitReq) mm7VaspReq, charset);
+			return encodeMM7SubmitReq((MM7SubmitReq) mm7VaspReq, charset);
 		}
 		else if (mm7VaspReq instanceof MM7CancelReq)
 		{
@@ -94,7 +94,7 @@ public class EncodeMM7
 	
 	
 	
-	public static byte[] getBytes4MM7SubmitReq(MM7SubmitReq mm7VaspReq,
+	private static byte[] encodeMM7SubmitReq(MM7SubmitReq mm7VaspReq,
 			Charset charset)
 	{
 		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -120,7 +120,7 @@ public class EncodeMM7
 				sb.append("\r\n");
 			}
 			
-			sb.append(Message2XML.submitReq2Xml(mm7VaspReq,charset));
+			sb.append(SOAPEncoder.submitReq2Xml(mm7VaspReq,charset));
 
 			
 			if (mm7VaspReq.isContentExist())
