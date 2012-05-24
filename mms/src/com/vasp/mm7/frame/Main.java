@@ -42,7 +42,7 @@ public class Main
 	{
 		
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		System.out.println(mm7Config);
+		log.debug(mm7Config);
 		//mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
 		try
