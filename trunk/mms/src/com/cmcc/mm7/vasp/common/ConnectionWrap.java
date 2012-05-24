@@ -25,7 +25,7 @@ public class ConnectionWrap
 	 */
 	private boolean del = false;
 
-	public ConnectionWrap(String mmscIP, int timeout)
+	private ConnectionWrap(String mmscIP, int timeout)
 	{
 		this.mmscIP = mmscIP;
 		this.timeout = timeout;

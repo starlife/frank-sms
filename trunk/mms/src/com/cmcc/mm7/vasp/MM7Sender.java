@@ -47,25 +47,25 @@ public class MM7Sender extends Thread
 	private int authmode=0;
 	private String username=null;
 	private String password=null;
-	private String charset=null;
+	private Charset charset=Charset.defaultCharset();
 	private boolean keepAlive=false;	
 	private int MaxMsgSize=102400;
 	
 	private ConnectionPool connPool=null;
 
 	/** 构造方法 */
-	public MM7Sender(String mmscIP,String mmscURL,int authmode,String username,String password,String charset,boolean keepAlive,int maxMsgSize) throws Exception
+	public MM7Sender(String mmscIP,String mmscURL,int authmode,String username,String password,String charset,int maxMsgSize,boolean keepAlive,int timeout) throws Exception
 	{
-		connPool=new ConnectionPool(mmscIP,10000,keepAlive);
+		connPool=new ConnectionPool(mmscIP,keepAlive,timeout);
 		this.mmscIP=mmscIP;
 		this.mmscURL=mmscURL;
 		this.authmode=authmode;
 		this.username=username;
 		this.password=password;
-		this.charset=charset;
+		this.charset=Charset.forName(charset);
+		this.MaxMsgSize=maxMsgSize;
 		this.keepAlive=keepAlive;
-		//mm7Config = config;
-		//ConnectionPool.getInstance().setConfig(mm7Config);
+		
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class MM7Sender extends Thread
 			// 验证后
 			byte[] msgByte = MM7Helper.getMM7Message(mm7VASPReq,mmscIP,mmscURL,
 					username, password,keepAlive,
-					Charset.forName(charset));
+					charset);
 
 			if (msgByte.length > this.MaxMsgSize)
 			{
@@ -193,34 +193,25 @@ public class MM7Sender extends Thread
 	{
 		// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道并标示为删除状态
 		MM7RSRes res = null;
-		ConnectionWrap conn = connPool.poll();
+		Socket socket = connPool.getConn();
+		if (socket == null)
+		{
+			res = new MM7RSErrorRes();
+			res.setStatusCode(-104);
+			res.setStatusText("创建Socket通道失败");
+			return res;
+		}
+		
 		try
 		{
-			if (conn == null)
-			{
-				res = new MM7RSErrorRes();
-				res.setStatusCode(-104);
-				res.setStatusText("创建Socket通道失败");
-				return res;
-			}
-
-			if (!isSocketAvail(conn.getSocket()))
-			{
-				conn.close();
-				res = new MM7RSErrorRes();
-				res.setStatusCode(-104);
-				res.setStatusText("Socket不可用");
-				return res;
-			}
-
-			OutputStream sender = conn.getSocket().getOutputStream();
+			OutputStream sender =socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
 
 			// 接下来是接收回应包
 			log.debug("开始接收");
 			HttpResponse http = new HttpResponse();
-			if (!http.recvData(conn.getSocket().getInputStream()))
+			if (!http.recvData(socket.getInputStream()))
 			{
 				res = new MM7RSErrorRes();
 				res.setStatusCode(-102);
@@ -230,7 +221,7 @@ public class MM7Sender extends Thread
 			}
 			log.debug("接收完成");
 			// 接收完成，送回去
-			connPool.offer(conn);
+			
 
 			log.info("收到消息：" + http.toString());
 
@@ -249,12 +240,20 @@ public class MM7Sender extends Thread
 				return res;
 			}
 
-			res = DecodeMM7.decodeResMessage(http.getBody(), Charset.forName(charset));
+			res = DecodeMM7.decodeResMessage(http.getBody(),charset);
 			return res;
 		}
 		catch (IOException ex)
 		{
-			conn.close();
+			try
+			{
+				socket.close();
+			}
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			log.error(null, ex);
 			res = new MM7RSErrorRes();
 			res.setStatusCode(-102);
@@ -302,9 +301,10 @@ public class MM7Sender extends Thread
 		String username=mm7Config.getUserName();
 		String password=mm7Config.getPassword();
 		String charset=mm7Config.getCharSet();
-		boolean keepAlive=false;
+		boolean keepAlive=true;
+		int timeout=mm7Config.getTimeOut();
 		int maxMsgSize=mm7Config.getMaxMsgSize();
-		MM7Sender mm7Sender = new MM7Sender(mmscIP,mmscURL,authmode,username,password,charset,keepAlive,maxMsgSize);
+		MM7Sender mm7Sender = new MM7Sender(mmscIP,mmscURL,authmode,username,password,charset,maxMsgSize,keepAlive,timeout);
 		MM7SubmitReq submit = new MM7SubmitReq();
 		submit.setTransactionID("11111111");
 		submit.setVASPID("895192");

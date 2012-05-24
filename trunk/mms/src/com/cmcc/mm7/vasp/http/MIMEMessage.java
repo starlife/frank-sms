@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class MIMEMessage
 {
-	private static final Log log = LogFactory.getLog(HttpHeadRequest.class);
+	private static final Log log = LogFactory.getLog(MIMEMessage.class);
 	private byte[] bytes = null;
 	private final ByteArrayOutputStream headBaos = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
