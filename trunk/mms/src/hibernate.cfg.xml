@@ -21,23 +21,29 @@
 		<property name="connection.driver_class">
 			com.microsoft.sqlserver.jdbc.SQLServerDriver
 		</property>
-		<property name="hibernate.hbm2ddl.auto">create</property>
-		<mapping resource="com/vasp/mm7/database/pojo/UMms.hbm.xml" />
+		<!-- <property name="hibernate.hbm2ddl.auto">create</property>-->
+		<!--<mapping resource="com/vasp/mm7/database/pojo/UMms.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/UploadFile.hbm.xml" />
+			<mapping resource="com/vasp/mm7/database/pojo/MmsFile.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/UPhoneaddress.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/SLogMmsreport.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/SLogMmssubmit.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/SLogMmsreadreply.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/UmmsidTrasactionid.hbm.xml" />
+			<mapping
+			resource="com/vasp/mm7/database/pojo/SLogMmsdeliver.hbm.xml" />-->
 		<mapping
 			resource="com/vasp/mm7/database/pojo/UploadFile.hbm.xml" />
 		<mapping resource="com/vasp/mm7/database/pojo/MmsFile.hbm.xml" />
+		<mapping resource="com/vasp/mm7/database/pojo/UMms.hbm.xml"></mapping>
 		<mapping
-			resource="com/vasp/mm7/database/pojo/UPhoneaddress.hbm.xml" />
-		<mapping
-			resource="com/vasp/mm7/database/pojo/SLogMmsreport.hbm.xml" />
-		<mapping
-			resource="com/vasp/mm7/database/pojo/SLogMmssubmit.hbm.xml" />
-		<mapping
-			resource="com/vasp/mm7/database/pojo/SLogMmsreadreply.hbm.xml" />
-		<mapping
-			resource="com/vasp/mm7/database/pojo/UmmsidTrasactionid.hbm.xml" />
-		<mapping
-			resource="com/vasp/mm7/database/pojo/SLogMmsdeliver.hbm.xml" />
+			resource="com/vasp/mm7/database/pojo/SubmitBean.hbm.xml" />
 
 	</session-factory>
 
