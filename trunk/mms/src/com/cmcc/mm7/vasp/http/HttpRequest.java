@@ -123,6 +123,10 @@ public class HttpRequest
 	}
 
 	
+	public String getHeader()
+	{
+		return httpHead.toString();
+	}
 	
 	public String getUrl()
 	{
