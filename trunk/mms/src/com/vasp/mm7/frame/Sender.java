@@ -35,7 +35,7 @@ public class Sender extends MM7Sender
 	private static final Log log = LogFactory.getLog(Sender.class);
 
 	// private static final Log db = LogFactory.getLog("db");
-	private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
+	//private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
@@ -63,7 +63,7 @@ public class Sender extends MM7Sender
 
 	private static int allocTransactionId = 0;
 
-	public Sender(MM7Config mm7Config) throws Exception
+	public Sender(MM7Config mm7Config)
 	{
 
 		super(mm7Config.getMMSCIP(), mm7Config.getMMSCURL(), mm7Config
@@ -216,8 +216,9 @@ public class Sender extends MM7Sender
 		allocTransactionId = (allocTransactionId + 1) & 0xffffffff;
 		return String.valueOf(allocTransactionId);
 	}
-
-	public MM7SubmitReq doSubmit()
+	
+	@Override
+	public MM7SubmitReq submit()
 	{
 		// 从队列中取数据，如果没有，那么从数据库中取并加入到队列中
 		MM7SubmitReq pack = que.poll();
@@ -280,13 +281,9 @@ public class Sender extends MM7Sender
 		return pack;
 	}
 
-	/**
-	 * 记录表日志
-	 * 
-	 * @param submitMsg
-	 * @param res
-	 */
-	public void dealSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
+	
+	@Override
+	public void doSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
 	{
 		String messageid=" ";
 		if (res instanceof MM7SubmitRes)

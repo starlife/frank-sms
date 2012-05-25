@@ -23,18 +23,19 @@ public class Receiver extends MM7Receiver
 
 	private static final Log log = LogFactory.getLog(Receiver.class);
 
-	//private static final Log db = LogFactory.getLog("db");
-	
-	private SubmitDaoImpl submitDao=SubmitDaoImpl.getInstance();
+	// private static final Log db = LogFactory.getLog("db");
+
+	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 
 	/**
 	 * 数据库访问对象
 	 */
 	// private SubmitDaoImpl dao = SubmitDaoImpl.getInstance();
-
 	public Receiver(MM7Config config)
 	{
-		super(config.getListenIP(),config.getListenPort(),config.getBackLog(),true,config.getCharSet());
+		super(config.getListenIP(), config.getListenPort(),
+				config.getBackLog(), config.isKeepAlive(), config.getTimeOut(),
+				config.getCharSet());
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class Receiver extends MM7Receiver
 		return res;
 	}
 
-	public void dealDeliver(MM7DeliverReq deliverReq)
+	private void dealDeliver(MM7DeliverReq deliverReq)
 	{
 		// 入库
 		DeliverBean deliver = new DeliverBean();
@@ -106,31 +107,33 @@ public class Receiver extends MM7Receiver
 		log.info(deliverReq);
 	}
 
-	public void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
+	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
 		// 这里更新s_log_mmssubmit表
-		String messageid=deliverReportReq.getMessageID();
-		String to=deliverReportReq.getRecipient();
-		if(to.startsWith("+86"))
+		String messageid = deliverReportReq.getMessageID();
+		String to = deliverReportReq.getRecipient();
+		if (to.startsWith("+86"))
 		{
-			to=to.substring(3,to.length());
-		}else if(to.startsWith("86"))
-		{
-			to=to.substring(2,to.length());
+			to = to.substring(3, to.length());
 		}
-		SubmitBean bean=submitDao.getSubmitBean(messageid, to);
-		if(bean!=null)
+		else if (to.startsWith("86"))
+		{
+			to = to.substring(2, to.length());
+		}
+		SubmitBean bean = submitDao.getSubmitBean(messageid, to);
+		if (bean != null)
 		{
 			bean.setTransactionid(deliverReportReq.getTransactionID());
-			bean.setReportTime(DateUtils.getTimestamp14(deliverReportReq.getTimeStamp()));
-			bean.setMmStatus((int)deliverReportReq.getMMStatus());
+			bean.setReportTime(DateUtils.getTimestamp14(deliverReportReq
+					.getTimeStamp()));
+			bean.setMmStatus((int) deliverReportReq.getMMStatus());
 			bean.setMmStatusText(deliverReportReq.getStatusText());
 			submitDao.save(bean);
 		}
-		
+
 	}
 
-	public void dealReadReply(MM7ReadReplyReq mm7ReadReplyReq)
+	private void dealReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
 		// 这里更新s_log_mmssubmit表
 		/*

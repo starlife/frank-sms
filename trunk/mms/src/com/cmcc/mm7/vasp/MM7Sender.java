@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cmcc.mm7.vasp.common.ConnectionPool;
+import com.cmcc.mm7.vasp.common.Connection;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.http.HttpResponse;
@@ -26,7 +26,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
 import com.cmcc.mm7.vasp.protocol.util.LogHelper;
 
-public class MM7Sender extends Thread
+public class MM7Sender extends Thread implements MM7AbstractSender
 {
 	private static final Log log = LogFactory.getLog(MM7Sender.class);
 
@@ -50,14 +50,15 @@ public class MM7Sender extends Thread
 	private int MaxMsgSize = 102400;
 	private int retryCount = 3;
 
-	private ConnectionPool connPool = null;
+	private Connection conn = null;
 
 	/** 构造方法 */
 	public MM7Sender(String mmscIP, String mmscURL, int authmode,
 			String username, String password, String charset, int maxMsgSize,
-			int reSendCount, boolean keepAlive, int timeout) throws Exception
+			int reSendCount, boolean keepAlive, int timeout)
 	{
-		connPool = new ConnectionPool(mmscIP, keepAlive, timeout);
+		super("MM7Sender");
+		conn = new Connection(mmscIP, timeout);
 		this.mmscIP = mmscIP;
 		this.mmscURL = mmscURL;
 		this.authmode = authmode;
@@ -81,7 +82,7 @@ public class MM7Sender extends Thread
 				// 取彩信并发送
 				// RateControl.controlRate();
 				// 取包发送
-				MM7VASPReq req = this.doSubmit();
+				MM7VASPReq req = this.submit();
 				if (req == null)
 				{
 					req = buffer.poll();
@@ -92,8 +93,8 @@ public class MM7Sender extends Thread
 					continue;
 				}
 
-				// 发送
 				MM7RSRes res = this.send(req);
+
 				log.info("收到回应包 " + LogHelper.logMM7RSRes(res));
 
 				dealRecv(req, res);
@@ -103,41 +104,6 @@ public class MM7Sender extends Thread
 			{
 				log.error(null, ex);
 			}
-		}
-
-	}
-
-	private void dealRecv(MM7VASPReq req, MM7RSRes res)
-	{
-		if (res instanceof MM7RSErrorRes)
-		{
-			// 如果发送失败，那么加入到发送队列重新发送
-			if (req.getTimes() < retryCount)
-			{
-				req.addTimes();
-				buffer.offer(req);
-			}
-			else
-			{
-				lose.info("包达到最大发送次数（" + retryCount + "次）,丢弃" + req);
-			}
-
-		}
-		if ((req instanceof MM7SubmitReq))
-		{
-			dealSubmit((MM7SubmitReq) req, res);
-		}
-		else if (req instanceof MM7ReplaceReq)
-		{
-			dealReplace((MM7ReplaceReq) req, res);
-		}
-		else if (req instanceof MM7CancelReq)
-		{
-			dealCancel((MM7CancelReq) req, res);
-		}
-		else
-		{
-			log.error("处理未知提交包" + req + "," + res);
 		}
 
 	}
@@ -155,8 +121,6 @@ public class MM7Sender extends Thread
 			return res;
 		}
 
-		log.info("准备发送包 " + LogHelper.logMM7VASPReq(mm7VASPReq));
-
 		try
 		{
 
@@ -164,7 +128,8 @@ public class MM7Sender extends Thread
 			if (mm7VASPReq.getBytes() == null)
 			{
 
-				// 验证后
+				// 得到消息的byte
+				log.debug("getMM7Message之前");
 				byte[] msgByte = MM7Helper.getMM7Message(mm7VASPReq, mmscIP,
 						mmscURL, authmode, username, password, keepAlive,
 						charset);
@@ -178,6 +143,7 @@ public class MM7Sender extends Thread
 				}
 				mm7VASPReq.setBytes(msgByte);
 			}
+			log.info("发送包 " + LogHelper.logMM7VASPReq(mm7VASPReq));
 			mm7VASPReq.addTimes();
 			res = send(mm7VASPReq.getBytes());
 
@@ -197,7 +163,7 @@ public class MM7Sender extends Thread
 	{
 		// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道并标示为删除状态
 		MM7RSRes res = null;
-		Socket socket = connPool.getConn();
+		Socket socket = conn.getConn();
 		if (socket == null)
 		{
 			res = new MM7RSErrorRes();
@@ -208,9 +174,7 @@ public class MM7Sender extends Thread
 
 		try
 		{
-			log.debug("发送包时间");
-			log.debug(socket.getSoTimeout());
-			log.debug("socket.isClosed():" + socket.isClosed());
+			log.debug("开始发送包...");
 			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
@@ -245,7 +209,21 @@ public class MM7Sender extends Thread
 				res.setStatusText("消息体为空");
 				return res;
 			}
-
+			if (!keepAlive)
+			{			
+				try
+				{
+					
+					log.debug("当前配置短连接，发送结束，尝试关闭socket");
+					socket.close();
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					log.error(null, e);
+				}				
+				
+			}
 			res = DecodeMM7.decodeResMessage(http.getBody(), charset);
 			return res;
 		}
@@ -253,7 +231,7 @@ public class MM7Sender extends Thread
 		{
 			try
 			{
-				log.debug("IOException 尝试关闭socket");
+				log.info("IOException 尝试关闭socket");
 				socket.close();
 			}
 			catch (IOException e)
@@ -271,6 +249,41 @@ public class MM7Sender extends Thread
 
 	}
 
+	private void dealRecv(MM7VASPReq req, MM7RSRes res)
+	{
+		if (res instanceof MM7RSErrorRes)
+		{
+			// 如果发送失败，那么加入到发送队列重新发送
+			if (req.getTimes() < retryCount)
+			{
+				req.addTimes();
+				buffer.offer(req);
+			}
+			else
+			{
+				lose.info("包达到最大发送次数（" + retryCount + "次）,丢弃" + req);
+			}
+
+		}
+		if ((req instanceof MM7SubmitReq))
+		{
+			doSubmit((MM7SubmitReq) req, res);
+		}
+		else if (req instanceof MM7ReplaceReq)
+		{
+			doReplace((MM7ReplaceReq) req, res);
+		}
+		else if (req instanceof MM7CancelReq)
+		{
+			doCancel((MM7CancelReq) req, res);
+		}
+		else
+		{
+			log.error("处理未知提交包" + req + "," + res);
+		}
+
+	}
+
 	/** 输入string，输出经过MD5编码的String */
 
 	public void myStop()
@@ -278,22 +291,22 @@ public class MM7Sender extends Thread
 		this.stop = true;
 	}
 
-	public MM7SubmitReq doSubmit()
+	public MM7SubmitReq submit()
 	{
 		return null;
 	}
 
-	public void dealSubmit(MM7SubmitReq req, MM7RSRes res)
+	public void doSubmit(MM7SubmitReq req, MM7RSRes res)
 	{
 		log.debug("dealSubmit" + req + "," + res);
 	}
 
-	public void dealReplace(MM7ReplaceReq req, MM7RSRes res)
+	public void doReplace(MM7ReplaceReq req, MM7RSRes res)
 	{
 		log.debug("dealReplace" + req + "," + res);
 	}
 
-	public void dealCancel(MM7CancelReq req, MM7RSRes res)
+	public void doCancel(MM7CancelReq req, MM7RSRes res)
 	{
 		log.debug("dealCancel" + req + "," + res);
 	}

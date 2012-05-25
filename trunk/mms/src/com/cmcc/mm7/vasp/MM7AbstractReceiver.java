@@ -4,9 +4,10 @@
 
 package com.cmcc.mm7.vasp;
 
-import com.cmcc.mm7.vasp.protocol.message.*;
-
-import java.lang.Exception;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
+import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 
 public interface MM7AbstractReceiver
 {
@@ -14,14 +15,12 @@ public interface MM7AbstractReceiver
 	// public MM7AbstractReceiver() throws Exception;
 
 	// 抽象方法。处理到VASP的传送（deliver）多媒体消息。
-	public MM7VASPRes doDeliver(MM7DeliverReq mm7DeliverReq) throws Exception;
+	public MM7VASPRes doDeliver(MM7DeliverReq mm7DeliverReq);
 
 	// 抽象方法。处理到VASP的发送报告
-	public MM7VASPRes doDeliveryReport(MM7DeliveryReportReq mm7DeliveryReportReq)
-			throws Exception;
+	public MM7VASPRes doDeliveryReport(MM7DeliveryReportReq mm7DeliveryReportReq);
 
 	// 抽象方法。处理到VASP的读后回复报告
-	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq)
-			throws Exception;
+	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq);
 
 }
