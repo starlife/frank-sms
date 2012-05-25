@@ -14,6 +14,8 @@ public class MM7VASPReq extends MM7Message
 	 * ·¢ËÍ´ÎÊý
 	 */
 	private int times = 0;
+	
+	private byte[] bytes=null;
 
 	public int getTimes()
 	{
@@ -23,6 +25,16 @@ public class MM7VASPReq extends MM7Message
 	public void addTimes()
 	{
 		times += 1;
+	}
+
+	public byte[] getBytes()
+	{
+		return bytes;
+	}
+
+	public void setBytes(byte[] bytes)
+	{
+		this.bytes = bytes;
 	}
 
 }

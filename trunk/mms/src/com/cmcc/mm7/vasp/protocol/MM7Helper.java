@@ -21,7 +21,7 @@ public class MM7Helper
 	private static final Log log = LogFactory.getLog(MM7Helper.class);
 
 	public static byte[] getMM7Message(MM7VASPReq mm7VASPReq, String mmscIP,
-			String mmscURL, String userName, String password,
+			String mmscURL,int authmode, String userName, String password,
 			boolean keepAlive, Charset charset) throws IOException
 	{
 		
@@ -78,8 +78,11 @@ public class MM7Helper
 		beforAuth.append("Content-Transfer-Encoding:8bit" + "\r\n");
 
 		// 验证头
-		beforAuth.append("Authorization:Basic "
+		if(authmode==1)
+		{
+			beforAuth.append("Authorization:Basic "
 				+ getBASE64(userName + ":" + password) + "\r\n");
+		}
 
 		// 验证后
 		beforAuth.append("SOAPAction:\"\"" + "\r\n");
