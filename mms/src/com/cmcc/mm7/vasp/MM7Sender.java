@@ -13,7 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cmcc.mm7.vasp.common.ConnectionPool;
-import com.cmcc.mm7.vasp.common.ConnectionWrap;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.http.HttpResponse;
@@ -26,46 +25,49 @@ import com.cmcc.mm7.vasp.protocol.message.MM7ReplaceReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
 import com.cmcc.mm7.vasp.protocol.util.LogHelper;
-import com.vasp.mm7.conf.MM7Config;
 
 public class MM7Sender extends Thread
 {
 	private static final Log log = LogFactory.getLog(MM7Sender.class);
-	//private MM7Config mm7Config;
+
+	private static final Log lose = LogFactory.getLog("lose");// 记录日志
 
 	/**
 	 * 保存发送提交失败的包，便于重新发送
 	 */
 	private final LinkedBlockingQueue<MM7VASPReq> buffer = new LinkedBlockingQueue<MM7VASPReq>(
 			10000);
-	
+
 	private volatile boolean stop = false;
-	
-	
-	private String mmscIP=null;
-	private String mmscURL="/";
-	private int authmode=0;
-	private String username=null;
-	private String password=null;
-	private Charset charset=Charset.defaultCharset();
-	private boolean keepAlive=false;	
-	private int MaxMsgSize=102400;
-	
-	private ConnectionPool connPool=null;
+
+	private String mmscIP = null;
+	private String mmscURL = "/";
+	private int authmode = 0;
+	private String username = null;
+	private String password = null;
+	private Charset charset = Charset.defaultCharset();
+	private boolean keepAlive = false;
+	private int MaxMsgSize = 102400;
+	private int retryCount = 3;
+
+	private ConnectionPool connPool = null;
 
 	/** 构造方法 */
-	public MM7Sender(String mmscIP,String mmscURL,int authmode,String username,String password,String charset,int maxMsgSize,boolean keepAlive,int timeout) throws Exception
+	public MM7Sender(String mmscIP, String mmscURL, int authmode,
+			String username, String password, String charset, int maxMsgSize,
+			int reSendCount, boolean keepAlive, int timeout) throws Exception
 	{
-		connPool=new ConnectionPool(mmscIP,keepAlive,timeout);
-		this.mmscIP=mmscIP;
-		this.mmscURL=mmscURL;
-		this.authmode=authmode;
-		this.username=username;
-		this.password=password;
-		this.charset=Charset.forName(charset);
-		this.MaxMsgSize=maxMsgSize;
-		this.keepAlive=keepAlive;
-		
+		connPool = new ConnectionPool(mmscIP, keepAlive, timeout);
+		this.mmscIP = mmscIP;
+		this.mmscURL = mmscURL;
+		this.authmode = authmode;
+		this.username = username;
+		this.password = password;
+		this.charset = Charset.forName(charset);
+		this.MaxMsgSize = maxMsgSize;
+		this.retryCount = reSendCount;
+		this.keepAlive = keepAlive;
+
 	}
 
 	@Override
@@ -92,8 +94,8 @@ public class MM7Sender extends Thread
 
 				// 发送
 				MM7RSRes res = this.send(req);
-				log.info("收到回应包 res.statuscode=" + res.getStatusCode()
-						+ ";res.statusText=" + res.getStatusText());
+				log.info("收到回应包 " + LogHelper.logMM7RSRes(res));
+
 				dealRecv(req, res);
 
 			}
@@ -107,9 +109,20 @@ public class MM7Sender extends Thread
 
 	private void dealRecv(MM7VASPReq req, MM7RSRes res)
 	{
+		if (res instanceof MM7RSErrorRes)
+		{
+			// 如果发送失败，那么加入到发送队列重新发送
+			if (req.getTimes() < retryCount)
+			{
+				req.addTimes();
+				buffer.offer(req);
+			}
+			else
+			{
+				lose.info("包达到最大发送次数（" + retryCount + "次）,丢弃" + req);
+			}
 
-		log.debug(LogHelper.logMM7RSRes(res));
-
+		}
 		if ((req instanceof MM7SubmitReq))
 		{
 			dealSubmit((MM7SubmitReq) req, res);
@@ -124,7 +137,7 @@ public class MM7Sender extends Thread
 		}
 		else
 		{
-			log.debug("处理未知包" + req + "," + res);
+			log.error("处理未知提交包" + req + "," + res);
 		}
 
 	}
@@ -142,26 +155,31 @@ public class MM7Sender extends Thread
 			return res;
 		}
 
-		log.info(LogHelper.logMM7VASPReq(mm7VASPReq));
+		log.info("准备发送包 " + LogHelper.logMM7VASPReq(mm7VASPReq));
 
 		try
 		{
 
 			// 设置
-			
-			// 验证后
-			byte[] msgByte = MM7Helper.getMM7Message(mm7VASPReq,mmscIP,mmscURL,
-					username, password,keepAlive,
-					charset);
-
-			if (msgByte.length > this.MaxMsgSize)
+			if (mm7VASPReq.getBytes() == null)
 			{
-				res = new MM7RSErrorRes();
-				res.setStatusCode(-113);
-				res.setStatusText("消息大小超出允许发送的大小！");
-				return res;
+
+				// 验证后
+				byte[] msgByte = MM7Helper.getMM7Message(mm7VASPReq, mmscIP,
+						mmscURL, authmode, username, password, keepAlive,
+						charset);
+
+				if (msgByte.length > this.MaxMsgSize)
+				{
+					res = new MM7RSErrorRes();
+					res.setStatusCode(-113);
+					res.setStatusText("消息大小超出允许发送的大小！");
+					return res;
+				}
+				mm7VASPReq.setBytes(msgByte);
 			}
-			res = send(msgByte);
+			mm7VASPReq.addTimes();
+			res = send(mm7VASPReq.getBytes());
 
 			return res;
 		}
@@ -171,21 +189,7 @@ public class MM7Sender extends Thread
 			MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
 			ErrorRes.setStatusCode(-100);
 			ErrorRes.setStatusText("系统错误！原因：" + e);
-			log.info(LogHelper.logMM7RSRes(res));
 			return ErrorRes;
-		}
-	}
-
-	private boolean isSocketAvail(Socket socket)
-	{
-		if (socket == null)
-		{
-			return false;
-		}
-		else
-		{
-			return socket.isConnected() && !socket.isClosed()
-					&& !socket.isInputShutdown() && !socket.isOutputShutdown();
 		}
 	}
 
@@ -201,10 +205,13 @@ public class MM7Sender extends Thread
 			res.setStatusText("创建Socket通道失败");
 			return res;
 		}
-		
+
 		try
 		{
-			OutputStream sender =socket.getOutputStream();
+			log.debug("发送包时间");
+			log.debug(socket.getSoTimeout());
+			log.debug("socket.isClosed():" + socket.isClosed());
+			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
 
@@ -221,7 +228,6 @@ public class MM7Sender extends Thread
 			}
 			log.debug("接收完成");
 			// 接收完成，送回去
-			
 
 			log.info("收到消息：" + http.toString());
 
@@ -240,19 +246,20 @@ public class MM7Sender extends Thread
 				return res;
 			}
 
-			res = DecodeMM7.decodeResMessage(http.getBody(),charset);
+			res = DecodeMM7.decodeResMessage(http.getBody(), charset);
 			return res;
 		}
 		catch (IOException ex)
 		{
 			try
 			{
+				log.debug("IOException 尝试关闭socket");
 				socket.close();
 			}
 			catch (IOException e)
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(null, e);
 			}
 			log.error(null, ex);
 			res = new MM7RSErrorRes();
@@ -278,33 +285,34 @@ public class MM7Sender extends Thread
 
 	public void dealSubmit(MM7SubmitReq req, MM7RSRes res)
 	{
-		log.debug("doCanel" + req + "," + res);
+		log.debug("dealSubmit" + req + "," + res);
 	}
 
 	public void dealReplace(MM7ReplaceReq req, MM7RSRes res)
 	{
-		log.debug("doCanel" + req + "," + res);
+		log.debug("dealReplace" + req + "," + res);
 	}
 
 	public void dealCancel(MM7CancelReq req, MM7RSRes res)
 	{
-		log.debug("doCanel" + req + "," + res);
+		log.debug("dealCancel" + req + "," + res);
 	}
 
 	public static void main(String[] args) throws Exception
 	{
-		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		mm7Config.setConnConfigName("./config/ConnConfig.xml");
-		String mmscIP=mm7Config.getMMSCIP();
-		String mmscURL=mm7Config.getMMSCURL();
-		int authmode=mm7Config.getAuthenticationMode();
-		String username=mm7Config.getUserName();
-		String password=mm7Config.getPassword();
-		String charset=mm7Config.getCharSet();
-		boolean keepAlive=true;
-		int timeout=mm7Config.getTimeOut();
-		int maxMsgSize=mm7Config.getMaxMsgSize();
-		MM7Sender mm7Sender = new MM7Sender(mmscIP,mmscURL,authmode,username,password,charset,maxMsgSize,keepAlive,timeout);
+		String mmscIP = "211.140.27.30:5700";
+		String mmscURL = "/";
+		int authmode = 1;
+		String username = "C61704";
+		String password = "sdop77";
+		String charset = "GB2312";
+		boolean keepAlive = true;
+		int timeout = 900000;
+		int maxMsgSize = 102400;
+		int reSendCount = 3;
+		MM7Sender mm7Sender = new MM7Sender(mmscIP, mmscURL, authmode,
+				username, password, charset, maxMsgSize, reSendCount,
+				keepAlive, timeout);
 		MM7SubmitReq submit = new MM7SubmitReq();
 		submit.setTransactionID("11111111");
 		submit.setVASPID("895192");
