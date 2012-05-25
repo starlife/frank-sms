@@ -30,18 +30,20 @@ import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 public class MM7Receiver extends Thread implements MM7AbstractReceiver
 {
 	private static final Log log = LogFactory.getLog(MM7Receiver.class);
-	private int listenPort = 80;
+
+	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
+			.newSingleThreadExecutor();
 	private InetAddress ip = null;
+	private int listenPort = 80;
+	private int backLog = 50;
 
-	private int BackLog = 50;
-
-	private boolean LongLinkFlag = false;
-	private String listenIP = null;
+	private boolean keepAlive = false;
+	private int timeout = 30000;
 	private Charset charset = null;
-	private boolean isStop = false;
+	private volatile boolean stop = false;
 
 	public MM7Receiver(String listenIP, int ListenPort, int backLog,
-			boolean keepAlive, String charset) // 构造方法
+			boolean keepAlive, int timeout, String charset) // 构造方法
 	{
 		super("MM7Receiver");
 		listenPort = ListenPort;
@@ -53,8 +55,9 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		{
 			log.error(null, e);
 		}
-		BackLog = backLog;
-		LongLinkFlag = keepAlive;
+		this.backLog = backLog;
+		this.keepAlive = keepAlive;
+		this.timeout = timeout;
 		this.charset = Charset.forName(charset);
 	}
 
@@ -64,21 +67,22 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		ServerSocket s = null;
 		try
 		{
-			s = new ServerSocket(listenPort, this.BackLog, this.ip);
+			s = new ServerSocket(listenPort, backLog, ip);
 			log.info("监听端口：" + s.getLocalSocketAddress());
-			while (!isStop)
+			while (!stop)
 			{
 				try
 				{
 					Socket client = s.accept();
 					log.debug("收到客户端连接：" + client.getRemoteSocketAddress());
+					if (this.timeout > 0)
+					{
+						client.setSoTimeout(timeout);
+					}
 					dealRecv(client);
-					/*
-					 * if(this.timeout>0) { client.setSoTimeout(timeout); }
-					 * dealRecv(client);
-					 */
+
 				}
-				catch (IOException e)
+				catch (Exception e)
 				{
 					// TODO Auto-generated catch block
 					log.error(null, e);
@@ -112,81 +116,113 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		}
 
 	}
-	
+
 	/**
 	 * 接收一个MM7RSReq包并回应一个MM7VASPRes包
+	 * 
 	 * @param client
 	 * @throws IOException
 	 */
-	private void dealRecv(Socket client) throws IOException
+	private void dealRecv(final Socket client)
 	{
-		MM7VASPRes res=null;
-		try
+		exec.execute(new Runnable()
 		{
-			HttpRequest http = new HttpRequest();
-			if (!http.recvData(client.getInputStream()))
+
+			@Override
+			public void run()
 			{
-				// 发送一个错误回应包
-				res = new MM7VASPErrorRes();
-				res.setStatusCode(-102);
-				res.setStatusText("接收回应消息失败！");
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+
+				try
+				{
+					while (true)
+					{
+						MM7VASPRes res = null;
+						HttpRequest http = new HttpRequest();
+						if (http.recvData(client.getInputStream()))
+						{
+							log.debug("接收到数据包：" + http);
+
+							MM7RSReq req = DecodeMM7.decodeReqMessage(http
+									.getBody(), charset.toString(), DecodeMM7
+									.getBoundary(http.getHeader()));
+
+							if (req instanceof MM7DeliverReq)
+							{
+
+								res = doDeliver((MM7DeliverReq) req);
+
+							}
+							else if (req instanceof MM7DeliveryReportReq)
+							{
+
+								res = (MM7DeliveryReportRes) doDeliveryReport((MM7DeliveryReportReq) req);
+
+							}
+							else if (req instanceof MM7ReadReplyReq)
+							{
+								res = (MM7ReadReplyRes) doReadReply((MM7ReadReplyReq) req);
+
+							}
+							else
+							{
+								// 发送一个错误回应包
+								res = new MM7VASPErrorRes();
+								res.setStatusCode(-109);
+								res.setStatusText("消息解析失败！");
+							}
+
+						}
+						else
+						{
+							// 发送一个错误回应包
+							res = new MM7VASPErrorRes();
+							res.setStatusCode(-102);
+							res.setStatusText("接收回应消息失败！");
+						}
+
+						byte[] msgByte = MM7Helper.getMM7Message(res, charset,
+								keepAlive);
+						client.getOutputStream().write(msgByte);
+						client.getOutputStream().flush();
+					}
+
+				}
+				catch (Exception ex)
+				{
+					log.error(null, ex);
+					
+				}
+				finally
+				{
+					try
+					{
+						client.close();
+					}
+					catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						log.error(null, e);
+					}
+				}
+
 			}
 
-			log.debug("接收到数据包：" + http);
-
-			
-			MM7RSReq req = DecodeMM7.decodeReqMessage(http.getBody(),
-					charset.toString(),DecodeMM7.getBoundary(http.getHeader()));
-
-			if (req == null)
-			{
-
-				log.debug("[Comments=解析后的消息为空！]");
-				return;
-			}
-
-			//log.info(LogHelper.logMM7RSRes(req));
-
-			
-			if (req instanceof MM7DeliverReq)
-			{
-
-				res = doDeliver((MM7DeliverReq) req);
-
-			}
-			else if (req instanceof MM7DeliveryReportReq)
-			{
-
-				res = (MM7DeliveryReportRes) doDeliveryReport((MM7DeliveryReportReq) req);
-
-			}
-			else if (req instanceof MM7ReadReplyReq)
-			{
-				res = (MM7ReadReplyRes) doReadReply((MM7ReadReplyReq) req);
-
-			}
-			byte[] msgByte = MM7Helper.getMM7Message(res, charset,this.LongLinkFlag);
-			client.getOutputStream().write(msgByte);
-			client.getOutputStream().flush();
-
-		}
-		finally
-		{
-			client.close();
-		}
+		});
 
 	}
 
 	public void mystop() // 停止接收器
 	{
-		isStop = true;
+		stop = true;
 	}
 
 	// 处理到VASP的传送（deliver）多媒体消息
 	public MM7VASPRes doDeliver(MM7DeliverReq mm7DeliverReq)
 	{
 		MM7DeliverRes res = new MM7DeliverRes();
-		//res.setServiceCode(mm7DeliverReq.get)
+		// res.setServiceCode(mm7DeliverReq.get)
 		res.setTransactionID(mm7DeliverReq.getTransactionID());
 		res.setStatusCode(1000);
 		return res;
@@ -208,8 +244,5 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		res.setStatusCode(1000);
 		return res;
 	}
-
-	
-	
 
 }
