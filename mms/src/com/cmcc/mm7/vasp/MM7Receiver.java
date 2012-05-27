@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
@@ -15,8 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cmcc.mm7.vasp.http.HttpRequest;
-import com.cmcc.mm7.vasp.protocol.MM7Helper;
 import com.cmcc.mm7.vasp.protocol.DecodeMM7;
+import com.cmcc.mm7.vasp.protocol.MM7Helper;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliverRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportReq;
@@ -26,6 +27,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPErrorRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
+import com.cmcc.mm7.vasp.protocol.util.LogHelper;
 
 public class MM7Receiver extends Thread implements MM7AbstractReceiver
 {
@@ -61,9 +63,9 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		this.charset = Charset.forName(charset);
 	}
 
-	public void start() // 启动接收器
+	public void run() // 启动接收器
 	{
-		log.info("启动接收线程");
+		log.info("启动接收线程...");
 		ServerSocket s = null;
 		try
 		{
@@ -157,12 +159,12 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							else if (req instanceof MM7DeliveryReportReq)
 							{
 
-								res = (MM7DeliveryReportRes) doDeliveryReport((MM7DeliveryReportReq) req);
+								res = doDeliveryReport((MM7DeliveryReportReq) req);
 
 							}
 							else if (req instanceof MM7ReadReplyReq)
 							{
-								res = (MM7ReadReplyRes) doReadReply((MM7ReadReplyReq) req);
+								res = doReadReply((MM7ReadReplyReq) req);
 
 							}
 							else
@@ -181,7 +183,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							res.setStatusCode(-102);
 							res.setStatusText("接收回应消息失败！");
 						}
-
+						log.debug("发送回应包 "+LogHelper.logMM7VaspRes(res));
 						byte[] msgByte = MM7Helper.getMM7Message(res, charset,
 								keepAlive);
 						client.getOutputStream().write(msgByte);
@@ -191,7 +193,18 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 				}
 				catch (Exception ex)
 				{
-					log.error(null, ex);
+					//log.error(null, ex);
+					int timeout=0;
+					try
+					{
+						timeout = client.getSoTimeout();
+					}
+					catch (SocketException e)
+					{
+						// TODO Auto-generated catch block
+						log.error(null,ex);
+					}
+					log.debug("接收socket关闭"+client.getRemoteSocketAddress()+"("+timeout+"ms)");
 					
 				}
 				finally
@@ -213,7 +226,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 
 	}
 
-	public void mystop() // 停止接收器
+	public void myStop() // 停止接收器
 	{
 		stop = true;
 	}
