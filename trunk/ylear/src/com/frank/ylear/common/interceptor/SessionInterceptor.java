@@ -1,8 +1,6 @@
 package com.frank.ylear.common.interceptor;
 
-import java.util.Map;
-
-import com.frank.ylear.modules.login.action.LoginAction;
+import com.frank.ylear.common.constant.Constants;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -21,13 +19,8 @@ public class SessionInterceptor  extends AbstractInterceptor
 	{
 		// TODO Auto-generated method stub
 		 ActionContext ctx = ActionContext.getContext();
-		  Map session = ctx.getSession();
-		  Action action = (Action) actioninvocation.getAction();
-		  if (action instanceof LoginAction) {
-		   return actioninvocation.invoke();
-		  }
-		  String userName = (String) session.get("USER_NAME");
-		  if (userName == null) {
+		  Object user = ctx.getSession().get(Constants.SESSION_USER);
+		  if (user == null) {
 		   return Action.LOGIN;
 		  } else {
 		   return actioninvocation.invoke();
