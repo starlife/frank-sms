@@ -74,7 +74,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	@Override
 	public void run()
 	{
-		log.info("正在启动发送线程。。。");
+		log.info("启动发送线程...");
 		while (!stop)
 		{
 			try
@@ -143,7 +143,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				}
 				mm7VASPReq.setBytes(msgByte);
 			}
-			log.info("发送包 " + LogHelper.logMM7VASPReq(mm7VASPReq));
+			log.info("准备发送包 " + LogHelper.logMM7VASPReq(mm7VASPReq));
 			mm7VASPReq.addTimes();
 			res = send(mm7VASPReq.getBytes());
 
