@@ -15,24 +15,20 @@
 		
 		$("#dialog:ui-dialog" ).dialog( "destroy" );
 		$("#dialog").dialog({
-			bgiframe: true,
+			bgiframe: false,
 			autoOpen:false,
 			resizable: false,
-			height:400,
-			width:600,
+			height:100,
+			width:"60%",
 			modal: true,
 			title:'查看彩信内容',
 			closeOnEscape:false,//关闭按 esc 退出
 			overlay: {
 				backgroundColor: '#000',
 				opacity: 0.5
-			},
-			buttons: {
-				'关闭': function() {
-					$(this).dialog('close');
-				}
 			}
 		});
+		
 		$("tr td").each(function(i){   
          	//获取td当前对象的文本,如果长度大于25;   
          	if($(this).text().length>25){   
@@ -51,7 +47,7 @@
 		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");	
 		function showMmsMethod(url)
 		{
-			alert(url);
+			//alert(url);
 			$("#showMms").attr("src",url);
 			$("#dialog").dialog("open");
 		}

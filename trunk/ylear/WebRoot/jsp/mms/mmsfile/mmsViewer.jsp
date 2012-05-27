@@ -9,7 +9,7 @@
 		<%@include file="/js.jsp"%>
 		<style type="text/css">
 /*帧框css*/ /*这个iframe居左，页撑满后出现水平滚动条*/
-#container {
+#mycontainer {
 	text-align: left;
 	overflow: auto;
 }
@@ -116,9 +116,9 @@
 
 				<tr>
 					<td colspan="2">
-						<div id="container">
+						<div id="mycontainer">
 
-							<table style="border: 0px;">
+							<table class="reset">
 								<tr>
 									<s:iterator value="#mmsFile.frameMap">
 										<!-- 记录frameSize -->
