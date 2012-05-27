@@ -2,3 +2,16 @@ html {
 	color: #000;
 	background: #FFF;
 }
+
+/*±í±ß¿ò*/
+table.reset {
+	width: 100%;
+}
+
+table.reset thead {
+	border: 0px solid #ddd;
+}
+
+table.reset td {
+	border: 0px solid #ddd;
+}
