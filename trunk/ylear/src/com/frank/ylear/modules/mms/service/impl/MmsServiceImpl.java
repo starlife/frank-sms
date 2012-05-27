@@ -24,7 +24,7 @@ public class MmsServiceImpl extends BaseService implements MmsService
 			}
 			if (isItemNotEmpty(mms.getEndTime()))
 			{
-				hql += "and obj.sendtime <='" + mms.getEndTime() + "' ";
+				hql += "and obj.sendtime <='" + mms.getEndTime() + "235959' ";
 			}
 		}
         hql+=" order by obj.id desc";
