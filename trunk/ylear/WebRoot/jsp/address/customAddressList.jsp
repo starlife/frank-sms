@@ -105,11 +105,18 @@
 				<td ><s:property value="area" default=" "/></td>
 			</tr>
 		</s:iterator>
-		<s:if test="#request.page.list.size()==0">
-		<tr><td  style="text-align:center;height:40px;">没有记录</td></tr>
-		</s:if> 
+		
 		</tbody>
 		</table>
+		<s:if test="#request.page.list.size()==0">
+						<table class="ui-widget">
+							<tr>
+								<td style="text-align: center; height: 40px;">
+									没有记录
+								</td>
+							</tr>
+						</table>
+					</s:if>
 	</div>
 		
 	<jb:pager/>

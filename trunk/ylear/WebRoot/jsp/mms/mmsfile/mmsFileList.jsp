@@ -103,7 +103,7 @@
 						</tbody>
 					</table>
 					<s:if test="#request.page.list.size()==0">
-						<table>
+						<table class="ui-widget">
 							<tr>
 								<td style="text-align: center; height: 40px;">
 									没有记录

@@ -62,11 +62,11 @@
 		<table class="ui-widget">
 		<thead class="ui-widget-header">
 		<tr>
-			<td width="25%">接收手机号码</td>
-			<td >短信内容</td>
+			<td width="28%">接收手机号码</td>
+			<td width="35%">短信内容</td>
 			<td width="15%">发送时间</td>
-			<td width="10%">发送状态</td>
-			<td width="10%">操作</td>
+			<td width="12%">发送状态</td>
+			<td >操作</td>
 		</tr>
 		</thead>
 		<tbody class="ui-widget-content">
@@ -79,8 +79,12 @@
 						document.write(formatDateStr('<s:property value="sendtime" default=" " />'));
 					</script>
 				</td>
-				<td ><s:if test="status==0">未发送</s:if>
-					<s:else>已发送</s:else></td>
+				<td >
+					<s:url id="reportURL" action="smsReport" >
+											<s:param name="sessionid" value="id" />
+										</s:url>
+				<s:if test="status==0">未发送</s:if>
+					<s:else>已发送(<a href="#"  onclick="openWindow('<s:property value="%{#reportURL}"/>')">发送报告</a>)</s:else></td>
 				<td>
 				<!-- 定义url -->
 				<s:url id="delURL" action="delSms">
@@ -91,11 +95,18 @@
 				</td>
 			</tr>
 		</s:iterator>
-		<s:if test="#request.page.list.size()==0">
-		<tr><td style="text-align:center;height:40px;">没有记录</td></tr>
-		</s:if> 
+		
 		</tbody>
 		</table>
+		<s:if test="#request.page.list.size()==0">
+						<table class="ui-widget">
+							<tr>
+								<td style="text-align: center; height: 40px;">
+									没有记录
+								</td>
+							</tr>
+						</table>
+					</s:if>
 	</div>
   	
 		<jb:pager/>

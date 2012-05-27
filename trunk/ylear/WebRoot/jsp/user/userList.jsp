@@ -81,11 +81,18 @@
 				</td>
 			</tr>
 		</s:iterator>
-		<s:if test="#request.page.list.size()==0">
-		<tr><td style="text-align:center;height:40px;">没有记录</td></tr>
-		</s:if> 
+		
 		</tbody>
 		</table>
+		<s:if test="#request.page.list.size()==0">
+						<table class="ui-widget">
+							<tr>
+								<td style="text-align: center; height: 40px;">
+									没有记录
+								</td>
+							</tr>
+						</table>
+					</s:if>
 	</div>
 		<table width="100%" style="font-size: 14px;"><tr><td>
 				<s:url id="addURL" action="crudUser" method="input"/>

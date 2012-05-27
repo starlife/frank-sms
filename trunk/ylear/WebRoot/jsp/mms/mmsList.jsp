@@ -15,10 +15,9 @@
 		
 		$("#dialog:ui-dialog" ).dialog( "destroy" );
 		$("#dialog").dialog({
-			bgiframe: false,
 			autoOpen:false,
 			resizable: false,
-			height:100,
+			height:600,
 			width:"60%",
 			modal: true,
 			title:'查看彩信内容',
@@ -28,6 +27,7 @@
 				opacity: 0.5
 			}
 		});
+		
 		
 		$("tr td").each(function(i){   
          	//获取td当前对象的文本,如果长度大于25;   
@@ -56,8 +56,8 @@
 	<body>
 		<div id="container">
 			<div id="dialog" style="display: none">
-				<iframe id="showMms" name="showMms" src='' width="600px"
-					height="300px" frameborder="0" scrolling="none"></iframe>
+				<iframe id="showMms" name="showMms" src='' width="100%"
+					height="100%" frameborder="0" scrolling="auto"></iframe>
 			</div>
 			<s:form action="listMms" method="post" theme="simple">
 				<div>
@@ -158,7 +158,7 @@
 						</tbody>
 					</table>
 					<s:if test="#request.page.list.size()==0">
-						<table>
+						<table class="ui-widget">
 							<tr>
 								<td style="text-align: center; height: 40px;">
 									没有记录
