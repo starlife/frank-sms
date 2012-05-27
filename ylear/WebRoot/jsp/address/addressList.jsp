@@ -85,12 +85,19 @@
 				</td>
 			</tr>
 		</s:iterator>
-		<s:if test="#request.page.list.size()==0">
-		<tr><td style="text-align:center;height:40px;">没有记录</td></tr>
-		</s:if> 
+		
 		</tbody>
 		</table>
-	</div>
+					<s:if test="#request.page.list.size()==0">
+						<table class="ui-widget">
+							<tr>
+								<td style="text-align: center; height: 40px;">
+									没有记录
+								</td>
+							</tr>
+						</table>
+					</s:if>
+				</div>
 		<table width="100%" style="font-size: 14px;"><tr ><td>
 				<s:url id="addURL" action="crudAddress" method="input"/>
 				<s:a id="addBtn" href="%{#addURL}">增加</s:a>
