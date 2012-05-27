@@ -68,14 +68,14 @@
 							</td>
 							<td>
 								<s:textfield name="queryBean.beginTime"
-									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyyMMdd'})" />
 							</td>
 							<td>
 								结束时间
 							</td>
 							<td>
 								<s:textfield name="queryBean.endTime"
-									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyyMMdd'})" />
 							<td>
 								<s:submit id="queryBtn" value="查询" />
 							</td>
