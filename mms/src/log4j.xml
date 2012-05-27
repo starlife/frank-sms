@@ -6,7 +6,7 @@
 	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n" />
 		</layout>
 	</appender>
 
@@ -14,11 +14,11 @@
 		class="org.apache.log4j.RollingFileAppender">
 		<param name="Append" value="false" />
 		<param name="MaxFileSize" value="1KB" />
-		<param name="File" value="logs/cmpp.log" />
+		<param name="File" value="logs/mms.log" />
 		<param name="MaxBackupIndex" value="100" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n	" />				   
 		</layout>
 	</appender>
 	<appender name="dailyAppender"
@@ -27,7 +27,7 @@
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n	" />
 		</layout>
 	</appender>
 	
