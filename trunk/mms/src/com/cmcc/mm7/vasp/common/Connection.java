@@ -83,7 +83,7 @@ public class Connection
 		long between = System.currentTimeMillis() - activeTime;
 		if (between > timeout)
 		{
-			log.debug("当前Socket上次使用时间到现在已经超过" + between + "s,需要重新建立连接");
+			log.debug("当前Socket上次使用时间到现在已经超过" + between + "ms,需要重新建立连接");
 			buildLink();
 		}
 
