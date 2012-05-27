@@ -25,7 +25,7 @@ public class SmsServiceImpl extends BaseService implements SmsService
 			}
 			if (isItemNotEmpty(sms.getEndTime())){
 				hql += "and obj.sendtime <='"
-						+sms.getEndTime()+"' ";				
+						+sms.getEndTime()+"235959' ";				
 			}
 		}
 		hql+=" order by obj.id desc";
