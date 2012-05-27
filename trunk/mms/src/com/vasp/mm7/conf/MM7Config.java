@@ -7,6 +7,7 @@ package com.vasp.mm7.conf;
 import java.util.Map;
 
 
+
 public class MM7Config
 {
 	private int AuthenticationMode;// 鉴权模式 0表示不鉴权 1表示基本鉴权 2表示摘要鉴权
@@ -32,6 +33,8 @@ public class MM7Config
 	private String ConnConfigName;
 	
 	private boolean keepAlive=false;
+	
+	//private boolean bload=false;
 
 	/** 默认构造方法 */
 	public MM7Config()
@@ -41,12 +44,15 @@ public class MM7Config
 	/** 构造方法。参数必须传递系统配置文件名 */
 	public MM7Config(String configFileName)
 	{
+		//bload=true;
 		load(configFileName);
+		
 	}
 
 	/** 加载配置文件 */
 	public void load(String configFileName)
 	{
+		//bload=true;
 		MM7ConfigManager mm7c = new MM7ConfigManager();
 		mm7c.load(configFileName);
 		Map<String, String> hashmap = mm7c.map;
@@ -68,6 +74,7 @@ public class MM7Config
 		ReSendCount = Integer.parseInt((String) hashmap.get("ReSendCount"));
 		MMSCID = (String) hashmap.get("MmscID");
 		keepAlive="on".equals((String)hashmap.get("KeepAlive"));
+		
 	}
 
 	public void setAuthenticationMode(int authMode) // 设置鉴权方式
