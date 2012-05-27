@@ -26,6 +26,11 @@ body {
 	font-size: 12
 }
 
+.STYLE6 {
+	font-size: 12px;
+	color: #FFFFFF;
+}
+
 .STYLE7 {
 	font-size: 14px;
 	color: #FFFFFF;
@@ -167,7 +172,7 @@ font-size: 14px;
 										</td>
 										<td width="75%">
 											<div align="center">
-												<span class="STYLE7" id="clock"></span>
+												<span class="STYLE6" id="clock"></span>
 											</div>
 										</td>
 										<td width="9%">
