@@ -17,7 +17,7 @@ public class UserAction extends BaseAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final String sessionUserKey ="USER";
+	//public static final String sessionUserKey ="USER";
 	
 	private SysUser user = null;
 	private SysUser queryBean=null;
@@ -55,7 +55,7 @@ public class UserAction extends BaseAction
 		//登陆成功，取得用户的bean已经权限菜单
 		List<SysRight> rights=userService.getSysRightByRole(sysuser.getSysRole().getId());
 		sysuser.setRights(rights);
-		this.getSession().put(sessionUserKey, sysuser);
+		this.getSession().put(Constants.SESSION_USER, sysuser);
 	}
 	
 	
@@ -96,7 +96,7 @@ public class UserAction extends BaseAction
 	 */
 	public String logout() throws Exception
 	{
-		this.getSession().remove(sessionUserKey);
+		this.getSession().remove(Constants.SESSION_USER);
 		return "index";
 	}
 
@@ -173,7 +173,7 @@ public class UserAction extends BaseAction
 	
 	public String savePassword()
 	{
-		SysUser sessionUser=(SysUser) this.getSession().get(sessionUserKey);
+		SysUser sessionUser=(SysUser) this.getSession().get(Constants.SESSION_USER);
 		if(sessionUser==null)
 		{
 			return ERROR;

@@ -1,5 +1,6 @@
 package com.frank.ylear.modules.user.action;
 
+import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.user.entity.SysUser;
 import com.frank.ylear.modules.user.service.UserService;
@@ -12,7 +13,7 @@ public class PasswordAction extends BaseAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final String sessionUserKey ="USER";
+	//public static final String sessionUserKey ="USER";
 	
 	private SysUser user = null;
 	private UserService userService;
@@ -49,7 +50,7 @@ public class PasswordAction extends BaseAction
 	
 	public String savePassword()
 	{
-		SysUser sessionUser=(SysUser) this.getSession().get(sessionUserKey);
+		SysUser sessionUser=(SysUser) this.getSession().get(Constants.SESSION_USER);
 		if(sessionUser==null)
 		{
 			return ERROR;
