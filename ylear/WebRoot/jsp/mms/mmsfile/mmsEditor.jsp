@@ -85,7 +85,7 @@
 			  		var frameCount=values[2];
 			  		var mmsSize=$("#mmsSize").html();
 			  		//需要写回彩信大小，彩信帧数，彩信名称，彩信id
-			  		window.opener.document.getElementById("mmsName").innerHTML=mmsName;
+			  		window.opener.document.getElementById("mmsName").value=mmsName;
 			  		window.opener.document.getElementById("mms.mmsid").value=mmsid;
 			  		window.opener.document.getElementById("frameCount").innerHTML=frameCount;
 			  		window.opener.document.getElementById("mmsSize").innerHTML=mmsSize;
