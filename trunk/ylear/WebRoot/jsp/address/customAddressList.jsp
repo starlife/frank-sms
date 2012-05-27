@@ -13,6 +13,7 @@
 			//这里写jquery
 			$("#queryBtn").button();
 			$(".button").button();
+			$("input[type='button']").button();
 			$("#checkall").click(
 				function()
 				{
