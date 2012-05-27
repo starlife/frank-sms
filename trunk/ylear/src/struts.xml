@@ -29,7 +29,7 @@
            		<interceptor-ref name="sessionout" /> 
             </interceptor-stack>  
         </interceptors> 
-        <!-- <default-interceptor-ref name="mydefault"/> -->
+        <default-interceptor-ref name="mydefault"/>
           
 		<global-results>
 			<result name="login">/login.jsp</result>
@@ -48,18 +48,20 @@
 		
 		<!--定义生成验证码 action--> 
 		<action name="genValidateImage" class="com.frank.ylear.modules.image.ImageAction" method="default">
+			<interceptor-ref name="basicStack"></interceptor-ref>
 			<result name="image" type="ValidateImage" />
 		</action>
 		
 		<!--登录 action--> 
 		<action name="loginAction" class="com.frank.ylear.modules.user.action.UserAction" method="login">
+	    	<interceptor-ref name="defaultStack"></interceptor-ref>
 	    	<result name="input">/login.jsp</result>
 	    	<result name="success" type="redirectAction">homeAction</result>
 	    	<result name="index" type="redirect">/login.jsp</result>
 	    </action>
 	    <action name="logoutAction" class="com.frank.ylear.modules.user.action.UserAction" method="logout">
 	    	<result name="index" type="redirect">/login.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	    <action name="changePasswordAction" class="com.frank.ylear.modules.user.action.PasswordAction" method="input">
@@ -79,16 +81,16 @@
 	    	<result name="menu">/jsp/home/menu.jsp</result>
 	    	<result name="welcome">/jsp/home/welcome.jsp</result>
 	    	<result name="footer">/jsp/home/footer.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <!--用户操作 action--> 
 	    <action name="listUser" class="com.frank.ylear.modules.user.action.UserAction" method="list">
 	    	<result name="success">/jsp/user/userList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <action name="delUser" class="com.frank.ylear.modules.user.action.UserAction" method="del">
 	    	<result name="success" type="redirectAction">listUser</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <action name="crudUser" class="com.frank.ylear.modules.user.action.UserAction" method="input">
 	    	<result name="input">/jsp/user/userForm.jsp</result>
@@ -98,17 +100,17 @@
 	    <!-- 通讯类管理 action--> 
 	    <action name="listAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="list">
 	    	<result name="success">/jsp/address/addressList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	    <action name="listCustomAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="listCustom">
 	    	<result name="success">/jsp/address/customAddressList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	     <action name="delAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="del">
 	    	<result name="success" type="redirectAction">listAddress</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	    <action name="crudAddress" class="com.frank.ylear.modules.phoneaddress.action.AddressAction" method="input">
@@ -121,11 +123,11 @@
 	    <!--短信管理 action--> 
 	    <action name="listSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="list">
 	    	<result name="success">/jsp/sms/smsList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>  
 	     <action name="delSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="del">
 	    	<result name="success" type="redirectAction">listSms</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>  
 	    <action name="crudSms" class="com.frank.ylear.modules.sms.action.SmsAction" method="input">
 	    	<result name="input">/jsp/sms/smsForm.jsp</result>
@@ -135,21 +137,21 @@
 	     <!-- 短信报表工具 -->
 	     <action name="smsReport" class="com.frank.ylear.modules.smsreport.action.SmsReportAction" method="list">
 	    	<result name="success">/jsp/sms/report/reportList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <action name="delSmsSubmit" class="com.frank.ylear.modules.smsreport.action.SmsReportAction" method="del">
 	    	<result name="success" type="redirectAction">smsReport</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	    <!--彩信管理 action--> 
 	    <action name="listMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="list">
 	    	<result name="success">/jsp/mms/mmsList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	     <action name="delMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="del">
 	    	<result name="success" type="redirectAction">listMms</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <action name="crudMms" class="com.frank.ylear.modules.mms.action.MmsAction" method="input">
 	    	<result name="input">/jsp/mms/mmsForm.jsp</result>
@@ -173,27 +175,15 @@
 	     <!-- 彩信报表工具 -->
 	     <action name="mmsReport" class="com.frank.ylear.modules.mmsreport.action.MmsReportAction" method="list">
 	    	<result name="success">/jsp/mms/report/reportList.jsp</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    <action name="delMmsSubmit" class="com.frank.ylear.modules.mmsreport.action.MmsReportAction" method="del">
 	    	<result name="success" type="redirectAction">mmsReport</result>
-	    	<interceptor-ref name="basicStack"/>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
-	    <action name="actionTagAction" 
-		class="test.ActionTagAction" >
-		<result name="success">/action.jsp</result>
-	</action>
- 
-	<action name="sayHelloAction" 
-		class="test.ActionTagAction"    
-                method="sayHello">
- 
-		<result name="sayHello">/sayHello.jsp</result>
-		<result name="sayStruts2">/sayStruts2.jsp</result>
-		<result name="saySysOut">/saySysOut.jsp</result>
-	</action>
- 
+	  
+	
 	    
 
 	</package>
