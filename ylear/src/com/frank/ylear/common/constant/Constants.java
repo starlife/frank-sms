@@ -5,6 +5,8 @@ public class Constants
 	public static final String SUCCESS = "success";
 	public static final String ERROR = "error";
 
+	public static final String SESSION_USER = "USER";
+
 	public static final String VALIDATE_CODE_KEY = "validate-key";
 
 	// public static final SimpleDateFormat SDF=new SimpleDateFormat("yyyy-MM-dd
