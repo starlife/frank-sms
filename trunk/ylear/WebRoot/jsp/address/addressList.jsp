@@ -13,8 +13,9 @@
 		$("#queryBtn").button();
 		$("#addBtn").button();
 		$("input[type='button']").button();
+		setNavTitle("系统管理 >> 通讯录管理 >> 通讯录列表");
 	});
-	setNavTitle("系统管理 >> 通讯录管理 >> 通讯录列表");
+	
 	</script>
   </head>
   

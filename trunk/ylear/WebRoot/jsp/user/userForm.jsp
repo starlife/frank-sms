@@ -12,8 +12,9 @@
 	$(document).ready(function(){
 		//这里写jquery
 		$("input[type='submit']").button();
+		setNavTitle("系统管理 >> 用户管理 >> 新增用户");
 	});
-	setNavTitle("系统管理 >> 用户管理 >> 新增用户");
+	
 	</script>
 	<s:head/>
   </head>

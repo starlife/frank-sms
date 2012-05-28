@@ -12,8 +12,8 @@
 	$(document).ready(function(){
 		//这里写jquery
 		$("input[type='submit']").button();
+		setNavTitle("系统管理 >> 修改密码");
 	});
-	setNavTitle("系统管理 >> 修改密码");
 	</script>
 	<s:head/>
   </head>

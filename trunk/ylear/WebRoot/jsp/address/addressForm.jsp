@@ -13,8 +13,9 @@
 		//这里写jquery
 		$("#submitBtn").button();
 		$("#cancelBtn").button();
+		setNavTitle("系统管理 >> 通讯录管理 >> 添加通讯录");
 	});
-	setNavTitle("系统管理 >> 通讯录管理 >> 添加通讯录");
+	
 	</script>
 	<s:head/>
   </head>
