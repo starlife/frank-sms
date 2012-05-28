@@ -13,8 +13,11 @@
 		$("input[type='button']").button();
 		$("#queryBtn").button();
 		$("#addBtn").button();
+		setNavTitle("系统管理 >> 用户管理 >> 用户列表");
 	});
-	setNavTitle("系统管理 >> 用户管理 >> 用户列表");
+	
+	
+	
 	</script>
   </head>
   
