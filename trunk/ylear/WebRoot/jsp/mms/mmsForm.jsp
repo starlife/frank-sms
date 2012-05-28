@@ -104,9 +104,10 @@
 			$("#reset").click(function() {
         		validator.resetForm();
     		});
+    		setNavTitle("系统管理 >> 彩信管理 >> 群发彩信");	
 		}
 	);		
-	setNavTitle("系统管理 >> 彩信管理 >> 群发彩信");		
+		
 	
 	function addSelectedPhone_callback(phones)
 	{

@@ -41,10 +41,10 @@
          	}   
       	});   
 		
-		
+		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");	
 		
 	});
-		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");	
+		
 		function showMmsMethod(url)
 		{
 			//alert(url);
