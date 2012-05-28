@@ -27,10 +27,12 @@
              	$(this).text(text);   
          	}   
       	});   
+      	
+      	setNavTitle("系统管理 >> 短信管理 >> 短信列表");	
 		
 	});
 	
-	setNavTitle("系统管理 >> 短信管理 >> 短信列表");		
+		
 	</script>
   </head>
   
