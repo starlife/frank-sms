@@ -10,6 +10,7 @@ import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.mms.entity.MmsFile;
+import com.frank.ylear.modules.mms.entity.UMms;
 import com.frank.ylear.modules.mms.service.MmsFileService;
 import com.frank.ylear.modules.mms.util.MMSFileHelper;
 import com.frank.ylear.modules.mms.util.MmsFrame;
@@ -22,6 +23,8 @@ public class MmsFileAction extends BaseAction
 	private static final long serialVersionUID = 1L;
 
 	public static final String SHOWUI = "showui";
+	
+	private MmsFile queryBean = null;
 
 	private MmsFileService mmsFileService;
 
@@ -54,6 +57,25 @@ public class MmsFileAction extends BaseAction
 	/* 彩信编辑器主页 */
 	public String mmsEditor() throws Exception
 	{
+		if (this.getId() != null)
+		{
+			// 如果id不为空，那么是对原有彩信的编辑
+			MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this.getId()));
+
+			String absolutePath = ServletActionContext.getServletContext()
+					.getRealPath("");
+			// 组装彩信
+			MMSFileHelper.makeMMS(mmsFile, absolutePath);
+			//选择第一帧为当前帧
+			if(mmsFile.getFrames()>0)
+			{
+				MMSFileHelper.changeCurrentFrame(mmsFile,1);
+			}
+			//设置彩信名称
+			this.setMmsName(mmsFile.getMmsName());
+			this.getSession().put("mmsfile", mmsFile); 
+		}
+		
 		return SUCCESS;
 	}
 
@@ -78,12 +100,25 @@ public class MmsFileAction extends BaseAction
 	 */
 	public String list() throws Exception
 	{
-		// mmsService.getMmsList(this.getQueryBean(), this.getPage());
-		//List<MmsFile> list=mmsFileService.getRecentMms(10);
-		//this.getPage().setList(list);
-		mmsFileService.getMmsFileList(this.getPage());
+		mmsFileService.getMmsFileList(this.getQueryBean(),this.getPage());
 		return SUCCESS;
 	}
+	
+	public String customList() throws Exception
+	{
+		mmsFileService.getMmsFileList(this.getQueryBean(),this.getPage());
+		return SUCCESS;
+	}
+	
+	public String del() throws Exception
+	{
+		if(this.getId()!=null)
+		{
+			mmsFileService.delMmsFile(Long.parseLong(this.getId()));
+		}
+		return SUCCESS;
+	}
+	
 
 	/**
 	 * 保存彩信
@@ -114,9 +149,13 @@ public class MmsFileAction extends BaseAction
 			int frames = mmsFile.getFrameMap().size();
 			String absolutePath = ServletActionContext.getServletContext()
 					.getRealPath("");
+			
 			Long id = MMSFileHelper.saveMmsFile(mmsFileService, mmsFile, this
 					.getMmsName(), absolutePath);
-
+			if(id==null)
+			{
+				id=mmsFile.getId();
+			}
 			if (id != null)
 			{
 				// 这里删除session
@@ -168,7 +207,7 @@ public class MmsFileAction extends BaseAction
 		{
 			return SUCCESS;
 		}
-		MmsFile mmsFile = mmsFileService.getMms(Long.parseLong(this.getId()));
+		MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this.getId()));
 
 		String absolutePath = ServletActionContext.getServletContext()
 				.getRealPath("");
@@ -499,11 +538,15 @@ public class MmsFileAction extends BaseAction
 
 	private MmsFile getMmsFileFromSession()
 	{
-		MmsFile mmsFile = (MmsFile) this.getSession().get("mmsfile");
-		if (mmsFile == null)
+		MmsFile mmsFile=null;
+		Object obj=this.getSession().get("mmsfile");
+		if (obj == null||!(obj instanceof MmsFile) )
 		{
 			mmsFile = new MmsFile();
 			this.getSession().put("mmsfile", mmsFile);
+		}else
+		{
+			mmsFile=(MmsFile)obj;
 		}
 		return mmsFile;
 	}
@@ -818,6 +861,16 @@ public class MmsFileAction extends BaseAction
 	public void setFrameId(Integer frameId)
 	{
 		this.frameId = frameId;
+	}
+
+	public MmsFile getQueryBean()
+	{
+		return queryBean;
+	}
+
+	public void setQueryBean(MmsFile queryBean)
+	{
+		this.queryBean = queryBean;
 	}
 
 }

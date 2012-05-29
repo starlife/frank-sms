@@ -10,7 +10,7 @@ import com.frank.ylear.modules.mms.service.MmsFileService;
 
 public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 {
-	public MmsFile getMms(Long id)
+	public MmsFile getMmsFile(Long id)
 	{
 		MmsFile obj=null;
 		String hql="select obj from MmsFile obj inner join fetch obj.uploadFiles where obj.id="+id;
@@ -25,27 +25,43 @@ public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 	/**
 	 * 添加
 	 */
-	public Serializable add(MmsFile mmsfile){
+	public Serializable saveMmsFile(MmsFile mmsfile){
 		//对时间进行处理
-		
 		//添加	
+		if(mmsfile.getId()!=null)
+		{
+			baseDao.update(mmsfile);
+			return null;
+		}
 		return baseDao.add(mmsfile);		
 	}
 
-	public List<MmsFile> getRecentMms(int num)
+	
+	public void delMmsFile(Long id)
 	{
 		// TODO Auto-generated method stub
-		String sql="from MmsFile";
-		return baseDao.listByPage(sql,0,num);
+		baseDao.del(MmsFile.class, id);
+		
 	}
-	
-	/**
-	 * 
-	 */
-	public void getMmsFileList(PageBean<MmsFile> pageResult)
+
+	public void getMmsFileList(MmsFile mmsFile, PageBean<MmsFile> pageResult)
 	{
-		String hql = "from MmsFile order by id desc";
+		// TODO Auto-generated method stub
+		String hql = "select obj from MmsFile obj where 1=1 ";
+		if (null != mmsFile)
+		{
+			if (isItemNotEmpty(mmsFile.getBeginTime()))
+			{
+				hql += "and obj.createtime >='" + mmsFile.getBeginTime() + "' ";
+			}
+			if (isItemNotEmpty(mmsFile.getEndTime()))
+			{
+				hql += "and obj.createtime <='" + mmsFile.getEndTime() + "235959' ";
+			}
+		}
+        hql+=" order by obj.id desc";
 		baseDao.listByPage(hql, pageResult);
+		
 	}
 
 

@@ -39,6 +39,11 @@ public class MmsFile implements java.io.Serializable
 	private Integer currentDuringTime;
 	private String currentFrameText;
 	// Constructors
+	
+	// 自定义类型
+
+	private String beginTime;
+	private String endTime;
 
 	/** default constructor */
 	public MmsFile()
@@ -256,6 +261,26 @@ public class MmsFile implements java.io.Serializable
 		}
 		sb.append("=============end=======\r\n");
 		return sb.toString();
+	}
+
+	public String getBeginTime()
+	{
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime)
+	{
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime()
+	{
+		return endTime;
+	}
+
+	public void setEndTime(String endTime)
+	{
+		this.endTime = endTime;
 	}
 	
 
