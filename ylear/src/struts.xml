@@ -157,7 +157,7 @@
 	    	<result name="input">/jsp/mms/mmsForm.jsp</result>
 	    	<result name="success" type="redirectAction">listMms</result>
 	    </action>
-	    <!-- 彩信编辑器 -->
+	    <!-- 彩信编辑 -->
 	    <action name="mmsEditor" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="mmsEditor">
 	    	<result name="input">jsp/mms/mmsfile/mmsUI.jsp</result>
 	    	<result name="showui">jsp/mms/mmsfile/mmsUI.jsp</result>
@@ -168,8 +168,18 @@
 	    	<result name="success">/jsp/mms/mmsfile/mmsViewer.jsp</result>
 	    </action>
 	    
-	    <action name="mmsList" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="list">
+	    <action name="listMmsFile" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="list">
 	    	<result name="success">/jsp/mms/mmsfile/mmsFileList.jsp</result>
+	    </action>
+	    
+	    <action name="customListMmsFile" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="customList">
+	    	<result name="success">/jsp/mms/mmsfile/customMmsFileList.jsp</result>
+	    </action>
+	    
+	    
+	    <action name="delMmsFile" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="del">
+	    	<result name="success" type="redirectAction">listMmsFile</result>
+	    	<interceptor-ref name="mybasic"/>
 	    </action>
 	    
 	     <!-- 彩信报表工具 -->
