@@ -130,7 +130,7 @@ public class MMSFileHelper
 			mmsFile.setMmsSize(mmsSize);
 			mmsFile.setCreatetime(DateUtils.getTimestamp14());
 			//这里保存
-			id = (Long)service.add(mmsFile);
+			id = (Long)service.saveMmsFile(mmsFile);
 			return id;
 			
 
@@ -158,6 +158,8 @@ public class MMSFileHelper
 		}
 
 	}
+	
+	
 
 	/**
 	 * 把数据库中查出来的数据组成一个彩信
@@ -566,7 +568,7 @@ public class MMSFileHelper
 		// inner join fetch obj.mmsFile where 1=1");
 		MmsFileServiceImpl service = (MmsFileServiceImpl) ctx
 				.getBean("mmsFileService");
-		MmsFile mmsFile = service.getMms(2L);
+		MmsFile mmsFile = service.getMmsFile(2L);
 		System.out.println(mmsFile);
 		String absolutePath = "E:\\google_svn\\frank-sms\\trunk\\ylear";
 		boolean b = makeMMS(mmsFile, absolutePath);
