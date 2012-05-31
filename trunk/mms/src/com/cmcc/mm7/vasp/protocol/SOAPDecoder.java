@@ -406,7 +406,9 @@ public class SOAPDecoder
 		{
 
 			ByteArrayInputStream in = new ByteArrayInputStream(xmlBytes);
+			log.debug("sax.build(in) 之前:"+System.currentTimeMillis());
 			Document doc = sax.build(in);
+			log.debug("sax.build(in) 之后:"+System.currentTimeMillis());
 			Element root = doc.getRootElement();
 			Element envHeader = (Element) root.getChildren().get(0);
 			Element envBody = (Element) root.getChildren().get(1);
@@ -422,7 +424,7 @@ public class SOAPDecoder
 			String transactionID = transID.getTextTrim();
 			// 消息体
 			Element message = (Element) envBody.getChildren().get(0);
-
+			
 			log.info("Message.getName()=" + message.getName() + "\r\n");
 
 			int size = message.getChildren().size();
