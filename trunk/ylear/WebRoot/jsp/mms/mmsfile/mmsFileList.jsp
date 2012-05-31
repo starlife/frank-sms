@@ -10,29 +10,38 @@
 		<script type="text/javascript">
 		$(document).ready(function(){
 			//这里写jquery
-			$("input[name='id']").click(
-				function()
-				{
-					var id=$("input[name='id']:checked");
-					var first=id.closest("td");
-					var mmsName=first.next().html();
-					var frames=first.next().next().html();
-					var mmsSize=first.next().next().next().html();
-					//如果是顶层页面
-					if(window==window.parent)
-					{
-						alert("彩信："+id.val()+",彩信名称："+mmsName+",帧数："+frames+",大小："+mmsSize);
-						//$(vals).each(function(){
-	    					//alert($(this).html())
-	  					//});
-					}
-					else
-					{
-						parent.choiceMmsFile_callback(id.val(),mmsName,frames,mmsSize);
-  					}
-					
-				}
-			)
+			$("#queryBtn").button();
+		$("input[type='button']").button();
+		
+		$("#dialog:ui-dialog" ).dialog( "destroy" );
+		$("#dialog").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:600,
+			width:"60%",
+			modal: true,
+			title:'查看彩信内容',
+			closeOnEscape:false,//关闭按 esc 退出
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			}
+		});
+		
+		
+		$("tr td").each(function(i){   
+         	//获取td当前对象的文本,如果长度大于25;   
+         	if($(this).text().length>25){   
+                //给td设置title属性,并且设置td的完整值.给title属性.   
+    			$(this).attr("title",$(this).text());   
+                //获取td的值,进行截取。赋值给text变量保存.   
+    			var text=$(this).text().substring(0,25)+"...";   
+             	//重新为td赋值;   
+             	$(this).text(text);   
+         	}   
+        });   
+		
+		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");
 			
         		
         
@@ -45,17 +54,42 @@
 	</head>
 	<body>
 		<div id="container">
-			<s:form action="mmsList" method="post" theme="simple">
+			<div id="dialog" style="display: none">
+				<iframe id="showMms" name="showMms" src='' width="100%"
+					height="100%" frameborder="0" scrolling="auto"></iframe>
+			</div>
+			<s:form action="listMmsFile" method="post" theme="simple">
 				
+				<div>
+					<table class="ui-widget ui-widget-header">
+						<tr>
+							<td>
+								开始时间
+							</td>
+							<td>
+								<s:textfield name="queryBean.beginTime"
+									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyyMMdd'})" />
+							</td>
+							<td>
+								结束时间
+							</td>
+							<td>
+								<s:textfield name="queryBean.endTime"
+									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyyMMdd'})" />
+							<td>
+								<s:submit id="queryBtn" value="查询" />
+							</td>
+
+						</tr>
+					</table>
+
+				</div>
 				<hr />
 				<!-- 列表数据 -->
 				<div>
-					<table class="ui-widget" id="ppp">
+					<table class="ui-widget">
 						<thead class="ui-widget-header">
 							<tr>
-								<td width="5%">
-									&nbsp;
-								</td>
 								<td width="45%">
 									彩信名称
 								</td>
@@ -66,8 +100,11 @@
 									彩信大小(KB)
 								</td>
 								
-								<td >
+								<td width="15%">
 									创建时间
+								</td>
+								<td >
+									操作
 								</td>
 								
 							</tr>
@@ -75,9 +112,6 @@
 						<tbody class="ui-widget-content">
 							<s:iterator value="#request.page.list">
 								<tr>
-									<td >
-										<input type = "radio"  name = "id" value = '<s:property value="id" default=" " />' />
-									</td>
 									<td>
 										<s:property value="mmsName" default=" " />
 									</td>
@@ -96,6 +130,19 @@
 											document.write(formatDateStr('<s:property value="createtime" default=" " />'));
 										</script>
 									</td>
+									<td>
+									<!-- 定义url -->
+					<s:url id="editURL" action="mmsEditor">
+						<s:param name="id" value="id"/>
+					</s:url>
+					<s:url id="delURL" action="delMmsFile">
+						<s:param name="id" value="id"/>
+					</s:url>
+					<input type="button"  value="编辑"
+					onclick="redirect('<s:property value="%{#editURL}"/>');"/>
+					<input type="button"  value="删除"
+					onclick="redirect('<s:property value="%{#delURL}"/>');"/>
+									</td>
 									
 									
 								</tr>
@@ -112,12 +159,11 @@
 						</table>
 					</s:if>
 
-				</div>
-
-				<jb:pager />
-
-
-
+				</div>			
+				<input class="addBtn" type="button" value="增加" onclick="redirect('<s:url  action="mmsEditor"/>');"/>
+				
+				<jb:pager/>
+	
 			</s:form>
 		</div>
 	</body>

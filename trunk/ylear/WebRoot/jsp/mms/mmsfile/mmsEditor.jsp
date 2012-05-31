@@ -30,14 +30,7 @@
 	
 	function cancelMethod()
 	{
-		var url=$("#closeurl").html();
-		$.get(url,function(result){
-				if(result=="true")
-				{
-					//关闭窗口
-	  				window.close();
-				}
-		})
+		window.location.href="listMmsFile.action";
 	}  	
 	
 	
@@ -92,7 +85,8 @@
 			  		window.close();//关闭窗口
 		  		}else
 		  		{
-		  			alert("彩信保存成功"+result);
+		  			//alert("彩信保存成功"+result);
+		  			window.location.href="listMmsFile.action";
 		  		}
   			}
 		})
@@ -425,12 +419,12 @@
 				<div style="padding-top: 10px;">
 					<span id="saveurl" style="display: none"><s:url
 							action="mmsEditor!save" /> </span>
-					<span id="closeurl" style="display: none"><s:url
-							action="mmsEditor!close" /> </span>
-					<input type="button" name="saveBtn" value="保存"
+					
+					<input type="button" name="saveBtn" value="保 存"
 						onclick="saveMethod();" />
-					<input type="button" name="cancelBtn" value="关闭"
+					<input type="button" name="cancelBtn" value="返 回"
 						onclick="cancelMethod();" />
+						
 						
 				</div>
 			</s:form>

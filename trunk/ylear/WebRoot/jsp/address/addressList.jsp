@@ -11,7 +11,6 @@
 	$(document).ready(function(){
 		//这里写jquery
 		$("#queryBtn").button();
-		$("#addBtn").button();
 		$("input[type='button']").button();
 		setNavTitle("系统管理 >> 通讯录管理 >> 通讯录列表");
 	});
@@ -80,9 +79,9 @@
 					<s:param name="id" value="id"/>
 				</s:url>
 					<input type="button"  value="编辑"
-					onclick="window.location.href='<s:property value="%{#editURL}"/>'"/>
+					onclick="redirect('<s:property value="%{#editURL}"/>');"/>
 					<input type="button"  value="删除"
-					onclick="window.location.href='<s:property value="%{#delURL}"/>'"/>
+					onclick="redirect('<s:property value="%{#delURL}"/>');"/>
 				</td>
 			</tr>
 		</s:iterator>
@@ -99,13 +98,9 @@
 						</table>
 					</s:if>
 				</div>
-		<table width="100%" style="font-size: 14px;"><tr ><td>
-				<s:url id="addURL" action="crudAddress" method="input"/>
-				<s:a id="addBtn" href="%{#addURL}">增加</s:a>
-				</td><td>
-					<jb:pager/>
-					</td>
-				</tr></table>	
+				<input class="addBtn" type="button" value="增加" onclick="redirect('<s:url action="crudAddress" method="input"/>');"/>
+				
+				<jb:pager/>
 	</s:form>
 	</div>		
   </body>
