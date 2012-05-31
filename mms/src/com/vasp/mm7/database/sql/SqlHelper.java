@@ -1,4 +1,4 @@
-package com.vasp.mm7.database;
+package com.vasp.mm7.database.sql;
 
 public class SqlHelper
 {
