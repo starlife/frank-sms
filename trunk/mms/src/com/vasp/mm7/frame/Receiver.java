@@ -13,7 +13,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 import com.vasp.mm7.conf.MM7Config;
-import com.vasp.mm7.database.SubmitDaoImpl;
+import com.vasp.mm7.database.SubmitDaoImpl1;
 import com.vasp.mm7.database.pojo.DeliverBean;
 import com.vasp.mm7.database.pojo.SubmitBean;
 import com.vasp.mm7.util.DateUtils;
@@ -25,12 +25,12 @@ public class Receiver extends MM7Receiver
 
 	// private static final Log db = LogFactory.getLog("db");
 
-	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
+	private SubmitDaoImpl1 submitDao = SubmitDaoImpl1.getInstance();
 
 	/**
 	 * 数据库访问对象
 	 */
-	// private SubmitDaoImpl dao = SubmitDaoImpl.getInstance();
+	//private SubmitDaoImpl1 dao = SubmitDaoImpl1.getInstance();
 	public Receiver(MM7Config config)
 	{
 		super(config.getListenIP(), config.getListenPort(),
@@ -120,16 +120,14 @@ public class Receiver extends MM7Receiver
 		{
 			to = to.substring(2, to.length());
 		}
-		SubmitBean bean = submitDao.getSubmitBean(messageid, to);
-		if (bean != null)
-		{
-			bean.setTransactionid(deliverReportReq.getTransactionID());
-			bean.setReportTime(DateUtils.getTimestamp14(deliverReportReq
-					.getTimeStamp()));
-			bean.setMmStatus((int) deliverReportReq.getMMStatus());
-			bean.setMmStatusText(deliverReportReq.getStatusText());
-			submitDao.save(bean);
-		}
+		String transcationid=deliverReportReq.getTransactionID();
+		String reportTime=DateUtils.getTimestamp14(deliverReportReq
+				.getTimeStamp());
+		Integer mmStatus=(int)deliverReportReq.getMMStatus();
+		String mmStatusText=deliverReportReq.getStatusText();
+		log.debug("submitDao.getSubmitBean 之前:"+System.currentTimeMillis());
+		submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+		log.debug("submitDao.getSubmitBean 之后:"+System.currentTimeMillis());
 
 	}
 
