@@ -20,7 +20,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7SubmitRes;
 import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.MmsFileDaoImpl;
-import com.vasp.mm7.database.SubmitDaoImpl1;
+import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.UMmsDaoImpl;
 import com.vasp.mm7.database.pojo.MmsFile;
 import com.vasp.mm7.database.pojo.SubmitBean;
@@ -55,7 +55,7 @@ public class Sender extends MM7Sender
 
 	private MmsFileDaoImpl mmsFileDao = MmsFileDaoImpl.getInstance();
 
-	private SubmitDaoImpl1 submitDao = SubmitDaoImpl1.getInstance();
+	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 
 	/**
 	 * 群发每条彩信最大的接收号码
