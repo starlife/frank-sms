@@ -1,4 +1,4 @@
-package com.vasp.mm7.database;
+package com.vasp.mm7.database.sql;
 
 import java.util.ArrayList;
 import java.util.List;
