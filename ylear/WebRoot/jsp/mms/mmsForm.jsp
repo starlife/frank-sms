@@ -59,7 +59,7 @@
 			
 			$("#selectMmsBtn").click(
 				function(){
-					$("#dialog1frame").attr("src","mmsList.action");
+					$("#dialog1frame").attr("src","customListMmsFile.action");
 					$("#dialog1").dialog("open");
 				}
 			);
@@ -132,6 +132,7 @@
 		document.getElementById("mms.mmsid").value=id;
 		document.getElementById("frameCount").innerHTML=frames;
 		document.getElementById("mmsSize").innerHTML=mmsSize;
+		$("#dialog1").dialog("close");
 	}
 	
 	
@@ -152,7 +153,7 @@
 <div id="dialog1" style="font-size: 14px;display: none;">
 	<iframe id="dialog1frame" name="dialog1frame" 
 	src="" width="100%" 
-	height="100%" frameborder="0" scrolling="no" ></iframe>
+	height="100%" frameborder="0" scrolling="no"  ></iframe>
 </div>
 
 <s:form id="sendForm" action="crudMms!save" method="post" theme="simple">
@@ -183,8 +184,6 @@
 	  	<td>
 	  	<s:textfield name="mmsName" id="mmsName"></s:textfield>
 	  	<input id="selectMmsBtn" type="button" value="选择彩信" />	
-		<input id="addMmsBtn" type="button" value="新建编辑彩信" 
-		onclick="openWindow('<s:url action="mmsEditor"/>');"/>	
 		<div style="display: none"><s:textfield name="mms.mmsid" id="mms.mmsid"></s:textfield></div>
 		<s:fielderror  fieldName="mms.mmsid"/>
 		</td>

@@ -76,9 +76,9 @@
 					<s:else>
 					
 					<input type="button"  value="编辑"
-					onclick="window.location.href='<s:property value="%{#editURL}"/>'"/>
+					onclick="redirect('<s:property value="%{#editURL}"/>');"/>
 					<input type="button"  value="删除"
-					onclick="window.location.href='<s:property value="%{#delURL}"/>'"/>
+					onclick="redirect('<s:property value="%{#delURL}"/>');"/>
 					
 					</s:else>
 				</td>
@@ -97,13 +97,10 @@
 						</table>
 					</s:if>
 	</div>
-		<table width="100%" style="font-size: 14px;"><tr><td>
-				<s:url id="addURL" action="crudUser" method="input"/>
-				<s:a id="addBtn" href="%{#addURL}">增加</s:a>			
-				</td><td>
-					<jb:pager/>
-					</td>
-				</tr></table>	
+	<input class="addBtn" type="button" value="增加" onclick="redirect('<s:url action="crudUser" method="input"/>');"/>
+				
+		<jb:pager/>
+	
 	</s:form>
 	</div>		
   </body>

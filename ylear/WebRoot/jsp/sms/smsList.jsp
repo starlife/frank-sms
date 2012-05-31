@@ -93,7 +93,7 @@
 					<s:param name="id" value="id"/>
 				</s:url>
 					<input type="button"  value="删除"
-					onclick="window.location.href='<s:property value="%{#delURL}"/>'"/>
+					onclick="redirect('<s:property value="%{#delURL}"/>');"/>
 				</td>
 			</tr>
 		</s:iterator>
