@@ -15,7 +15,6 @@ import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.SubmitDaoImpl1;
 import com.vasp.mm7.database.pojo.DeliverBean;
-import com.vasp.mm7.database.pojo.SubmitBean;
 import com.vasp.mm7.util.DateUtils;
 
 public class Receiver extends MM7Receiver
