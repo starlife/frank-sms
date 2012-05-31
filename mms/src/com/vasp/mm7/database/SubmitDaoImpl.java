@@ -72,7 +72,7 @@ public class SubmitDaoImpl
 		addFields(sql, submitBean.getMmStatusText(), false);
 		addFields(sql, submitBean.getSessionid(), true);
 		sql.append(")");
-		log.debug(sql);
+		log.debug(System.currentTimeMillis()+" "+sql);
 		return DbUtil.execute(sql.toString());
 	}
 
