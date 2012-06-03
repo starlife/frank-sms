@@ -156,7 +156,7 @@
 
 			<div id="dialog" style="display: none;">
 				<iframe id="addressTool" name="addressTool" src="" width="100%"
-					height="100%" frameborder="0" scrolling="no"></iframe>
+					height="100%" frameborder="0" scrolling="auto"></iframe>
 			</div>
 			<s:form id="sendForm" action="crudSms!save" method="post" theme="simple">
 				<table class="ui-widget">
