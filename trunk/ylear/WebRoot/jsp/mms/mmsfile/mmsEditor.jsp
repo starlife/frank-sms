@@ -330,7 +330,7 @@
 						<td colspan="2">
 							<span id="iframeURL" style="display:none"><s:url action="mmsEditor!showui"/></span>
 							<iframe id="ui" name="ui" src=''
-								width="100%" height="280px" frameborder="0" scrolling="none"></iframe>
+								width="100%" height="280px" frameborder="0" scrolling="no"></iframe>
 
 						</td>
 					</tr>
