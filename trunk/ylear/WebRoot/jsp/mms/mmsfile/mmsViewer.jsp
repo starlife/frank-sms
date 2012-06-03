@@ -195,7 +195,7 @@
 					</td>
 					<td class="input_content">
 						<span id="mmsSize"> <s:text name="global.format.size.k">
-								<s:param value="#session.showmms.mmsSize/1024.0" />
+								<s:param value="#mmsFile.mmsSize/1024.0" />
 							</s:text> </span>
 					</td>
 				</tr>
@@ -220,7 +220,7 @@
 
 
 		</div>
-		<s:if test="session.showmms.frameMap.size()>0">
+		<s:if test="mmsFile.frameMap.size()>0">
 			<script>chooseFrame(1)</script>
 		</s:if>
 	</body>
