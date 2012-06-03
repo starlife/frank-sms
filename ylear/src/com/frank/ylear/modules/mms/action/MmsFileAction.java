@@ -2,7 +2,6 @@ package com.frank.ylear.modules.mms.action;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -10,7 +9,6 @@ import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.mms.entity.MmsFile;
-import com.frank.ylear.modules.mms.entity.UMms;
 import com.frank.ylear.modules.mms.service.MmsFileService;
 import com.frank.ylear.modules.mms.util.MMSFileHelper;
 import com.frank.ylear.modules.mms.util.MmsFrame;
@@ -57,6 +55,9 @@ public class MmsFileAction extends BaseAction
 	/* 彩信编辑器主页 */
 	public String mmsEditor() throws Exception
 	{
+		//根据id值是否为空来判断是新增或者编辑
+		//如果是编辑，那么重数据库中国读取数据写到session中
+		//如果是新增，要删除之前属于编辑的session
 		if (this.getId() != null)
 		{
 			// 如果id不为空，那么是对原有彩信的编辑
@@ -74,6 +75,14 @@ public class MmsFileAction extends BaseAction
 			//设置彩信名称
 			this.setMmsName(mmsFile.getMmsName());
 			this.getSession().put("mmsfile", mmsFile); 
+		}else
+		{
+			//如果当前保存的是编辑的session，那么要删除
+			MmsFile mmsFile=this.getMmsFileFromSession();
+			if(mmsFile.getId()!=null)
+			{
+				this.delMmsFileFromSession();
+			}
 		}
 		
 		return SUCCESS;
