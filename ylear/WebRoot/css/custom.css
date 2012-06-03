@@ -46,6 +46,19 @@ table.ui-widget td {
 
 
 
+.addBtn
+{
+	margin-top:5px;
+	float: left;
+}
+
+.selBtn
+{
+	margin-top:5px;
+	float:right;
+}
+
+
 /* Remove annoying border on linked images. */
 a img {
 	border: none;

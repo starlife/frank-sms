@@ -51,11 +51,16 @@ $.extend({
 });   
 */
 
+/*打开一个新的窗口*/
 function  openWindow(url)
 {
-	//window.open("mms.do?method=toMmsEdit","_blank",
-	//alert(url);
 	window.open(url,"_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
+}
+
+/*重定向到一个新的地址*/
+function redirect(url)
+{
+	window.location.href=url;
 }
 
 function  doSubmit(url)
