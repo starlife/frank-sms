@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -67,6 +68,35 @@ public class DBDaoImpl
 		{
 			log.error("get failed", re);
 		}
+		return instance;
+	}
+	
+	public Object getdb(Class<?> clazz, Serializable id)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("getfromdb: " + clazz + " " + id);
+		}
+		Session session=null;
+		Object instance = null;
+		try
+		{
+			session=getSession();
+			session.setCacheMode(CacheMode.IGNORE);
+			instance=session.get(clazz, id);
+			
+		}
+		catch (Exception re)
+		{
+			log.error("get failed", re);
+		}finally
+		{
+			if(session!=null)
+			{
+				session.close();
+			}
+		}
+		
 		return instance;
 	}
 
