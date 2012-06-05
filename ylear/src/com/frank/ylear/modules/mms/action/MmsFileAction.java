@@ -3,6 +3,7 @@ package com.frank.ylear.modules.mms.action;
 import java.io.File;
 import java.io.PrintWriter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.frank.ylear.common.constant.Constants;
@@ -423,9 +424,11 @@ public class MmsFileAction extends BaseAction
 	{
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
+		//重新生成文件名
+		String fileName=getFileName(mmsFile.getCurrentFrameId(),getImageFileName());
 		// 上传文件
-		this.uploadFile(this.getImage(), this.getImageFileName());
-		MMSFileHelper.uploadImage(mmsFile, getImage(), getImageFileName(),
+		this.uploadFile(this.getImage(), fileName);
+		MMSFileHelper.uploadImage(mmsFile, getImage(), fileName,
 				getImageContentType());
 
 		// 设置回调函数
@@ -444,10 +447,12 @@ public class MmsFileAction extends BaseAction
 	{
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
+		//重新生成文件名
+		String fileName=getFileName(mmsFile.getCurrentFrameId(),getAudioFileName());
 		// 上传文件
-		this.uploadFile(getAudio(), getAudioFileName());
+		this.uploadFile(getAudio(), fileName);
 
-		MMSFileHelper.uploadAudio(mmsFile, getAudio(), getAudioFileName(),
+		MMSFileHelper.uploadAudio(mmsFile, getAudio(), fileName,
 				getAudioContentType());
 
 		// 设置回调函数
@@ -728,7 +733,18 @@ public class MmsFileAction extends BaseAction
 		this.setCallbackMsg("window.parent.alert('" + tip + "')");
 		this.addActionError(tip);
 	}
-
+	
+	/**
+	 * 重新生成文件名，保证文件名的唯一性
+	 * @param fileName
+	 * @return
+	 */
+	private String getFileName(int frameid,String fileName)
+	{
+		String ext=Tools.getFileExt(fileName);
+		return  frameid +"."+ext;
+	}
+	
 	private boolean uploadFile(File file, String newFileName)
 	{
 		String absolutePath = ServletActionContext.getServletContext()
