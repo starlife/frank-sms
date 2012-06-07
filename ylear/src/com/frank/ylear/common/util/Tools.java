@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -69,7 +70,15 @@ public class Tools
 	{
 		return getFileExt(new File(file));
 	}
-
+	
+	public static String getRandomFileName(String prefix,String fileName)
+	{
+		Random rand=new Random();
+		String temp=String.valueOf(rand.nextInt(1000));
+		String ext=Tools.getFileExt(fileName);
+		return prefix+temp +"."+ext;
+	}
+	
 	public static boolean copyFile(File src, File dest)
 	{
 		boolean flag = true;
@@ -124,11 +133,14 @@ public class Tools
 
 	public static void main(String[] args)
 	{
-		System.out.println(isValidPhoneNum("133778023866"));
-		System.out.println(isValidPhoneNum("8613377802386"));
-		System.out.println(isValidPhoneNum("+8613377802386"));
-		String p = parse("13777802386;13777802385;13777802385;13333");
-		System.out.println(p);
+		Set<String> set=new HashSet<String>();
+		for(int i=0;i<100;i++)
+		{
+			String file=getRandomFileName("IMG_","1.jpeg");
+			System.out.println(file);
+			set.add(file);
+		}
+		System.out.println(set.size());
 	}
 
 }
