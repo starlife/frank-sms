@@ -3,7 +3,6 @@ package com.frank.ylear.modules.mms.action;
 import java.io.File;
 import java.io.PrintWriter;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.frank.ylear.common.constant.Constants;
@@ -218,7 +217,10 @@ public class MmsFileAction extends BaseAction
 			return SUCCESS;
 		}
 		MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this.getId()));
-
+		if (mmsFile == null)
+		{
+			return SUCCESS;
+		}
 		String absolutePath = ServletActionContext.getServletContext()
 				.getRealPath("");
 		// 组装彩信
@@ -425,7 +427,7 @@ public class MmsFileAction extends BaseAction
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
 		//重新生成文件名
-		String fileName=getFileName(mmsFile.getCurrentFrameId(),getImageFileName());
+		String fileName=getFileName("img_",getImageFileName());
 		// 上传文件
 		this.uploadFile(this.getImage(), fileName);
 		MMSFileHelper.uploadImage(mmsFile, getImage(), fileName,
@@ -448,7 +450,7 @@ public class MmsFileAction extends BaseAction
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
 		//重新生成文件名
-		String fileName=getFileName(mmsFile.getCurrentFrameId(),getAudioFileName());
+		String fileName=getFileName("aud_",getAudioFileName());
 		// 上传文件
 		this.uploadFile(getAudio(), fileName);
 
@@ -739,23 +741,37 @@ public class MmsFileAction extends BaseAction
 	 * @param fileName
 	 * @return
 	 */
-	private String getFileName(int frameid,String fileName)
+	private String getFileName(String prefix,String fileName)
 	{
-		String ext=Tools.getFileExt(fileName);
-		return  frameid +"."+ext;
+		while(true)
+		{
+			String newFileName=Tools.getRandomFileName(prefix,fileName);
+			File newFile=getNewFile(newFileName);
+			if(!newFile.exists())
+			{
+				return newFileName;
+			}
+		}
 	}
 	
 	private boolean uploadFile(File file, String newFileName)
+	{		
+		File dest = getNewFile(newFileName);
+		return Tools.copyFile(file, dest);
+	}
+	
+	
+	private File getNewFile(String newFileName)
 	{
 		String absolutePath = ServletActionContext.getServletContext()
-				.getRealPath(Constants.UPLOAD_FILE_DIR);
+		.getRealPath(Constants.UPLOAD_FILE_DIR);
 		File path = new File(absolutePath);
 		if (!path.exists())
 		{
 			path.mkdirs();
 		}
 		File dest = new File(path + File.separator + newFileName);
-		return Tools.copyFile(file, dest);
+		return dest;
 	}
 
 	public String getId()
