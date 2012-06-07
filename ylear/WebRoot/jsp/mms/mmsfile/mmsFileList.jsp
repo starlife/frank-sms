@@ -138,10 +138,9 @@
 					<s:url id="delURL" action="delMmsFile">
 						<s:param name="id" value="id"/>
 					</s:url>
-					<input type="button"  value="编辑"
-					onclick="redirect('<s:property value="%{#editURL}"/>');"/>
-					<input type="button"  value="删除"
-					onclick="redirect('<s:property value="%{#delURL}"/>');"/>
+					<center><input type="button"  value="编辑"
+					onclick="redirect('<s:property value="%{#editURL}"/>');"/></center>
+					
 									</td>
 									
 									
