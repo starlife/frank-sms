@@ -3,9 +3,6 @@ package com.cmcc.mm7.vasp.protocol;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import sun.misc.BASE64Encoder;
 
 import com.cmcc.mm7.vasp.Global;
@@ -18,7 +15,7 @@ import com.cmcc.mm7.vasp.protocol.util.ByteUtil;
 
 public class MM7Helper
 {
-	private static final Log log = LogFactory.getLog(MM7Helper.class);
+	//private static final Log log = LogFactory.getLog(MM7Helper.class);
 
 	public static byte[] getMM7Message(MM7VASPReq mm7VASPReq, String mmscIP,
 			String mmscURL,int authmode, String userName, String password,

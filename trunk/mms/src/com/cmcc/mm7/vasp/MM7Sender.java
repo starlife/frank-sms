@@ -162,6 +162,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	private MM7RSRes send(byte[] msgByte)
 	{
 		// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道并标示为删除状态
+		//log.debug(new String(msgByte));
 		MM7RSRes res = null;
 		Socket socket = conn.getConn();
 		if (socket == null)
@@ -180,7 +181,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			sender.flush();
 
 			// 接下来是接收回应包
-			log.debug("开始接收");
+			log.debug("开始接收(SubmitRsp)");
 			HttpResponse http = new HttpResponse();
 			if (!http.recvData(socket.getInputStream()))
 			{
@@ -190,10 +191,10 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				return res;
 
 			}
-			log.debug("接收完成");
+			log.debug("接收完成(SubmitRsp)");
 			// 接收完成，送回去
 
-			log.info("收到消息：" + http.toString());
+			log.info("MM7Sender收到消息：" + http.toString());
 
 			if (http.getStatusCode() != 200)
 			{
