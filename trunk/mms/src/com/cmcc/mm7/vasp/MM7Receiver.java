@@ -144,7 +144,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 						HttpRequest http = new HttpRequest();
 						if (http.recvData(client.getInputStream()))
 						{
-							log.debug("接收到数据包：" + http);
+							//log.debug("接收到数据包：" + http);
 
 							MM7RSReq req = DecodeMM7.decodeReqMessage(http
 									.getBody(), charset.toString(), DecodeMM7
