@@ -147,6 +147,7 @@ public class LogHelper
 		StringBuffer sb = new StringBuffer();
 		sb.append("[Message_Type=MM7SubmitRes]");
 		sb.append("[TransactionID=" + submitRes.getTransactionID() + "]");
+		sb.append("[MessageID=" + submitRes.getMessageID() + "]");
 		sb.append("[Comments={" + submitRes.getStatusCode() + ";"
 				+ submitRes.getStatusText() + "}]\r\n");
 		return sb.toString();
