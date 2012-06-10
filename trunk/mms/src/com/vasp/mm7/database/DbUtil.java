@@ -1,6 +1,7 @@
 package com.vasp.mm7.database;
 
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.vasp.mm7.database.jdbc.DataSource;
 import com.vasp.mm7.database.jdbc.JdbcTemplate;
+import com.vasp.mm7.database.pojo.SubmitBean;
 
 public class DbUtil
 {
@@ -25,7 +27,7 @@ public class DbUtil
 		template = new JdbcTemplate(ds);
 	}
 
-	private static JdbcTemplate getJdbcTemplate() throws Exception
+	public static JdbcTemplate getJdbcTemplate() throws Exception
 	{
 		if (template == null)
 		{
@@ -49,21 +51,44 @@ public class DbUtil
 		}
 	}
 
-	public static void main(String[] args) throws FileNotFoundException
+	public static void main(String[] args) throws Exception
 	{
 
-		String msgContent = "qqqqqq";
-		String to = "13777802386";
-		String timestamp = "20110512000000";
-		String sql = "insert into lyear.dbo.u_sms(msg_content,recipient,sendtime,status) VALUES ('"
-				+ msgContent + "','" + to + "','" + timestamp + "',0)";
-		int row = execute(sql);
-		//System.out.println(row > 0);
-		//String path="hibernate.cfg.xml";
-		//FileInputStream input=new FileInputStream(path);
-		//System.out.println(input);
-		//System.out.println(.getPath());
-		System.out.println(row);
+		SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
+		int total=10000;
+		List<SubmitBean> list=new ArrayList<SubmitBean>(total);
+		long begin=System.currentTimeMillis();
+		for(int i=0;i<total;i++)
+		{
+			//Thread.sleep(1000);
+			SubmitBean submitBean = new SubmitBean();
+			submitBean.setMessageid("053101435691006401333");
+			submitBean.setTransactionid("1");
+			submitBean.setMm7version("6.3.0");
+			submitBean.setToAddress("13777802301");
+			submitBean.setSubject("zzzz");
+			submitBean.setSendtime("20120531014355");
+			submitBean.setVaspid("895192");
+			submitBean.setVasid("106573061704");
+			submitBean.setServiceCode("1113329901");
+			submitBean.setLinkid(null);
+			submitBean.setStatus(1000);
+			submitBean.setStatusText("·¢ËÍ³É¹¦");
+			submitBean.setSessionid(144L);		
+			list.add(submitBean);
+			if(list.size()%10==0)
+			{
+				submitDao.save(list);
+				list.clear();
+			}
+			//submitDao.update("053101435691006401333","13777802301","0330000000411120531015318510"
+			//		,"20120531015321",2,"6400");
+			
+		}
+		
+		long end=System.currentTimeMillis();
+		log.info("jdbc insert "+total+" records takes "+(end-begin)+"ms");
+		//log.info(row+" rows success");
 
 		
 
