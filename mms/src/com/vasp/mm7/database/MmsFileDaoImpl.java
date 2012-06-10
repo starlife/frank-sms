@@ -20,7 +20,7 @@ public class MmsFileDaoImpl extends DBDaoImpl
 
 	public MmsFile getMmsFile(Long id)
 	{
-		return (MmsFile) this.get(MmsFile.class, id);
+		return (MmsFile) this.getdb(MmsFile.class, id);
 	}
 	
 	

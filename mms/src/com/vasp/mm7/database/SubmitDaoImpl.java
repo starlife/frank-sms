@@ -1,21 +1,28 @@
 package com.vasp.mm7.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.vasp.mm7.database.pojo.SubmitBean;
-import com.vasp.mm7.database.sql.SqlUpdate;
 
 /**
  * 修改为jdbc实现
+ * 
  * @author Administrator
- *
  */
 public class SubmitDaoImpl
 {
 	private static final Log log = LogFactory.getLog(SubmitDaoImpl.class);
 
 	private static SubmitDaoImpl dao = new SubmitDaoImpl();
+
+	private PreparedStatement insertStat = null;
+
+	private PreparedStatement updateStat = null;
 
 	private SubmitDaoImpl()
 	{
@@ -27,53 +34,53 @@ public class SubmitDaoImpl
 		return dao;
 	}
 
-	private static void addFields(StringBuffer sb, Object field, boolean last)
+	
+	public int save(final List<SubmitBean> list) throws Exception
 	{
-		if (field == null)
+		Connection conn = DbUtil.getJdbcTemplate().getConnection();
+		conn.setAutoCommit(false);
+		if (insertStat == null)
 		{
-			sb.append("null");
+			String sql = "insert into lyear.dbo.s_logmmssubmit (messageid, "
+					+ "transactionid, mm7version, to_address, subject,"
+					+ " vaspid, vasid, service_code, linkid, sendtime, "
+					+ "status, status_text, sessionid) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			log.debug(System.currentTimeMillis() + " " + sql);
+			insertStat = conn.prepareStatement(sql);
 		}
-		else if (field instanceof String)
+		for (int i = 0; i < list.size(); i++)
 		{
-			sb.append("'").append((String) field).append("'");
+			SubmitBean submitBean = list.get(i);
+			insertStat.setString(1, submitBean.getMessageid());
+			insertStat.setString(2, submitBean.getTransactionid());
+			insertStat.setString(3, submitBean.getMm7version());
+			insertStat.setString(4, submitBean.getToAddress());
+			insertStat.setString(5, submitBean.getSubject());
+			insertStat.setString(6, submitBean.getVaspid());
+			insertStat.setString(7, submitBean.getVasid());
+			insertStat.setString(8, submitBean.getServiceCode());
+			insertStat.setString(9, submitBean.getLinkid());
+			insertStat.setString(10, submitBean.getSendtime());
+			insertStat.setInt(11, submitBean.getStatus());
+			insertStat.setString(12, submitBean.getStatusText());
+			if(submitBean.getSessionid()==null)
+			{
+				insertStat.setNull(13,java.sql.Types.BIGINT);
+			}else
+			{
+				insertStat.setLong(13, submitBean.getSessionid());
+			}
+			insertStat.addBatch();
 		}
-		else
+		int[] rows = insertStat.executeBatch();
+		conn.commit();
+		int ret = 0;
+		for (int i = 0; i < rows.length; i++)
 		{
-			sb.append(field);
+			ret += rows[i];
 		}
-		if (!last)
-		{
-			sb.append(",");
-		}
-	}
+		return ret;
 
-	public int save(SubmitBean submitBean)
-	{
-		StringBuffer sql = new StringBuffer();
-		sql.append("insert into lyear.dbo.s_logmmssubmit (messageid, "
-				+ "transactionid, mm7version, to_address, subject,"
-				+ " vaspid, vasid, service_code, linkid, sendtime, "
-				+ "status, status_text, report_time, mm_status,"
-				+ " mm_status_text, sessionid) values (");
-		addFields(sql, submitBean.getMessageid(), false);
-		addFields(sql, submitBean.getTransactionid(), false);
-		addFields(sql, submitBean.getMm7version(), false);
-		addFields(sql, submitBean.getToAddress(), false);
-		addFields(sql, submitBean.getSubject(), false);
-		addFields(sql, submitBean.getVaspid(), false);
-		addFields(sql, submitBean.getVasid(), false);
-		addFields(sql, submitBean.getServiceCode(), false);
-		addFields(sql, submitBean.getLinkid(), false);
-		addFields(sql, submitBean.getSendtime(), false);
-		addFields(sql, submitBean.getStatus(), false);
-		addFields(sql, submitBean.getStatusText(), false);
-		addFields(sql, submitBean.getReportTime(), false);
-		addFields(sql, submitBean.getMmStatus(), false);
-		addFields(sql, submitBean.getMmStatusText(), false);
-		addFields(sql, submitBean.getSessionid(), true);
-		sql.append(")");
-		log.debug(System.currentTimeMillis()+" "+sql);
-		return DbUtil.execute(sql.toString());
 	}
 
 	/**
@@ -82,22 +89,38 @@ public class SubmitDaoImpl
 	 * @param messageid
 	 * @param to
 	 * @return
+	 * @throws Exception 
 	 */
 	public int update(String messageid, String to, String transcationid,
-			String reportTime, Integer mmStatus, String mmStatusText)
+			String reportTime, Integer mmStatus, String mmStatusText) throws Exception
 	{
-
-		SqlUpdate sql = new SqlUpdate();
-		sql.setTableName("lyear.dbo.s_logmmssubmit");
-		sql.addSetField("transactionid", transcationid);
-		sql.addSetField("report_time", reportTime);
-		sql.addSetField("mm_status", mmStatus);
-		sql.addSetField("mm_status_text", mmStatusText);
-		sql.addWhereField("messageid", messageid);
-		sql.addWhereField("to_address", to);
-		log.debug(sql);
-		return DbUtil.execute(sql.toString());
-
+		Connection conn = DbUtil.getJdbcTemplate().getConnection();
+		conn.setAutoCommit(false);
+		if (updateStat == null)
+		{
+			
+			String sql = "update lyear.dbo.s_logmmssubmit set transactionid=?, " +
+					"report_time=?, mm_status=?, mm_status_text=? " +
+					"where messageid=? and to_address=?";
+			log.debug(System.currentTimeMillis() + " " + sql);
+			updateStat = conn.prepareStatement(sql);
+		}
+		updateStat.setString(1, transcationid);
+		updateStat.setString(2,reportTime);
+		updateStat.setInt(3, mmStatus);
+		updateStat.setString(4, mmStatusText);
+		updateStat.setString(5, messageid);
+		updateStat.setString(6, to);
+		boolean bRet=updateStat.execute();	
+		conn.commit();
+		if(bRet)
+		{
+			return 1;
+		}else
+		{
+			return 0;
+		}
+		
 	}
 
 }
