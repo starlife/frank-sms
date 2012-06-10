@@ -41,13 +41,24 @@
          	}   
         });   
 		
+		
 		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");
-			
+		
+	
         		
-        
-    
-			
+        		
 	});
+	
+	function doConfirm(url)
+	{
+		if(confirm("删除该彩信的同时，已发送彩信中的相关记录也会被删除，确认删除吗?"))
+		{
+			//alert(url);
+			redirect(url);
+		}
+	}	
+	
+	
 	
 		
 	</script>
@@ -138,9 +149,11 @@
 					<s:url id="delURL" action="delMmsFile">
 						<s:param name="id" value="id"/>
 					</s:url>
-					<center><input type="button"  value="编辑"
-					onclick="redirect('<s:property value="%{#editURL}"/>');"/></center>
-					
+					<input type="button"  value="编辑"
+					onclick="redirect('<s:property value="%{#editURL}"/>');"/>
+					<input type="button"  value="删除"
+					onclick="doConfirm('<s:property value="%{#delURL}"/>');"/>
+									
 									</td>
 									
 									
