@@ -17,5 +17,8 @@ public interface BaseDao
 	public void listByPage(String hql, PageBean  pageResult);
 	public List listByPage(final String hql,final int offset,final int length);
 	
+	public void execute(String hql);
+	
+	
 
 }

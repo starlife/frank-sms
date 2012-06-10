@@ -40,7 +40,15 @@ public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 	public void delMmsFile(Long id)
 	{
 		// TODO Auto-generated method stub
-		baseDao.del(MmsFile.class, id);
+		try
+		{
+			String hql="delete UMms where mmsid="+id;
+			baseDao.execute(hql);
+			baseDao.del(MmsFile.class, id);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
 		
 	}
 
