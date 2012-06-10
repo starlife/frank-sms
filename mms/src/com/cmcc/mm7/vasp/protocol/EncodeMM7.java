@@ -142,7 +142,7 @@ public class EncodeMM7
 					{
 						if (parentContent.isMultipart())
 						{
-							List tempSub = new ArrayList();
+							List<MMContent> tempSub = new ArrayList<MMContent>();
 							tempSub = parentContent.getSubContents();
 							for (int x = 0; x < tempSub.size(); x++)
 							{
@@ -220,7 +220,7 @@ public class EncodeMM7
 	
 	private static void addSubContent(ByteArrayOutputStream Subbaos,MMContent parentContent,Charset charset) throws IOException
 	{
-		List subContent = new ArrayList();
+		List<MMContent> subContent = new ArrayList<MMContent>();
 		subContent = parentContent.getSubContents();
 		for (int i = 0; i < subContent.size(); i++)
 		{
