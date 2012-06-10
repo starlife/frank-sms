@@ -16,6 +16,7 @@ import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.pojo.DeliverBean;
 import com.vasp.mm7.util.DateUtils;
+import com.vasp.mm7.util.LogTools;
 
 public class Receiver extends MM7Receiver
 {
@@ -105,9 +106,10 @@ public class Receiver extends MM7Receiver
 		// dao.save(deliver);
 		log.info(deliverReq);
 	}
-
+	
 	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
+		log.info("收到发送报告"+LogTools.logMM7DeliveryReportReq(deliverReportReq));
 		// 这里更新s_log_mmssubmit表
 		String messageid = deliverReportReq.getMessageID();
 		String to = deliverReportReq.getRecipient();
@@ -124,15 +126,19 @@ public class Receiver extends MM7Receiver
 				.getTimeStamp());
 		Integer mmStatus=(int)deliverReportReq.getMMStatus();
 		String mmStatusText=deliverReportReq.getStatusText();
-		log.debug("submitDao.getSubmitBean 之前:"+System.currentTimeMillis());
+		log.debug("submitDao.update之前:"+System.currentTimeMillis());
 		try
 		{
-			submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+			int row=submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+			if(row<=0)
+			{
+				log.error("更新记录到数据库失败");
+			}
 		}catch(Exception ex)
 		{
 			log.error(null,ex);
 		}
-		log.debug("submitDao.getSubmitBean 之后:"+System.currentTimeMillis());
+		log.debug("submitDao.update之后:"+System.currentTimeMillis());
 
 	}
 
