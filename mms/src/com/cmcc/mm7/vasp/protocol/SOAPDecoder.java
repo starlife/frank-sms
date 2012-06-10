@@ -406,9 +406,9 @@ public class SOAPDecoder
 		{
 
 			ByteArrayInputStream in = new ByteArrayInputStream(xmlBytes);
-			log.debug("sax.build(in) 之前:"+System.currentTimeMillis());
+			//log.debug("sax.build(in) 之前:"+System.currentTimeMillis());
 			Document doc = sax.build(in);
-			log.debug("sax.build(in) 之后:"+System.currentTimeMillis());
+			//log.debug("sax.build(in) 之后:"+System.currentTimeMillis());
 			Element root = doc.getRootElement();
 			Element envHeader = (Element) root.getChildren().get(0);
 			Element envBody = (Element) root.getChildren().get(1);

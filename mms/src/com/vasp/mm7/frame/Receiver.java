@@ -16,7 +16,6 @@ import com.vasp.mm7.conf.MM7Config;
 import com.vasp.mm7.database.SubmitDaoImpl;
 import com.vasp.mm7.database.pojo.DeliverBean;
 import com.vasp.mm7.util.DateUtils;
-import com.vasp.mm7.util.LogTools;
 
 public class Receiver extends MM7Receiver
 {
@@ -109,7 +108,7 @@ public class Receiver extends MM7Receiver
 	
 	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
-		log.info("收到发送报告"+LogTools.logMM7DeliveryReportReq(deliverReportReq));
+		log.info("收到发送报告");
 		// 这里更新s_log_mmssubmit表
 		String messageid = deliverReportReq.getMessageID();
 		String to = deliverReportReq.getRecipient();

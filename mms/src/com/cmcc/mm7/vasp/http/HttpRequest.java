@@ -32,7 +32,7 @@ public class HttpRequest
 			log.info("读取包头数据失败");
 			return false;
 		}
-		log.info("接收包头完成");
+		log.debug("接收包头完成");
 		// 如果有包体，读取包体
 
 		String contentLen = this.getHeaderValue("Content-Length");

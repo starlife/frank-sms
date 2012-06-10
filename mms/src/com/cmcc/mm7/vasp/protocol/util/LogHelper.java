@@ -28,9 +28,8 @@ public class LogHelper
 	static String logSubmitReq(MM7SubmitReq submitReq)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + submitReq.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7SubmitReq]");
-		sb.append("[Sender_Address=" + submitReq.getSenderAddress() + "]");
+		sb.append("[TransactionID=" + submitReq.getTransactionID() + "]");
 		sb.append("[Recipient_Address={");
 		if (submitReq.isToExist())
 		{
@@ -72,9 +71,8 @@ public class LogHelper
 	static String logDeliverReq(MM7DeliverReq deliverReq)
 	{
 		StringBuffer sb = new StringBuffer();
-
-		sb.append("[TransactionID=" + deliverReq.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7DeliverReq]");
+		sb.append("[TransactionID=" + deliverReq.getTransactionID() + "]");
 		sb.append("[Sender_Address=" + deliverReq.getSender() + "]");
 		sb.append("[Recipient_Address={");
 		if (deliverReq.isToExist())
@@ -111,19 +109,19 @@ public class LogHelper
 	static String logDeliverReportReq(MM7DeliveryReportReq deliverReportReq)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb
-				.append("[TransactionID=" + deliverReportReq.getTransactionID()
-						+ "]");
 		sb.append("[Message_Type=MM7DeliveryReportReq]");
-		sb.append("[Sender_Address=" + deliverReportReq.getSender() + "]");
+		sb.append("[MessageID=").append(deliverReportReq.getMessageID()+"]");
+		sb.append("[Recipient_Address=").append(deliverReportReq.getRecipient()+"]");
+		sb.append("[Comments={" + deliverReportReq.getMMStatus() + ";"
+				+ deliverReportReq.getStatusText() + "}]\r\n");
 		return sb.toString();
 	}
 
 	static String logReadReplyReq(MM7ReadReplyReq readReplyReq)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + readReplyReq.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7ReadReplyReq]");
+		sb.append("[TransactionID=" + readReplyReq.getTransactionID() + "]");
 		sb.append("[Sender_Address=" + readReplyReq.getSender() + "]");
 		return sb.toString();
 	}
@@ -131,8 +129,8 @@ public class LogHelper
 	static String logReplaceReq(MM7ReplaceReq replaceReq)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + replaceReq.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7ReplaceReq]\r\n");
+		sb.append("[TransactionID=" + replaceReq.getTransactionID() + "]");
 		return sb.toString();
 	}
 
@@ -147,8 +145,8 @@ public class LogHelper
 	static String logSubmitRes(MM7SubmitRes submitRes)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + submitRes.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7SubmitRes]");
+		sb.append("[TransactionID=" + submitRes.getTransactionID() + "]");
 		sb.append("[Comments={" + submitRes.getStatusCode() + ";"
 				+ submitRes.getStatusText() + "}]\r\n");
 		return sb.toString();
@@ -186,8 +184,8 @@ public class LogHelper
 	static String logVASPErrorRes(MM7VASPErrorRes errorRes)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + errorRes.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7VASPErrorRes]");
+		sb.append("[TransactionID=" + errorRes.getTransactionID() + "]");
 		sb.append("[Comments={" + errorRes.getStatusCode() + ";"
 				+ errorRes.getStatusText() + "}]\r\n");
 		return sb.toString();
@@ -196,8 +194,8 @@ public class LogHelper
 	static String logReplaceRes(MM7ReplaceRes replaceRes)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + replaceRes.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7ReplaceRes]");
+		sb.append("[TransactionID=" + replaceRes.getTransactionID() + "]");
 		sb.append("[Comments={" + replaceRes.getStatusCode() + ";"
 				+ replaceRes.getStatusText() + "}]\r\n");
 		return sb.toString();
@@ -206,8 +204,8 @@ public class LogHelper
 	static String logCancelRes(MM7CancelRes cancelRes)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + cancelRes.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7CancelRes]");
+		sb.append("[TransactionID=" + cancelRes.getTransactionID() + "]");
 		sb.append("[Comments={" + cancelRes.getStatusCode() + ";"
 				+ cancelRes.getStatusText() + "}]\r\n");
 		return sb.toString();
@@ -216,8 +214,8 @@ public class LogHelper
 	static String logRSErrorRes(MM7RSErrorRes errorRes)
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("[TransactionID=" + errorRes.getTransactionID() + "]");
 		sb.append("[Message_Type=MM7RSErrorRes]");
+		sb.append("[TransactionID=" + errorRes.getTransactionID() + "]");
 		sb.append("[Comments={" + errorRes.getStatusCode() + ";"
 				+ errorRes.getStatusText() + "}]\r\n");
 		return sb.toString();
@@ -303,7 +301,7 @@ public class LogHelper
 
 	}
 
-	public static String logMM7RSRes(MM7RSReq req)
+	public static String logMM7RSReq(MM7RSReq req)
 	{
 		if (req instanceof MM7DeliverReq)
 		{

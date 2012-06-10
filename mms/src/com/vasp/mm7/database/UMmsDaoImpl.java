@@ -51,7 +51,7 @@ public class UMmsDaoImpl extends DBDaoImpl
 					Query queryObject = getSession().createQuery(sql);
 					queryObject.setParameter(0, value);
 					int i = queryObject.executeUpdate();
-					log.info("update:"+i);
+					log.info("取得待发送彩信:"+i);
 					t.commit();
 				}
 				catch (Exception ex)
