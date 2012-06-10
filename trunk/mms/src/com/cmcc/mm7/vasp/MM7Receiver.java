@@ -76,7 +76,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 				try
 				{
 					Socket client = s.accept();
-					log.debug("收到客户端连接：" + client.getRemoteSocketAddress());
+					log.info("收到客户端连接：" + client.getRemoteSocketAddress());
 					if (this.timeout > 0)
 					{
 						client.setSoTimeout(timeout);
@@ -149,6 +149,8 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							MM7RSReq req = DecodeMM7.decodeReqMessage(http
 									.getBody(), charset.toString(), DecodeMM7
 									.getBoundary(http.getHeader()));
+							
+							log.info("收到RSReq包 "+LogHelper.logMM7RSReq(req));
 
 							if (req instanceof MM7DeliverReq)
 							{
@@ -183,7 +185,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							res.setStatusCode(-102);
 							res.setStatusText("接收回应消息失败！");
 						}
-						log.debug("发送回应包 "+LogHelper.logMM7VaspRes(res));
+						log.debug("发送VaspRes包 "+LogHelper.logMM7VaspRes(res));
 						byte[] msgByte = MM7Helper.getMM7Message(res, charset,
 								keepAlive);
 						client.getOutputStream().write(msgByte);
@@ -204,7 +206,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 						// TODO Auto-generated catch block
 						log.error(null,ex);
 					}
-					log.debug("接收socket关闭"+client.getRemoteSocketAddress()+"("+timeout+"ms)");
+					log.info("接收socket关闭"+client.getRemoteSocketAddress()+"("+timeout+"ms)");
 					
 				}
 				finally

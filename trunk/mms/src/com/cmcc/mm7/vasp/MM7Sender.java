@@ -194,7 +194,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			log.debug("接收完成(SubmitRsp)");
 			// 接收完成，送回去
 
-			log.info("MM7Sender收到消息：" + http.toString());
+			log.debug("MM7Sender收到消息：" + http.toString());
 
 			if (http.getStatusCode() != 200)
 			{

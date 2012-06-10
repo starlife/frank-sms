@@ -107,13 +107,9 @@ public class Sender extends MM7Sender
 	{
 		MM7SubmitReq submitReq = new MM7SubmitReq();
 		submitReq.setTransactionID(trasactionid);
-		// submitReq.addTo("13915002000");
-		// submitReq.setVASPID("895192");
 		submitReq.setVASPID(vaspid);
 		submitReq.setVASID(vasid);
 		submitReq.setServiceCode(serviceCode);
-		// submitReq.setVASID("106573061704");
-		// submitReq.setServiceCode("1113329901");
 		submitReq.setDeliveryReport(true);
 		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
@@ -149,8 +145,6 @@ public class Sender extends MM7Sender
 						.getBinaryStream());
 				String filename = attach.getFilename();
 				sub.setContentID(filename);
-				// String ext=filename.substring(filename.lastIndexOf(".")+1);
-				// sub.setContentType(getContentType(ext));
 				sub.setContentType(getContentType(attach.getFiletype()));
 				content.addSubContent(sub);
 			}
@@ -251,7 +245,6 @@ public class Sender extends MM7Sender
 				String[] numbers = parse(mms.getRecipient());
 				// 取得彩信内容并组装好
 				MmsFile mmsFile = mmsFileDao.getMmsFile(mms.getMmsid());
-				log.debug(mmsFile);
 				MMContent content = createSubmitReqContent(mmsFile);
 
 				MM7SubmitReq submitReq = null;
@@ -296,7 +289,7 @@ public class Sender extends MM7Sender
 		}
 		else
 		{
-			log.debug("发送失败，收不到的并不是MM7SubmitRes包");
+			log.info("发送失败，收不到的并不是MM7SubmitRes包");
 		}
 
 		String trasactionid = submitMsg.getTransactionID();
@@ -327,12 +320,12 @@ public class Sender extends MM7Sender
 			// db.info(submitBean);
 			list.add(submitBean);		
 		}
-		log.debug("submitDao.save(submitBean) 之前:"
-				+ System.currentTimeMillis());
+		//log.debug("submitDao.save(submitBean) 之前:"
+		//		+ System.currentTimeMillis());
 		// submitDao.save(submitBean);
 		doTask(list);
-		log.debug("submitDao.save(submitBean) 之后:"
-				+ System.currentTimeMillis());
+		//log.debug("submitDao.save(submitBean) 之后:"
+		//		+ System.currentTimeMillis());
 
 	}
 

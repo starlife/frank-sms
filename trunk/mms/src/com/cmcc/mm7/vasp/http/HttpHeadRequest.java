@@ -38,7 +38,7 @@ public class HttpHeadRequest
 			if (i == -1)
 			{
 				// socket被另一端关闭
-				log.error("读取包时未读完遇到-1");
+				//log.error("读取包时未读完遇到-1");
 				throw new  IOException("peer socket is closed");
 			}
 			headBaos.write(i);

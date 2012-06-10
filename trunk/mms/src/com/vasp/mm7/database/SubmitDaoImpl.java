@@ -111,15 +111,9 @@ public class SubmitDaoImpl
 		updateStat.setString(4, mmStatusText);
 		updateStat.setString(5, messageid);
 		updateStat.setString(6, to);
-		boolean bRet=updateStat.execute();	
+		int row= updateStat.executeUpdate();
 		conn.commit();
-		if(bRet)
-		{
-			return 1;
-		}else
-		{
-			return 0;
-		}
+		return row;
 		
 	}
 
