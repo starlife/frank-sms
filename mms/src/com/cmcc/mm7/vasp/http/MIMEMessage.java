@@ -4,12 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class MIMEMessage
 {
-	private static final Log log = LogFactory.getLog(MIMEMessage.class);
+	//private static final Log log = LogFactory.getLog(MIMEMessage.class);
 	private byte[] bytes = null;
 	private final ByteArrayOutputStream headBaos = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
