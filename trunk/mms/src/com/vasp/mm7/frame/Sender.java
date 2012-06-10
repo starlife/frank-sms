@@ -1,6 +1,7 @@
 package com.vasp.mm7.frame;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,8 +35,10 @@ public class Sender extends MM7Sender
 
 	private static final Log log = LogFactory.getLog(Sender.class);
 
+	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
+			.newSingleThreadExecutor();
 	// private static final Log db = LogFactory.getLog("db");
-	//private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
+	// private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
@@ -69,8 +72,8 @@ public class Sender extends MM7Sender
 		super(mm7Config.getMMSCIP(), mm7Config.getMMSCURL(), mm7Config
 				.getAuthenticationMode(), mm7Config.getUserName(), mm7Config
 				.getPassword(), mm7Config.getCharSet(), mm7Config
-				.getMaxMsgSize(),mm7Config.getReSendCount(), mm7Config.isKeepAlive(), mm7Config
-				.getTimeOut());
+				.getMaxMsgSize(), mm7Config.getReSendCount(), mm7Config
+				.isKeepAlive(), mm7Config.getTimeOut());
 
 		vaspid = mm7Config.getVASPID();
 		vasid = mm7Config.getVASID();
@@ -216,7 +219,7 @@ public class Sender extends MM7Sender
 		allocTransactionId = (allocTransactionId + 1) & 0xffffffff;
 		return String.valueOf(allocTransactionId);
 	}
-	
+
 	@Override
 	public MM7SubmitReq submit()
 	{
@@ -248,6 +251,7 @@ public class Sender extends MM7Sender
 				String[] numbers = parse(mms.getRecipient());
 				// 取得彩信内容并组装好
 				MmsFile mmsFile = mmsFileDao.getMmsFile(mms.getMmsid());
+				log.debug(mmsFile);
 				MMContent content = createSubmitReqContent(mmsFile);
 
 				MM7SubmitReq submitReq = null;
@@ -281,11 +285,10 @@ public class Sender extends MM7Sender
 		return pack;
 	}
 
-	
 	@Override
 	public void doSubmit(MM7SubmitReq submitMsg, MM7RSRes res)
 	{
-		String messageid=" ";
+		String messageid = " ";
 		if (res instanceof MM7SubmitRes)
 		{
 			MM7SubmitRes submitRes = (MM7SubmitRes) res;
@@ -295,7 +298,7 @@ public class Sender extends MM7Sender
 		{
 			log.debug("发送失败，收不到的并不是MM7SubmitRes包");
 		}
-		
+
 		String trasactionid = submitMsg.getTransactionID();
 		// 从sessionMap取得对应关系的ummsid
 		Long sessionid = null;
@@ -304,6 +307,7 @@ public class Sender extends MM7Sender
 			sessionid = sessionMap.remove(trasactionid);
 		}
 		List<String> numbers = submitMsg.getTo();
+		List<SubmitBean> list=new ArrayList<SubmitBean>(10);
 		for (int i = 0; i < numbers.size(); i++)
 		{
 			SubmitBean submitBean = new SubmitBean();
@@ -321,13 +325,38 @@ public class Sender extends MM7Sender
 			submitBean.setStatusText(res.getStatusText());
 			submitBean.setSessionid(sessionid);
 			// db.info(submitBean);
-			log.debug("submitDao.save(submitBean) 之前:"+System.currentTimeMillis());
-			submitDao.save(submitBean);
-			log.debug("submitDao.save(submitBean) 之后:"+System.currentTimeMillis());
+			list.add(submitBean);		
 		}
+		log.debug("submitDao.save(submitBean) 之前:"
+				+ System.currentTimeMillis());
+		// submitDao.save(submitBean);
+		doTask(list);
+		log.debug("submitDao.save(submitBean) 之后:"
+				+ System.currentTimeMillis());
 
-		
+	}
 
+	public void doTask(final List<SubmitBean> list)
+	{
+		exec.execute(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				// TODO Auto-generated method stub
+				try
+				{
+					submitDao.save(list);
+				}
+				catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					log.error(null,e);
+				}
+			}
+
+		});
 	}
 
 	public static void main(String[] args) throws Exception

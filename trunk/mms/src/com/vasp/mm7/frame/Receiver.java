@@ -125,7 +125,13 @@ public class Receiver extends MM7Receiver
 		Integer mmStatus=(int)deliverReportReq.getMMStatus();
 		String mmStatusText=deliverReportReq.getStatusText();
 		log.debug("submitDao.getSubmitBean 之前:"+System.currentTimeMillis());
-		submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+		try
+		{
+			submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+		}catch(Exception ex)
+		{
+			log.error(null,ex);
+		}
 		log.debug("submitDao.getSubmitBean 之后:"+System.currentTimeMillis());
 
 	}
