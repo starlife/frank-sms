@@ -185,7 +185,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							res.setStatusCode(-102);
 							res.setStatusText("接收回应消息失败！");
 						}
-						log.debug("发送VaspRes包 "+LogHelper.logMM7VaspRes(res));
+						log.info("发送VaspRes包 "+LogHelper.logMM7VaspRes(res));
 						byte[] msgByte = MM7Helper.getMM7Message(res, charset,
 								keepAlive);
 						client.getOutputStream().write(msgByte);
