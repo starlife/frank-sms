@@ -19,7 +19,8 @@ body {
 	left: 5px;
 	padding: 0px;
 	text-align: left;
-	/*background-color:#eee;*/ /*overflow: auto;*/
+	/*background-color:#eee;*/ 
+	/*overflow: auto;*/
 }
 
 /*每一帧内容*/

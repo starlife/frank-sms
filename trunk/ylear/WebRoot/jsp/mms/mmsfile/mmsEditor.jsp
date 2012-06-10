@@ -330,7 +330,7 @@
 						<td colspan="2">
 							<span id="iframeURL" style="display:none"><s:url action="mmsEditor!showui"/></span>
 							<iframe id="ui" name="ui" src=''
-								width="100%" height="280px" frameborder="0" scrolling="no"></iframe>
+								width="100%" height="280px" frameborder="0" scrolling="auto"></iframe>
 
 						</td>
 					</tr>
@@ -368,8 +368,8 @@
 						</td>
 						<td>
 
-							<span id="imagespan"><s:file id="image" name="image"
-									size="35" /> </span>
+							<span id="imagespan" class="ui-state-default"><s:file id="image" name="image"
+									size="35" class="ui-state-default"/> </span>
 
 
 							<input type="button" name="uploadImageBtn" value="上传"
