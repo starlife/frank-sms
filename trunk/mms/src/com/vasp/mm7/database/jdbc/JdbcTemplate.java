@@ -1,4 +1,5 @@
 package com.vasp.mm7.database.jdbc;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ public class JdbcTemplate
 	private static final Log log = LogFactory.getLog(JdbcTemplate.class);
 	private DataSource ds = null;
 	private Connection conn = null;
+
+	// private final List<String> sqlQue=new LinkedList<String>();
 
 	public JdbcTemplate(DataSource ds) throws Exception
 	{
@@ -104,7 +107,9 @@ public class JdbcTemplate
 		try
 		{
 			stmt = conn.createStatement();
+
 			row = stmt.executeUpdate(sql);
+
 		}
 		catch (SQLException ex)
 		{
@@ -128,6 +133,16 @@ public class JdbcTemplate
 		}
 
 		return row;
+	}
+	
+	public Connection getConnection()
+	{
+		if (conn == null)
+		{
+			connect();
+			
+		}
+		return conn;
 	}
 
 }
