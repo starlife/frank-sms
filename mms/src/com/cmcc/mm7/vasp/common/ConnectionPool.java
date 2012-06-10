@@ -19,11 +19,11 @@ public class ConnectionPool
 	private int port = 80;
 	private int timeout = 10000;
 
-	private final List<Socket> pool = new ArrayList<Socket>();
+	private final List<ConnectionWrap> pool = new ArrayList<ConnectionWrap>();
 	private volatile int offset = 0;
 	// private Socket socket = null;
 
-	private long activeTime = 0;
+	// private long activeTime = 0;
 
 	private static ConnectionPool instance = null;
 
@@ -33,7 +33,7 @@ public class ConnectionPool
 		this.timeout = timeout;
 		for (int i = 0; i < poolSize; i++)
 		{
-			pool.add(null);
+			pool.add(new ConnectionWrap());
 		}
 	}
 
@@ -71,51 +71,62 @@ public class ConnectionPool
 
 	}
 
-	private boolean buildLink(Socket socket)
+	private Socket createSocket()
 	{
+		Socket socket = null;
 		try
 		{
 			socket = new Socket(ip, port);
-			this.activeTime = System.currentTimeMillis();
 			socket.setSoTimeout(timeout);
 			log.debug("建立新socket连接成功" + socket.getLocalSocketAddress()
 					+ socket.getRemoteSocketAddress());
 
-			return true;
+			return socket;
 		}
 		catch (Exception e)
 		{
 			socket = null;
 			log.error("创建socket连接失败", e);
-			return false;
+			return null;
 		}
 
 	}
 
 	public synchronized Socket getConn()
 	{
-		// 如果当前socket无效，那么重新创建socket
-		Socket socket = null;
+		// 从队列中找，如果队列不为空，那么
+		ConnectionWrap conn = null;
 		synchronized (pool)
 		{
-			socket = pool.get(getOffset());
+			if (pool.size() > 0)
+			{
+				conn = pool.get(getOffset());
+			}
 		}
+		if (conn == null)
+		{
+			conn = new ConnectionWrap();
+		}
+		Socket socket = conn.getSocket();
+		// 如果当前socket无效，那么重新创建socket
 		if (!isSocketAvail(socket))
 		{
-			buildLink(socket);
+			socket = createSocket();
+			conn.setSocket(socket);
 		}
 		// 如果当前socket的上次使用时间到现在已经超过timeout，那么该socket无效，需要重新创建socket
-		long between = System.currentTimeMillis() - activeTime;
+		long between = System.currentTimeMillis() - conn.getActiveTime();
 		if (between > timeout)
 		{
 			log.debug("当前Socket上次使用时间到现在已经超过" + between + "ms,需要重新建立连接");
-			buildLink(socket);
+			socket = createSocket();
+			conn.setSocket(socket);
 		}
 
 		// 每一次使用之前重新赋值activeTime
 		if (socket != null)
 		{
-			this.activeTime = System.currentTimeMillis();
+			conn.setActiveTime(System.currentTimeMillis());
 		}
 		return socket;
 	}
