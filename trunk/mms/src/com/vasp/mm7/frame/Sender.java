@@ -73,7 +73,7 @@ public class Sender extends MM7Sender
 				.getAuthenticationMode(), mm7Config.getUserName(), mm7Config
 				.getPassword(), mm7Config.getCharSet(), mm7Config
 				.getMaxMsgSize(), mm7Config.getReSendCount(), mm7Config
-				.isKeepAlive(), mm7Config.getTimeOut());
+				.isKeepAlive(), mm7Config.getTimeOut(),2);
 
 		vaspid = mm7Config.getVASPID();
 		vasid = mm7Config.getVASID();

@@ -34,6 +34,8 @@ public class MM7Config
 	
 	private boolean keepAlive=false;
 	
+	private int poolSize=1;
+	
 	//private boolean bload=false;
 
 	/** 默认构造方法 */
@@ -74,6 +76,7 @@ public class MM7Config
 		ReSendCount = Integer.parseInt((String) hashmap.get("ReSendCount"));
 		MMSCID = (String) hashmap.get("MmscID");
 		keepAlive="on".equals((String)hashmap.get("KeepAlive"));
+		poolSize=Integer.parseInt((String)hashmap.get("PoolSize"));
 		
 	}
 
@@ -281,6 +284,10 @@ public class MM7Config
 		sb.append("<ListenPort>" + ListenPort + "</ListenPort>");
 		sb.append("\r\n");
 		sb.append("<BackLog>" + BackLog + "</BackLog>");
+		sb.append("\r\n");
+		sb.append("<KeepAlive>" + keepAlive + "</KeepAlive>");
+		sb.append("\r\n");
+		sb.append("<PoolSize>" + poolSize + "</PoolSize>");
 		sb.append("\r\n");
 		sb.append("<TimeOut>" + TimeOut + "</TimeOut>");
 		sb.append("\r\n");

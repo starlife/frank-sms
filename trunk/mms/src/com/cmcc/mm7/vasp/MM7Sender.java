@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cmcc.mm7.vasp.common.Connection;
+import com.cmcc.mm7.vasp.common.ConnectionPool;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.http.HttpResponse;
@@ -50,15 +50,19 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	private int MaxMsgSize = 102400;
 	private int retryCount = 3;
 
-	private Connection conn = null;
+	//private ConnectionPool conn = null;
 
 	/** 构造方法 */
 	public MM7Sender(String mmscIP, String mmscURL, int authmode,
 			String username, String password, String charset, int maxMsgSize,
-			int reSendCount, boolean keepAlive, int timeout)
+			int reSendCount, boolean keepAlive, int timeout,int poolSize)
 	{
 		super("MM7Sender");
-		conn = new Connection(mmscIP, timeout);
+		ConnectionPool conn=ConnectionPool.getConnPool();
+		if(conn==null)
+		{
+			ConnectionPool.init(mmscIP, timeout, poolSize);
+		}
 		this.mmscIP = mmscIP;
 		this.mmscURL = mmscURL;
 		this.authmode = authmode;
@@ -164,7 +168,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道并标示为删除状态
 		//log.debug(new String(msgByte));
 		MM7RSRes res = null;
-		Socket socket = conn.getConn();
+		Socket socket = ConnectionPool.getConnPool().getConn();
 		if (socket == null)
 		{
 			res = new MM7RSErrorRes();
@@ -326,7 +330,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		int reSendCount = 3;
 		MM7Sender mm7Sender = new MM7Sender(mmscIP, mmscURL, authmode,
 				username, password, charset, maxMsgSize, reSendCount,
-				keepAlive, timeout);
+				keepAlive, timeout,2);
 		MM7SubmitReq submit = new MM7SubmitReq();
 		submit.setTransactionID("11111111");
 		submit.setVASPID("895192");
