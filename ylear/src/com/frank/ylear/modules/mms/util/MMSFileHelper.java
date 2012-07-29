@@ -102,7 +102,7 @@ public class MMSFileHelper
 				if (StringUtils.isNotEmpty(fr.getText()))
 				{
 					uploadFile = new UploadFile();
-					byte[] data = fr.getText().getBytes();
+					byte[] data = fr.getText().getBytes("UTF-8");
 					ByteArrayInputStream input = new ByteArrayInputStream(data);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
@@ -192,7 +192,7 @@ public class MMSFileHelper
 				{
 					Blob blob = upload.getFiledata();
 					fr.setText(FileUtil.getData(blob.getBinaryStream(),
-							"gb2312"));
+							"UTF-8"));
 					fr.setTextFileName(upload.getFilename());
 					fr.setTextFileSize(upload.getFilesize());
 					fr.setTextFileType(upload.getFiletype());
