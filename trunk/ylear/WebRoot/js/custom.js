@@ -54,7 +54,7 @@ $.extend({
 /*打开一个新的窗口*/
 function  openWindow(url)
 {
-	window.open(url,"_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
+	window.open(url,"_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=yes, copyhistory=yes");
 }
 
 /*重定向到一个新的地址*/
