@@ -89,7 +89,7 @@
 				rules:{
                       "mms.recipient":{
                       	required:true,
-                      	maxphonecount:5,
+                      	maxphonecount:10000,
                       	phonenumber:true
                       }
                   },
