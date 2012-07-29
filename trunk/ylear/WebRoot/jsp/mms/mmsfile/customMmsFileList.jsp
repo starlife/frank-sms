@@ -11,7 +11,7 @@
 		$(document).ready(function(){
 			//这里写jquery
 			$("input[type='button']").button();
-			$("#selBtn").click(
+			$("input[name='id']").click(
 				function()
 				{
 					var id=$("input[name='id']:checked");
