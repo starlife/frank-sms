@@ -85,7 +85,7 @@
 			<!-- 已经收到了读报告，则发送成功 -->
 			<s:if test="mmStatus==1">
 				<s:set id="status" value="'发送成功'"/>
-				<s:set id="statusText" value="'无'"/>
+				<s:set id="statusText" value="'--'"/>
 			</s:if>
 			<!-- 如果没收到发送回应包或者收到了回应失败包（不等于1000） -->
 			<s:elseif test="mmStatus==null">
@@ -96,6 +96,14 @@
 			<s:elseif test="mmStatusText=='6640'">
 				<s:set id="status" value="'发送失败'"/>
 				<s:set id="statusText" value="'6640(用户未点播)'"/>
+			</s:elseif>
+			<s:elseif test="mmStatusText=='4448'">
+				<s:set id="status" value="'发送失败'"/>
+				<s:set id="statusText" value="'4448(过期未提取)'"/>
+			</s:elseif>
+			<s:elseif test="mmStatusText=='4414'">
+				<s:set id="status" value="'发送失败'"/>
+				<s:set id="statusText" value="'4414(用户拒绝)'"/>
 			</s:elseif>
 			<s:else>
 				<s:set id="status" value="'发送失败'"/>
