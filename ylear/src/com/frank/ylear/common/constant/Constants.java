@@ -12,7 +12,7 @@ public class Constants
 	// public static final SimpleDateFormat SDF=new SimpleDateFormat("yyyy-MM-dd
 	// hh:mm:ss");
 
-	public static final int FRAME_DURING = 30;
+	public static final int FRAME_DURING = 20;
 
 	public static final String SMS_SUBMIT_SUCCESS = "DELIVRD";
 
