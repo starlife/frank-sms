@@ -1,7 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<script src="scripts/validate.js"></script>
-<script src="scripts/icommon.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 	<head>
@@ -213,7 +211,7 @@ font-size: 14px;
 							<td>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td height="20" valign="bottom"><div id="navtitle"></div></td>
+										<td height="20" align="left" valign="bottom"><div id="navtitle"></div></td>
 										<td valign="bottom" align="right">
 											<span class="STYLE1">当前登录用户：${sessionScope.USER.usrName
 												} &nbsp;(管理员)</span>
