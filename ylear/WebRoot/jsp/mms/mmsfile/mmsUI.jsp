@@ -132,7 +132,7 @@ body {
 				</s:text> </span>
 			<span id="currentFrameId" style="display: none" />${mmsFile.currentFrameId}</span>
 			<span id="currentDuringTime" style="display: none" />${mmsFile.currentDuringTime}</span>
-			<span id="currentFrameText" style="display: none" />${mmsFile.currentFrameText}</span>
+			<pre id="currentFrameText" style="display: none" />${mmsFile.currentFrameText}</pre>
 			<!-- ======================================================= -->
 
 			<table>
