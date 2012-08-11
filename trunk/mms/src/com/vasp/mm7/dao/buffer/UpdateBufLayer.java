@@ -7,11 +7,11 @@ import java.util.List;
 import com.vasp.mm7.dao.DbDao;
 import com.vasp.mm7.database.pojo.SubmitBean;
 
-public class UpdateBufLayer
+public class UpdateBufLayer implements BufferLayer<SubmitBean>
 {
 	//private static final Log log = LogFactory.getLog(UpdateBufLayer.class);
 
-	public  String sql=DbDao.updateSql;
+	//public  String sql=DbDao.updateSql;
 		
 	private final List<SubmitBean> list=new ArrayList<SubmitBean>();
 	
@@ -24,8 +24,7 @@ public class UpdateBufLayer
 	
 	public UpdateBufLayer()
 	{
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	

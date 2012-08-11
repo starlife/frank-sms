@@ -16,7 +16,7 @@ import com.vasp.mm7.database.pojo.SubmitBean;
  * *错误数据的缓存（在数据库宕机的时候可以把数据缓存在内存中或者文件中，等待重新执行）
  *
  */
-public class InsertBufLayer
+public class InsertBufLayer implements BufferLayer<SubmitBean>
 {
 	
 
@@ -67,6 +67,9 @@ public class InsertBufLayer
 			}
 		}
 	}
+
+
+
 	
 	
 }
