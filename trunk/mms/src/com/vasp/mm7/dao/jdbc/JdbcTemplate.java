@@ -49,8 +49,10 @@ public class JdbcTemplate
 			{
 				return false;
 			}
+			conn.setAutoCommit(false);
 			stmt = conn.createStatement();
 			stmt.execute(sql);
+			conn.commit();
 		}
 		catch (SQLException ex)
 		{
@@ -68,14 +70,12 @@ public class JdbcTemplate
 
 	public boolean execute(Iterator<String> sql)
 	{
-		//System.out.println("aaa");
 		Statement stmt = null;
 		Connection conn=null;
 		try
 		{
-			//System.out.println("bef");
-			conn = pool.getConnection();
-			//System.out.println("after");
+			
+			conn = getConnection();
 			if(conn==null)
 			{
 				return false;
@@ -87,7 +87,11 @@ public class JdbcTemplate
 				stmt.addBatch(sql.next());
 			}
 
-			stmt.executeBatch();
+			int[] rows=stmt.executeBatch();
+			for(int i=0;i<rows.length;i++)
+			{
+				System.out.println("rows["+i+"]="+rows[i]);
+			}
 			conn.commit();
 
 		}
@@ -99,7 +103,7 @@ public class JdbcTemplate
 		finally
 		{
 			DbTool.closeStatement(stmt);
-			pool.freeConnection(conn);
+			freeConnection(conn);
 		}
 		return true;
 	}
@@ -108,7 +112,18 @@ public class JdbcTemplate
 	public static void main(String[] args) throws Exception
 	{	
 		JdbcTemplate template = new JdbcTemplate();
-		int total = 10000;
+		List<String> sqlList = new ArrayList<String>();
+		
+		String ss1 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng' where subject='linxin'";
+		String ss2 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng6' where id='6'";
+		String ss3 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng7' where id='7'";
+		sqlList.add(ss2);
+		sqlList.add(ss1);
+		sqlList.add(ss3);
+	
+		
+		template.execute(sqlList.iterator());
+		/*int total = 10000;
 
 		List<String> sqlList = new ArrayList<String>();
 
@@ -133,7 +148,7 @@ public class JdbcTemplate
 			}
 			
 
-		}
+		}*/
 
 	}
 

@@ -59,7 +59,7 @@ public class InsertBufLayer
 	{
 		synchronized (list)
 		{
-			boolean flag=DbDao.getInstance().save(list.iterator());
+			boolean flag=DbDao.getInstance().save(list);
 			//如果插入数据库成功，那么清空该队列
 			if(flag)
 			{
