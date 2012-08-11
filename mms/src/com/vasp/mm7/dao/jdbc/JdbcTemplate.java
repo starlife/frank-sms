@@ -3,12 +3,13 @@ package com.vasp.mm7.dao.jdbc;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.vasp.mm7.database.HibernateSessionFactory;
 
 public class JdbcTemplate
 {
@@ -18,14 +19,19 @@ public class JdbcTemplate
 
 	public JdbcTemplate() throws Exception
 	{
-		ConnectionPoolManager manager = new ConnectionPoolManager();
-		pool=manager.getPool();
+		//ConnectionPoolManager manager = new ConnectionPoolManager();
+		DataSource ds = new DataSource();
+		Configuration config = HibernateSessionFactory.getConfiguration();
+		ds.setDriverClass(config.getProperty("connection.driver_class"));
+		ds.setUrl(config.getProperty("connection.url"));
+		ds.setUsername(config.getProperty("connection.username"));
+		ds.setPassword(config.getProperty("connection.password"));
+		pool = new ConnectionPool(ds);
 	}
 	
 	public JdbcTemplate(DataSource ds) throws Exception
 	{
-		ConnectionPoolManager manager = new ConnectionPoolManager(ds);
-		pool=manager.getPool();
+		pool=new ConnectionPool(ds);
 	}
 
 	public Connection getConnection()
@@ -38,10 +44,16 @@ public class JdbcTemplate
 		pool.freeConnection(conn);
 	}
 	
+	public void releaseConnection(Connection conn)
+	{
+		pool.releaseConnection(conn);
+	}
+	
 	public boolean execute(String sql)
 	{
 		Statement stmt = null;
 		Connection conn=null;
+		boolean exception=false;
 		try
 		{
 			conn = getConnection();
@@ -57,12 +69,19 @@ public class JdbcTemplate
 		catch (SQLException ex)
 		{
 			log.error(null, ex);
+			exception=true;
 			return false;
 		}
 		finally
 		{
 			DbTool.closeStatement(stmt);
-			freeConnection(conn);
+			if(exception)
+			{
+				this.releaseConnection(conn);
+			}else
+			{
+				freeConnection(conn);
+			}
 		}
 
 		return true;
@@ -72,6 +91,7 @@ public class JdbcTemplate
 	{
 		Statement stmt = null;
 		Connection conn=null;
+		boolean exception=false;
 		try
 		{
 			
@@ -98,12 +118,19 @@ public class JdbcTemplate
 		catch (SQLException ex)
 		{
 			log.error(null, ex);
+			exception=true;
 			return false;
 		}
 		finally
 		{
 			DbTool.closeStatement(stmt);
-			freeConnection(conn);
+			if(exception)
+			{
+				this.releaseConnection(conn);
+			}else
+			{
+				freeConnection(conn);
+			}
 		}
 		return true;
 	}
@@ -111,18 +138,8 @@ public class JdbcTemplate
 	
 	public static void main(String[] args) throws Exception
 	{	
-		JdbcTemplate template = new JdbcTemplate();
-		List<String> sqlList = new ArrayList<String>();
+		//JdbcTemplate template = new JdbcTemplate();
 		
-		String ss1 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng' where subject='linxin'";
-		String ss2 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng6' where id='6'";
-		String ss3 = "update lyear.dbo.s_logmmssubmit set subject='linxinzheng7' where id='7'";
-		sqlList.add(ss2);
-		sqlList.add(ss1);
-		sqlList.add(ss3);
-	
-		
-		template.execute(sqlList.iterator());
 		/*int total = 10000;
 
 		List<String> sqlList = new ArrayList<String>();

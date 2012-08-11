@@ -35,8 +35,6 @@ public class SubmitDaoImpl
 		return dao;
 	}
 
-	
-	
 	public void save(List<SubmitBean> list) throws Exception
 	{
 		iBufLayer.add(list.iterator());
@@ -72,7 +70,7 @@ public class SubmitDaoImpl
 	public static void main(String[] args) throws Exception
 	{
 		SubmitDaoImpl dao =SubmitDaoImpl.getInstance();
-		int total=1000;
+		int total=10000;
 		
 		List<SubmitBean> list=new ArrayList<SubmitBean>();
 		long begin = System.currentTimeMillis();

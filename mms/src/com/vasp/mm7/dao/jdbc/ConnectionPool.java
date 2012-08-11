@@ -22,7 +22,6 @@ public class ConnectionPool
 	// private int mixConn=5;//最小连接数
 	// private int used=0;//这在使用的连接数
 
-	// private static final Object lock=new Object();
 
 	public ConnectionPool(DataSource ds) throws Exception
 	{
@@ -42,7 +41,6 @@ public class ConnectionPool
 	private Connection createConnection()
 	{
 		//log.info("createConnection");
-		//log.info("que.size():"+que.size()+"-------userList.size():"+usedList.size());
 		Connection conn = null;
 		String url = ds.getUrl();
 		String username = ds.getUsername();
@@ -63,7 +61,6 @@ public class ConnectionPool
 
 	public Connection getConnection()
 	{
-		//log.info("getConnection");
 		synchronized (que)
 		{
 			Connection conn = que.poll();
@@ -90,13 +87,31 @@ public class ConnectionPool
 		}
 
 	}
-
+	
+	/**
+	 * 可用连接的释放
+	 * @param conn
+	 */
 	public void freeConnection(Connection conn)
 	{
 		this.freeConnection(conn,true);
 	}
 	
-	public void freeConnection(Connection conn,boolean valid)
+	/**
+	 * 无用连接的释放
+	 * @param conn
+	 */
+	public void releaseConnection(Connection conn)
+	{
+		this.freeConnection(conn,false);
+	}
+	
+	/**
+	 * 释放连接
+	 * @param conn
+	 * @param valid  连接是否可用
+	 */
+	private void freeConnection(Connection conn,boolean valid)
 	{	
 		synchronized (que)
 		{
@@ -104,7 +119,7 @@ public class ConnectionPool
 			{
 				//log.info("freeConnection "+conn);
 				if(!valid)
-				{	log.info("remove "+conn);			
+				{	log.info("removeConnection "+conn);			
 					usedList.remove(conn);		
 				}else
 				{
@@ -114,14 +129,14 @@ public class ConnectionPool
 						usedList.remove(conn);
 					}
 				}
-				//log.info("que.size():"+que.size()+"-------userList.size():"+usedList.size());
+				
 
 			}
 		}
 		
 	}
 	
-	public void mystop()
+	public void close()
 	{
 		Connection conn=this.getConnection();
 		while(conn!=null)
@@ -161,5 +176,5 @@ public class ConnectionPool
 		}
 		return true;
 	}
-
+	
 }
