@@ -22,7 +22,7 @@ import com.vasp.mm7.database.pojo.SubmitBean;
 public class DbDao extends JdbcTemplate
 {
 	private static final Log log = LogFactory.getLog(DbDao.class);
-	
+
 	private static final Log insert = LogFactory.getLog("insertSql");// 记录日志
 	private static final Log update = LogFactory.getLog("updateSql");// 记录日志
 
@@ -61,6 +61,10 @@ public class DbDao extends JdbcTemplate
 
 	public boolean save(List<SubmitBean> list)
 	{
+		if (list == null || list.size() == 0)
+		{
+			return true;
+		}
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		try
@@ -70,13 +74,9 @@ public class DbDao extends JdbcTemplate
 			{
 				return false;
 			}
-			if(list.size()==0)
-			{
-				return true;
-			}
 			stmt = conn.prepareStatement(insertSql);
 			conn.setAutoCommit(false);
-			Iterator<SubmitBean> it=list.iterator();
+			Iterator<SubmitBean> it = list.iterator();
 			while (it.hasNext())
 			{
 				SubmitBean submitBean = it.next();
@@ -103,7 +103,7 @@ public class DbDao extends JdbcTemplate
 				stmt.addBatch();
 			}
 			int[] rows = stmt.executeBatch();
-			conn.commit();	
+			conn.commit();
 			for (int i = 0; i < rows.length; i++)
 			{
 				if (rows[i] == 0)
@@ -128,6 +128,10 @@ public class DbDao extends JdbcTemplate
 
 	public boolean update(List<SubmitBean> list)
 	{
+		if (list == null || list.size() == 0)
+		{
+			return true;
+		}
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		try
@@ -137,13 +141,9 @@ public class DbDao extends JdbcTemplate
 			{
 				return false;
 			}
-			if(list.size()==0)
-			{
-				return true;
-			}
 			stmt = conn.prepareStatement(updateSql);
 			conn.setAutoCommit(false);
-			Iterator<SubmitBean> it=list.iterator();
+			Iterator<SubmitBean> it = list.iterator();
 			while (it.hasNext())
 			{
 				SubmitBean submitBean = it.next();
