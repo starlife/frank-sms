@@ -22,7 +22,7 @@ public class InsertBufLayer implements BufferLayer<SubmitBean>
 
 	//private static final Log log = LogFactory.getLog(InsertBufLayer.class);
 
-	public  String sql=DbDao.insertSql;
+	//public  String sql=DbDao.insertSql;
 		
 	private final List<SubmitBean> list=new ArrayList<SubmitBean>();
 	
@@ -30,8 +30,7 @@ public class InsertBufLayer implements BufferLayer<SubmitBean>
 	
 	public InsertBufLayer()
 	{
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	
