@@ -1,7 +1,5 @@
 package com.vasp.mm7.dao.jdbc;
 
-import java.sql.Connection;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
@@ -69,7 +67,7 @@ public class ConnectionPoolManager extends Thread
 	public void mystop()
 	{
 		this.stop = true;
-		pool.mystop();
+		pool.close();
 	}
 
 	private void init() throws Exception
@@ -83,58 +81,11 @@ public class ConnectionPoolManager extends Thread
 		pool = new ConnectionPool(ds);
 	}
 
-	
-	
-	
-	static class TestThread extends Thread
-	{
-		ConnectionPool pool = null;
-		Random r = new Random(100);
-
-		public TestThread(ConnectionPool pool)
-		{
-			this.pool = pool;
-		}
-
-		public void run()
-		{
-			while (true)
-			{
-				Connection conn = pool.getConnection();
-				int rom = r.nextInt(10);
-				try
-				{
-					TimeUnit.SECONDS.sleep(rom);
-				}
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				pool.freeConnection(conn);
-				try
-				{
-					TimeUnit.SECONDS.sleep(20);
-				}
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
 	public static void main(String[] args) throws Exception
 	{
-		ConnectionPoolManager manager = new ConnectionPoolManager();
-		ConnectionPool pool = manager.getPool();
-		for (int i = 0; i < 5; i++)
-		{
-			new TestThread(pool).start();
-		}
-		TimeUnit.SECONDS.sleep(10000);
-		manager.mystop();
+		//ConnectionPoolManager manager = new ConnectionPoolManager();
+		//ConnectionPool pool = manager.getPool();
+		//manager.mystop();
 	}
 
 }

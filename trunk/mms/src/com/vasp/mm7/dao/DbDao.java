@@ -67,6 +67,7 @@ public class DbDao extends JdbcTemplate
 		}
 		PreparedStatement stmt = null;
 		Connection conn = null;
+		boolean exception=false;
 		try
 		{
 			conn = getConnection();
@@ -115,12 +116,19 @@ public class DbDao extends JdbcTemplate
 		catch (SQLException ex)
 		{
 			log.error(null, ex);
+			exception=true;
 			return false;
 		}
 		finally
 		{
 			DbTool.closeStatement(stmt);
-			freeConnection(conn);
+			if(exception)
+			{
+				this.releaseConnection(conn);
+			}else
+			{
+				freeConnection(conn);
+			}
 		}
 
 		return true;
@@ -134,6 +142,7 @@ public class DbDao extends JdbcTemplate
 		}
 		PreparedStatement stmt = null;
 		Connection conn = null;
+		boolean exception=false;
 		try
 		{
 			conn = getConnection();
@@ -168,12 +177,19 @@ public class DbDao extends JdbcTemplate
 		catch (SQLException ex)
 		{
 			log.error(null, ex);
+			exception=true;
 			return false;
 		}
 		finally
 		{
 			DbTool.closeStatement(stmt);
-			freeConnection(conn);
+			if(exception)
+			{
+				this.releaseConnection(conn);
+			}else
+			{
+				freeConnection(conn);
+			}
 		}
 
 		return true;
