@@ -64,7 +64,7 @@ public class UpdateBufLayer
 	{
 		synchronized (list)
 		{
-			boolean flag=DbDao.getInstance().update(list.iterator());
+			boolean flag=DbDao.getInstance().update(list);
 			//如果插入数据库成功，那么清空该队列
 			if(flag)
 			{
