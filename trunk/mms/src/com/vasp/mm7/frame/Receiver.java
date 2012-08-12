@@ -13,7 +13,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 import com.vasp.mm7.conf.MM7Config;
-import com.vasp.mm7.database.SubmitDaoImpl;
+import com.vasp.mm7.dao.SubmitDaoImpl;
 import com.vasp.mm7.database.pojo.DeliverBean;
 import com.vasp.mm7.util.DateUtils;
 
@@ -128,11 +128,8 @@ public class Receiver extends MM7Receiver
 		log.debug("submitDao.update之前:"+System.currentTimeMillis());
 		try
 		{
-			int row=submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
-			if(row<=0)
-			{
-				log.error("更新记录到数据库失败");
-			}
+			submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
+			
 		}catch(Exception ex)
 		{
 			log.error(null,ex);
