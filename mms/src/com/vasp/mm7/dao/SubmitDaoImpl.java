@@ -67,6 +67,11 @@ public class SubmitDaoImpl
 	}
 	
 	
+	public void mystop()
+	{
+		uBufLayer.myStop();
+	}
+	
 	public static void main(String[] args) throws Exception
 	{
 		SubmitDaoImpl dao =SubmitDaoImpl.getInstance();
