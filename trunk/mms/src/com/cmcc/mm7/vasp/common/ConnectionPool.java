@@ -163,11 +163,10 @@ public class ConnectionPool
 				usedMap.clear();
 				
 			}
-			//如果连接不可用，就清理痕迹；如果连接可用，那么重新加入队列中使用
-			if (!ConnectionUtil.isSocketAvail(socket))
-			{
-				usedMap.remove(socket);
-			}else
+			//从使用队列中清除
+			usedMap.remove(socket);
+			//如果连接可用，那么重新加入队列中使用
+			if (ConnectionUtil.isSocketAvail(socket))
 			{
 				if(usedMap.get(socket)!=null)
 				{
