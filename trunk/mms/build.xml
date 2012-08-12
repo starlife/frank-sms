@@ -86,10 +86,17 @@
 	            <classpath refid="mms.classpath"/>
 	        </java>
 	    </target>
+	
+	<target name="DbUtil">
+		        <java classname="com.vasp.mm7.database.DbUtil" failonerror="true" fork="yes">
+		            <classpath refid="mms.classpath"/>
+		        </java>
+		    </target>
     
     <target name="Main">
         <java classname="com.vasp.mm7.frame.Main" failonerror="true" fork="yes">
             <classpath refid="mms.classpath"/>
         </java>
     </target>
+	
 </project>
