@@ -19,4 +19,5 @@
 	<TimeOut>30000</TimeOut>
 	<ReSendCount>3</ReSendCount>
 	<SendThread>3</SendThread>
+	<MaxSpeed>5</MaxSpeed>
 </vasp:MM7Config>
