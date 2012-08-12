@@ -37,6 +37,7 @@ public class MM7Config
 	private int poolSize=1;
 	
 	private int sendThread=1;
+	private int maxSpeed=2;
 	
 	//private boolean bload=false;
 
@@ -80,6 +81,7 @@ public class MM7Config
 		keepAlive="on".equals((String)hashmap.get("KeepAlive"));
 		poolSize=Integer.parseInt((String)hashmap.get("PoolSize"));
 		sendThread=Integer.parseInt((String)hashmap.get("SendThread"));
+		maxSpeed=Integer.parseInt((String)hashmap.get("MaxSpeed"));
 		
 	}
 
@@ -334,5 +336,15 @@ public class MM7Config
 	public void setSendThread(int sendThread)
 	{
 		this.sendThread = sendThread;
+	}
+
+	public int getMaxSpeed()
+	{
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed)
+	{
+		this.maxSpeed = maxSpeed;
 	}
 }
