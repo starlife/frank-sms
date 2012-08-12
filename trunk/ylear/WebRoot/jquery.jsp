@@ -1,1 +1,1 @@
-<script src="js/jquery-1.7.1.min.js"></script>	
+<script src="js/jquery-ui-1.8.17/jquery-1.7.1.js"></script>	
