@@ -31,6 +31,17 @@
 		</layout>
 	</appender>
 	
+	<!-- 连接错误日志，这个日志理论上来说为空 -->
+	<appender name="connErrAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/conn/err.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+		</layout>
+	</appender>
+	
 	<appender name="discardAppender"
 		class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="logs/discard/discard.log" />
@@ -81,6 +92,25 @@
 		</layout>
 	</appender>
 	
+	<appender name="insertSqlAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/sql/insert.sql" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+		</layout>
+	</appender>
+	<appender name="updateSqlAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/sql/update.sql" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+		</layout>
+	</appender>
+	
 	<!-- 不打印Hibernate框架的调试日志 -->
 	<logger name="org.hibernate">
     	<level value="ERROR" />
@@ -89,6 +119,11 @@
     <logger name="org.hibernate.SQL">
     	<level value="DEBUG" />
     </logger>
+	
+	<logger name="connErr" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="connErrAppender" />
+	</logger>
 	
 	<!-- 保存重发三次后失败丢弃的包 -->
 	<logger name="discard" additivity="false">
@@ -114,13 +149,22 @@
 		<appender-ref ref="speedAppender" />
 	</logger>
 	
-	<logger name="db" additivity="false">
+	<!-- <logger name="db" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="dbAppender" />
+	</logger>-->
+	
+	<logger name="insertSql" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="insertSqlAppender" />
+	</logger>
+	<logger name="updateSql" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="updateSqlAppender" />
 	</logger>
 	<!-- for all other loggers log only debug and above log messages -->
 	<root>
-		<priority value="DEBUG" />
+		<priority value="INFO" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="dailyAppender" />
 	</root>
