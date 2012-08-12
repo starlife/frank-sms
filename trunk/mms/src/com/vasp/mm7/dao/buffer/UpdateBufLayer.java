@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.vasp.mm7.dao.DbDao;
 import com.vasp.mm7.database.pojo.SubmitBean;
 
-public class UpdateBufLayer implements BufferLayer<SubmitBean>
+public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 {
-	//private static final Log log = LogFactory.getLog(UpdateBufLayer.class);
+	private static final Log log = LogFactory.getLog(UpdateBufLayer.class);
 
 	//public  String sql=DbDao.updateSql;
 		
@@ -20,13 +23,33 @@ public class UpdateBufLayer implements BufferLayer<SubmitBean>
 	private int batch=1000;//每批多少条数据
 	private int interval=60000;//时间间隔 60s
 	
+	private volatile boolean stop = false;
+	
 	
 	
 	public UpdateBufLayer()
 	{
-		
+		this.start();
 	}
 
+	
+	
+	public void run()
+	{
+		while(!stop)
+		{
+			autoCommit();
+			try
+			{
+				java.util.concurrent.TimeUnit.SECONDS.sleep(30);
+			}
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				log.error(null,e);
+			}
+		}
+	}
 	
 	
 	public void add(Iterator<SubmitBean> it)
@@ -46,6 +69,12 @@ public class UpdateBufLayer implements BufferLayer<SubmitBean>
 		{
 			list.add(bean);
 		}
+		autoCommit();
+	}
+	
+	
+	public void autoCommit()
+	{
 		//如果记录大于1000条，自动提交
 		if(list.size()>=batch)
 		{
@@ -57,7 +86,6 @@ public class UpdateBufLayer implements BufferLayer<SubmitBean>
 			commit();
 		}
 	}
-	
 	
 	public void commit()
 	{
@@ -72,4 +100,9 @@ public class UpdateBufLayer implements BufferLayer<SubmitBean>
 			}
 		}
 	}
+	public void myStop()
+	{
+		this.stop = true;
+	}
+	
 }
