@@ -36,6 +36,8 @@ public class MM7Config
 	
 	private int poolSize=1;
 	
+	private int sendThread=1;
+	
 	//private boolean bload=false;
 
 	/** 默认构造方法 */
@@ -77,6 +79,7 @@ public class MM7Config
 		MMSCID = (String) hashmap.get("MmscID");
 		keepAlive="on".equals((String)hashmap.get("KeepAlive"));
 		poolSize=Integer.parseInt((String)hashmap.get("PoolSize"));
+		sendThread=Integer.parseInt((String)hashmap.get("SendThread"));
 		
 	}
 
@@ -311,5 +314,25 @@ public class MM7Config
 	public void setKeepAlive(boolean keepAlive)
 	{
 		this.keepAlive = keepAlive;
+	}
+
+	public int getPoolSize()
+	{
+		return poolSize;
+	}
+
+	public void setPoolSize(int poolSize)
+	{
+		this.poolSize = poolSize;
+	}
+
+	public int getSendThread()
+	{
+		return sendThread;
+	}
+
+	public void setSendThread(int sendThread)
+	{
+		this.sendThread = sendThread;
 	}
 }
