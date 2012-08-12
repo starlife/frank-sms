@@ -131,6 +131,7 @@ public class ConnectionPool
 						if(between>timeout)
 						{
 							ConnectionUtil.closeSocket(socket);
+							socket=null;
 							log.debug("当前Socket上次使用时间到现在已经超过" + between + "ms,需要重新建立连接");
 						}
 					}
