@@ -3,20 +3,20 @@
 	<AuthenticationMode>1</AuthenticationMode>
 	<UserName>C61704</UserName>
 	<Password>sdop77</Password>
-	<MaxMessageSize>100000</MaxMessageSize>
-	<LogPath>E:\vas_log</LogPath>
-	<logLevel>0</logLevel>
-	<Charset>GB2312</Charset>
+	<VASPID>895192</VASPID>
+	<VASID>106573061704</VASID>
+	<ServiceCode>1113329901</ServiceCode>
+	<MaxMessageSize>102400</MaxMessageSize>
+	<Charset>UTF-8</Charset>
 	<mmscURL>/</mmscURL>
 	<mmscIP>211.140.27.30:5700</mmscIP>
-	<MmscID>106573061704</MmscID>
-	<UseSSL>false</UseSSL>
-	<ListenIP>192.168.1.101</ListenIP>
+	<MmscID></MmscID>
+	<ListenIP>192.168.1.109</ListenIP>
 	<ListenPort>5700</ListenPort>
 	<BackLog>50</BackLog>
-	<TimeOut>90000</TimeOut>
-	<ReSendCount>2</ReSendCount>
-	<LogNum>100</LogNum>
-	<LogInterval>120</LogInterval>
-	<LogSize>1000</LogSize>
+	<KeepAlive>on</KeepAlive>
+	<PoolSize>5</PoolSize>
+	<TimeOut>30000</TimeOut>
+	<ReSendCount>3</ReSendCount>
+	<SendThread>3</SendThread>
 </vasp:MM7Config>
