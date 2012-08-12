@@ -3,6 +3,7 @@ package com.vasp.mm7.frame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cmcc.mm7.vasp.common.Constants;
 import com.vasp.mm7.conf.MM7Config;
 
 public class Main
@@ -23,7 +24,7 @@ public class Main
 	{
 		// 设置Max_speed
 		log.info("启动彩信程序...");
-		// Constants.MAX_SPEED = Config.getInstance().getMaxSpeed();
+		Constants.MAX_SPEED = config.getMaxSpeed();
 		tm = new ManagerThread(config,config.getSendThread());
 		tm.start();
 		while (!stop)
