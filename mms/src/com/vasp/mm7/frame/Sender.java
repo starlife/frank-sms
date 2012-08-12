@@ -331,7 +331,7 @@ public class Sender extends MM7Sender
 		// + System.currentTimeMillis());
 
 	}
-
+	
 	public void doTask(final List<SubmitBean> list)
 	{
 		exec.execute(new Runnable()
@@ -353,6 +353,14 @@ public class Sender extends MM7Sender
 			}
 
 		});
+	}
+	
+	
+	public void myStop()
+	{
+		super.myStop();
+		submitDao.mystop();
+		
 	}
 
 	public void remove(Long sessionid)
