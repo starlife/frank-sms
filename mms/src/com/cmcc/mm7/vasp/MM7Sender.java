@@ -16,6 +16,7 @@ import com.cmcc.mm7.vasp.common.ConnectionPool;
 import com.cmcc.mm7.vasp.common.ConnectionUtil;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
+import com.cmcc.mm7.vasp.common.TpsTool;
 import com.cmcc.mm7.vasp.http.HttpResponse;
 import com.cmcc.mm7.vasp.protocol.DecodeMM7;
 import com.cmcc.mm7.vasp.protocol.MM7Helper;
@@ -89,8 +90,8 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		{
 			try
 			{
-				// 取彩信并发送
-				// RateControl.controlRate();
+				// 流量控制
+				TpsTool.limitTPS();
 				// 取包发送
 				MM7VASPReq req = this.submit();
 				if (req == null)
