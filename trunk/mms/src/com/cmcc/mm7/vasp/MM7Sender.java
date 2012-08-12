@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cmcc.mm7.vasp.common.ConnectionPool;
+import com.cmcc.mm7.vasp.common.ConnectionUtil;
 import com.cmcc.mm7.vasp.common.MMConstants;
 import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.http.HttpResponse;
@@ -39,7 +40,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			10000);
 
 	private volatile boolean stop = false;
-
+	
 	private String mmscIP = null;
 	private String mmscURL = "/";
 	private int authmode = 0;
@@ -49,6 +50,8 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	private boolean keepAlive = false;
 	private int MaxMsgSize = 102400;
 	private int retryCount = 3;
+	
+	private static final Object lock=new Object();
 
 	//private ConnectionPool conn = null;
 
@@ -58,10 +61,13 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			int reSendCount, boolean keepAlive, int timeout,int poolSize)
 	{
 		super("MM7Sender");
-		ConnectionPool conn=ConnectionPool.getConnPool();
-		if(conn==null)
+		synchronized (lock)
 		{
-			ConnectionPool.init(mmscIP, timeout, poolSize);
+			ConnectionPool conn=ConnectionPool.getPool();
+			if(conn==null)
+			{
+				ConnectionPool.init(mmscIP, timeout, poolSize);
+			}
 		}
 		this.mmscIP = mmscIP;
 		this.mmscURL = mmscURL;
@@ -96,7 +102,6 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				{
 					continue;
 				}
-
 				MM7RSRes res = this.send(req);
 
 				log.info("收到回应包 " + LogHelper.logMM7RSRes(res));
@@ -127,7 +132,6 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 
 		try
 		{
-
 			// 设置
 			if (mm7VASPReq.getBytes() == null)
 			{
@@ -162,23 +166,33 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			return ErrorRes;
 		}
 	}
-
+	
+	public Socket getSocket()
+	{
+		return ConnectionPool.getPool().getSocket();
+	}
+	
+	public void freeSocket(Socket s)
+	{
+		ConnectionPool.getPool().freeSocket(s);
+	}
+	
 	private MM7RSRes send(byte[] msgByte)
 	{
-		// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道并标示为删除状态
 		//log.debug(new String(msgByte));
 		MM7RSRes res = null;
-		Socket socket = ConnectionPool.getConnPool().getConn();
-		if (socket == null)
-		{
-			res = new MM7RSErrorRes();
-			res.setStatusCode(-104);
-			res.setStatusText("创建Socket通道失败");
-			return res;
-		}
-
+		Socket socket=null;
 		try
 		{
+			// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道,等待回收
+			socket = this.getSocket();
+			if (socket == null)
+			{
+				res = new MM7RSErrorRes();
+				res.setStatusCode(-104);
+				res.setStatusText("创建Socket通道失败");
+				return res;
+			}
 			log.debug("开始发送包...");
 			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
@@ -197,8 +211,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			}
 			log.debug("接收完成(SubmitRsp)");
 			// 接收完成，送回去
-
-			log.debug("MM7Sender收到消息：" + http.toString());
+			//log.debug("MM7Sender收到消息：" + http.toString());
 
 			if (http.getStatusCode() != 200)
 			{
@@ -215,41 +228,26 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				return res;
 			}
 			if (!keepAlive)
-			{			
-				try
-				{
-					
-					log.debug("当前配置短连接，发送结束，尝试关闭socket");
-					socket.close();
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					log.error(null, e);
-				}				
-				
+			{
+				log.debug("当前配置短连接，发送结束，尝试关闭socket");
+				ConnectionUtil.closeSocket(socket);
+							
 			}
 			res = DecodeMM7.decodeResMessage(http.getBody(), charset);
 			return res;
 		}
 		catch (IOException ex)
 		{
-			try
-			{
-				log.info("IOException 尝试关闭socket");
-				socket.close();
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				log.error(null, e);
-			}
-			log.error(null, ex);
+			ConnectionUtil.closeSocket(socket);
+			log.error("IOException 尝试关闭socket", ex);
 			res = new MM7RSErrorRes();
 			res.setStatusCode(-102);
 			res.setStatusText("接收失败getException！");
 			return res;
 
+		}finally
+		{
+			this.freeSocket(socket);
 		}
 
 	}

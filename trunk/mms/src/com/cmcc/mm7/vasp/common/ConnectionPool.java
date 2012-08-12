@@ -5,8 +5,9 @@
 package com.cmcc.mm7.vasp.common;
 
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,16 +15,19 @@ import org.apache.commons.logging.LogFactory;
 public class ConnectionPool
 {
 	private static final Log log = LogFactory.getLog(ConnectionPool.class);
-
+	
+	private static final Log connLog = LogFactory.getLog("connErr");
+	
 	private String ip = null;
 	private int port = 80;
 	private int timeout = 10000;
+	private int maxSize=1;
 
-	private final List<ConnectionWrap> pool = new ArrayList<ConnectionWrap>();
-	private volatile int offset = 0;
-	// private Socket socket = null;
-
-	// private long activeTime = 0;
+	private static final LinkedBlockingQueue<Socket> que = new LinkedBlockingQueue<Socket>();// 连接队列
+	
+	private static final Map<Socket,Long> usedMap = new HashMap<Socket,Long>();//保存在使用中socket以及最后一次使用时间
+	
+	
 
 	private static ConnectionPool instance = null;
 
@@ -31,13 +35,14 @@ public class ConnectionPool
 	{
 		parse(mmscIp);
 		this.timeout = timeout;
-		for (int i = 0; i < poolSize; i++)
+		this.maxSize=poolSize;
+		/*for (int i = 0; i < maxSize; i++)
 		{
-			pool.add(new ConnectionWrap());
-		}
+			que.offer(new ConnectionWrap());
+		}*/
 	}
 
-	public static ConnectionPool getConnPool()
+	public static ConnectionPool getPool()
 	{
 		return instance;
 	}
@@ -92,64 +97,88 @@ public class ConnectionPool
 
 	}
 
-	public synchronized Socket getConn()
+	public synchronized Socket getSocket()
 	{
-		// 从队列中找，如果队列不为空，那么
-		ConnectionWrap conn = null;
-		synchronized (pool)
+		synchronized (que)
 		{
-			if (pool.size() > 0)
-			{
-				conn = pool.get(getOffset());
+			Socket socket = que.poll();
+			while(true)
+			{	
+				if(socket==null)
+				{
+					if(usedMap.size()<this.maxSize)
+					{
+						socket = createSocket();
+						if(socket!=null)
+						{
+							//加入使用队列
+							usedMap.put(socket,System.currentTimeMillis());
+						}
+					}
+					return socket;
+				}
+				//socket不为空，下面是验证socket是否可用	
+				if (!ConnectionUtil.isSocketAvail(socket))
+				{
+					socket=null;
+				}else
+				{
+					//验证时间是否过期
+					Long lastActive=usedMap.get(socket);
+					if(lastActive!=null)
+					{
+						long between=(System.currentTimeMillis()-lastActive);
+						if(between>timeout)
+						{
+							ConnectionUtil.closeSocket(socket);
+							log.debug("当前Socket上次使用时间到现在已经超过" + between + "ms,需要重新建立连接");
+						}
+					}
+				}
+				
+				if(socket!=null)
+				{
+					//加入使用队列
+					usedMap.put(socket,System.currentTimeMillis());
+					return socket;
+				}				
+				socket = que.poll();
 			}
 		}
-		if (conn == null)
-		{
-			conn = new ConnectionWrap();
-		}
-		Socket socket = conn.getSocket();
-		// 如果当前socket无效，那么重新创建socket
-		if (!isSocketAvail(socket))
-		{
-			socket = createSocket();
-			conn.setSocket(socket);
-		}
-		// 如果当前socket的上次使用时间到现在已经超过timeout，那么该socket无效，需要重新创建socket
-		long between = System.currentTimeMillis() - conn.getActiveTime();
-		if (between > timeout)
-		{
-			log.debug("当前Socket上次使用时间到现在已经超过" + between + "ms,需要重新建立连接");
-			socket = createSocket();
-			conn.setSocket(socket);
-		}
-
-		// 每一次使用之前重新赋值activeTime
-		if (socket != null)
-		{
-			conn.setActiveTime(System.currentTimeMillis());
-		}
-		return socket;
 	}
-
-	private int getOffset()
+	
+	/**
+	 * 回收socket连接
+	 * @param socket
+	 */
+	public void freeSocket(Socket socket)
 	{
-		offset++;
-		offset = offset % pool.size();
-		return offset;
-
+		synchronized (que)
+		{
+			if(usedMap.size()>100)
+			{
+				log.error("usedMap需要清空");
+				connLog.info(usedMap);
+				usedMap.clear();
+				
+			}
+			//如果连接不可用，就清理痕迹；如果连接可用，那么重新加入队列中使用
+			if (!ConnectionUtil.isSocketAvail(socket))
+			{
+				usedMap.remove(socket);
+			}else
+			{
+				if(usedMap.get(socket)!=null)
+				{
+					que.offer(socket);
+				}
+			}
+		}
 	}
 
-	public static boolean isSocketAvail(Socket socket)
-	{
-		if (socket == null)
-		{
-			return false;
-		}
-		else
-		{
-			return socket.isConnected() && !socket.isClosed()
-					&& !socket.isInputShutdown() && !socket.isOutputShutdown();
-		}
-	}
+	
+	
+	
+	
 
 }
