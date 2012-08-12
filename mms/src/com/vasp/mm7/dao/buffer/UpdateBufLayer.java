@@ -38,16 +38,16 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	{
 		while(!stop)
 		{
-			autoCommit();
 			try
 			{
-				java.util.concurrent.TimeUnit.SECONDS.sleep(30);
+				java.util.concurrent.TimeUnit.SECONDS.sleep(60);
 			}
 			catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
 				log.error(null,e);
 			}
+			autoCommit();
 		}
 	}
 	
@@ -75,13 +75,15 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	
 	public void autoCommit()
 	{
+		//System.out.println("autocomit...");
 		//如果记录大于1000条，自动提交
 		if(list.size()>=batch)
 		{
 			commit();
 		}
 		//如果1分钟没提交了，那么也自动提交
-		if((System.currentTimeMillis()-commitTime)>interval)
+		//System.out.println(System.currentTimeMillis()-commitTime);
+		if((System.currentTimeMillis()-commitTime)>=interval)
 		{
 			commit();
 		}
@@ -89,6 +91,7 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	
 	public void commit()
 	{
+		log.debug("commit...");
 		synchronized (list)
 		{
 			boolean flag=DbDao.getInstance().update(list);
@@ -104,5 +107,6 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	{
 		this.stop = true;
 	}
+	
 	
 }

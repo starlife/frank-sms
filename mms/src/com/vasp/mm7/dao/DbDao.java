@@ -202,9 +202,12 @@ public class DbDao extends JdbcTemplate
 		{
 			sql = sql.replace("?", "'%s'");
 			String p = String.format(sql, submitBean.getMessageid(), submitBean
-					.getTransactionid(), submitBean.getReportTime(), submitBean
-					.getMmStatus(), submitBean.getMmStatusText(), submitBean
-					.getMessageid(), submitBean.getToAddress());
+					.getTransactionid(), submitBean.getMm7version(), submitBean
+					.getToAddress(), submitBean.getSubject(), submitBean
+					.getVaspid(), submitBean.getVasid(), submitBean
+					.getServiceCode(), submitBean.getLinkid(), submitBean
+					.getSendtime(), submitBean.getStatus(), submitBean
+					.getStatusText(), submitBean.getSessionid());
 			return p;
 		}
 		catch (Exception ex)
@@ -220,13 +223,11 @@ public class DbDao extends JdbcTemplate
 		try
 		{
 			sql = sql.replace("?", "'%s'");
-			String p = String.format(sql, submitBean.getMessageid(), submitBean
-					.getMessageid(), submitBean.getMm7version(), submitBean
-					.getToAddress(), submitBean.getSubject(), submitBean
-					.getVaspid(), submitBean.getVasid(), submitBean
-					.getServiceCode(), submitBean.getLinkid(), submitBean
-					.getSendtime(), submitBean.getStatus(), submitBean
-					.getStatusText(), submitBean.getSessionid());
+			String p = String.format(sql, submitBean
+					.getTransactionid(), submitBean.getReportTime(), submitBean
+					.getMmStatus(), submitBean.getMmStatusText(), submitBean
+					.getMessageid(), submitBean.getToAddress());
+			
 			return p;
 		}
 		catch (Exception ex)
