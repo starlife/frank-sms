@@ -88,7 +88,21 @@ public class Sender extends MM7Sender
 	 */
 	private String[] parse(String recipient)
 	{
+		List<String> list=new ArrayList<String>();
 		String[] numbers = recipient.split("[,£»£¬;]");
+		for(int i=0;i<numbers.length;i++)
+		{
+			if(numbers[i]!=null&&numbers[i].length()>0)
+			{
+				list.add(numbers[i].trim());
+			}
+		}
+		numbers=new String[list.size()];
+		for(int i=0;i<numbers.length;i++)
+		{
+			numbers[i]=list.get(i);
+		}
+		list.clear();
 		return numbers;
 	}
 
