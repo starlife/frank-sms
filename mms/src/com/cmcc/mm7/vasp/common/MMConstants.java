@@ -150,6 +150,7 @@ public class MMConstants {
   public static final String DELIVERSP = "DeliverRsp";
   public static final String DELIVERYREPORTRSP = "DeliveryReportRsp";
   public static final String READREPLYRSP = "ReadReplyRsp";
+  public static final String RSERRORRSP = "RSErrorRsp";
   public static final String STATUS = "Status";
   public static final String STATUSCODE = "StatusCode";
   public static final String STATUSTEXT = "StatusText";

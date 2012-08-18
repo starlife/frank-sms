@@ -475,6 +475,20 @@ public class SOAPDecoder
 					}
 				}
 				return replaceRes;
+			}else if (message.getName().equals(MMConstants.RSERRORRSP))
+			{
+				log.debug("xmlBytes:"+new String(xmlBytes,"UTF-8"));
+				MM7RSErrorRes res = new MM7RSErrorRes();
+				res.setTransactionID(transactionID);
+				for (int i = 0; i < size; i++)
+				{
+					Element ele = (Element) message.getChildren().get(i);
+					if (ele.getName().equals(MMConstants.STATUS))
+					{
+						parseStatus(res, ele);
+					}
+				}
+				return res;
 			}
 			else
 			{

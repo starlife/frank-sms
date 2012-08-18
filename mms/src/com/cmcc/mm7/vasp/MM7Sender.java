@@ -92,11 +92,11 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			{
 				// 流量控制
 				TpsTool.limitTPS();
-				// 取包发送
-				MM7VASPReq req = this.submit();
+				MM7VASPReq req = buffer.poll();
 				if (req == null)
 				{
-					req = buffer.poll();
+					// 取包发送
+					req = this.submit();
 				}
 
 				if (req == null)
