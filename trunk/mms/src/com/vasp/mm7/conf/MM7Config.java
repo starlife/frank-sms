@@ -301,6 +301,12 @@ public class MM7Config
 		sb.append("\r\n");
 		sb.append("<ReSendCount>" + ReSendCount + "</ReSendCount>");
 		sb.append("\r\n");
+		sb.append("<SendThread>" + sendThread + "</SendThread>");
+		sb.append("\r\n");
+		sb.append("<MaxSpeed>" + maxSpeed + "</MaxSpeed>");
+		sb.append("\r\n");
+		sb.append("<MassCount>" + massCount + "</MassCount>");
+		sb.append("\r\n");
 		sb.append("</vasp:MM7Config>");
 		return sb.toString();
 	}
