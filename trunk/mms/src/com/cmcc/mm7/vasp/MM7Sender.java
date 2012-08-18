@@ -258,7 +258,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		if (res instanceof MM7RSErrorRes)
 		{
 			// 如果发送失败，那么加入到发送队列重新发送
-			if (req.getTimes() < retryCount)
+			if (req.getTimes() <= retryCount)
 			{
 				log.debug("包发送失败，需要重新发送"+req.getTransactionID()+res);
 				req.addTimes();
