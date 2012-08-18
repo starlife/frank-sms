@@ -187,7 +187,7 @@ public class ConnectionPool
 	{
 		synchronized (que)
 		{
-			connLog.info("que.size():" + que.size() + ",track.size():"
+			connLog.debug("que.size():" + que.size() + ",track.size():"
 					+ track.size() + "===" + track);
 
 			// 在使用轨迹队列中查找
