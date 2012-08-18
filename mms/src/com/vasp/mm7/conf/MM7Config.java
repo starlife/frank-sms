@@ -34,10 +34,12 @@ public class MM7Config
 	
 	private boolean keepAlive=false;
 	
-	private int poolSize=1;
+	private int poolSize=1;//和移动网关的socket连接池
 	
-	private int sendThread=1;
-	private int maxSpeed=2;
+	private int sendThread=1;//发送线程
+	private int maxSpeed=2;//每秒发送条数
+	
+	private int massCount=10;//群发短信每条短信号码数
 	
 	//private boolean bload=false;
 
@@ -82,6 +84,7 @@ public class MM7Config
 		poolSize=Integer.parseInt((String)hashmap.get("PoolSize"));
 		sendThread=Integer.parseInt((String)hashmap.get("SendThread"));
 		maxSpeed=Integer.parseInt((String)hashmap.get("MaxSpeed"));
+		massCount=Integer.parseInt((String)hashmap.get("MassCount"));
 		
 	}
 
@@ -346,5 +349,15 @@ public class MM7Config
 	public void setMaxSpeed(int maxSpeed)
 	{
 		this.maxSpeed = maxSpeed;
+	}
+
+	public int getMassCount()
+	{
+		return massCount;
+	}
+
+	public void setMassCount(int massCount)
+	{
+		this.massCount = massCount;
 	}
 }
