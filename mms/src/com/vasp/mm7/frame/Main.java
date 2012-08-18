@@ -25,6 +25,7 @@ public class Main
 		// 设置Max_speed
 		log.info("启动彩信程序...");
 		Constants.MAX_SPEED = config.getMaxSpeed();
+		Sender.maxSrcID=config.getMassCount();
 		tm = new ManagerThread(config,config.getSendThread());
 		tm.start();
 		while (!stop)
