@@ -713,7 +713,7 @@ public class MmsFileAction extends BaseAction
 
 	private boolean checkUploadFileSize(long fileSize)
 	{
-		if (fileSize >= 50 * 1024)
+		if (fileSize >= 200 * 1024)
 		{
 			String tip = getText("file.size.error");
 			setErrorTip(tip);
@@ -758,7 +758,7 @@ public class MmsFileAction extends BaseAction
 			{
 				mmsSize = mmsFile.getMmsSize();
 			}
-			if (mmsSize + (fileSize - oldSize) >= 100 * 1024)
+			if (mmsSize + (fileSize - oldSize) >= 300 * 1024)
 			{
 				String tip = getText("mmsSize.error");
 				setErrorTip(tip);
