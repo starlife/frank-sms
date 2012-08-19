@@ -8,6 +8,16 @@
           <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n"/> 
        </layout> 
     </appender>
+    
+    <appender name="dailyAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="../mylogs/ylear.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n	" />
+		</layout>
+	</appender>
  
     <!-- specify the logging level for loggers from other libraries -->
     <logger name="com.opensymphony">
@@ -22,7 +32,8 @@
    <!-- for all other loggers log only debug and above log messages -->
      <root>
         <priority value="INFO"/> 
-        <appender-ref ref="STDOUT" /> 
+        <appender-ref ref="STDOUT" />
+		<appender-ref ref="dailyAppender" />
      </root> 
     
 </log4j:configuration> 
