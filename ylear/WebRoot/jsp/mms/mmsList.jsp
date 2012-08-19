@@ -129,7 +129,7 @@
 									
 									<td>
 											
-											<s:property value="sendtime" default=" " />
+											${my:getTimestampFull(sendtime)}
 										
 										
 									</td>
