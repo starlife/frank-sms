@@ -337,7 +337,7 @@
 							本彩信总大小：
 						</td>
 						<td class="input_content">
-							<span id="mmsSize"></span> (注意：彩信总大小不能超过100KB)
+							<span id="mmsSize"></span> (注意：彩信总大小不能超过300KB)
 						</td>
 					</tr>
 					<tr>
