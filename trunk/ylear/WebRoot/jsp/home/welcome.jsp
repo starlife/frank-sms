@@ -1,11 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html lang="true">
   <head>
     <title>欢迎使用！</title>
-	<%@include file="/css.jsp" %>		
-	<%@include file="/js.jsp" %>
 	<script>
 	$(
 		function()

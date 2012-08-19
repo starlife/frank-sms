@@ -1,12 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<title>查看发信箱</title>
-		<%@include file="/css.jsp"%>
-		<%@include file="/js.jsp"%>
 		<script type="text/javascript">
 	$(document).ready(function(){
 		//这里写jquery
@@ -31,7 +30,7 @@
 		
 		$("tr td").each(function(i){   
          	//获取td当前对象的文本,如果长度大于25;   
-         	if($(this).text().trim().length>25){   
+         	if($(this).text().length>25){   
                 //给td设置title属性,并且设置td的完整值.给title属性.   
     			$(this).attr("title",$(this).text());   
                 //获取td的值,进行截取。赋值给text变量保存.   
@@ -41,7 +40,7 @@
          	}   
       	});   
 		
-		setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");	
+		//setNavTitle("系统管理 >> 彩信管理 >> 彩信列表");	
 		
 	});
 		
@@ -129,9 +128,9 @@
 									</td>
 									
 									<td>
-										<script>
-											document.write(formatDateStr('<s:property value="sendtime" default=" " />'));
-										</script>
+											
+											<s:property value="sendtime" default=" " />
+										
 										
 									</td>
 									<td>
@@ -169,7 +168,7 @@
 
 				</div>
 
-				<jb:pager />
+				<my:pager />
 
 
 

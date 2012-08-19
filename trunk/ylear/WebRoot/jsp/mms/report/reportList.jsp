@@ -1,12 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb" %>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>发送结果分析</title>
-	<%@include file="/css.jsp" %>		
-	<%@include file="/js.jsp" %>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		//这里写jquery
@@ -113,9 +112,8 @@
 				<td ><s:property value="toAddress"/></td>
 				<td ><s:property value="#status"/></td>
 				<td ><s:property value="#statusText"/></td>
-				<td ><script>
-						document.write(formatDateStr('<s:property value="sendtime"/>'));
-					</script>
+				<td >
+					${my:getTimestampFull(sendtime)}
 				</td>
 				<td>
 				<!-- 定义url -->
@@ -144,7 +142,7 @@
   
 		<table width="100%" style="border: 0px;font-size: 14px;"><tr style="border: 0px;"><td style="border: 0px;">
 				</td><td style="border: 0px;">
-					<jb:pager/>
+					<my:pager/>
 					</td>
 				</tr></table>	
 		

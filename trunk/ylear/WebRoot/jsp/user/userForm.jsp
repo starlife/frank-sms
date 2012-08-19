@@ -1,13 +1,11 @@
-<!-- jsp/user/userForm.jsp -->
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb" %>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>增加用户</title>
-	<%@include file="/css.jsp" %>		
-	<%@include file="/js.jsp" %>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		//这里写jquery
