@@ -324,6 +324,7 @@ public class MMSFileHelper
 			MmsFrame fr = mmsFile.getFrameMap().get(keys.next());
 			MMSFileHelper.reSizeFrame(fr);
 		}
+		MMSFileHelper.reSizeMms(mmsFile);
 		return true;
 	}
 
@@ -430,6 +431,7 @@ public class MMSFileHelper
 			// 设置当前帧
 			MMSFileHelper.changeCurrentFrame(mmsFile, currentFrameNumber);
 		}
+		MMSFileHelper.reSizeMms(mmsFile);
 
 	}
 
@@ -591,8 +593,8 @@ public class MMSFileHelper
 		Iterator<Integer> it = map.keySet().iterator();
 		while (it.hasNext())
 		{
-			MmsFrame fr = map.get(it.next());
-
+			Integer key=it.next();
+			MmsFrame fr = map.get(key);
 			smil.setSmilParStart(fr.getDuringTime());// 彩信开始标记
 			if (Tools.isNotEmpty(fr.getImage()))
 			{
@@ -600,7 +602,7 @@ public class MMSFileHelper
 			}
 			if (Tools.isNotEmpty(fr.getText()))
 			{
-				smil.smilAddText(fr.getTextFileName());
+				smil.smilAddText(key+".txt");
 			}
 			if (Tools.isNotEmpty(fr.getAudio()))
 			{
