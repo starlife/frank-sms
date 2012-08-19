@@ -1,10 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>操作成功界面</title>
-	<%@include file="/css.jsp" %>
   </head>
   <body >
        <div style="text-align:center">

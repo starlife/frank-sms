@@ -1,12 +1,10 @@
-<!-- jsp/mms/mmseditor.jsp -->
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <html>
 	<head>
 		<title>新建/编辑彩信</title>
-		<%@include file="/css.jsp"%>
-		<%@include file="/js.jsp"%>
 		<style type="text/css">
 #imagespan {
 	

@@ -1,12 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<title>选择彩信文件</title>
-		<%@include file="/css.jsp"%>
-		<%@include file="/js.jsp"%>
 		<script type="text/javascript">
 		$(document).ready(function(){
 			//这里写jquery
@@ -93,9 +92,7 @@
 									</td>
 									
 									<td>
-										<script>
-											document.write(formatDateStr('<s:property value="createtime" default=" " />'));
-										</script>
+										${my:getTimestampFull(createtime)}
 									</td>
 									
 									
@@ -115,7 +112,7 @@
 
 				</div>
 
-				<jb:pager />
+				<my:pager />
 				
 				<input class="selBtn" id="selBtn" type="button" value="确认"/>
 

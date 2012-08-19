@@ -1,12 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb"%>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<title>选择彩信文件</title>
-		<%@include file="/css.jsp"%>
-		<%@include file="/js.jsp"%>
 		<script type="text/javascript">
 		$(document).ready(function(){
 			//这里写jquery
@@ -20,7 +19,7 @@
 			height:600,
 			width:"60%",
 			modal: true,
-			title:'查看彩信内容',
+			title:'取彩信对话框',
 			closeOnEscape:false,//关闭按 esc 退出
 			overlay: {
 				backgroundColor: '#000',
@@ -58,6 +57,12 @@
 		}
 	}	
 	
+		function showMmsMethod(url)
+		{
+			//alert(url);
+			$("#showMms").attr("src",url);
+			$("#dialog").dialog("open");
+		}
 	
 	
 		
@@ -77,8 +82,7 @@
 							<td>
 								开始时间
 							</td>
-							<td>
-								<s:textfield name="queryBean.beginTime"
+							<td><s:textfield name="queryBean.beginTime"
 									onfocus="WdatePicker({el:this,skin:'default',dateFmt:'yyyyMMdd'})" />
 							</td>
 							<td>
@@ -137,9 +141,8 @@
 									</td>
 									
 									<td>
-										<script>
-											document.write(formatDateStr('<s:property value="createtime" default=" " />'));
-										</script>
+										${my:getTimestampFull(createtime)}
+										
 									</td>
 									<td>
 									<!-- 定义url -->
@@ -173,8 +176,9 @@
 
 				</div>			
 				<input class="addBtn" type="button" value="增加" onclick="redirect('<s:url  action="mmsEditor"/>');"/>
+				<input class="addBtn" type="button" value="从手机报新增" onclick="redirect('<s:url  action="3gMms"/>');"/>
 				
-				<jb:pager/>
+				<my:pager/>
 	
 			</s:form>
 		</div>

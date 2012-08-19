@@ -1,12 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/WEB-INF/jb-common.tld" prefix="jb" %>
+<%@include file="/css.jsp"%>
+<%@include file="/js.jsp"%>
+<%@include file="/taglib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>查询号码</title>
-	<%@include file="/css.jsp" %>		
-	<%@include file="/js.jsp" %>
 	<script type="text/javascript">
 	$(document).ready(
 		function(){
@@ -120,7 +119,7 @@
 					</s:if>
 	</div>
 		
-	<jb:pager/>
+	<my:pager/>
 	<div style="text-align:right;padding-top: 5px;font-size: 14px; ">
 		<input type="button" class="button" value="添加号码" onclick="addSelectedPhone();"/>&nbsp;
 		<s:url id="queryPhoneURL" action="listCustomAddress" method="queryPhone"/>
