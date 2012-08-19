@@ -81,37 +81,66 @@
 		</thead>
 		<tbody class="ui-widget-content">
 		<s:iterator value="#request.page.list">
-			<!-- 已经收到了读报告，则发送成功 -->
-			<s:if test="mmStatus==1">
-				<s:set id="status" value="'发送成功'"/>
-				<s:set id="statusText" value="'--'"/>
+			<!-- 这里定义几个参数 -->
+			<s:set id="mmStatusText0" value="'(过期未提取)'"/>
+			<s:set id="mmStatusText2" value="'(系统拒绝)'"/>
+			<s:set id="mmStatusText3" value="'(用户拒绝)'"/>
+			<s:set id="mmStatusText4" value="'(未知)'"/>
+			<s:set id="mmStatusText5" value="'(转发)'"/>
+			<!-- 如果不等于1000，那么都是发送失败 -->
+			<s:if test="status!=1000">
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{statusText}"/>
 			</s:if>
+			<!-- 下面是提交成功的 -->
+			<s:elseif test="mmStatus==1">
+				<s:set id="mystatus" value="'发送成功'"/>
+				<s:set id="mystatusText" value="'--'"/>
+			</s:elseif>
 			<!-- 如果没收到发送回应包或者收到了回应失败包（不等于1000） -->
 			<s:elseif test="mmStatus==null">
-				<s:set id="status" value="'未获取状态报告'"/>
-				<s:set id="statusText" value="'无'"/>
+				<s:set id="mystatus" value="'未获取状态报告'"/>
+				<s:set id="mystatusText" value="'无'"/>
 			</s:elseif>
-			<!-- 如果收到了回应成功包，且收到了提交状态包但提交失败，还是应该标记为发送失败 -->
-			<s:elseif test="mmStatusText=='6640'">
-				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="'6640(用户未点播)'"/>
+			<s:elseif test="mmStatus==0">
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{mmStatusText+#mmStatusText0}"/>
 			</s:elseif>
-			<s:elseif test="mmStatusText=='4448'">
-				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="'4448(过期未提取)'"/>
+			<s:elseif test="mmStatus==2">
+				<s:if test="mmStatusText=='6640'">
+					<s:set id="mystatus" value="'发送失败'"/>
+					<s:set id="mystatusText" value="'6640(用户未点播)'"/>
+				</s:if>
+				<s:elseif test="mmStatusText=='4414'">
+					<s:set id="mystatus" value="'发送失败'"/>
+					<s:set id="mystatusText" value="'4414(用户拒绝)'"/>
+				</s:elseif>
+				<s:else>
+					<s:set id="mystatus" value="'发送失败'"/>
+					<s:set id="mystatusText" value="%{mmStatusText+#mmStatusText2}"/>
+				</s:else>
 			</s:elseif>
-			<s:elseif test="mmStatusText=='4414'">
-				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="'4414(用户拒绝)'"/>
+			<s:elseif test="mmStatus==3">
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{mmStatusText+#mmStatusText3}"/>
+			</s:elseif>
+			<s:elseif test="mmStatus==4">
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{mmStatusText+#mmStatusText4}"/>
+			</s:elseif>
+			<s:elseif test="mmStatus==5">
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{mmStatusText+#mmStatusText5}"/>
 			</s:elseif>
 			<s:else>
-				<s:set id="status" value="'发送失败'"/>
-				<s:set id="statusText" value="%{mmStatusText}"/>
+				<s:set id="mystatus" value="'发送失败'"/>
+				<s:set id="mystatusText" value="%{mmStatusText}"/>
 			</s:else>
+			
 			<tr class="ui-widget-content" align="center">
 				<td ><s:property value="toAddress"/></td>
-				<td ><s:property value="#status"/></td>
-				<td ><s:property value="#statusText"/></td>
+				<td ><s:property value="#mystatus"/></td>
+				<td ><s:property value="#mystatusText"/></td>
 				<td >
 					${my:getTimestampFull(sendtime)}
 				</td>
