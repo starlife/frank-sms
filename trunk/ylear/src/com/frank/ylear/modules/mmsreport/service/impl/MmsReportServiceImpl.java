@@ -40,11 +40,11 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 			}else if(status==1)
 			{
 				// 查询发送失败
-				hql +=" and  obj.mmStatus!=1 ";				
+				hql +=" and ( obj.status!=1000 or (obj.status=1000 and  obj.mmStatus!=1 )) ";				
 			}else if(status==2)
 			{
 				//查询未收到状态报告
-				hql +=" and obj.mmStatus is null ";
+				hql +="and obj.status=1000 and obj.mmStatus is null ";
 			}
 		}
 		baseDao.listByPage(hql,pageResult);
@@ -57,14 +57,16 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 	public ReportBean getReport(SubmitBean submit)
 	{
 		// TODO Auto-generated method stub
-		String hql = "select mmStatus,count(*) from SubmitBean obj where 1=1 ";
+		//select status,mm_status,count(*) from [lyear].[dbo].[s_logmmssubmit] 
+		//where sessionid=27 group by status,mm_status
+		String hql = "select status,mmStatus,count(*) from SubmitBean obj where 1=1 ";
 		if (null!=submit){
 			if (isItemNotEmpty(submit.getSessionid())){
 				hql += "and obj.sessionid ="
 						+submit.getSessionid()+" ";				
 			}
 		}
-		hql +="group by mmStatus";
+		hql +="group by status,mmStatus";
 		List list=baseDao.list(hql);
 		long total=0;
 		long success=0;
@@ -75,16 +77,24 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 			Object line=list.get(i);
 			Object[] tuple=(Object[])line;
 			Integer t1=(Integer)tuple[0];
-			Long t2=(Long)tuple[1];
-			if(t1==null)
+			Integer t2=(Integer)tuple[1];
+			Long t3=(Long)tuple[2];
+			if(t1==1000)//表示提交成功
 			{
-				unknow=t2;
-			}else if(t1==1)
-			{
-				success=t2;
+				if(t2==null)
+				{
+					unknow=t3;
+				}else if(t2==1)
+				{
+					success=t3;
+				}else
+				{
+					failed+=t3;
+				}
 			}else
 			{
-				failed+=t2;
+				//提交失败的就一定失败
+				failed+=t3;
 			}
 		}
 		ReportBean report=new ReportBean();
