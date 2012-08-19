@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.DOMBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -44,8 +49,7 @@ public class MMSFileHelper
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public static Long saveMmsFile(MmsFileService service, MmsFile mmsFile,
-			String mmsName, String absolutePath)
+	public static Long saveMmsFile(MmsFileService service, MmsFile mmsFile,String realPath)
 	{
 		// boolean flag = true;
 		Long id = null;
@@ -67,8 +71,7 @@ public class MMSFileHelper
 				if (StringUtils.isNotEmpty(fr.getImage()))
 				{
 					uploadFile = new UploadFile();
-					File file = new File(absolutePath + File.separator
-							+ fr.getImage());
+					File file = MMSFileHelper.getTempFile(realPath,fr.getImageFileName());
 					FileInputStream input = new FileInputStream(file);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
@@ -84,9 +87,7 @@ public class MMSFileHelper
 				if (StringUtils.isNotEmpty(fr.getAudio()))
 				{
 					uploadFile = new UploadFile();
-					// File file = getAbsoluteFile(fr.getAudioFileName());
-					File file = new File(absolutePath + File.separator
-							+ fr.getAudio());
+					File file = MMSFileHelper.getTempFile(realPath,fr.getAudioFileName());
 					FileInputStream input = new FileInputStream(file);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
@@ -102,13 +103,13 @@ public class MMSFileHelper
 				if (StringUtils.isNotEmpty(fr.getText()))
 				{
 					uploadFile = new UploadFile();
-					byte[] data = fr.getText().getBytes("UTF-8");
+					byte[] data = fr.getText().getBytes(Constants.CHARSET);
 					ByteArrayInputStream input = new ByteArrayInputStream(data);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
 					uploadFile.setFiledata(blob);// 设置文件内容
 					uploadFile.setFilesize(blob.length());// 设置文件大小
-					uploadFile.setFilename(fr.getTextFileName());// 设置文件名
+					uploadFile.setFilename(key+".txt");// 设置文件名
 					uploadFile.setFrameid(key);// 设置帧号
 					uploadFile.setUploadtime(DateUtils.getTimestamp14());
 					uploadFile.setFiletype(fr.getTextFileType());
@@ -119,10 +120,9 @@ public class MMSFileHelper
 			// end 下面是把文件的信息写到uploadFile对象中
 
 			String smil = MMSFileHelper.createSmil(mmsFile);// 创建smil
-			long smilSize = smil.getBytes().length;
+			long smilSize = smil.getBytes(Constants.CHARSET).length;
 			frames = mmsFile.getFrameMap().size();
 			long mmsSize = smilSize + mmsFile.getMmsSize();// 彩信总大小
-			mmsFile.setMmsName(mmsName);
 			mmsFile.setFrames(frames);
 			mmsFile.setSmildata(smil);
 			mmsFile.setSmilname(Constants.SMIL_NAME);
@@ -159,7 +159,81 @@ public class MMSFileHelper
 
 	}
 	
-	
+	public static boolean makeMMSFrom3G(MmsFile mmsFile,String realPath,String url)
+	{
+		// 从给定的url中读取彩信内容
+		Document doc=null;
+		String mmsName=null;
+		try
+		{
+			DOMBuilder domb = new DOMBuilder();
+			doc = domb.build(new URL(url));
+			Element root = doc.getRootElement();
+			Element MobileHeaderInfo=root.getChild("MobileHeaderInfo");
+			Element PapTitle=MobileHeaderInfo.getChild("PapTitle");
+			mmsName=PapTitle.getTextTrim();
+			if(mmsName.equals(""))
+			{
+				log.info("读取手机报时缺少彩信标题");
+				return false;
+			}
+			List<Element> list=root.getChildren("MobileNewsInfo");
+			if(list==null||list.size()==0)
+			{
+				log.info("读取手机报时缺少彩信内容");
+				return false;
+			}
+			for(int i=0;i<list.size();i++)
+			{
+				MmsFrame fr = new MmsFrame();
+				Element MobileNewsInfo=list.get(i);
+				Element ImgFile=MobileNewsInfo.getChild("ImgFile");
+				Element Content=MobileNewsInfo.getChild("Content");
+				if(ImgFile!=null)
+				{
+					String imageFile=ImgFile.getTextTrim();
+					//这里做处理图片
+					String newFileName=newFileName(realPath,"img_",imageFile);
+					File img = getTempFile(realPath,newFileName);
+					FileUtil.saveData(new URL(imageFile).openStream(),img);
+					//设置到帧
+					fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator
+							+ img.getName());
+					fr.setImageFileName(img.getName());
+					fr.setImageFileSize(img.length());
+					fr.setImageFileType(FileTypeHelper.WJPEG);
+				}
+				if(Content!=null)
+				{				
+					String text=Content.getTextTrim();									
+					//这里做处理文字
+					text=parse(text);	
+					fr.setText(text);
+					fr.setTextFileName(null);
+					fr.setTextFileSize(text.getBytes(Constants.CHARSET).length);
+					fr.setTextFileType(FileTypeHelper.TEXT);
+					mmsFile.getFrameMap().put(i+1,fr);//添加帧
+				}
+				reSizeFrame(fr);//计算帧大小
+			}
+			reSizeMms(mmsFile);//计算彩信大小
+			changeCurrentFrame(mmsFile,1);//设置当前帧
+			mmsFile.setMmsName(mmsName);
+			
+			
+		}
+		catch (Exception ex)
+		{
+			log.error("解析失败或没有该条数据",ex);
+			return false;
+			
+		}
+		finally
+		{
+			;
+		}
+		return true;
+	}
 
 	/**
 	 * 把数据库中查出来的数据组成一个彩信
@@ -168,7 +242,7 @@ public class MMSFileHelper
 	 * @param absolutePath
 	 * @return
 	 */
-	public static boolean makeMMS(MmsFile mmsFile, String absolutePath)
+	public static boolean makeMMS(MmsFile mmsFile, String realPath)
 	{
 		// 创建需要的所有帧
 		for (int i = 0; i < mmsFile.getFrames(); i++)
@@ -192,7 +266,7 @@ public class MMSFileHelper
 				{
 					Blob blob = upload.getFiledata();
 					fr.setText(FileUtil.getData(blob.getBinaryStream(),
-							"UTF-8"));
+							Constants.CHARSET));
 					fr.setTextFileName(upload.getFilename());
 					fr.setTextFileSize(upload.getFilesize());
 					fr.setTextFileType(upload.getFiletype());
@@ -201,9 +275,7 @@ public class MMSFileHelper
 				{
 					Blob blob = upload.getFiledata();
 					String filename = upload.getFilename();
-					File file = new File(absolutePath + File.separator
-							+ Constants.UPLOAD_FILE_DIR + File.separator
-							+ filename);
+					File file =getTempFile(realPath, filename);
 					FileUtil.saveData(blob.getBinaryStream(), file);
 					fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator
 							+ filename);
@@ -215,10 +287,7 @@ public class MMSFileHelper
 				{
 					Blob blob = upload.getFiledata();
 					String filename = upload.getFilename();
-					File file = new File(absolutePath + File.separator
-							+ Constants.UPLOAD_FILE_DIR + File.separator
-							+ filename);
-					// String relativefile = this.getRelativeFile(file);
+					File file =getTempFile(realPath, filename);
 					FileUtil.saveData(blob.getBinaryStream(), file);
 					fr.setAudio(Constants.UPLOAD_FILE_DIR + File.separator
 							+ filename);
@@ -364,30 +433,42 @@ public class MMSFileHelper
 
 	}
 
-	public static void uploadImage(MmsFile mmsFile, File image,
+	public static void uploadImage(MmsFile mmsFile,String realPath, File image,
 			String fileName, String fileType)
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
+		
+		//重新生成文件名
+		String newFileName=newFileName(realPath,"img_",fileName);
+		// 拷贝文件到上传目录
+		File dest = getTempFile(realPath,newFileName);
+		Tools.copyFile(image, dest);
 		// 设置image
 		long fileSize = image.length();
 
-		fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator + fileName);
-		fr.setImageFileName(fileName);
+		fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator + newFileName);
+		fr.setImageFileName(newFileName);
 		fr.setImageFileSize(fileSize);
 		fr.setImageFileType(fileType);
 		// 重新计算帧大小和彩信大小
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
-	public static void uploadAudio(MmsFile mmsFile, File audio,
+	public static void uploadAudio(MmsFile mmsFile,String realPath, File audio,
 			String fileName, String fileType)
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
+		
+		//重新生成文件名
+		String newFileName=newFileName(realPath,"aud_",fileName);
+		// 拷贝文件到上传目录
+		File dest = getTempFile(realPath,newFileName);
+		Tools.copyFile(audio, dest);
 		// 设置image
 		long fileSize = audio.length();
 
-		fr.setAudio(Constants.UPLOAD_FILE_DIR + File.separator + fileName);
-		fr.setAudioFileName(fileName);
+		fr.setAudio(Constants.UPLOAD_FILE_DIR + File.separator + newFileName);
+		fr.setAudioFileName(newFileName);
 		fr.setAudioFileSize(fileSize);
 		fr.setAudioFileType(fileType);
 		// 重新计算帧大小和彩信大小
@@ -398,11 +479,10 @@ public class MMSFileHelper
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
 		// 设置image
-		long fileSize = text.getBytes().length;
-		String fileName = mmsFile.getCurrentFrameId() + ".txt";
-
+		long fileSize = text.getBytes(Charset.forName(Constants.CHARSET)).length;
+		//String fileName = mmsFile.getCurrentFrameId() + ".txt";
 		fr.setText(text);
-		fr.setTextFileName(fileName);
+		fr.setTextFileName(null);
 		fr.setTextFileSize(fileSize);
 		// fr.setTextFileType(fileType);
 		// 重新计算帧大小和彩信大小
@@ -556,6 +636,49 @@ public class MMSFileHelper
 		return b;
 
 	}
+	
+	/**
+	 * 重新生成文件名，保证文件名的唯一性
+	 * @param fileName
+	 * @return
+	 */
+	public static String newFileName(String realPath,String prefix,String fileName)
+	{
+		while(true)
+		{
+			String newFileName=Tools.getRandomFileName(prefix,fileName);
+			File newFile=getTempFile(realPath,newFileName);
+			if(!newFile.exists())
+			{
+				return newFileName;
+			}
+		}
+	}
+	
+	
+	/**
+	 * 取得tmp文件的文件对象
+	 * @param tmpFileName
+	 * @return
+	 */
+	public static File getTempFile(String realPath,String tmpFileName)
+	{
+		String path=realPath+File.separator+Constants.UPLOAD_FILE_DIR;
+		File dir = new File(path);
+		if (!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		File dest = new File(path + File.separator + tmpFileName);
+		return dest;
+	}
+	
+	public static String parse(String paper)
+	{
+		paper=paper.replaceAll("<br/>",Constants.NEWLINE);
+		paper=paper.replaceAll("&nbsp;"," ");
+		return paper;
+	}
 
 	public static void main(String[] args) throws IOException, SQLException
 	{
@@ -568,7 +691,7 @@ public class MMSFileHelper
 		// inner join fetch obj.mmsFile where 1=1");
 		MmsFileServiceImpl service = (MmsFileServiceImpl) ctx
 				.getBean("mmsFileService");
-		MmsFile mmsFile = service.getMmsFile(2L);
+		/*MmsFile mmsFile = service.getMmsFile(2L);
 		System.out.println(mmsFile);
 		String absolutePath = "E:\\google_svn\\frank-sms\\trunk\\ylear";
 		boolean b = makeMMS(mmsFile, absolutePath);
@@ -593,7 +716,29 @@ public class MMSFileHelper
 		uploadFile.setFiletype(fr.getImageFileType());// 设置文件类型
 		uploadFile.setFrameid(1);// 设置帧号
 		uploadFile.setUploadtime(DateUtils.getTimestamp14());
-		dao.getHibernateTemplate().save(uploadFile);
+		dao.getHibernateTemplate().save(uploadFile);*/
+		MmsFile mmsFile=new MmsFile();
+		//String url="http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=0&Title=2";
+		String urlFormat="http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=%s&Title=%s";
+		String MType="1";
+		String Title="洞头旅游";
+		String url=String.format(urlFormat,java.net.URLEncoder.encode(MType,"UTF-8"),java.net.URLEncoder.encode(Title,"UTF-8"));
+		System.out.println(url);
+		String realPath="D:\\Tomcat 6.0\\webapps\\ylear2";
+		boolean b=makeMMSFrom3G(mmsFile,realPath,url);
+		String mmsName=mmsFile.getMmsName();
+		if(!b)
+		{
+			System.out.println("解析失败");
+		}
+		//saveMmsFile(service,mmsFile,realPath);
+		MmsFile temp=service.getMmsFile(mmsName);
+		if(temp!=null)
+		{
+			System.out.println(temp.getId());
+			System.out.println(temp.getMmsName());
+		}
+		
 
 	}
 }

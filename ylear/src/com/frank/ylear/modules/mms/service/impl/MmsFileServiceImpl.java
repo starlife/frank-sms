@@ -22,6 +22,18 @@ public class MmsFileServiceImpl extends BaseService  implements MmsFileService
 		return obj;
 	}
 	
+	public MmsFile getMmsFile(String mmsName)
+	{
+		MmsFile obj=null;
+		String hql="from MmsFile obj where obj.mmsName='"+mmsName+"'";
+		List<MmsFile> list=baseDao.list(hql);
+		if(list.size()>0)
+		{
+			obj= list.get(0);
+		}
+		return obj;
+	}
+	
 	/**
 	 * Ìí¼Ó
 	 */

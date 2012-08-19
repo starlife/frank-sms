@@ -2,11 +2,11 @@ package com.frank.ylear.modules.mms.action;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.frank.ylear.common.constant.Constants;
-import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.mms.entity.MmsFile;
 import com.frank.ylear.modules.mms.service.MmsFileService;
@@ -21,7 +21,7 @@ public class MmsFileAction extends BaseAction
 	private static final long serialVersionUID = 1L;
 
 	public static final String SHOWUI = "showui";
-	
+
 	private MmsFile queryBean = null;
 
 	private MmsFileService mmsFileService;
@@ -51,40 +51,115 @@ public class MmsFileAction extends BaseAction
 
 	private String callbackMsg;// 回调消息
 
+	private String mType;
+	private String title;
+
 	/** ***================================================================** */
 	/* 彩信编辑器主页 */
 	public String mmsEditor() throws Exception
 	{
-		//根据id值是否为空来判断是新增或者编辑
-		//如果是编辑，那么重数据库中国读取数据写到session中
-		//如果是新增，要删除之前属于编辑的session
+		// 根据id值是否为空来判断是新增或者编辑
+		// 如果是编辑，那么重数据库中国读取数据写到session中
+		// 如果是新增，要删除之前属于编辑的session
 		if (this.getId() != null)
 		{
 			// 如果id不为空，那么是对原有彩信的编辑
-			MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this.getId()));
-
-			String absolutePath = ServletActionContext.getServletContext()
-					.getRealPath("");
+			MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this
+					.getId()));
 			// 组装彩信
-			MMSFileHelper.makeMMS(mmsFile, absolutePath);
-			//选择第一帧为当前帧
-			if(mmsFile.getFrames()>0)
+			MMSFileHelper.makeMMS(mmsFile, this.getRealPath());
+			// 选择第一帧为当前帧
+			if (mmsFile.getFrames() > 0)
 			{
-				MMSFileHelper.changeCurrentFrame(mmsFile,1);
+				MMSFileHelper.changeCurrentFrame(mmsFile, 1);
 			}
-			//设置彩信名称
+			// 设置彩信名称
 			this.setMmsName(mmsFile.getMmsName());
-			this.getSession().put("mmsfile", mmsFile); 
-		}else
+			this.getSession().put("mmsfile", mmsFile);
+		}
+		else
 		{
-			//如果当前保存的是编辑的session，那么要删除
-			MmsFile mmsFile=this.getMmsFileFromSession();
-			if(mmsFile.getId()!=null)
+			// 如果当前保存的是编辑的session，那么要删除
+			MmsFile mmsFile = this.getMmsFileFromSession();
+			if (mmsFile.getId() != null)
 			{
 				this.delMmsFileFromSession();
 			}
 		}
-		
+
+		return SUCCESS;
+	}
+
+	/**
+	 * 从手机报中读彩信
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String mmsFrom3g() throws Exception
+	{
+
+		// 从手机报中读取彩信
+		// 需要的参数为url
+		// 先删除session，得到新的session
+		boolean flag = false;
+		//String tip="";
+		if (this.getMType() != null && this.getTitle() != null)
+		{
+			this.delMmsFileFromSession();
+			MmsFile mmsFile = this.getMmsFileFromSession();
+			// 初始化彩信session
+			String urlFormat = "http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=%s&Title=%s";
+			String url = String.format(urlFormat, URLEncoder.encode(getMType(),
+					"UTF-8"), URLEncoder.encode(getTitle(), "UTF-8"));
+			flag = MMSFileHelper
+					.makeMMSFrom3G(mmsFile,getRealPath(), url);
+			if(flag)
+			{
+				//这里判断是需要更新还是插入
+				MmsFile temp=mmsFileService.getMmsFile(mmsFile.getMmsName());
+				if(temp!=null)
+				{
+					mmsFile.setId(temp.getId());
+				}
+				Long id = MMSFileHelper.saveMmsFile(mmsFileService, mmsFile,getRealPath());
+				if (id != null||(id==null&&temp!=null))
+				{
+					// 这里删除session
+					delMmsFileFromSession();
+					// 清空所有文件
+					String dir = getRealPath()+File.separator+Constants.UPLOAD_FILE_DIR;
+					MMSFileHelper.cleanAllUploadFile(dir);
+				}else
+				{
+					//保存失败
+					//tip="保存彩信失败，请稍后再试";
+					flag = false;
+				}
+			}else
+			{
+				//tip="读取彩信失败，请坚持是否是";
+				;
+			}
+
+		}
+		PrintWriter out = null;
+		out = this.getServletResponse().getWriter();
+		out.write(flag + "");
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	/**
+	 * 读3g手机报页面
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String toAdd3g() throws Exception
+	{
+
 		return SUCCESS;
 	}
 
@@ -109,25 +184,24 @@ public class MmsFileAction extends BaseAction
 	 */
 	public String list() throws Exception
 	{
-		mmsFileService.getMmsFileList(this.getQueryBean(),this.getPage());
+		mmsFileService.getMmsFileList(this.getQueryBean(), this.getPage());
 		return SUCCESS;
 	}
-	
+
 	public String customList() throws Exception
 	{
-		mmsFileService.getMmsFileList(this.getQueryBean(),this.getPage());
+		mmsFileService.getMmsFileList(this.getQueryBean(), this.getPage());
 		return SUCCESS;
 	}
-	
+
 	public String del() throws Exception
 	{
-		if(this.getId()!=null)
+		if (this.getId() != null)
 		{
 			mmsFileService.delMmsFile(Long.parseLong(this.getId()));
 		}
 		return SUCCESS;
 	}
-	
 
 	/**
 	 * 保存彩信
@@ -156,22 +230,18 @@ public class MmsFileAction extends BaseAction
 		if (flag)
 		{
 			int frames = mmsFile.getFrameMap().size();
-			String absolutePath = ServletActionContext.getServletContext()
-					.getRealPath("");
-			
-			Long id = MMSFileHelper.saveMmsFile(mmsFileService, mmsFile, this
-					.getMmsName(), absolutePath);
-			if(id==null)
+			mmsFile.setMmsName(getMmsName());
+			Long id = MMSFileHelper.saveMmsFile(mmsFileService, mmsFile,this.getRealPath());
+			if (id == null)
 			{
-				id=mmsFile.getId();
+				id = mmsFile.getId();
 			}
 			if (id != null)
 			{
 				// 这里删除session
 				delMmsFileFromSession();
 				// 清空所有文件
-				String dir = ServletActionContext.getServletContext()
-						.getRealPath(Constants.UPLOAD_FILE_DIR);
+				String dir = getRealPath()+File.separator+Constants.UPLOAD_FILE_DIR;
 				MMSFileHelper.cleanAllUploadFile(dir);
 				result = String.valueOf(id) + "," + String.valueOf(frames);
 			}
@@ -216,16 +286,16 @@ public class MmsFileAction extends BaseAction
 		{
 			return SUCCESS;
 		}
-		MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this.getId()));
+		MmsFile mmsFile = mmsFileService.getMmsFile(Long
+				.parseLong(this.getId()));
 		if (mmsFile == null)
 		{
 			return SUCCESS;
 		}
-		String absolutePath = ServletActionContext.getServletContext()
-				.getRealPath("");
+		
 		// 组装彩信
-		MMSFileHelper.makeMMS(mmsFile, absolutePath);
-
+		MMSFileHelper.makeMMS(mmsFile,this.getRealPath());
+		this.setMmsName(mmsFile.getMmsName());
 		this.getSession().put("showmms", mmsFile); // 重新显示当前页面 //
 		return SUCCESS;
 	}
@@ -426,12 +496,8 @@ public class MmsFileAction extends BaseAction
 	{
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
-		//重新生成文件名
-		String fileName=getFileName("img_",getImageFileName());
-		// 上传文件
-		this.uploadFile(this.getImage(), fileName);
-		MMSFileHelper.uploadImage(mmsFile, getImage(), fileName,
-				getImageContentType());
+		MMSFileHelper.uploadImage(mmsFile, getRealPath(), getImage(),
+				getImageFileName(), getImageContentType());
 
 		// 设置回调函数
 		this.setCallbackMsg("upload_callback()");
@@ -449,13 +515,8 @@ public class MmsFileAction extends BaseAction
 	{
 
 		MmsFile mmsFile = this.getMmsFileFromSession();
-		//重新生成文件名
-		String fileName=getFileName("aud_",getAudioFileName());
-		// 上传文件
-		this.uploadFile(getAudio(), fileName);
-
-		MMSFileHelper.uploadAudio(mmsFile, getAudio(), fileName,
-				getAudioContentType());
+		MMSFileHelper.uploadAudio(mmsFile, getRealPath(), getAudio(),
+				getAudioFileName(), getAudioContentType());
 
 		// 设置回调函数
 		this.setCallbackMsg("upload_callback()");
@@ -554,15 +615,16 @@ public class MmsFileAction extends BaseAction
 
 	private MmsFile getMmsFileFromSession()
 	{
-		MmsFile mmsFile=null;
-		Object obj=this.getSession().get("mmsfile");
-		if (obj == null||!(obj instanceof MmsFile) )
+		MmsFile mmsFile = null;
+		Object obj = this.getSession().get("mmsfile");
+		if (obj == null || !(obj instanceof MmsFile))
 		{
 			mmsFile = new MmsFile();
 			this.getSession().put("mmsfile", mmsFile);
-		}else
+		}
+		else
 		{
-			mmsFile=(MmsFile)obj;
+			mmsFile = (MmsFile) obj;
 		}
 		return mmsFile;
 	}
@@ -735,43 +797,10 @@ public class MmsFileAction extends BaseAction
 		this.setCallbackMsg("window.parent.alert('" + tip + "')");
 		this.addActionError(tip);
 	}
-	
-	/**
-	 * 重新生成文件名，保证文件名的唯一性
-	 * @param fileName
-	 * @return
-	 */
-	private String getFileName(String prefix,String fileName)
+
+	public String getRealPath()
 	{
-		while(true)
-		{
-			String newFileName=Tools.getRandomFileName(prefix,fileName);
-			File newFile=getNewFile(newFileName);
-			if(!newFile.exists())
-			{
-				return newFileName;
-			}
-		}
-	}
-	
-	private boolean uploadFile(File file, String newFileName)
-	{		
-		File dest = getNewFile(newFileName);
-		return Tools.copyFile(file, dest);
-	}
-	
-	
-	private File getNewFile(String newFileName)
-	{
-		String absolutePath = ServletActionContext.getServletContext()
-		.getRealPath(Constants.UPLOAD_FILE_DIR);
-		File path = new File(absolutePath);
-		if (!path.exists())
-		{
-			path.mkdirs();
-		}
-		File dest = new File(path + File.separator + newFileName);
-		return dest;
+		return ServletActionContext.getServletContext().getRealPath("");
 	}
 
 	public String getId()
@@ -912,6 +941,26 @@ public class MmsFileAction extends BaseAction
 	public void setQueryBean(MmsFile queryBean)
 	{
 		this.queryBean = queryBean;
+	}
+
+	public String getMType()
+	{
+		return mType;
+	}
+
+	public void setMType(String type)
+	{
+		mType = type;
+	}
+
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
 	}
 
 }

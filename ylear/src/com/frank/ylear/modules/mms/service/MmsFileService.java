@@ -19,6 +19,13 @@ public interface MmsFileService
 	 * 取得单个元素
 	 */	
 	public MmsFile getMmsFile(Long id);
+	
+	/**
+	 * 更新彩信的名称查彩信是否存在
+	 * @param mmsName
+	 * @return
+	 */
+	public MmsFile getMmsFile(String mmsName);
 	/**
 	 * 删除
 	 */
