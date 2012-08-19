@@ -71,5 +71,15 @@ public class DateUtils
 			return null;
 		}
 	}
+	public static String getTimestampFull(String time)
+	{
+		try
+		{
+			return SDF_FULL.format(SDF_14.parse(time));
+		}catch(Exception e)
+		{
+			return time;
+		}
+	}
 	
 }
