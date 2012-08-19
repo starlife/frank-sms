@@ -181,7 +181,10 @@
 	    	<result name="success" type="redirectAction">listMmsFile</result>
 	    	<interceptor-ref name="mybasic"/>
 	    </action>
-	    
+	    <!-- 从手机报中读取 -->
+	    <action name="3gMms" class="com.frank.ylear.modules.mms.action.MmsFileAction" method="toAdd3g">
+	    	<result name="success">/jsp/mms/tourzj/3gmms.jsp</result>
+	    </action>
 	     <!-- 彩信报表工具 -->
 	     <action name="mmsReport" class="com.frank.ylear.modules.mmsreport.action.MmsReportAction" method="list">
 	    	<result name="success">/jsp/mms/report/reportList.jsp</result>
