@@ -196,6 +196,8 @@ public class MMSFileHelper
 					String newFileName=newFileName(realPath,"img_",imageFile);
 					File img = getTempFile(realPath,newFileName);
 					FileUtil.saveData(new URL(imageFile).openStream(),img);
+					//图片缩放,以宽260px等比例缩放
+					ImageHelper.resize(img,260);
 					//设置到帧
 					fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator
 							+ img.getName());
