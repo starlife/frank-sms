@@ -33,8 +33,8 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 {
 	private static final Log log = LogFactory.getLog(MM7Receiver.class);
 
-	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
-			.newSingleThreadExecutor();
+	//private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
+	//		.newSingleThreadExecutor();
 	private InetAddress ip = null;
 	private int listenPort = 80;
 	private int backLog = 50;
@@ -127,7 +127,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 	 */
 	private void dealRecv(final Socket client)
 	{
-		exec.execute(new Runnable()
+		new Thread(new Runnable()
 		{
 
 			@Override
@@ -224,7 +224,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 
 			}
 
-		});
+		}).start();
 
 	}
 
