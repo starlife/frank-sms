@@ -36,7 +36,7 @@ public class Sender extends MM7Sender
 	private static final Log log = LogFactory.getLog(Sender.class);
 
 	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
-			.newSingleThreadExecutor();
+			.newFixedThreadPool(10);
 	// private static final Log db = LogFactory.getLog("db");
 	// private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
@@ -374,6 +374,7 @@ public class Sender extends MM7Sender
 	{
 		super.myStop();
 		submitDao.mystop();
+		exec.shutdown();
 		
 	}
 
