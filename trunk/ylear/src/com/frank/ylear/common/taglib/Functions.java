@@ -8,8 +8,16 @@ public class Functions
 	{
 		return DateUtils.getTimestampFull(timestamp14);
 	}
+	
+	public static String replaceFileSep(String filename)
+	{
+		filename=filename.replace("\\\\","/");
+		filename=filename.replace("\\","/");
+		return filename;
+	}
+	
 	public static void main(String[] args)
 	{
-		System.out.println(getTimestampFull("20120819171857"));
+		System.out.println(replaceFileSep("upload\\\\1.txt"));
 	}
 }
