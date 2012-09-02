@@ -15,7 +15,7 @@
 				{
 					var id=$("input[name='id']:checked");
 					var first=id.closest("td");
-					var mmsName=first.next().html();
+					var mmsName=$.trim(first.next().html());
 					var frames=first.next().next().html();
 					var mmsSize=first.next().next().next().html();
 					//如果是顶层页面
