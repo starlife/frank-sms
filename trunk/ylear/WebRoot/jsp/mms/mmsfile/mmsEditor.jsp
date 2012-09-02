@@ -13,6 +13,13 @@
 #audiospan {
 	
 }
+
+#image,#audio {
+border:#666 1px solid;
+height: 28px;
+}
+
+
 </style>
 
 		<script type="text/javascript">
@@ -366,7 +373,7 @@
 						</td>
 						<td>
 
-							<span id="imagespan" class="ui-state-default"><s:file id="image" name="image"
+							<span id="imagespan" ><s:file id="image" name="image"
 									size="35" class="ui-state-default"/> </span>
 
 
