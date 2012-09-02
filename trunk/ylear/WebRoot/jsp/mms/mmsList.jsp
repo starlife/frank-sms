@@ -29,14 +29,14 @@
 		
 		
 		$("tr td").each(function(i){   
-         	//获取td当前对象的文本,如果长度大于25;   
-         	if($(this).text().length>25){   
+         	//获取td当前对象的文本
+         	var text=$.trim($(this).text());   
+         	//如果长度大于25;
+         	if(text.length>25){   
                 //给td设置title属性,并且设置td的完整值.给title属性.   
-    			$(this).attr("title",$(this).text());   
-                //获取td的值,进行截取。赋值给text变量保存.   
-    			var text=$(this).text().substring(0,25)+"...";   
+    			$(this).attr("title",text);     
              	//重新为td赋值;   
-             	$(this).text(text);   
+             	$(this).text(text.substring(0,25)+"...");   
          	}   
       	});   
 		
