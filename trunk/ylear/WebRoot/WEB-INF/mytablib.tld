@@ -1,38 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
-  version="2.0">
-    
-  <description>JSTL 1.1 functions library</description>
-  <display-name>JSTL functions</display-name>
-  <tlib-version>1.1</tlib-version>
-  <short-name>my</short-name>
-  <uri>http://www.jb-aptech.com.cn/taglibs/common</uri>
-	<tag>
-		<description>
-        Simple conditional tag that establishes a context for
-        mutually exclusive conditional operations, marked by
-        &lt;jb:pager&gt;
-    	</description>
-		<name>pager</name>
-		<tag-class>com.frank.ylear.common.taglib.PaginationTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>form</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-	<function>
-    <description>
-      change timestamp14 to timestampfull
-    </description>
-    <name>getTimestampFull</name>
-    <function-class>com.frank.ylear.common.taglib.Functions</function-class>
-    <function-signature>java.lang.String getTimestampFull(java.lang.String)</function-signature>
-    <example>
-      getTimestampFull("20120819171857")
-    </example>
-  </function>
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+ <description>JSTL 1.1 functions library</description>
+ <display-name>JSTL functions</display-name>
+ <tlib-version>1.1</tlib-version>
+ <short-name>my</short-name>
+ <uri>http://www.jb-aptech.com.cn/taglibs/common</uri>
+ <tag>
+  <name>pager</name>
+  <tag-class>com.frank.ylear.common.taglib.PaginationTag</tag-class>
+  <body-content>empty</body-content>
+  <attribute>
+   <name>form</name>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <function>
+  <description>change timestamp14 to timestampfull</description>
+  <name>getTimestampFull</name>
+  <function-class>com.frank.ylear.common.taglib.Functions</function-class>
+  <function-signature>java.lang.String getTimestampFull(java.lang.String)</function-signature>
+  <example>getTimestampFull("20120819171857")</example>
+ </function>
+ <function>
+  <description>repalce filename separator '\'(or '\\') to '/'</description>		
+  <name>replaceFileSep</name>
+  <function-class>com.frank.ylear.common.taglib.Functions</function-class>
+  <function-signature>java.lang.String replaceFileSep(java.lang.String)</function-signature>
+  <example>replaceFileSep("upload\1.txt")</example>
+ </function>
 </taglib>
