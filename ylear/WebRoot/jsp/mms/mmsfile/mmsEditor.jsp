@@ -87,7 +87,7 @@
 		  			window.location.href="listMmsFile.action";
 		  		}
   			}
-		})
+		},"text") //加上type="text" 是为了兼容ff浏览器
 		
 	}
 	

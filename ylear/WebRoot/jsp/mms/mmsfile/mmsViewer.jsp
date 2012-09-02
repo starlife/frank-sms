@@ -22,14 +22,14 @@
 	padding-top: 1px;
 }
 
-.framecontent.image {
+.framecontent img.image {
 	width: 126px;
 	height: 115px;
 	border-width: 0px;
 	cursor: hand;
 }
 
-.framecontent.txt {
+.framecontent .txt {
 	width: 126px;
 	height: 62px;
 	text-align: left;
@@ -38,9 +38,9 @@
 	word-break: normal;
 }
 
-.framecontent.txt1 {
+.framecontent .txt1 {
 	width: 126px;
-	height: 100%;
+	height: 190px;
 	text-align: left;
 	overflow: auto;
 	word-wrap: break-word;
@@ -149,7 +149,7 @@
 																		<s:set name="txtclass" value="'txt'" />
 																		<tr>
 																			<td>
-																				<img class="image" src="${value.image}" />
+																				<img class="image" src="${my:replaceFileSep(value.image)}" />
 																			</td>
 																		</tr>
 																	</s:if>
