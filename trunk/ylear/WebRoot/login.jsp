@@ -59,18 +59,23 @@ form input.error {
 		//alert("ppp");
 		document.getElementById("codeimg").src=url+"?sid="+Math.random();
 	}
+	function resize()
+	{
+		
+	}
 	</script>
   </head>  
-  <body  onload="loginLoad();">
-  <div>	
-  <table id="login" height="100%" cellSpacing="0" cellPadding="0" width="800" align="center">
+  <body  onload="loginLoad();resize();" style="margin: 0px;padding: 0px;">
+  <s:form action="loginAction" method="post" theme="simple" id="loginForm">
+  <div id="login">	
+  <table height="100%" cellSpacing="0" cellPadding="0" width="800" align="center" border="0" >
     <tbody>
-      <tr id="main">
+    	<tr><td>&nbsp;</td></tr><!-- 这里是为了自适应浏览器高度 -->
+      <tr height="496">
         <td>
-        <s:form action="loginAction" method="post" theme="simple" id="loginForm">
-          <table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
+          <table id="main" height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
             <tbody>
-              <tr>
+              <tr >
                 <td width="380">&nbsp;</td>
                 <td colSpan="3" >&nbsp;
                 </td>
@@ -85,14 +90,14 @@ form input.error {
                 <td rowSpan="4">&nbsp;</td>
                 <td>用户名：</td>
                 <td class="textbox">
-              	 <s:textfield id="usrName" name="user.usrName" size="18"/>	
+              	 <s:textfield id="usrName" name="user.usrName" size="18" cssClass="inputtext135"/>	
                 </td>
                 <td width="120">&nbsp;</td>
               </tr>
               <tr height="40">
                 <td>密　码：</td>
                 <td class="textbox">
-                <s:password id="usrPassword" name="user.usrPassword"/>
+                <s:password id="usrPassword" name="user.usrPassword" size="18" cssClass="inputtext135" />
          
                 </td>
                 <td width="120">&nbsp;</td>
@@ -100,7 +105,7 @@ form input.error {
               <tr height="40">
                 <td>验证码：</td>
                 <td vAlign=center colSpan=2>
-                  <s:textfield id="validateCode" name="validateCode" size="4"/>
+                  <s:textfield id="validateCode" name="validateCode" size="4" cssClass="inputtext60"/>
                   &nbsp; 
             		<s:url id="validate" action="genValidateImage"></s:url>
 					<img src="${validate}" id="codeimg" alt="请输入此验证码" style="width: 62px; height: 20px; border: 1px solid #abcedf;" />
@@ -119,7 +124,6 @@ form input.error {
               </tr>
             </tbody>
           </table>
-          </s:form>
         </td>
       </tr>
       <tr height="104">
@@ -128,8 +132,7 @@ form input.error {
     </tbody>
   </table>
 </div>
-<div id="msg" style="DISPLAY: none"></div>
-
+</s:form>
 </body>
 </html>
  
