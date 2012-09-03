@@ -36,24 +36,39 @@ public class SmsAction extends BaseAction
 		{
 			return;
 		}
-		if (this.getSms().getSendtime() == null
-				|| this.getSms().getSendtime().trim().equals(""))
+		String sendtime=this.getSms().getSendtime();
+		//check  sendtime
+		if (sendtime == null
+				|| sendtime.trim().equals(""))
 		{
-			this.getSms().setSendtime(DateUtils.getTimestamp14());
+			sendtime=DateUtils.getTimestamp14();
 		}
 		else
 		{
-			String sendtime=DateUtils.getTimestamp14(this.getSms().getSendtime());
-			if(sendtime==null)
+			// 检查时间戳值格式是否正确
+			if(!DateUtils.isValidTimestamp14(sendtime))
 			{
-				this.addFieldError("sms.sendtime",
-						getText("sms.sendtime.error"));
-				return;
+				sendtime=DateUtils.getTimestamp14(sendtime);
+				if(sendtime==null)
+				{
+					this.addFieldError("sms.sendtime",
+							getText("sms.sendtime.error"));
+					return;
+				}
 			}
-			this.getSms().setSendtime(sendtime);
+			
 		}
+		this.getSms().setSendtime(sendtime);
+		
 		//过滤非法号码，重复号码
-		this.getSms().setRecipient(Tools.parse(this.getSms().getRecipient()));
+		String recipient=Tools.parse(this.getSms().getRecipient());
+		if(recipient.length()<=0)
+		{
+			this.addFieldError("sms.recipient",
+					getText("sms.recipient.error"));
+			return;
+		}
+		this.getSms().setRecipient(recipient);
 		this.getSms().setStatus(0);// 0表示未发送，1表示已发送
 	}
 
