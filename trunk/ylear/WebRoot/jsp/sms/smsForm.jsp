@@ -115,7 +115,12 @@
 	function addSelectedPhone_callback(phones)
 	{
 		var obj=$("#sms\\.recipient");
-		var value=$(obj).val()+phones;
+		var str=$(obj).val();
+		if(str.lastIndexOf(",")!=str.length)
+		{
+			str=str+",";
+		}
+		var value=str+phones;
 		$(obj).val(value.split(",").unique().join(","));
 		$("#dialog").dialog("close");
 	}
@@ -125,7 +130,12 @@
 	function addQueryPhone_callback(phones)
 	{
 		var obj=$("#sms\\.recipient");
-		var value=$(obj).val()+phones;
+		var str=$(obj).val();
+		if(str.lastIndexOf(",")!=str.length)
+		{
+			str=str+",";
+		}
+		var value=str+phones;
 		//过滤重复值
 		$(obj).val(value.split(",").unique().join(","));
 		$("#dialog").dialog("close");
@@ -147,10 +157,11 @@
 	 	
 	}
 	
+	
 	</script>
 	</head>
 
-	<body>
+	<body >
 		<div id="container">
 
 			<div id="dialog" style="display: none;">
