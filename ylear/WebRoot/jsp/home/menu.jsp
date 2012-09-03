@@ -43,12 +43,12 @@ a:hover {
 	background: url(images/main_34.gif) no-repeat scroll;
 	display: block;
 	font-weight: bold;
-	margin: 0px;
+	margin: 5px 0px 5px 0px;
 	padding: 5px 0px 5px 0px;
 	text-align: center;
 	font-size: 14px;
 	text-decoration: none;
-	height: 33px;
+	height: 20px;
 }
 
 #navigation ul {
