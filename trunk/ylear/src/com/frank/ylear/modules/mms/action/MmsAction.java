@@ -85,26 +85,39 @@ public class MmsAction extends BaseAction
 		{
 			return;
 		}
-
-		if (this.getMms().getSendtime() == null
-				|| this.getMms().getSendtime().trim().equals(""))
+		
+		String sendtime=this.getMms().getSendtime();
+		//check  sendtime
+		if (sendtime == null
+				|| sendtime.trim().equals(""))
 		{
-			this.getMms().setSendtime(DateUtils.getTimestamp14());
+			sendtime=DateUtils.getTimestamp14();
 		}
 		else
 		{
 			// 检查时间戳值格式是否正确
-			String sendtime=DateUtils.getTimestamp14(this.getMms().getSendtime());
-			if(sendtime==null)
+			if(!DateUtils.isValidTimestamp14(sendtime))
 			{
-				this.addFieldError("mms.sendtime",
-						getText("mms.sendtime.error"));
-				return;
+				sendtime=DateUtils.getTimestamp14(sendtime);
+				if(sendtime==null)
+				{
+					this.addFieldError("mms.sendtime",
+							getText("mms.sendtime.error"));
+					return;
+				}
 			}
-			this.getMms().setSendtime(sendtime);
+			
 		}
+		this.getMms().setSendtime(sendtime);
 		//过滤非法号码，重复号码
-		this.getMms().setRecipient(Tools.parse(this.getMms().getRecipient()));
+		String recipient=Tools.parse(this.getMms().getRecipient());
+		if(recipient.length()<=0)
+		{
+			this.addFieldError("mms.recipient",
+					getText("mms.recipient.error"));
+			return;
+		}
+		this.getMms().setRecipient(recipient);
 		mms.setStatus(0);// 0表示未发送，1表示已发送
 	}
 
