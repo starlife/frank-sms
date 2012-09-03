@@ -50,7 +50,7 @@ public class DateUtils
 	{
 		try
 		{
-			SDF_FULL.parse(timestamp);
+			SDF_14.parse(timestamp);
 		}
 		catch (ParseException e)
 		{
