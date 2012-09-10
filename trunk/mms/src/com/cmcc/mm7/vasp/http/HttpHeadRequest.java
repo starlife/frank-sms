@@ -30,11 +30,20 @@ public class HttpHeadRequest
 		{
 			log.warn("input is null");
 			return false;
-		}	
+		}
+		log.debug("开始接受包头");
+		boolean firstFlag=false;
 		while (true)
 		{
 			// byte[] b=new byte[1];
 			int i = input.read();
+			
+			if(!firstFlag)
+			{
+				firstFlag=true;
+				log.debug("读取到了包的第一个字节");
+			}
+			
 			if (i == -1)
 			{
 				// socket被另一端关闭

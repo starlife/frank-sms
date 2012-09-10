@@ -73,7 +73,7 @@ public class DecodeMM7
 			
 		}catch(Exception ex)
 		{
-			
+			log.error(null,ex);
 		}
 		
 		return req;
