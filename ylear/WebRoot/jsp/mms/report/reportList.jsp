@@ -57,7 +57,7 @@
 				<td >
 					<s:textfield name="queryBean.toAddress" />
 				</td>
-				<td >发送状态：<s:select list="#{-1:'全部',0:'发送成功',1:'发送失败',2:'未获取发送结果'}" 
+				<td >发送状态：<s:select list="#{-1:'全部',0:'发送成功',1:'发送失败',2:'未获取发送结果',4414	:'4414(系统拒绝)',4448:'4448(过期未提取)',6101:'6101(非移动号码)',6150:'6150(彩信中心发送失败)',6640	:'6640(非白名单)',2000:'2000(用户拒绝)'}" 
 				name="status" listKey="key" listValue="value"></s:select> 
 				</td>
 				<td ><s:submit id="queryBtn" value="查询"/></td>		
@@ -111,9 +111,17 @@
 					<s:set id="mystatus" value="'发送失败'"/>
 					<s:set id="mystatusText" value="'6640(用户未点播)'"/>
 				</s:if>
+				<s:elseif test="mmStatusText=='6101'">
+					<s:set id="mystatus" value="'发送失败'"/>
+					<s:set id="mystatusText" value="'6101(非移动号码)'"/>
+				</s:elseif>
+				<s:elseif test="mmStatusText=='6150'">
+					<s:set id="mystatus" value="'发送失败'"/>
+					<s:set id="mystatusText" value="'6150(彩信中心发送失败)'"/>
+				</s:elseif>
 				<s:elseif test="mmStatusText=='4414'">
 					<s:set id="mystatus" value="'发送失败'"/>
-					<s:set id="mystatusText" value="'4414(用户拒绝)'"/>
+					<s:set id="mystatusText" value="'4414(系统拒绝)'"/>
 				</s:elseif>
 				<s:else>
 					<s:set id="mystatus" value="'发送失败'"/>
