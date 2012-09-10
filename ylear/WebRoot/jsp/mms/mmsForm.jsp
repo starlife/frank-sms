@@ -114,12 +114,11 @@
 		var obj=$("#mms\\.recipient");
 		//var value=$(obj).val()+phones;
 		var str=$(obj).val();
-		if(str.lastIndexOf(",")!=str.length)
+		if((str.length>0)&&(str.lastIndexOf(",")!=str.length-1))
 		{
 			str=str+",";
 		}
 		var value=str+phones;
-		
 		$(obj).val(value.split(",").unique().join(","));
 		$("#dialog").dialog("close");
 	}
@@ -129,7 +128,7 @@
 		var obj=$("#mms\\.recipient");
 		//var value=$(obj).val()+phones;
 		var str=$(obj).val();
-		if(str.lastIndexOf(",")!=str.length)
+		if((str.length>0)&&(str.lastIndexOf(",")!=str.length-1))
 		{
 			str=str+",";
 		}
