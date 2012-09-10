@@ -138,6 +138,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 
 				try
 				{
+					log.debug("新线程处理socket连接：" + client.getRemoteSocketAddress());
 					while (true)
 					{
 						MM7VASPRes res = null;
