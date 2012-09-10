@@ -82,7 +82,7 @@
                       },
                       "sms.recipient":{
                       	required:true,
-                      	maxphonecount:5,
+                      	maxphonecount:50000,
                       	phonenumber:true
                       }
                   },
@@ -93,7 +93,7 @@
                   	  },
                   	  "sms.recipient":{
                   	  required:"接收手机号码不能为空！",
-                  	  maxphonecount:"最多只能输入10000个号码",
+                  	  maxphonecount:"最多只能输入50000个号码",
                   	  phonenumber:"手机号码有误，请检查，多个号码之间以','分隔！"
                   	  }
                   }  
