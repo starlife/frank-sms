@@ -45,6 +45,9 @@ public class MmsReportServiceImpl extends BaseService implements MmsReportServic
 			{
 				//查询未收到状态报告
 				hql +="and obj.status=1000 and obj.mmStatus is null ";
+			}else
+			{
+				hql +="and obj.mmStatusText="+status;
 			}
 		}
 		baseDao.listByPage(hql,pageResult);
