@@ -3,11 +3,11 @@
 	<@head title="树状通讯录">
 	
 		<link rel="stylesheet" href="${ctx}/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="${ctx}css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	
-	<script type="text/javascript" src="${ctx}js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="${ctx}js/jquery.ztree.core-3.4.js"></script>
-	<script type="text/javascript" src="${ctx}js/jquery.ztree.excheck-3.4.js"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery.ztree.core-3.4.js"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery.ztree.excheck-3.4.js"></script>
 		
 	</@head>
 	
