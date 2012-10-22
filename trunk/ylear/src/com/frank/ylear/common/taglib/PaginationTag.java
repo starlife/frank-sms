@@ -25,26 +25,26 @@ public class PaginationTag extends TagSupport
 				sb
 						.append(
 								"<div style=\"text-align:right;padding:6px 6px 0 0;\">\r\n")
-						.append("¹²" + page.getTotalCount() + "Ìõ¼ÇÂ¼&nbsp;\r\n")
+						.append("å…±" + page.getTotalCount() + "æ¡è®°å½•&nbsp;\r\n")
 						.append(
-								"Ã¿Ò³ÏÔÊ¾<input name=\"page.pageSize\" value=\""
+								"æ¯é¡µæ˜¾ç¤º<input name=\"page.pageSize\" value=\""
 										+ page.getPageSize()
-										+ "\" size=\"3\" />Ìõ&nbsp;\r\n")
+										+ "\" size=\"3\" />æ¡&nbsp;\r\n")
 						.append(
-								"µÚ<input name=\"page.currentPage\" value=\""
+								"ç¬¬<input name=\"page.currentPage\" value=\""
 										+ page.getCurrentPage()
-										+ "\" size=\"3\" />Ò³")
-						.append(" / ¹²" + page.getTotalPage() + "Ò³ \r\n")
+										+ "\" size=\"3\" />é¡µ")
+						.append(" / å…±" + page.getTotalPage() + "é¡µ \r\n")
 						.append(
-								"<a href=\"javascript:page_first();\">µÚÒ»Ò³</a> \r\n")
+								"<a href=\"javascript:page_first();\">ç¬¬ä¸€é¡µ</a> \r\n")
 						.append(
-								"<a href=\"javascript:page_pre();\">ÉÏÒ»Ò³</a>\r\n")
+								"<a href=\"javascript:page_pre();\">ä¸Šä¸€é¡µ</a>\r\n")
 						.append(
-								"<a href=\"javascript:page_next();\">ÏÂÒ»Ò³</a> \r\n")
+								"<a href=\"javascript:page_next();\">ä¸‹ä¸€é¡µ</a> \r\n")
 						.append(
-								"<a href=\"javascript:page_last();\">×îºóÒ»Ò³</a>\r\n")
+								"<a href=\"javascript:page_last();\">æœ€åä¸€é¡µ</a>\r\n")
 						.append(
-								"<input type=\"button\" style=\"padding: .2em .3em 0.1em .3em;\" onclick=\"javascript:page_go();\" value=\"×ªµ½\" />\r\n")
+								"<input type=\"button\" style=\"padding: .2em .3em 0.1em .3em;\" onclick=\"javascript:page_go();\" value=\"è½¬åˆ°\" />\r\n")
 						.append(
 								"<input type=\"hidden\" name=\"page.orderBy\"  value=\""
 										+ page.getOrderBy() + "\" />\r\n")
