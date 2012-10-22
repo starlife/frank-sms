@@ -98,7 +98,7 @@
 	</div>
 	<input class="addBtn" type="button" value="增加" onclick="redirect('<s:url action="crudUser" method="input"/>');"/>
 				
-		<my:pager/>
+	<my:pager/>
 	
 	</s:form>
 	</div>		
