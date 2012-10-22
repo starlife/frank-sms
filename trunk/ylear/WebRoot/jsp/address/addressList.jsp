@@ -24,27 +24,36 @@
   	<div>
 		<table class="ui-widget ui-widget-header" >
 			<tr>
-				<td >手机号码</td>
-				<td >
-					<s:textfield name="queryBean.phonenumber"/>
-				</td>
 				<td >用户姓名</td>
-				<td  >
+				<td >
 					<s:textfield name="queryBean.name"/>
+				</td>
+				<td >用户职位</td>
+				<td  >
+					<s:textfield name="queryBean.post"/>
 					
 				</td>
-				<td >所属部门</td>
+				<td >单位名称</td>
 				<td >
-					<s:textfield name="queryBean.department"/>
+					<s:textfield name="queryBean.TPosition.TPositionParent.unitname"/>
 				</td>
 			</tr>
 			<tr>
-				<td >地区</td>
+				<td >所属部门</td>
 				<td >
-				<s:textfield name="queryBean.area"/>
+				<s:textfield name="queryBean.TPosition.unitname"/>
 				</td>
+				<td >手机号码</td>
+				<td >
+				<s:textfield name="queryBean.phonenumber"/>
+				</td>
+				<td >电话号码</td>
+				<td >
+				<s:textfield name="queryBean.homenumber"/>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="4" ><s:submit id="queryBtn" value="查询"/></td>		
-				
 			</tr>
 		</table>
 		
@@ -55,20 +64,30 @@
 		<table class="ui-widget">
 		<thead class="ui-widget-header">
 		<tr>
-			<td >手机号码</td>
+		<!-- <td >手机号码</td>
 			<td >姓名</td>
 			<td >所属部门</td>
 			<td >地区</td>
+			<td >操作</td>
+		 -->
+		    <td >姓名</td>
+			<td >职务</td>
+			<td >工作单位</td>
+			<td >部门</td>
+			<td >手机号码</td>
+			<td >电话号码</td>
 			<td >操作</td>
 		</tr>
 		</thead>
 		<tbody class="ui-widget-content">
 		<s:iterator value="#request.page.list"> 
 			<tr>
-				<td ><s:property value="phonenumber" default=" "/></td>
 				<td ><s:property value="name" default=" "/></td>
-				<td ><s:property value="department" default=" "/></td>
-				<td ><s:property value="area" default=" "/></td>
+				<td ><s:property value="post" default=" "/></td>
+				<td ><s:property value="TPosition.TPositionParent.unitname" default=" "/></td>
+				<td ><s:property value="TPosition.unitname" default=" "/></td>
+				<td ><s:property value="phonenumber" default=" "/></td>
+				<td ><s:property value="homenumber" default=" "/></td>
 				<td>
 				<!-- 定义url -->
 				<s:url id="editURL" action="crudAddress" method="input">
