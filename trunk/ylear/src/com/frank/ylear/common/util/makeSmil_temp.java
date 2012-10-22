@@ -8,20 +8,20 @@ import java.io.IOException;
 
 public class makeSmil_temp 
 {	
-	//smilÎÄ¼ş´æ·ÅÂ·¾¶
+	
 	private String filepath="";
-	//smilÎÄ¼şÃû³Æ
+	
 	private String filename="";
-	//smilÎÄ¼şÄÚÈİ
+	
 	private String filecontent="";
-	//¼ÇÂ¼ÎÄ±¾ÎÄ¼şÊıÁ¿£¨Ğ´Èë²ÊĞÅÖĞÎÄ¼şÌõÊı£©
+	//ï¿½ï¿½Â¼ï¿½Ä±ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	private int filetxt=0;
 	
-	//ÉèÖÃÎÄ¼ş´æ·ÅÂ·¾¶
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	public void setSmilPath(String path)
 	{
 		this.filepath=path;
-		//Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨
+		//ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ò´´½ï¿½
 		File rootDir=new File(this.filepath);
 		if(!rootDir.isDirectory())
 		{
@@ -33,7 +33,7 @@ public class makeSmil_temp
 		return this.filepath;
 	}
 	
-	//ÉèÖÃsmilÎÄ¼şÃû³Æ
+	//ï¿½ï¿½ï¿½ï¿½smilï¿½Ä¼ï¿½ï¿½ï¿½ï¿½
 	public void setSmilName(String name)
 	{
 		this.filename=name;
@@ -43,12 +43,12 @@ public class makeSmil_temp
 		return this.filename;
 	}
 	
-	//ÖØÖÃsmilÎÄ¼ş
+	//ï¿½ï¿½ï¿½ï¿½smilï¿½Ä¼ï¿½
 	public void  resetSmil()
 	{
 		this.filecontent="";
 	}
-	//ÎªsmilÎÄ¼ş¼ÓÈëÍ·²¿ĞÅÏ¢
+
 	public void  smilAddHead()
 	{
 		this.filecontent= "<smil xmlns=\"http://www.w3.org/2001/SMIL20/CR/Language\">";
@@ -61,32 +61,32 @@ public class makeSmil_temp
 		this.filecontent+="\n  </head>";
 		this.filecontent+="\n  <body>";
 	}	
-	//ÉèÖÃ²ÊĞÅ¿ªÊ¼±ê¼Ç¼°²ÊĞÅ²¥·ÅÊ±¼ä
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Å¿ï¿½Ê¼ï¿½ï¿½Ç¼ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	public void setSmilParStart(int time)
 	{
 		this.filecontent+="\n    <par dur=\""+time+"s\">";
 	}
-	//ÉèÖÃ²ÊĞÅ½áÎ²±ê¼Ç
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Å½ï¿½Î²ï¿½ï¿½ï¿½
 	public void setSmilParEnd()
 	{
 		this.filecontent+="\n    </par>";
 	}
-	//ÉèÖÃ²ÊĞÅÆ¬¶Ï¿ªÊ¼±ê¼Ç
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½Æ¬ï¿½Ï¿ï¿½Ê¼ï¿½ï¿½ï¿½
 	public void setSmilSeqStart()
 	{
 		this.filecontent+="\n      <seq>";
 	}
-	//ÉèÖÃ²ÊĞÅÆ¬¶Ï½áÊø±ê¼Ç
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½Æ¬ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void setSmilSeqEnd()
 	{
 		this.filecontent+="\n      </seq>";
 	}
-	//ÉèÖÃ²ÊĞÅÉùÒô
+	//ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void smilAddAudio(String audio)
 	{
 		this.filecontent+="\n    <audio src=\""+audio+"\"/>";
 	}
-	//¸øÎÄ¼şÌí¼ÓÎÄ×ÖÄÚÈİ
+	//ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void smilAddTxt(String str,int time)
 	{
 		filetxt++;
@@ -104,19 +104,19 @@ public class makeSmil_temp
 		}
 		this.filecontent+="\n        <text src=\""+this.filename+filetxt+".txt\" region=\"Text\"  dur=\""+time+"s\"/>";
 	}
-	//¸øÎÄ¼şÌí¼ÓÍ¼Æ¬
+	
 	public void smilAddImg(String img,int time)
 	{
 		this.filecontent+="\n        <img src=\""+img+"\" region=\"Image\"  dur=\""+time+"s\"/>";
 	}
-	//¸øÎÄ¼şÌí¼ÓÎ²²¿ĞÅÏ¢
+	
 	public void smilAddFoot()
 	{
 		this.filecontent+="\n  </body>";
 		this.filecontent+="\n</smil>";
 	}
 	
-	//Éú³É²ÊĞÅsmilÎÄ¼ş
+	//ï¿½ï¿½É²ï¿½ï¿½ï¿½smilï¿½Ä¼ï¿½
 	public void generateSmil()
 	{
 		FileWriter fw;
@@ -133,7 +133,7 @@ public class makeSmil_temp
 		}
 	}
 	
-	//¶ÁÈ¡Éú³ÉÎÄ¼şÄÚÈİ
+	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String getFileContent()
 	{
 		String strContent="";
@@ -157,29 +157,29 @@ public class makeSmil_temp
 	{	
 		String path="D:/Program Files/Apache Software Foundation/Tomcat 6.0/webapps/mms/mms/";
 		String name="smil1";
-		//´´½¨¶ÔÏó
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		makeSmil sml=new makeSmil();
-		//ÉèÖÃÎÄ¼ş´æ·ÅÂ·¾¶
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 		sml.setSmilPath(path);
-		//ÉèÖÃÎÄ¼şÃû
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		sml.setSmilName(name);
-		//ÉèÖÃÎÄ¼şÄÚÈİ
-		sml.resetSmil();//ÖØÖÃÎÄ¼şÄÚÈİ
-		sml.smilAddHead();//²¢Ìí¼ÓÎÄ¼şÍ·²¿ĞÅÏ¢¡£
-		sml.setSmilParStart(60);//²ÊĞÅ¿ªÊ¼±ê¼Ç
-		sml.smilAddAudio("a.wav");//²ÊĞÅÉùÒôÎÄ¼ş
-		sml.setSmilSeqStart();//²ÊĞÅÆ¬¶Ï¿ªÊ¼±ê¼Ç
-		sml.smilAddTxt("²ÊĞÅÉú³É³ÌĞò²âÊÔ1£¡",5);//¼ÓÈëÎÄ×Ö
-		sml.smilAddImg("smil1.jpg",5);//¼ÓÈëÍ¼Æ¬
-		sml.smilAddTxt("²ÊĞÅÉú³É³ÌĞò²âÊÔ2£¡",5);//¼ÓÈëÎÄ×Ö
-		sml.setSmilSeqEnd();//²ÊĞÅÆ¬¶Ï½áÊø±ê¼Ç
-		sml.setSmilParEnd();//²ÊĞÅ½áÊø±ê¼Ç
-		sml.smilAddFoot();//¼ÓÈëÎÄ¼şÎ²²¿ĞÅÏ¢
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.resetSmil();//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.smilAddHead();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
+		sml.setSmilParStart(60);//ï¿½ï¿½ï¿½Å¿ï¿½Ê¼ï¿½ï¿½ï¿½
+		sml.smilAddAudio("a.wav");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+		sml.setSmilSeqStart();//ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½Ï¿ï¿½Ê¼ï¿½ï¿½ï¿½
+		sml.smilAddTxt("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½",5);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.smilAddImg("smil1.jpg",5);//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
+		sml.smilAddTxt("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½",5);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.setSmilSeqEnd();//ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.setSmilParEnd();//ï¿½ï¿½ï¿½Å½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sml.smilAddFoot();//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Î²ï¿½ï¿½ï¿½ï¿½Ï¢
 		
-		//Éú³É²ÊĞÅÎÄ¼ş
+		//ï¿½ï¿½É²ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		sml.generateSmil();
 		
-		//¶ÁÈ¡Éú³ÉÎÄ¼ş
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		
 		String str=sml.getFileContent();
 		

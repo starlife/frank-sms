@@ -18,9 +18,9 @@ public class LoginAction extends BaseAction
 	
 	public static final String sessionUserKey ="USER";
 	
-	/*È¡µÃËùÓÐ½ÇÉ«·µ»Ø¸øui½çÃæ*/
+	
 	private List<SysRole> roleList;
-	//µÇÂ½ÑéÖ¤Âë
+	//ï¿½ï¿½Â½ï¿½ï¿½Ö¤ï¿½ï¿½
 	private String validateCode;
 	
 	private SysUser user = null;
@@ -44,22 +44,20 @@ public class LoginAction extends BaseAction
 			this.addActionError(this.getText("user.checkuser.error"));
 			return;
 		}
-		//µÇÂ½³É¹¦£¬È¡µÃÓÃ»§µÄbeanÒÑ¾­È¨ÏÞ²Ëµ¥
+		//ï¿½È¨ï¿½Þ²Ëµï¿½
 		List<SysRight> rights=userService.getSysRightByRole(sysuser.getSysRole().getId());
 		sysuser.setRights(rights);
 		this.getSession().put(sessionUserKey, sysuser);
 	}
 	/**
-	 * µÇÂ¼
+	 * ï¿½ï¿½Â¼
 	 */
 	public String login() throws Exception
 	{
 		return SUCCESS;
 	}
 
-	/**
-	 * ×¢Ïú
-	 */
+	
 	public String logout() throws Exception
 	{
 		this.getSession().remove(sessionUserKey);

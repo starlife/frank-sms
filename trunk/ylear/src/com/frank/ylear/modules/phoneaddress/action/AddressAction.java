@@ -1,24 +1,31 @@
 package com.frank.ylear.modules.phoneaddress.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.phoneaddress.entity.UPhoneaddress;
 import com.frank.ylear.modules.phoneaddress.service.AddressService;
+import com.frank.ylear.modules.unitInfo.entity.TPosition;
+import com.frank.ylear.modules.unitInfo.service.PositionService;
 
 public class AddressAction extends BaseAction
 {
 	
 	private static final long serialVersionUID = 1L;
 	private AddressService addressService;
-	/*²éÑ¯bean*/
+	/*æŸ¥è¯¢bean*/
 	private UPhoneaddress queryBean = null;
-	/*Ìí¼ÓºÍ¸üĞÂÊ¹ÓÃµÄbean*/
+	/*æ·»åŠ å’Œæ›´æ–°ä½¿ç”¨çš„bean*/
 	private UPhoneaddress phoneAddress = null;
 	
 	private String id=null;
 	
+	private List<TPosition> positionList;
+	private List<UPhoneaddress> linkManList;
+	private PositionService positionService;
 	public String getId()
 	{
 		return id;
@@ -29,12 +36,9 @@ public class AddressAction extends BaseAction
 	{
 		this.id = id;
 	}
-
-
-	
 	
 	/**
-	 * ÁĞ±íÏÔÊ¾,´ø²éÑ¯¹¦ÄÜ
+	 * åˆ—è¡¨æ˜¾ç¤º,å¸¦æŸ¥è¯¢åŠŸèƒ½
 	 * @return
 	 * @throws Exception
 	 */
@@ -46,19 +50,37 @@ public class AddressAction extends BaseAction
 	}
 	
 	/**
-	 * ¶¨ÖÆ²éÑ¯¹¦ÄÜ£¬¹©·¢¶ÌÏß£¬²ÊĞÅÊ¹ÓÃ
+	 * å®šåˆ¶æŸ¥è¯¢åŠŸèƒ½ï¼Œä¾›å‘çŸ­çº¿ï¼Œå½©ä¿¡ä½¿ç”¨
 	 * @return
 	 * @throws Exception
 	 */
-	public String listCustom()
-		throws Exception
-	{
-		addressService.getPhoneAddressList(this.getQueryBean(),this.getPage());
+	public String listCustom()throws Exception{
+//		addressService.getPhoneAddressList(this.getQueryBean(),this.getPage());
+//		return SUCCESS;
+		positionList = addressService.findAddressPosition();//å¾—åˆ°æ‰€ä»¥å•ä½
+		
+		//åŠ è½½æ–¹ä½ä¸‹çš„è”ç³»äºº
+		if(positionList != null){
+			linkManList = new ArrayList<UPhoneaddress>();
+			
+			for(TPosition position : positionList){
+				//å¾—åˆ°ç¼–ç 
+				String posCode = position.getUnitcode();
+				//ç¬¬ä¸‰çº§æ–¹ä½
+				if(posCode.split("0").length >= 2){
+					List<UPhoneaddress> adrList = addressService.findAddressListByPosition(position.getUnitid());
+					if(adrList != null && adrList.size() > 0){
+						linkManList.addAll(adrList);
+					}
+				}
+			}
+		}
+		
 		return SUCCESS;
 	}
 	
 	/**
-	 * ¶¨ÖÆ²éÑ¯¹¦ÄÜ£¬¹©·¢¶ÌÏß£¬²ÊĞÅÊ¹ÓÃ
+	 * å®šåˆ¶æŸ¥è¯¢åŠŸèƒ½ï¼Œä¾›å‘çŸ­çº¿ï¼Œå½©ä¿¡ä½¿ç”¨
 	 * @return
 	 * @throws Exception
 	 */
@@ -74,7 +96,7 @@ public class AddressAction extends BaseAction
 	}
 	
 	/**
-	 * Ìí¼Ó»òĞŞ¸Ä£¬Ìø×ªµ½¸Ã·½·¨
+	 * æ·»åŠ æˆ–ä¿®æ”¹ï¼Œè·³è½¬åˆ°è¯¥æ–¹æ³•
 	 */
 	public String input()
 			throws Exception
@@ -92,7 +114,7 @@ public class AddressAction extends BaseAction
 	}
 
 	/**
-	 * É¾³ı
+	 * åˆ é™¤
 	 */
 	public String del()
 			throws Exception
@@ -112,7 +134,7 @@ public class AddressAction extends BaseAction
 		}
 		if(this.getPhoneAddress().getId()==null)
 		{
-			//Ìí¼Ó
+			//æ·»åŠ 
 			if(addressService.checkPhoneNumberExist(this.getPhoneAddress()))
 			{
 				this.addFieldError("phoneAddress.phonenumber",getText("phoneAddress.phonenumber.exist"));
@@ -122,7 +144,7 @@ public class AddressAction extends BaseAction
 			UPhoneaddress fetched=addressService.getPhoneAddress(this.getPhoneAddress().getId());
 			if(!fetched.getPhonenumber().equals(this.getPhoneAddress().getPhonenumber()))
 			{
-				//±íÊ¾ĞŞ¸Ä¹ıºÅÂë£¬ĞèÒªÅĞ¶ÏĞÂºÅÂëÊÇ·ñÒÑ¾­ÔÚÊı¾İ¿âÖĞ
+				//è¡¨ç¤ºä¿®æ”¹è¿‡å·ç ï¼Œéœ€è¦åˆ¤æ–­æ–°å·ç æ˜¯å¦å·²ç»åœ¨æ•°æ®åº“ä¸­
 				if(addressService.checkPhoneNumberExist(this.getPhoneAddress()))
 				{
 					this.addFieldError("phoneAddress.phonenumber",getText("phoneAddress.phonenumber.exist"));
@@ -130,8 +152,28 @@ public class AddressAction extends BaseAction
 			}
 		}
 	}
+	public List<TPosition> getPositionList() {
+		return positionList;
+	}
+
+
+	public void setPositionList(List<TPosition> positionList) {
+		this.positionList = positionList;
+	}
+
+
+	public List<UPhoneaddress> getLinkManList() {
+		return linkManList;
+	}
+
+
+	public void setLinkManList(List<UPhoneaddress> linkManList) {
+		this.linkManList = linkManList;
+	}
+
+
 	/**
-	 * ±£´æ
+	 * ä¿å­˜
 	 * @return
 	 * @throws Exception
 	 */

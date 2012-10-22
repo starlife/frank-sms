@@ -19,7 +19,7 @@ public class ImageAction extends BaseAction
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * ÓÃÓÚËæ»úÉú³ÉÑéÖ¤ÂëµÄÊı¾İÔ´
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 	 */
 
 	private static final char[] source = new char[] {
@@ -29,7 +29,7 @@ public class ImageAction extends BaseAction
 	};
 
 	/**
-	 * ÓÃÓÚËæ»ú´òÓ¡ÑéÖ¤ÂëµÄ×Ö·ûÑÕÉ«
+	 *ï¿½ï¿½ï¿½É«
 	 */
 
 	private static final Color[] colors = new Color[] {
@@ -39,13 +39,13 @@ public class ImageAction extends BaseAction
 	};
 
 	/**
-	 * ÓÃÓÚ´òÓ¡ÑéÖ¤ÂëµÄ×ÖÌå
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 
-	private static final Font font = new Font("ËÎÌå", Font.ITALIC, 15);
+	private static final Font font = new Font("ï¿½ï¿½ï¿½ï¿½", Font.ITALIC, 15);
 
 	/**
-	 * ÓÃÓÚÉú³ÉËæ»úÊıµÄËæ»úÊıÉú³ÉÆ÷
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	private static final Random rdm = new Random();
@@ -77,7 +77,7 @@ public class ImageAction extends BaseAction
 	}
 
 	/**
-	 * Éú³É³¤¶ÈÎª4µÄËæ»ú×Ö·û´®
+	 *ï¿½
 	 */
 
 	private void generateText()
@@ -89,15 +89,11 @@ public class ImageAction extends BaseAction
 					.nextInt(ImageAction.source.length)];
 		}
 		this.text = new String(source);
-		// ÉèÖÃSession
+		// ï¿½ï¿½ï¿½ï¿½Session
 		getSession().put(Constants.VALIDATE_CODE_KEY, this.text);
 	}
 
-	/**
-	 * ÔÚÄÚ´æÖĞÉú³É´òÓ¡ÁËËæ»ú×Ö·û´®µÄÍ¼Æ¬
-	 * 
-	 * @return ÔÚÄÚ´æÖĞ´´½¨µÄ´òÓ¡ÁË×Ö·û´®µÄÍ¼Æ¬
-	 */
+	
 	private BufferedImage createImage()
 	{
 		int width = 40;
@@ -117,12 +113,7 @@ public class ImageAction extends BaseAction
 		return image;
 	}
 
-	/**
-	 * ¸ù¾İÍ¼Æ¬´´½¨×Ö½ÚÊı×é
-	 * 
-	 * @param image
-	 *            ÓÃÓÚ´´½¨×Ö½ÚÊı×éµÄÍ¼Æ¬
-	 */
+	
 	private void generatorImageBytes(BufferedImage image)
 	{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -146,11 +137,7 @@ public class ImageAction extends BaseAction
 		}
 	}
 
-	/**
-	 * ±»struts2¹ıÂËÆ÷µ÷ÓÃµÄ·½·¨
-	 * 
-	 * @return ÓÀÔ¶·µ»Ø×Ö·û´®"image"
-	 */
+	
 	public String doDefault()
 	{
 		this.generateText();

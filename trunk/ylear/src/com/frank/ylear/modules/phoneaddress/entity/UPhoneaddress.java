@@ -1,5 +1,7 @@
 package com.frank.ylear.modules.phoneaddress.entity;
 
+import com.frank.ylear.modules.unitInfo.entity.TPosition;
+
 /**
  * UPhoneaddress entity.
  * 
@@ -20,8 +22,26 @@ public class UPhoneaddress implements java.io.Serializable
 	private String name;
 	private String department;
 	private String area;
-
+	private String post;
+	private TPosition TPosition;//单位
+	private String homenumber;
 	// Constructors
+
+	public String getPost() {
+		return post;
+	}
+
+	public void setPost(String post) {
+		this.post = post;
+	}
+
+	public String getHomenumber() {
+		return homenumber;
+	}
+
+	public void setHomenumber(String homenumber) {
+		this.homenumber = homenumber;
+	}
 
 	/** default constructor */
 	public UPhoneaddress()
@@ -34,17 +54,22 @@ public class UPhoneaddress implements java.io.Serializable
 		this.phonenumber = phonenumber;
 	}
 
-	/** full constructor */
-	public UPhoneaddress(String phonenumber, String name, String department,
-			String area)
-	{
+
+	// Property accessors
+
+	public UPhoneaddress(Long id, String phonenumber, String name,
+			String department, String area, String post, TPosition TPosition,
+			String homenumber) {
+		super();
+		this.id = id;
 		this.phonenumber = phonenumber;
 		this.name = name;
 		this.department = department;
 		this.area = area;
+		this.post = post;
+		TPosition = TPosition;
+		this.homenumber = homenumber;
 	}
-
-	// Property accessors
 
 	public Long getId()
 	{
@@ -94,6 +119,14 @@ public class UPhoneaddress implements java.io.Serializable
 	public void setArea(String area)
 	{
 		this.area = area;
+	}
+
+	public TPosition getTPosition() {
+		return TPosition;
+	}
+
+	public void setTPosition(TPosition tPosition) {
+		TPosition = tPosition;
 	}
 
 }

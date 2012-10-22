@@ -11,27 +11,27 @@ public interface MmsFileService
 {
 
 	/**
-	 * ²éÑ¯ÓÃ»§ÁÐ±í 
+	 *
 	 */
 	public void getMmsFileList(MmsFile mmsFile, PageBean<MmsFile> pageResult);
 	
 	/**
-	 * È¡µÃµ¥¸öÔªËØ
+	 * È¡ï¿½Ãµï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	 */	
 	public MmsFile getMmsFile(Long id);
 	
 	/**
-	 * ¸üÐÂ²ÊÐÅµÄÃû³Æ²é²ÊÐÅÊÇ·ñ´æÔÚ
+	 * ï¿½ï¿½Åµï¿½ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 	 * @param mmsName
 	 * @return
 	 */
 	public MmsFile getMmsFile(String mmsName);
 	/**
-	 * É¾³ý
+	 * 
 	 */
 	public void delMmsFile(Long id);
 	/**
-	 * Ìí¼Ó
+	 * ï¿½ï¿½ï¿½
 	 */
 	public Serializable saveMmsFile(MmsFile mmsFile);
 	
