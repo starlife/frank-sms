@@ -16,7 +16,7 @@ public class FileUtil
 {
 	private static final Log log = LogFactory.getLog(FileUtil.class);
 	/**
-	 * µÃµ½Á÷µÄÊý¾Ý
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param in
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public class FileUtil
 	}	
 	
 	/**
-	 *  Ð´Á÷Êý¾Ýµ½ÎÄ¼þÖÐ
+	 * Ýµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	 * @param in
 	 * @param f
 	 */

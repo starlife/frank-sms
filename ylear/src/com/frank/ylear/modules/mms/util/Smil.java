@@ -10,18 +10,18 @@ import org.apache.commons.logging.LogFactory;
 public class Smil
 {
 	private final Log log = LogFactory.getLog(Smil.class);
-	// smilÎÄ¼ş´æ·ÅÂ·¾¶
+	// smilæ–‡ä»¶å­˜æ”¾è·¯å¾„
 	private String filepath = "";
-	// smilÎÄ¼şÃû³Æ
+	// smilæ–‡ä»¶åç§°
 	private String filename = "";
-	// smilÎÄ¼şÄÚÈİ
+	// smilæ–‡ä»¶å†…å®¹
 	private String content = "";
 
-	// ÉèÖÃÎÄ¼ş´æ·ÅÂ·¾¶
+	// è®¾ç½®æ–‡ä»¶å­˜æ”¾è·¯å¾„
 	public void setSmilPath(String path)
 	{
 		this.filepath = path;
-		// Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨
+		// å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»º
 		File rootDir = new File(this.filepath);
 		if (!rootDir.isDirectory())
 		{
@@ -34,7 +34,7 @@ public class Smil
 		return this.filepath;
 	}
 
-	// ÉèÖÃsmilÎÄ¼şÃû³Æ
+	// è®¾ç½®smilæ–‡ä»¶åç§°
 	public void setSmilName(String name)
 	{
 		this.filename = name;
@@ -45,13 +45,13 @@ public class Smil
 		return this.filename;
 	}
 
-	// ÖØÖÃsmilÎÄ¼ş
+	// é‡ç½®smilæ–‡ä»¶
 	public void resetSmil()
 	{
 		this.content = "";
 	}
 
-	// ÎªsmilÎÄ¼ş¼ÓÈëÍ·²¿ĞÅÏ¢
+	// ä¸ºsmilæ–‡ä»¶åŠ å…¥å¤´éƒ¨ä¿¡æ¯
 	public void smilAddHead()
 	{
 		this.content = "<smil xmlns=\"http://www.w3.org/2001/SMIL20/CR/Language\">";
@@ -68,56 +68,56 @@ public class Smil
 		this.content += "\n  <body>";
 	}
 
-	// ÉèÖÃ²ÊĞÅ¿ªÊ¼±ê¼Ç¼°²ÊĞÅ²¥·ÅÊ±¼ä
+	// è®¾ç½®å½©ä¿¡å¼€å§‹æ ‡è®°åŠå½©ä¿¡æ’­æ”¾æ—¶é—´
 	public void setSmilParStart(int time)
 	{
 		this.content += "\n    <par dur=\"" + time + "s\">";
 	}
 
-	// ÉèÖÃ²ÊĞÅ½áÎ²±ê¼Ç
+	// è®¾ç½®å½©ä¿¡ç»“å°¾æ ‡è®°
 	public void setSmilParEnd()
 	{
 		this.content += "\n    </par>";
 	}
 
-	// ÉèÖÃ²ÊĞÅÆ¬¶Ï¿ªÊ¼±ê¼Ç
+	// è®¾ç½®å½©ä¿¡ç‰‡æ–­å¼€å§‹æ ‡è®°
 	public void setSmilSeqStart()
 	{
 		this.content += "\n      <seq>";
 	}
 
-	// ÉèÖÃ²ÊĞÅÆ¬¶Ï½áÊø±ê¼Ç
+	// è®¾ç½®å½©ä¿¡ç‰‡æ–­ç»“æŸæ ‡è®°
 	public void setSmilSeqEnd()
 	{
 		this.content += "\n      </seq>";
 	}
 
-	// ÉèÖÃ²ÊĞÅÉùÒô
+	// è®¾ç½®å½©ä¿¡å£°éŸ³
 	public void smilAddAudio(String audio)
 	{
 		this.content += "\n      <audio src=\"" + audio + "\"/>";
 	}
 
-	// ¸øÎÄ¼şÌí¼ÓÎÄ×ÖÄÚÈİ
+	// ç»™æ–‡ä»¶æ·»åŠ æ–‡å­—å†…å®¹
 	public void smilAddText(String text)
 	{
 		this.content += "\n      <text src=\"" + text + "\"/>";
 	}
 
-	// //¸øÎÄ¼şÌí¼ÓÍ¼Æ¬
+	// //ç»™æ–‡ä»¶æ·»åŠ å›¾ç‰‡
 	public void smilAddImg(String img)
 	{
 		this.content += "\n      <img src=\"" + img + "\"/>";
 	}
 
-	// ¸øÎÄ¼şÌí¼ÓÎ²²¿ĞÅÏ¢
+	// ç»™æ–‡ä»¶æ·»åŠ å°¾éƒ¨ä¿¡æ¯
 	public void smilAddFoot()
 	{
 		this.content += "\n  </body>";
 		this.content += "\n</smil>";
 	}
 
-	// Éú³É²ÊĞÅsmilÎÄ¼ş
+	// ç”Ÿæˆå½©ä¿¡smilæ–‡ä»¶
 	public void generateSmil()
 	{
 		FileWriter fw;
@@ -134,7 +134,7 @@ public class Smil
 		}
 	}
 
-	// ¶ÁÈ¡Éú³ÉÎÄ¼şÄÚÈİ
+	// è¯»å–ç”Ÿæˆæ–‡ä»¶å†…å®¹
 	public String getSmil()
 	{
 		return this.content;
@@ -143,15 +143,15 @@ public class Smil
 	public static void main(String[] args)
 	{
 		/*
-		 * String path="D:/"; String name="test1"; //´´½¨¶ÔÏó Smil sml=new Smil();
-		 * //ÉèÖÃÎÄ¼ş´æ·ÅÂ·¾¶ sml.setSmilPath(path); //ÉèÖÃÎÄ¼şÃû sml.setSmilName(name);
-		 * //ÉèÖÃÎÄ¼şÄÚÈİ sml.resetSmil();//ÖØÖÃÎÄ¼şÄÚÈİ sml.smilAddHead();//²¢Ìí¼ÓÎÄ¼şÍ·²¿ĞÅÏ¢¡£
-		 * sml.setSmilParStart(60);//²ÊĞÅ¿ªÊ¼±ê¼Ç sml.smilAddImg("1.gif");
-		 * sml.smilAddText("1.txt"); sml.smilAddAudio("1.wav");//²ÊĞÅÉùÒôÎÄ¼ş
-		 * sml.setSmilParEnd();//²ÊĞÅ½áÊø±ê¼Ç sml.setSmilParStart(30);//²ÊĞÅ¿ªÊ¼±ê¼Ç
+		 * String path="D:/"; String name="test1"; //åˆ›å»ºå¯¹è±¡ Smil sml=new Smil();
+		 * //è®¾ç½®æ–‡ä»¶å­˜æ”¾è·¯å¾„ sml.setSmilPath(path); //è®¾ç½®æ–‡ä»¶å sml.setSmilName(name);
+		 * //è®¾ç½®æ–‡ä»¶å†…å®¹ sml.resetSmil();//é‡ç½®æ–‡ä»¶å†…å®¹ sml.smilAddHead();//å¹¶æ·»åŠ æ–‡ä»¶å¤´éƒ¨ä¿¡æ¯ã€‚
+		 * sml.setSmilParStart(60);//å½©ä¿¡å¼€å§‹æ ‡è®° sml.smilAddImg("1.gif");
+		 * sml.smilAddText("1.txt"); sml.smilAddAudio("1.wav");//å½©ä¿¡å£°éŸ³æ–‡ä»¶
+		 * sml.setSmilParEnd();//å½©ä¿¡ç»“æŸæ ‡è®° sml.setSmilParStart(30);//å½©ä¿¡å¼€å§‹æ ‡è®°
 		 * sml.smilAddImg("2.gif"); sml.smilAddText("2.txt");
-		 * sml.smilAddAudio("2.wav");//²ÊĞÅÉùÒôÎÄ¼ş sml.setSmilParEnd();//²ÊĞÅ½áÊø±ê¼Ç
-		 * sml.smilAddFoot();//¼ÓÈëÎÄ¼şÎ²²¿ĞÅÏ¢ //Éú³É²ÊĞÅÎÄ¼ş sml.generateSmil(); //¶ÁÈ¡Éú³ÉÎÄ¼ş
+		 * sml.smilAddAudio("2.wav");//å½©ä¿¡å£°éŸ³æ–‡ä»¶ sml.setSmilParEnd();//å½©ä¿¡ç»“æŸæ ‡è®°
+		 * sml.smilAddFoot();//åŠ å…¥æ–‡ä»¶å°¾éƒ¨ä¿¡æ¯ //ç”Ÿæˆå½©ä¿¡æ–‡ä»¶ sml.generateSmil(); //è¯»å–ç”Ÿæˆæ–‡ä»¶
 		 * String str=sml.getFileContent(); System.out.println(str);
 		 */
 	}

@@ -17,14 +17,14 @@ public class Tools
 	public static final int BUFSIZE = 1024;
 
 	/**
-	 * ¹ıÂË·Ç·¨ºÅÂë£¬ÖØ¸´ºÅÂë
+	 *ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param numbers
 	 * @return
 	 */
 	public static String parse(String numbers)
 	{
-		String[] nums = numbers.split("[;£»,£¬]");
+		String[] nums = numbers.split("[;ï¿½ï¿½,ï¿½ï¿½]");
 		StringBuffer sb = new StringBuffer();
 		Set<String> set = new HashSet<String>();
 		for (int i = 0; i < nums.length; i++)
@@ -43,7 +43,7 @@ public class Tools
 		}
 		if (sb.length() > 1)
 		{
-			// É¾³ı×îºóÒ»¸ö";"
+			
 			sb.deleteCharAt(sb.length() - 1);
 		}
 		return sb.toString();

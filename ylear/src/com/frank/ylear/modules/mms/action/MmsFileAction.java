@@ -36,50 +36,47 @@ public class MmsFileAction extends BaseAction
 
 	private String frameText;
 
-	/* µ±Ç°Ö¡ */
+	/* ï¿½ï¿½Ç°Ö¡ */
 	// private Integer currentFrameId;
 	private Integer frameId;
 
-	/* µ±Ç°Ö¡²¥·ÅÊ±¼ä */
+	/* ï¿½ï¿½Ç°Ö¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ */
 	private Integer duringTime;
 
-	/* ²ÊÐÅÃû³Æ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private String mmsName;
 
-	/* Ìá¹©¸ø²é¿´²ÊÐÅÒ³Ãæ²éÑ¯ÓÃ */
+	/**/
 	private String id;
 
-	private String callbackMsg;// »Øµ÷ÏûÏ¢
+	private String callbackMsg;//
 
 	private String mType;
 	private String title;
 
 	/** ***================================================================** */
-	/* ²ÊÐÅ±à¼­Æ÷Ö÷Ò³ */
+	/**/
 	public String mmsEditor() throws Exception
 	{
-		// ¸ù¾ÝidÖµÊÇ·ñÎª¿ÕÀ´ÅÐ¶ÏÊÇÐÂÔö»òÕß±à¼­
-		// Èç¹ûÊÇ±à¼­£¬ÄÇÃ´ÖØÊý¾Ý¿âÖÐ¹ú¶ÁÈ¡Êý¾ÝÐ´µ½sessionÖÐ
-		// Èç¹ûÊÇÐÂÔö£¬ÒªÉ¾³ýÖ®Ç°ÊôÓÚ±à¼­µÄsession
 		if (this.getId() != null)
 		{
-			// Èç¹ûid²»Îª¿Õ£¬ÄÇÃ´ÊÇ¶ÔÔ­ÓÐ²ÊÐÅµÄ±à¼­
+			//ï¿½Õ£ï¿½ï¿½ï¿½Ã´ï¿½Ç¶ï¿½Ô­ï¿½Ð²ï¿½ï¿½ÅµÄ±à¼­
 			MmsFile mmsFile = mmsFileService.getMmsFile(Long.parseLong(this
 					.getId()));
-			// ×é×°²ÊÐÅ
+			//ï¿½ï¿½ï¿½
 			MMSFileHelper.makeMMS(mmsFile, this.getRealPath());
-			// Ñ¡ÔñµÚÒ»Ö¡Îªµ±Ç°Ö¡
+			//ï¿½ï¿½Ç°Ö¡
 			if (mmsFile.getFrames() > 0)
 			{
 				MMSFileHelper.changeCurrentFrame(mmsFile, 1);
 			}
-			// ÉèÖÃ²ÊÐÅÃû³Æ
+			// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.setMmsName(mmsFile.getMmsName());
 			this.getSession().put("mmsfile", mmsFile);
 		}
 		else
 		{
-			// Èç¹ûµ±Ç°±£´æµÄÊÇ±à¼­µÄsession£¬ÄÇÃ´ÒªÉ¾³ý
+			//
 			MmsFile mmsFile = this.getMmsFileFromSession();
 			if (mmsFile.getId() != null)
 			{
@@ -90,25 +87,16 @@ public class MmsFileAction extends BaseAction
 		return SUCCESS;
 	}
 
-	/**
-	 * ´ÓÊÖ»ú±¨ÖÐ¶Á²ÊÐÅ
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
+	
 	public String mmsFrom3g() throws Exception
 	{
-
-		// ´ÓÊÖ»ú±¨ÖÐ¶ÁÈ¡²ÊÐÅ
-		// ÐèÒªµÄ²ÎÊýÎªurl
-		// ÏÈÉ¾³ýsession£¬µÃµ½ÐÂµÄsession
 		boolean flag = false;
 		//String tip="";
 		if (this.getMType() != null && this.getTitle() != null)
 		{
 			this.delMmsFileFromSession();
 			MmsFile mmsFile = this.getMmsFileFromSession();
-			// ³õÊ¼»¯²ÊÐÅsession
+			// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½session
 			String urlFormat = "http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=%s&Title=%s";
 			String url = String.format(urlFormat, URLEncoder.encode(getMType(),
 					"UTF-8"), URLEncoder.encode(getTitle(), "UTF-8"));
@@ -116,7 +104,7 @@ public class MmsFileAction extends BaseAction
 					.makeMMSFrom3G(mmsFile,getRealPath(), url);
 			if(flag)
 			{
-				//ÕâÀïÅÐ¶ÏÊÇÐèÒª¸üÐÂ»¹ÊÇ²åÈë
+				//ï¿½ï¿½ï¿½Â»ï¿½ï¿½Ç²ï¿½ï¿½ï¿½
 				MmsFile temp=mmsFileService.getMmsFile(mmsFile.getMmsName());
 				if(temp!=null)
 				{
@@ -125,20 +113,20 @@ public class MmsFileAction extends BaseAction
 				Long id = MMSFileHelper.saveMmsFile(mmsFileService, mmsFile,getRealPath());
 				if (id != null||(id==null&&temp!=null))
 				{
-					// ÕâÀïÉ¾³ýsession
+					// ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½session
 					delMmsFileFromSession();
-					// Çå¿ÕËùÓÐÎÄ¼þ
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 					String dir = getRealPath()+File.separator+Constants.UPLOAD_FILE_DIR;
 					MMSFileHelper.cleanAllUploadFile(dir);
 				}else
 				{
-					//±£´æÊ§°Ü
-					//tip="±£´æ²ÊÐÅÊ§°Ü£¬ÇëÉÔºóÔÙÊÔ";
+					//ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+					//tip="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½ï¿½ï¿½";
 					flag = false;
 				}
 			}else
 			{
-				//tip="¶ÁÈ¡²ÊÐÅÊ§°Ü£¬Çë¼á³ÖÊÇ·ñÊÇ";
+				//tip="ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½";
 				;
 			}
 
@@ -152,7 +140,7 @@ public class MmsFileAction extends BaseAction
 	}
 	
 	/**
-	 * ¶Á3gÊÖ»ú±¨Ò³Ãæ
+	 * ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -164,7 +152,7 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ²ÊÐÅui½çÃæ
+	 * ï¿½ï¿½ï¿½ï¿½uiï¿½ï¿½ï¿½ï¿½
 	 */
 	public String showui() throws Exception
 	{
@@ -177,7 +165,7 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ÁÐ±íÏÔÊ¾
+	 * ï¿½Ð±ï¿½ï¿½ï¿½Ê¾
 	 * 
 	 * @return
 	 * @throws Exception
@@ -204,7 +192,7 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ±£´æ²ÊÐÅ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -238,9 +226,9 @@ public class MmsFileAction extends BaseAction
 			}
 			if (id != null)
 			{
-				// ÕâÀïÉ¾³ýsession
+				// ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½session
 				delMmsFileFromSession();
-				// Çå¿ÕËùÓÐÎÄ¼þ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 				String dir = getRealPath()+File.separator+Constants.UPLOAD_FILE_DIR;
 				MMSFileHelper.cleanAllUploadFile(dir);
 				result = String.valueOf(id) + "," + String.valueOf(frames);
@@ -261,12 +249,10 @@ public class MmsFileAction extends BaseAction
 		return null;
 	}
 
-	/**
-	 * ¹Ø±Õ
-	 */
+	
 	public String close() throws Exception
 	{
-		// É¾³ýsession
+		//å…³é—­session
 		this.delMmsFileFromSession();
 		PrintWriter out = this.getServletResponse().getWriter();
 		out.write("true");
@@ -276,12 +262,12 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ²ÊÐÅ²é¿´Æ÷
+	 * ï¿½ï¿½ï¿½Å²é¿´ï¿½ï¿½
 	 */
 
 	public String mmsViewer() throws Exception
 	{
-		// ÏÈ´ÓÊý¾Ý¿âÖÐ¶Á³öËùÓÐÊý¾Ý£¬È»ºóÒÔÎÄ¼þµÄÐÎÊ½Ð´µ½tempÄ¿Â¼ÖÐ
+		// ï¿½È´ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð¶sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Ð´ï¿½ï¿½tempÄ¿Â¼ï¿½ï¿½
 		if (this.getId() == null)
 		{
 			return SUCCESS;
@@ -293,44 +279,44 @@ public class MmsFileAction extends BaseAction
 			return SUCCESS;
 		}
 		
-		// ×é×°²ÊÐÅ
+		//ï¿½ï¿½ï¿½ï¿½
 		MMSFileHelper.makeMMS(mmsFile,this.getRealPath());
 		this.setMmsName(mmsFile.getMmsName());
-		this.getSession().put("showmms", mmsFile); // ÖØÐÂÏÔÊ¾µ±Ç°Ò³Ãæ //
+		this.getSession().put("showmms", mmsFile); //
 		return SUCCESS;
 	}
 
 	public void validateChoiceFrame()
 	{
-		// ¼ì²éÖ¡idÊÇ·ñÕýÈ·
+		//
 		this.checkChangeFrameId();
 	}
 
 	public void validateUploadImage()
 	{
-		// ÑéÖ¤ÎÄ¼þÊÇ·ñÎª¿Õ£¬ÎÄ¼þÀàÐÍÊÇ·ñÕýÈ·£¬ÎÄ¼þ´óÐ¡ÊÇ·ñ³¬³ö£¬×Ü´óÐ¡ÊÇ·ñ³¬³ö
+		// ï¿½ï¿½Ö¤ï¿½Ä¼ï¿½ï¿½Ç·ï¿½Îªï¿½Õ£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½ï¿½Ü´ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½
 		File file = this.getImage();
 		String fileType = this.getImageContentType();
 		if (!checkUploadFileNotEmpty(file))
 		{
 			return;
 		}
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
 		}
-		// ¼ì²éÎÄ¼þÀàÐÍÊÇ·ñ·ûºÏ
+		// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
 		if (!checkUploadFileType("image", fileType))
 		{
 			return;
 		}
-		// ¼ì²éÎÄ¼þ´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡
 		if (!checkUploadFileSize(file.length()))
 		{
 			return;
 		}
-		// ¼ì²é²ÊÐÅ×Ü´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü´ï¿½Ð¡
 		if (!checkMmsSizeBeyond("image", file.length()))
 		{
 			return;
@@ -340,7 +326,7 @@ public class MmsFileAction extends BaseAction
 
 	public void validateClearImage()
 	{
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
@@ -349,29 +335,29 @@ public class MmsFileAction extends BaseAction
 
 	public void validateUploadAudio()
 	{
-		// ÑéÖ¤ÎÄ¼þÊÇ·ñÎª¿Õ£¬ÎÄ¼þÀàÐÍÊÇ·ñÕýÈ·£¬ÎÄ¼þ´óÐ¡ÊÇ·ñ³¬³ö£¬×Ü´óÐ¡ÊÇ·ñ³¬³ö
+		//ï¿½Õ£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½ï¿½Ü´ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½
 		File file = this.getAudio();
 		String fileType = this.getAudioContentType();
 		if (!checkUploadFileNotEmpty(file))
 		{
 			return;
 		}
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
 		}
-		// ¼ì²éÎÄ¼þÀàÐÍÊÇ·ñ·ûºÏ
+		// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
 		if (!checkUploadFileType("audio", fileType))
 		{
 			return;
 		}
-		// ¼ì²éÎÄ¼þ´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡
 		if (!checkUploadFileSize(file.length()))
 		{
 			return;
 		}
-		// ¼ì²é²ÊÐÅ×Ü´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü´ï¿½Ð¡
 		if (!checkMmsSizeBeyond("audio", file.length()))
 		{
 			return;
@@ -381,7 +367,7 @@ public class MmsFileAction extends BaseAction
 
 	public void validateClearAudio()
 	{
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
@@ -390,13 +376,13 @@ public class MmsFileAction extends BaseAction
 
 	public void validateUploadText()
 	{
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
 		}
 
-		// ¼ì²é²ÊÐÅ×Ü´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü´ï¿½Ð¡
 		String text = this.getFrameText();
 		if (text != null)
 		{
@@ -411,7 +397,7 @@ public class MmsFileAction extends BaseAction
 
 	public void validateClearText()
 	{
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
@@ -420,12 +406,12 @@ public class MmsFileAction extends BaseAction
 
 	public void validateChangeDuringTime()
 	{
-		// ¼ì²éµ±Ç°ÊÇ·ñÓÐÖ¡´æÔÚ
+		//Ö¡ï¿½ï¿½ï¿½ï¿½
 		if (!checkCurrentFrameId())
 		{
 			return;
 		}
-		// ¼ì²éµ±Ç°Ö¡¼ä¸ôÊ±¼äÊÇ·ñÕýÈ·
+		//ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·
 		if (!checkDuringTime())
 		{
 			return;
@@ -433,7 +419,7 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ²åÈëÖ¡
+	 * ï¿½ï¿½ï¿½ï¿½Ö¡
 	 * 
 	 * @return
 	 * @throws Exception
@@ -443,14 +429,13 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = getMmsFileFromSession();
 
 		MMSFileHelper.addFrame(mmsFile);
-
-		// »Øµ÷º¯Êý
+		//ï¿½ï¿½
 		this.setCallbackMsg("choiceFrame_callback()");
 		return SHOWUI;
 	}
 
 	/**
-	 * Ñ¡ÔñÖ¡
+	 * Ñ¡ï¿½ï¿½Ö¡
 	 * 
 	 * @return
 	 * @throws Exception
@@ -460,13 +445,14 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 
 		MMSFileHelper.changeCurrentFrame(mmsFile, this.getFrameId());
-		// »Øµ÷º¯Êý
+		//
+		//
 		this.setCallbackMsg("choiceFrame_callback()");
 		return SHOWUI;
 	}
 
 	/**
-	 * É¾³ýÖ¡
+	 *Ö¡
 	 * 
 	 * @return
 	 * @throws Exception
@@ -477,17 +463,17 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 		Integer frameid = this.getFrameId();
 
-		// É¾³ýÖ¡
+		//Ö¡
 		MMSFileHelper.delFrame(mmsFile, frameid);
-
-		// »Øµ÷º¯Êý
+		
+		//
 		this.setCallbackMsg("choiceFrame_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * ÉÏ´«Í¼Æ¬ÎÄ¼þ
+	 *
 	 * 
 	 * @return
 	 * @throws Exception
@@ -499,14 +485,14 @@ public class MmsFileAction extends BaseAction
 		MMSFileHelper.uploadImage(mmsFile, getRealPath(), getImage(),
 				getImageFileName(), getImageContentType());
 
-		// ÉèÖÃ»Øµ÷º¯Êý
+		//
 		this.setCallbackMsg("upload_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * ÉÏ´«ÁåÉùÎÄ¼þ
+	 * ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -518,14 +504,14 @@ public class MmsFileAction extends BaseAction
 		MMSFileHelper.uploadAudio(mmsFile, getRealPath(), getAudio(),
 				getAudioFileName(), getAudioContentType());
 
-		// ÉèÖÃ»Øµ÷º¯Êý
+		//
 		this.setCallbackMsg("upload_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * ÉÏ´«ÎÄ±¾
+	 * ï¿½Ï´ï¿½ï¿½Ä±ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -536,14 +522,14 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 
 		MMSFileHelper.uploadText(mmsFile, getFrameText());
-		// ÉèÖÃ»Øµ÷º¯Êý
+		//
 		this.setCallbackMsg("upload_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * Çå³ýÍ¼Æ¬ÎÄ¼þ
+	 *
 	 * 
 	 * @return
 	 * @throws Exception
@@ -554,14 +540,14 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 
 		MMSFileHelper.clearImage(mmsFile);
-		// ÉèÖÃ»Øµ÷º¯Êý
+		//
 		this.setCallbackMsg("clearImage_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * Çå³ýÁåÉùÎÄ¼þ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -571,14 +557,14 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 
 		MMSFileHelper.clearAudio(mmsFile);
-		// ÉèÖÃ»Øµ÷º¯Êý
+		//
 		this.setCallbackMsg("clearAudio_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * Çå³ýÎÄ±¾
+	 * ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -588,14 +574,13 @@ public class MmsFileAction extends BaseAction
 		MmsFile mmsFile = this.getMmsFileFromSession();
 
 		MMSFileHelper.clearText(mmsFile);
-		// ÉèÖÃ»Øµ÷º¯Êý
 		this.setCallbackMsg("clearText_callback()");
 		return SHOWUI;
 
 	}
 
 	/**
-	 * ±ä¸üÖ¡µÄ²¥·ÅÊ±¼ä
+	 * ï¿½ï¿½ï¿½Ö¡ï¿½Ä²ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -611,7 +596,7 @@ public class MmsFileAction extends BaseAction
 
 	}
 
-	/** ******************ÏÂÃæÊÇÒ»Ð©¸¨Öú·½·¨******************* */
+	/** ******************ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸®åŠ©å‡½æ•°******************* */
 
 	private MmsFile getMmsFileFromSession()
 	{
@@ -634,7 +619,7 @@ public class MmsFileAction extends BaseAction
 		this.getSession().remove("mmsfile");
 	}
 
-	/* ¼ì²éµ±Ç°Ö¡idÊÇ·ñÕýÈ· */
+	
 	private boolean checkCurrentFrameId()
 	{
 		MmsFile mmsFile = this.getMmsFileFromSession();
@@ -648,7 +633,7 @@ public class MmsFileAction extends BaseAction
 		return true;
 	}
 
-	/* ¼ì²é¸Ä±äµÄÖ¡ÊÇ¸öÕýÈ·µÄÖ¡ */
+	/* ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ö¡ï¿½Ç¸ï¿½ï¿½ï¿½È·ï¿½ï¿½Ö¡ */
 	private boolean checkChangeFrameId()
 	{
 		if (this.getFrameId() == null)
@@ -670,7 +655,7 @@ public class MmsFileAction extends BaseAction
 
 	private boolean checkUploadFileNotEmpty(File file)
 	{
-		// ÑéÖ¤ÎÄ¼þÊÇ·ñÎª¿Õ£¬ÎÄ¼þÀàÐÍÊÇ·ñÕýÈ·£¬ÎÄ¼þ´óÐ¡ÊÇ·ñ³¬³ö£¬×Ü´óÐ¡ÊÇ·ñ³¬³ö
+		//ï¿½Õ£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½ï¿½Ü´ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½
 		if (file == null)
 		{
 			String tip = getText("file.null");
@@ -682,15 +667,15 @@ public class MmsFileAction extends BaseAction
 
 	/**
 	 * @param checkType
-	 *            Öµimage»òaudio
+	 *      
 	 * @param fileType
-	 * @return ÑéÖ¤Í¨¹ýtrue
+	 * @return ï¿½ï¿½Ö¤Í¨ï¿½ï¿½true
 	 */
 	private boolean checkUploadFileType(String checkType, String fileType)
 	{
 		if (checkType.equals("image"))
 		{
-			// ¼ì²éÎÄ¼þÀàÐÍÊÇ·ñ·ûºÏ
+			// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
 			if (this.getText("file.type.image").indexOf(fileType) == -1)
 			{
 				String tip = getText("file.type.image.error");
@@ -700,7 +685,7 @@ public class MmsFileAction extends BaseAction
 		}
 		else
 		{
-			// ¼ì²éÎÄ¼þÀàÐÍÊÇ·ñ·ûºÏ
+			// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
 			if (this.getText("file.audio").indexOf(fileType) == -1)
 			{
 				String tip = getText("file.type.audio.error");
@@ -723,16 +708,16 @@ public class MmsFileAction extends BaseAction
 	}
 
 	/**
-	 * ¼ì²é²ÊÐÅ´óÐ¡ÊÇ·ñ³¬³ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½Ð¡ï¿½Ç·ñ³¬³ï¿½
 	 * 
 	 * @param checkType
-	 *            ÖµÎªimage£¬audio,text
+	 *          
 	 * @param fileSize
 	 * @return
 	 */
 	private boolean checkMmsSizeBeyond(String checkType, long fileSize)
 	{
-		// ¼ì²é²ÊÐÅ×Ü´óÐ¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü´ï¿½Ð¡
 		MmsFile mmsFile = this.getMmsFileFromSession();
 		int frameid = mmsFile.getCurrentFrameId();
 		MmsFrame fr = mmsFile.getFrameMap().get(frameid);

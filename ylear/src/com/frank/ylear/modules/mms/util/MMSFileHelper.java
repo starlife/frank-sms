@@ -41,7 +41,7 @@ public class MMSFileHelper
 	private static final Log log = LogFactory.getLog(MMSFileHelper.class);
 
 	/**
-	 * °ÑËùÓĞ¸½¼şºÍÎÄ×Ö¶¼×é×°³ÉÒ»¸öMmsFile¶ÔÏó
+	 * æŠŠæ‰€æœ‰é™„ä»¶å’Œæ–‡å­—éƒ½ç»„è£…æˆä¸€ä¸ªMmsFileå¯¹è±¡
 	 * 
 	 * @param mmsFile
 	 * @param mmsName
@@ -54,16 +54,16 @@ public class MMSFileHelper
 		// boolean flag = true;
 		Long id = null;
 		int frames = 0;
-		List<InputStream> files = new ArrayList<InputStream>();// ±£´æĞèÒª¹Ø±ÕµÄ¶ÔÏó
+		List<InputStream> files = new ArrayList<InputStream>();// ä¿å­˜éœ€è¦å…³é—­çš„å¯¹è±¡
 		try
 		{
-			// ÏÂÃæÊÇ°ÑÎÄ¼şµÄĞÅÏ¢Ğ´µ½uploadFile¶ÔÏóÖĞ begin
+			// ä¸‹é¢æ˜¯æŠŠæ–‡ä»¶çš„ä¿¡æ¯å†™åˆ°uploadFileå¯¹è±¡ä¸­ begin
 			UploadFile uploadFile;
 			MmsFrame fr;
 			mmsFile.getUploadFiles().clear();
 			Map<Integer, MmsFrame> map = mmsFile.getFrameMap();
 			Iterator<Integer> it = map.keySet().iterator();
-			// Ñ­»·±éÀúÃ¿Ò»Ö¡
+			// å¾ªç¯éå†æ¯ä¸€å¸§
 			while (it.hasNext())
 			{
 				Integer key = it.next();
@@ -75,11 +75,11 @@ public class MMSFileHelper
 					FileInputStream input = new FileInputStream(file);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
-					uploadFile.setFiledata(blob);// ÉèÖÃÎÄ¼şÄÚÈİ
-					uploadFile.setFilename(file.getName());// ÉèÖÃÎÄ¼şÃû
-					uploadFile.setFilesize(blob.length());// ÉèÖÃÎÄ¼ş´óĞ¡
-					uploadFile.setFiletype(fr.getImageFileType());// ÉèÖÃÎÄ¼şÀàĞÍ
-					uploadFile.setFrameid(key);// ÉèÖÃÖ¡ºÅ
+					uploadFile.setFiledata(blob);// è®¾ç½®æ–‡ä»¶å†…å®¹
+					uploadFile.setFilename(file.getName());// è®¾ç½®æ–‡ä»¶å
+					uploadFile.setFilesize(blob.length());// è®¾ç½®æ–‡ä»¶å¤§å°
+					uploadFile.setFiletype(fr.getImageFileType());// è®¾ç½®æ–‡ä»¶ç±»å‹
+					uploadFile.setFrameid(key);// è®¾ç½®å¸§å·
 					uploadFile.setUploadtime(DateUtils.getTimestamp14());
 					mmsFile.getUploadFiles().add(uploadFile);
 
@@ -91,11 +91,11 @@ public class MMSFileHelper
 					FileInputStream input = new FileInputStream(file);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
-					uploadFile.setFiledata(blob);// ÉèÖÃÎÄ¼şÄÚÈİ
-					uploadFile.setFilename(file.getName());// ÉèÖÃÎÄ¼şÃû
-					uploadFile.setFilesize(blob.length());// ÉèÖÃÎÄ¼ş´óĞ¡
-					uploadFile.setFiletype(fr.getAudioFileType());// ÉèÖÃÎÄ¼şÀàĞÍ
-					uploadFile.setFrameid(key);// ÉèÖÃÖ¡ºÅ
+					uploadFile.setFiledata(blob);// è®¾ç½®æ–‡ä»¶å†…å®¹
+					uploadFile.setFilename(file.getName());// è®¾ç½®æ–‡ä»¶å
+					uploadFile.setFilesize(blob.length());// è®¾ç½®æ–‡ä»¶å¤§å°
+					uploadFile.setFiletype(fr.getAudioFileType());// è®¾ç½®æ–‡ä»¶ç±»å‹
+					uploadFile.setFrameid(key);// è®¾ç½®å¸§å·
 					uploadFile.setUploadtime(DateUtils.getTimestamp14());
 					mmsFile.getUploadFiles().add(uploadFile);
 
@@ -107,29 +107,29 @@ public class MMSFileHelper
 					ByteArrayInputStream input = new ByteArrayInputStream(data);
 					files.add(input);
 					Blob blob = Hibernate.createBlob(input);
-					uploadFile.setFiledata(blob);// ÉèÖÃÎÄ¼şÄÚÈİ
-					uploadFile.setFilesize(blob.length());// ÉèÖÃÎÄ¼ş´óĞ¡
-					uploadFile.setFilename(key+".txt");// ÉèÖÃÎÄ¼şÃû
-					uploadFile.setFrameid(key);// ÉèÖÃÖ¡ºÅ
+					uploadFile.setFiledata(blob);// è®¾ç½®æ–‡ä»¶å†…å®¹
+					uploadFile.setFilesize(blob.length());// è®¾ç½®æ–‡ä»¶å¤§å°
+					uploadFile.setFilename(key+".txt");// è®¾ç½®æ–‡ä»¶å
+					uploadFile.setFrameid(key);// è®¾ç½®å¸§å·
 					uploadFile.setUploadtime(DateUtils.getTimestamp14());
 					uploadFile.setFiletype(fr.getTextFileType());
 					mmsFile.getUploadFiles().add(uploadFile);
 
 				}
 			}
-			// end ÏÂÃæÊÇ°ÑÎÄ¼şµÄĞÅÏ¢Ğ´µ½uploadFile¶ÔÏóÖĞ
+			// end ä¸‹é¢æ˜¯æŠŠæ–‡ä»¶çš„ä¿¡æ¯å†™åˆ°uploadFileå¯¹è±¡ä¸­
 
-			String smil = MMSFileHelper.createSmil(mmsFile);// ´´½¨smil
+			String smil = MMSFileHelper.createSmil(mmsFile);// åˆ›å»ºsmil
 			long smilSize = smil.getBytes(Constants.CHARSET).length;
 			frames = mmsFile.getFrameMap().size();
-			long mmsSize = smilSize + mmsFile.getMmsSize();// ²ÊĞÅ×Ü´óĞ¡
+			long mmsSize = smilSize + mmsFile.getMmsSize();// å½©ä¿¡æ€»å¤§å°
 			mmsFile.setFrames(frames);
 			mmsFile.setSmildata(smil);
 			mmsFile.setSmilname(Constants.SMIL_NAME);
 			mmsFile.setSmilsize(smilSize);
 			mmsFile.setMmsSize(mmsSize);
 			mmsFile.setCreatetime(DateUtils.getTimestamp14());
-			//ÕâÀï±£´æ
+			//è¿™é‡Œä¿å­˜
 			id = (Long)service.saveMmsFile(mmsFile);
 			return id;
 			
@@ -143,7 +143,7 @@ public class MMSFileHelper
 		}
 		finally
 		{
-			// ¹Ø±ÕÎÄ¼şÖ¸Õë
+			// å…³é—­æ–‡ä»¶æŒ‡é’ˆ
 			for (int i = 0; i < files.size(); i++)
 			{
 				try
@@ -161,7 +161,7 @@ public class MMSFileHelper
 	
 	public static boolean makeMMSFrom3G(MmsFile mmsFile,String realPath,String url)
 	{
-		// ´Ó¸ø¶¨µÄurlÖĞ¶ÁÈ¡²ÊĞÅÄÚÈİ
+		// ä»ç»™å®šçš„urlä¸­è¯»å–å½©ä¿¡å†…å®¹
 		Document doc=null;
 		String mmsName=null;
 		try
@@ -174,13 +174,13 @@ public class MMSFileHelper
 			mmsName=PapTitle.getTextTrim();
 			if(mmsName.equals(""))
 			{
-				log.info("¶ÁÈ¡ÊÖ»ú±¨Ê±È±ÉÙ²ÊĞÅ±êÌâ");
+				log.info("è¯»å–æ‰‹æœºæŠ¥æ—¶ç¼ºå°‘å½©ä¿¡æ ‡é¢˜");
 				return false;
 			}
 			List<Element> list=root.getChildren("MobileNewsInfo");
 			if(list==null||list.size()==0)
 			{
-				log.info("¶ÁÈ¡ÊÖ»ú±¨Ê±È±ÉÙ²ÊĞÅÄÚÈİ");
+				log.info("è¯»å–æ‰‹æœºæŠ¥æ—¶ç¼ºå°‘å½©ä¿¡å†…å®¹");
 				return false;
 			}
 			for(int i=0;i<list.size();i++)
@@ -192,13 +192,13 @@ public class MMSFileHelper
 				if(ImgFile!=null)
 				{
 					String imageFile=ImgFile.getTextTrim();
-					//ÕâÀï×ö´¦ÀíÍ¼Æ¬
+					//è¿™é‡Œåšå¤„ç†å›¾ç‰‡
 					String newFileName=newFileName(realPath,"img_",imageFile);
 					File img = getTempFile(realPath,newFileName);
 					FileUtil.saveData(new URL(imageFile).openStream(),img);
-					//Í¼Æ¬Ëõ·Å,ÒÔ¿í260pxµÈ±ÈÀıËõ·Å
+					//å›¾ç‰‡ç¼©æ”¾,ä»¥å®½260pxç­‰æ¯”ä¾‹ç¼©æ”¾
 					ImageHelper.resize(img,260);
-					//ÉèÖÃµ½Ö¡
+					//è®¾ç½®åˆ°å¸§
 					fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator
 							+ img.getName());
 					fr.setImageFileName(img.getName());
@@ -208,25 +208,25 @@ public class MMSFileHelper
 				if(Content!=null)
 				{				
 					String text=Content.getTextTrim();									
-					//ÕâÀï×ö´¦ÀíÎÄ×Ö
+					//è¿™é‡Œåšå¤„ç†æ–‡å­—
 					text=parse(text);	
 					fr.setText(text);
 					fr.setTextFileName(null);
 					fr.setTextFileSize(text.getBytes(Constants.CHARSET).length);
 					fr.setTextFileType(FileTypeHelper.TEXT);
-					mmsFile.getFrameMap().put(i+1,fr);//Ìí¼ÓÖ¡
+					mmsFile.getFrameMap().put(i+1,fr);//æ·»åŠ å¸§
 				}
-				reSizeFrame(fr);//¼ÆËãÖ¡´óĞ¡
+				reSizeFrame(fr);//è®¡ç®—å¸§å¤§å°
 			}
-			reSizeMms(mmsFile);//¼ÆËã²ÊĞÅ´óĞ¡
-			changeCurrentFrame(mmsFile,1);//ÉèÖÃµ±Ç°Ö¡
+			reSizeMms(mmsFile);//è®¡ç®—å½©ä¿¡å¤§å°
+			changeCurrentFrame(mmsFile,1);//è®¾ç½®å½“å‰å¸§
 			mmsFile.setMmsName(mmsName);
 			
 			
 		}
 		catch (Exception ex)
 		{
-			log.error("½âÎöÊ§°Ü»òÃ»ÓĞ¸ÃÌõÊı¾İ",ex);
+			log.error("è§£æå¤±è´¥æˆ–æ²¡æœ‰è¯¥æ¡æ•°æ®",ex);
 			return false;
 			
 		}
@@ -238,7 +238,7 @@ public class MMSFileHelper
 	}
 
 	/**
-	 * °ÑÊı¾İ¿âÖĞ²é³öÀ´µÄÊı¾İ×é³ÉÒ»¸ö²ÊĞÅ
+	 * æŠŠæ•°æ®åº“ä¸­æŸ¥å‡ºæ¥çš„æ•°æ®ç»„æˆä¸€ä¸ªå½©ä¿¡
 	 * 
 	 * @param mmsFile
 	 * @param absolutePath
@@ -246,14 +246,14 @@ public class MMSFileHelper
 	 */
 	public static boolean makeMMS(MmsFile mmsFile, String realPath)
 	{
-		// ´´½¨ĞèÒªµÄËùÓĞÖ¡
+		// åˆ›å»ºéœ€è¦çš„æ‰€æœ‰å¸§
 		for (int i = 0; i < mmsFile.getFrames(); i++)
 		{
 			MmsFrame fr = new MmsFrame();
 			mmsFile.getFrameMap().put(i + 1, fr);
 		}
 
-		// ¸ù¾İËùÓĞuploadÎÄ¼ş´´½¨tempÔ¤ÀÀÎÄ¼ş²¢ÉèÖÃMmsFrameÖĞµÄ×Ö¶Î
+		// æ ¹æ®æ‰€æœ‰uploadæ–‡ä»¶åˆ›å»ºtempé¢„è§ˆæ–‡ä»¶å¹¶è®¾ç½®MmsFrameä¸­çš„å­—æ®µ
 		Iterator<UploadFile> it = mmsFile.getUploadFiles().iterator();
 		try
 		{
@@ -310,7 +310,7 @@ public class MMSFileHelper
 
 		}
 
-		// Í¨¹ısmilµÄÄÚÈİ¸¨ÖúµÃµ½¸÷¸öÖ¡µÄduringTime
+		// é€šè¿‡smilçš„å†…å®¹è¾…åŠ©å¾—åˆ°å„ä¸ªå¸§çš„duringTime
 		SmilParser parse = new SmilParser(mmsFile.getSmildata());
 		parse.parse();
 		for (int i = 0; i < parse.getFramecount(); i++)
@@ -319,7 +319,7 @@ public class MMSFileHelper
 			MmsFrame fr = mmsFile.getFrameMap().get(f.framenumber);
 			fr.setDuringTime(f.dur);
 		}
-		// ÖØĞÂ¼ÆËã¸÷Ö¡´óĞ¡
+		// é‡æ–°è®¡ç®—å„å¸§å¤§å°
 		Iterator<Integer> keys = mmsFile.getFrameMap().keySet().iterator();
 		while (keys.hasNext())
 		{
@@ -331,16 +331,16 @@ public class MMSFileHelper
 	}
 
 	/**
-	 * ²åÈëÒ»Ö¡£¬Ö¡ºÅÎªframeid
+	 * æ’å…¥ä¸€å¸§ï¼Œå¸§å·ä¸ºframeid
 	 */
 	public static void addFrame(MmsFile mmsFile)
 	{
-		// 1.µÃµ½²åÈëµÄÖ¡ºÅ£¬Èç¹ûµ±Ç°Ã»ÓĞÖ¡£¬ÄÇÃ´Ö¡ºÅÎª1£¬·ñÔòÖ¡ºÅÎªµ±Ç°Ö¡¼Ó1
+		// 1.å¾—åˆ°æ’å…¥çš„å¸§å·ï¼Œå¦‚æœå½“å‰æ²¡æœ‰å¸§ï¼Œé‚£ä¹ˆå¸§å·ä¸º1ï¼Œå¦åˆ™å¸§å·ä¸ºå½“å‰å¸§åŠ 1
 		Integer frameid;
 		if (mmsFile.getCurrentFrameId() == null)
 		{
 			frameid = 1;
-			// Èç¹û²ÊĞÅ´óĞ¡Îª¿Õ£¬ÄÇÃ´ÖÃÎª0
+			// å¦‚æœå½©ä¿¡å¤§å°ä¸ºç©ºï¼Œé‚£ä¹ˆç½®ä¸º0
 			/*
 			 * if (mmsFile.getMmsSize() == null) { mmsFile.setMmsSize(0L); }
 			 */
@@ -350,37 +350,37 @@ public class MMSFileHelper
 			frameid = mmsFile.getCurrentFrameId() + 1;
 		}
 
-		// 2.²åÈëÖ¡£¬ĞèÒªÓĞÅÅĞò
+		// 2.æ’å…¥å¸§ï¼Œéœ€è¦æœ‰æ’åº
 		Map<Integer, MmsFrame> map = mmsFile.getFrameMap();
-		// ±¸·İĞèÒªÒÆ¶¯µÄ½Úµã
+		// å¤‡ä»½éœ€è¦ç§»åŠ¨çš„èŠ‚ç‚¹
 		Set<Integer> keySet = map.keySet();
 		int keyLen = keySet.size();
 		Integer[] keys = new Integer[keyLen];
 		keySet.toArray(keys);
-		// ¶¨ÒåÒ»¸ötemp
+		// å®šä¹‰ä¸€ä¸ªtemp
 		Map<Integer, MmsFrame> temp = new LinkedHashMap<Integer, MmsFrame>();
 
 		for (int i = 0; i < keys.length; i++)
 		{
 			if (frameid <= keys[i])
 			{
-				// °ÑĞèÒªÒÆ¶¯µÄÖ¡×ªÒÆµ½ÁíÒ»¸ömapÀï£¬×îºÃÔÚÍ³Ò»ÒÆ»ØÈ¥
+				// æŠŠéœ€è¦ç§»åŠ¨çš„å¸§è½¬ç§»åˆ°å¦ä¸€ä¸ªmapé‡Œï¼Œæœ€å¥½åœ¨ç»Ÿä¸€ç§»å›å»
 				MmsFrame fr = map.remove(keys[i]);
 				temp.put(keys[i] + 1, fr);
 			}
 		}
 
-		// ÎªÁË´ïµ½ÅÅĞòĞ§¹û£¬ÏÈ²åÈë
+		// ä¸ºäº†è¾¾åˆ°æ’åºæ•ˆæœï¼Œå…ˆæ’å…¥
 		MmsFrame frame = new MmsFrame();
 		map.put(frameid, frame);
-		// ×ªÒÆ»ØÈ¥
+		// è½¬ç§»å›å»
 		if (temp.size() > 0)
 		{
 			map.putAll(temp);
 			temp.clear();
 		}
 
-		// 3. µ±Ç°Ö¡±»¸Ä±äÁË
+		// 3. å½“å‰å¸§è¢«æ”¹å˜äº†
 		MMSFileHelper.changeCurrentFrame(mmsFile, frameid);
 	}
 
@@ -388,33 +388,33 @@ public class MMSFileHelper
 	{
 		Map<Integer, MmsFrame> map = mmsFile.getFrameMap();
 
-		// ÏÈÉ¾³ı£¬ºóÒÆ¶¯
+		// å…ˆåˆ é™¤ï¼Œåç§»åŠ¨
 		map.remove(frameid);
 
 		Set<Integer> keySet = map.keySet();
 		int keyLen = keySet.size();
 		Integer[] keys = new Integer[keyLen];
 		keySet.toArray(keys);
-		// ¶¨ÒåÒ»¸ötemp
+		// å®šä¹‰ä¸€ä¸ªtemp
 		Map<Integer, MmsFrame> temp = new LinkedHashMap<Integer, MmsFrame>();
 
 		for (int i = 0; i < keys.length; i++)
 		{
 			if (frameid < keys[i])
 			{
-				// °ÑĞèÒªÒÆ¶¯µÄÖ¡×ªÒÆµ½ÁíÒ»¸ömapÀï£¬×îºÃÔÚÍ³Ò»ÒÆ»ØÈ¥
+				// æŠŠéœ€è¦ç§»åŠ¨çš„å¸§è½¬ç§»åˆ°å¦ä¸€ä¸ªmapé‡Œï¼Œæœ€å¥½åœ¨ç»Ÿä¸€ç§»å›å»
 				MmsFrame fr = map.remove(keys[i]);
 				temp.put(keys[i] - 1, fr);
 			}
 		}
-		// ×ªÒÆ»ØÈ¥
+		// è½¬ç§»å›å»
 		if (temp.size() > 0)
 		{
 			map.putAll(temp);
 			temp.clear();
 		}
 
-		// ÉèÖÃµ±Ç°Ö¡
+		// è®¾ç½®å½“å‰å¸§
 		Integer currentFrameNumber = frameid;
 		MmsFrame mf = mmsFile.getFrameMap().get(frameid);
 		if (mf == null)
@@ -424,13 +424,13 @@ public class MMSFileHelper
 		}
 		if (mf == null)
 		{
-			// µ±Ç°²ÊĞÅÎª¿Õ
+			// å½“å‰å½©ä¿¡ä¸ºç©º
 			currentFrameNumber = null;
 			MMSFileHelper.clearCurrentFrame(mmsFile);
 		}
 		else
 		{
-			// ÉèÖÃµ±Ç°Ö¡
+			// è®¾ç½®å½“å‰å¸§
 			MMSFileHelper.changeCurrentFrame(mmsFile, currentFrameNumber);
 		}
 		MMSFileHelper.reSizeMms(mmsFile);
@@ -442,19 +442,19 @@ public class MMSFileHelper
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
 		
-		//ÖØĞÂÉú³ÉÎÄ¼şÃû
+		//é‡æ–°ç”Ÿæˆæ–‡ä»¶å
 		String newFileName=newFileName(realPath,"img_",fileName);
-		// ¿½±´ÎÄ¼şµ½ÉÏ´«Ä¿Â¼
+		// æ‹·è´æ–‡ä»¶åˆ°ä¸Šä¼ ç›®å½•
 		File dest = getTempFile(realPath,newFileName);
 		Tools.copyFile(image, dest);
-		// ÉèÖÃimage
+		// è®¾ç½®image
 		long fileSize = image.length();
 
 		fr.setImage(Constants.UPLOAD_FILE_DIR + File.separator + newFileName);
 		fr.setImageFileName(newFileName);
 		fr.setImageFileSize(fileSize);
 		fr.setImageFileType(fileType);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
@@ -463,33 +463,33 @@ public class MMSFileHelper
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
 		
-		//ÖØĞÂÉú³ÉÎÄ¼şÃû
+		//é‡æ–°ç”Ÿæˆæ–‡ä»¶å
 		String newFileName=newFileName(realPath,"aud_",fileName);
-		// ¿½±´ÎÄ¼şµ½ÉÏ´«Ä¿Â¼
+		// æ‹·è´æ–‡ä»¶åˆ°ä¸Šä¼ ç›®å½•
 		File dest = getTempFile(realPath,newFileName);
 		Tools.copyFile(audio, dest);
-		// ÉèÖÃimage
+		// è®¾ç½®image
 		long fileSize = audio.length();
 
 		fr.setAudio(Constants.UPLOAD_FILE_DIR + File.separator + newFileName);
 		fr.setAudioFileName(newFileName);
 		fr.setAudioFileSize(fileSize);
 		fr.setAudioFileType(fileType);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
 	public static void uploadText(MmsFile mmsFile, String text)
 	{
 		MmsFrame fr = mmsFile.getFrameMap().get(mmsFile.getCurrentFrameId());
-		// ÉèÖÃimage
+		// è®¾ç½®image
 		long fileSize = text.getBytes(Charset.forName(Constants.CHARSET)).length;
 		//String fileName = mmsFile.getCurrentFrameId() + ".txt";
 		fr.setText(text);
 		fr.setTextFileName(null);
 		fr.setTextFileSize(fileSize);
 		// fr.setTextFileType(fileType);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
@@ -497,12 +497,12 @@ public class MMSFileHelper
 	{
 		Integer frameid = mmsFile.getCurrentFrameId();
 		MmsFrame fr = mmsFile.getFrameMap().get(frameid);
-		// Çå¿Õimage
+		// æ¸…ç©ºimage
 		fr.setImage(null);
 		fr.setImageFileName(null);
 		fr.setImageFileSize(0);
 		fr.setImageFileType(null);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
@@ -510,12 +510,12 @@ public class MMSFileHelper
 	{
 		Integer frameid = mmsFile.getCurrentFrameId();
 		MmsFrame fr = mmsFile.getFrameMap().get(frameid);
-		// Çå¿Õaudio
+		// æ¸…ç©ºaudio
 		fr.setAudio(null);
 		fr.setAudioFileName(null);
 		fr.setAudioFileSize(0);
 		fr.setAudioFileType(null);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
@@ -523,11 +523,11 @@ public class MMSFileHelper
 	{
 		Integer frameid = mmsFile.getCurrentFrameId();
 		MmsFrame fr = mmsFile.getFrameMap().get(frameid);
-		// Çå¿Õtext
+		// æ¸…ç©ºtext
 		fr.setText(null);
 		fr.setTextFileName(null);
 		fr.setTextFileSize(0);
-		// ÖØĞÂ¼ÆËãÖ¡´óĞ¡ºÍ²ÊĞÅ´óĞ¡
+		// é‡æ–°è®¡ç®—å¸§å¤§å°å’Œå½©ä¿¡å¤§å°
 		MMSFileHelper.reSizeFrameAndMms(fr, mmsFile);
 	}
 
@@ -590,14 +590,14 @@ public class MMSFileHelper
 	{
 		Smil smil = new Smil();
 
-		smil.smilAddHead();// ²¢Ìí¼ÓÎÄ¼şÍ·²¿ĞÅÏ¢¡£
+		smil.smilAddHead();// å¹¶æ·»åŠ æ–‡ä»¶å¤´éƒ¨ä¿¡æ¯ã€‚
 		Map<Integer, MmsFrame> map = mmsFile.getFrameMap();
 		Iterator<Integer> it = map.keySet().iterator();
 		while (it.hasNext())
 		{
 			Integer key=it.next();
 			MmsFrame fr = map.get(key);
-			smil.setSmilParStart(fr.getDuringTime());// ²ÊĞÅ¿ªÊ¼±ê¼Ç
+			smil.setSmilParStart(fr.getDuringTime());// å½©ä¿¡å¼€å§‹æ ‡è®°
 			if (Tools.isNotEmpty(fr.getImage()))
 			{
 				smil.smilAddImg(fr.getImageFileName());
@@ -642,7 +642,7 @@ public class MMSFileHelper
 	}
 	
 	/**
-	 * ÖØĞÂÉú³ÉÎÄ¼şÃû£¬±£Ö¤ÎÄ¼şÃûµÄÎ¨Ò»ĞÔ
+	 * é‡æ–°ç”Ÿæˆæ–‡ä»¶åï¼Œä¿è¯æ–‡ä»¶åçš„å”¯ä¸€æ€§
 	 * @param fileName
 	 * @return
 	 */
@@ -661,7 +661,7 @@ public class MMSFileHelper
 	
 	
 	/**
-	 * È¡µÃtmpÎÄ¼şµÄÎÄ¼ş¶ÔÏó
+	 * å–å¾—tmpæ–‡ä»¶çš„æ–‡ä»¶å¯¹è±¡
 	 * @param tmpFileName
 	 * @return
 	 */
@@ -714,18 +714,18 @@ public class MMSFileHelper
 		// files.add(input);
 		Blob blob = Hibernate.createBlob(input);
 		UploadFile uploadFile = new UploadFile();
-		uploadFile.setFiledata(blob);// ÉèÖÃÎÄ¼şÄÚÈİ
-		uploadFile.setFilename(file.getName());// ÉèÖÃÎÄ¼şÃû
-		uploadFile.setFilesize(blob.length());// ÉèÖÃÎÄ¼ş´óĞ¡
-		uploadFile.setFiletype(fr.getImageFileType());// ÉèÖÃÎÄ¼şÀàĞÍ
-		uploadFile.setFrameid(1);// ÉèÖÃÖ¡ºÅ
+		uploadFile.setFiledata(blob);// è®¾ç½®æ–‡ä»¶å†…å®¹
+		uploadFile.setFilename(file.getName());// è®¾ç½®æ–‡ä»¶å
+		uploadFile.setFilesize(blob.length());// è®¾ç½®æ–‡ä»¶å¤§å°
+		uploadFile.setFiletype(fr.getImageFileType());// è®¾ç½®æ–‡ä»¶ç±»å‹
+		uploadFile.setFrameid(1);// è®¾ç½®å¸§å·
 		uploadFile.setUploadtime(DateUtils.getTimestamp14());
 		dao.getHibernateTemplate().save(uploadFile);*/
 		MmsFile mmsFile=new MmsFile();
 		//String url="http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=0&Title=2";
 		String urlFormat="http://interface.tourzj.gov.cn/MobilePaper/default.aspx?Mtype=%s&Title=%s";
 		String MType="1";
-		String Title="¶´Í·ÂÃÓÎ";
+		String Title="æ´å¤´æ—…æ¸¸";
 		String url=String.format(urlFormat,java.net.URLEncoder.encode(MType,"UTF-8"),java.net.URLEncoder.encode(Title,"UTF-8"));
 		System.out.println(url);
 		String realPath="D:\\Tomcat 6.0\\webapps\\ylear2";
@@ -733,7 +733,7 @@ public class MMSFileHelper
 		String mmsName=mmsFile.getMmsName();
 		if(!b)
 		{
-			System.out.println("½âÎöÊ§°Ü");
+			System.out.println("è§£æå¤±è´¥");
 		}
 		//saveMmsFile(service,mmsFile,realPath);
 		MmsFile temp=service.getMmsFile(mmsName);

@@ -32,7 +32,7 @@ public class MmsServiceImpl extends BaseService implements MmsService
 	}
 
 	/**
-	 * É¾³ý
+	 * 
 	 */
 	public void delMms(Long id)
 	{
@@ -40,17 +40,17 @@ public class MmsServiceImpl extends BaseService implements MmsService
 	}
 
 	/**
-	 * Ìí¼Ó
+	 * ï¿½ï¿½ï¿½
 	 */
 	public Serializable saveMms(UMms mms)
 	{
-		// ¶ÔÊ±¼ä½øÐÐ´¦Àí
-		// Ìí¼Ó
+		// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½
 		return baseDao.add(mms);
 	}
 
 	/**
-	 * È¡µÃµ¥¸öÔªËØ
+	 * È¡ï¿½Ãµï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	 */
 	public UMms getMms(Long id)
 	{

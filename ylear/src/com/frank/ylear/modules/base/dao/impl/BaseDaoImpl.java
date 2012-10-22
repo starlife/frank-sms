@@ -31,7 +31,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	}
 
 	/**
-	 * Í¨¹ýid²éÑ¯¸Ãbean¶ÔÏó
+	 *Í¨ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½
 	 */
 	public Object get(Class clazz, Serializable id)
 	{
@@ -39,12 +39,12 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	}
 
 	/**
-	 * Í¨¹ýid²éÑ¯¸Ãbean¶ÔÏó
+	 * ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½
 	 */
 	/*
 	 * public SysUser getSysUserIncludeSysRight( Serializable id){ SysUser
 	 * obj=null; Session session=null;
-	 * System.out.println("getSysUserIncludeSysRight¿ªÊ¼"); try { //È¡µÃSession
+	 * System.out.println("getSysUserIncludeSysRightï¿½ï¿½Ê¼"); try { //È¡ï¿½ï¿½Session
 	 * session=getSession(); String hql="from SysUser where id="+id; Query query =
 	 * session.createQuery(hql); List<SysUser> ret = query.list();
 	 * if(ret!=null&&ret.size()>0) { obj=ret.get(0); Set
@@ -53,12 +53,12 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	 * it=roleRights.iterator(); while(it.hasNext()) { SysRoleRight
 	 * roleRight=it.next(); Hibernate.initialize(roleRight.getSysRight()); } } }
 	 * catch(Exception ex) { ex.printStackTrace(); } finally { if(session!=null) {
-	 * session.close(); } } System.out.println("getSysUserIncludeSysRight½áÊø");
+	 * session.close(); } } System.out.println("getSysUserIncludeSysRightï¿½ï¿½ï¿½ï¿½");
 	 * return obj; }
 	 */
 
 	/**
-	 * Í¨¹ýidÉ¾³ý¸Ãbean¶ÔÏó
+	 * Í¨ï¿½ï¿½idÉ¾ï¿½ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½
 	 */
 	public void del(Class clazz, Serializable id)
 	{
@@ -66,7 +66,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	}
 
 	/**
-	 * É¾³ý¶ÔÏó
+	 * 
 	 */
 	public void del(Object entity)
 	{
@@ -75,7 +75,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 
 	
 	/**
-	 * ¸üÐÂ¶ÔÏó
+	 * ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ï¿½
 	 */
 	public void update(Object entity)
 	{
@@ -83,7 +83,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	}
 
 	/**
-	 * Í¨¹ýhql²éÑ¯½á¹û
+	 * ï¿½ï¿½ï¿½
 	 */
 	public List list(String hql)
 	{
@@ -91,7 +91,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	}
 
 	/**
-	 * ²éÑ¯Ò»Ò³µÄ¼ÇÂ¼Êý
+	 * ï¿½ï¿½ï¿½Ä¼ï¿½Â¼ï¿½ï¿½
 	 */
 	public void listByPage(String hql, PageBean page)
 	{
@@ -102,7 +102,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 		Session session = null;
 		try
 		{
-			// È¡µÃSession
+			// È¡ï¿½ï¿½Session
 			session = getSession();
 			Query query = session.createQuery(hql);
 			query.setFirstResult(page.getOffset());
@@ -120,13 +120,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 			{
 				queryString = "Select count(*) " + hql;
 			}
-			// È¥³ýinner join
+			// È¥ï¿½ï¿½inner join
 			int j = queryString.toUpperCase().lastIndexOf("INNER");
 			if (j != -1)
 			{
 				queryString = queryString.substring(0, j);
 			}
-			// È¥³ýordery by
+			// È¥ï¿½ï¿½ordery by
 			j = queryString.toUpperCase().lastIndexOf("ORDER");
 			if (j != -1)
 			{
@@ -151,17 +151,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 
 	}
 
-	/**
-	 * ·ÖÒ³²éÑ¯
-	 * 
-	 * @param hql
-	 *            ²éÑ¯µÄÌõ¼þ
-	 * @param offset
-	 *            ¿ªÊ¼¼ÇÂ¼
-	 * @param length
-	 *            Ò»´Î²éÑ¯¼¸Ìõ¼ÇÂ¼
-	 * @return
-	 */
+	
 	public List listByPage(final String hql, final int offset, final int length)
 	{
 		List list = getHibernateTemplate().executeFind(new HibernateCallback()
@@ -181,7 +171,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao
 	
 	public void execute(String hql)
 	{
-		// È¡µÃSession
+		// È¡ï¿½ï¿½Session
 		Session session =null;
 		Transaction t = null;
 		try

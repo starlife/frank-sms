@@ -22,5 +22,14 @@
         <property name="area" type="java.lang.String">
             <column name="area" length="50" />
         </property>
+        <many-to-one name="TPosition"  class="com.frank.ylear.modules.unitInfo.entity.TPosition" lazy="false">
+        	<column name="unitid"></column>
+        </many-to-one>
+         <property name="post" type="java.lang.String">
+            <column name="post" length="20" />
+        </property>
+         <property name="homenumber" type="java.lang.String">
+            <column name="homenumber" length="20" />
+        </property>
     </class>
 </hibernate-mapping>

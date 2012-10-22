@@ -38,21 +38,13 @@ public class MmsAction extends BaseAction
 		this.mmsService = mmsService;
 	}
 
-	/**
-	 * ÁÐ±íÏÔÊ¾,´ø²éÑ¯¹¦ÄÜ
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
 	public String list() throws Exception
 	{
 		mmsService.getMmsList(this.getQueryBean(), this.getPage());
 		return SUCCESS;
 	}
 
-	/**
-	 * Ìí¼Ó»òÐÞ¸Ä£¬Ìø×ªµ½¸Ã·½·¨
-	 */
+	
 	public String input() throws Exception
 	{
 		if (this.getId() != null)
@@ -67,9 +59,7 @@ public class MmsAction extends BaseAction
 
 	}
 
-	/**
-	 * É¾³ý
-	 */
+	
 	public String del() throws Exception
 	{
 		if (this.getId() != null)
@@ -95,7 +85,7 @@ public class MmsAction extends BaseAction
 		}
 		else
 		{
-			// ¼ì²éÊ±¼ä´ÁÖµ¸ñÊ½ÊÇ·ñÕýÈ·
+			// ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Öµï¿½ï¿½Ê½ï¿½Ç·ï¿½ï¿½ï¿½È·
 			if(!DateUtils.isValidTimestamp14(sendtime))
 			{
 				sendtime=DateUtils.getTimestamp14(sendtime);
@@ -109,7 +99,7 @@ public class MmsAction extends BaseAction
 			
 		}
 		this.getMms().setSendtime(sendtime);
-		//¹ýÂË·Ç·¨ºÅÂë£¬ÖØ¸´ºÅÂë
+		//ï¿½ï¿½ï¿½ï¿½ï¿½
 		String recipient=Tools.parse(this.getMms().getRecipient());
 		if(recipient.length()<=0)
 		{
@@ -118,11 +108,11 @@ public class MmsAction extends BaseAction
 			return;
 		}
 		this.getMms().setRecipient(recipient);
-		mms.setStatus(0);// 0±íÊ¾Î´·¢ËÍ£¬1±íÊ¾ÒÑ·¢ËÍ
+		mms.setStatus(0);//ï¿½ï¿½ï¿½
 	}
 
 	/**
-	 * ±£´æ
+	 * ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return
 	 * @throws Exception

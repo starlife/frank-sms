@@ -31,8 +31,8 @@ public class MmsFile implements java.io.Serializable
 	//private Set UMmses = new HashSet(0);
 	private Set<UploadFile> uploadFiles = new HashSet<UploadFile>(0);
 
-/* 下面是一些自定义属性 */
-	private Map<Integer,MmsFrame> frameMap = new LinkedHashMap<Integer,MmsFrame>();// 帧集合
+/**/
+	private Map<Integer,MmsFrame> frameMap = new LinkedHashMap<Integer,MmsFrame>();// 帧锟斤拷锟斤拷
 	
 	private Integer currentFrameId;
 	private Long currentFrameSize;
@@ -40,7 +40,7 @@ public class MmsFile implements java.io.Serializable
 	private String currentFrameText;
 	// Constructors
 	
-	// 自定义类型
+	// 锟皆讹拷锟斤拷锟斤拷锟斤拷
 
 	private String beginTime;
 	private String endTime;

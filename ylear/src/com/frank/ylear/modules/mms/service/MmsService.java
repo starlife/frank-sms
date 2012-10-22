@@ -9,20 +9,20 @@ public interface MmsService
 {
 	
 	/**
-	 * ²éÑ¯ÓÃ»§ÁÐ±í 
+	 *
 	 */
 	public void getMmsList(UMms mms, PageBean<UMms> pageResult);
 	
 	/**
-	 * È¡µÃµ¥¸öÔªËØ
+	 *È¡ï¿½Ãµï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	 */	
 	public UMms getMms(Long id);
 	/**
-	 * É¾³ý
+	 *
 	 */
 	public void delMms(Long id);
 	/**
-	 * Ìí¼Ó
+	 *ï¿½ï¿½ï¿½
 	 */
 	public Serializable saveMms(UMms mms);
 	

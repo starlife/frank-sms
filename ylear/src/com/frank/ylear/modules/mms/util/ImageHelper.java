@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Í¼Æ¬¹¤¾ßÀà£¬Íê³ÉÍ¼Æ¬µÄ½ØÈ¡
+ * Í¼å›¾ç‰‡åŽ‹ç¼©å·¥å…·ç±»
  * 
  * @author XXXX created at 2008-6-19
  * @since 1.0
@@ -51,7 +51,7 @@ public class ImageHelper
 		try
 		{
 			BufferedImage sourceImage = ImageIO.read(image);
-			// Èç¹ûÔ­ÏÈÍ¼Æ¬´óÓÚwidth²Å½øÐÐËõ·Å´¦Àí
+			//
 			if (sourceImage.getWidth() > width)
 			{
 				BufferedImage targetImage = imageScale(sourceImage, width);

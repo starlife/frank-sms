@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="unitInfo" extends="struts-default" namespace="/">
+	<interceptors>
+			<interceptor name="sessionout"  
+                class="com.frank.ylear.common.interceptor.SessionInterceptor">
+            </interceptor>
+            <!-- 设置自定义拦截器栈，添加登陆session过期拦截器功能 -->
+            <interceptor-stack name="mydefault">  
+           		<interceptor-ref name="defaultStack" />  
+           		<interceptor-ref name="sessionout" /> 
+            </interceptor-stack>  
+            
+            <interceptor-stack name="mybasic">  
+           		<interceptor-ref name="basicStack" />  
+           		<interceptor-ref name="sessionout" /> 
+            </interceptor-stack>  
+        </interceptors> 
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="success">/jsp/global/success.jsp</result>
+			<result name="error">/jsp/global/error.jsp</result>		
+		</global-results>
+	
+		<action name="position" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="positionPage">
+	    	<result name="success" type="freemarker">/jsp/unitInfo/positionPage.ftl</result>
+	    	<interceptor-ref name="mybasic"/>
+	    </action>
+	    
+	    <!-- 选择单位  -->
+		<action name="selectPosition" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="positionPage">
+			<result name="success" type="freemarker">/jsp/unitInfo/selectPosition.ftl</result>
+		</action>
+		<!-- 选择单位  -->
+		<action name="selectParentPosition" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="positionPage">
+			<result name="success" type="freemarker">/jsp/unitInfo/selectParentPosition.ftl</result>
+		</action>
+		<!-- 新增修改单位 -->
+		<action name="to*Position" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="to{1}Position">
+			<result name="success" type="freemarker">/jsp/unitInfo/positionForm.ftl</result>
+		</action>
+		<!-- 新增修改的单位 -->
+		<action name="savePosition" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="savePosition">
+			<result name="input" type="freemarker">/jsp/unitInfo/positionForm.ftl</result>
+			<result name="success" type="redirectAction">/jsp/unitInfo/position.action</result>
+		</action>
+		<!-- 删除单位 -->
+		<action name="delPosition" class="com.frank.ylear.modules.unitInfo.action.PositionAction" method="delPosition">
+		</action>
+		
+
+	</package>
+
+</struts>

@@ -1,11 +1,17 @@
 package com.frank.ylear.modules.sms.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.frank.ylear.common.constant.Constants;
 import com.frank.ylear.common.util.DateUtils;
 import com.frank.ylear.common.util.Tools;
 import com.frank.ylear.modules.base.action.BaseAction;
 import com.frank.ylear.modules.sms.entity.USms;
 import com.frank.ylear.modules.sms.service.SmsService;
+import com.frank.ylear.modules.unitInfo.entity.TPosition;
+
+
 
 public class SmsAction extends BaseAction
 {
@@ -14,12 +20,14 @@ public class SmsAction extends BaseAction
 	 */
 	private static final long serialVersionUID = 1L;
 	private SmsService smsService;
-	/* ²éÑ¯bean */
+	/* æŸ¥è¯¢bean */
 	private USms queryBean = null;
 	private USms sms = null;
 
 	private String id = null;
 
+
+	
 	public String getId()
 	{
 		return id;
@@ -45,7 +53,7 @@ public class SmsAction extends BaseAction
 		}
 		else
 		{
-			// ¼ì²éÊ±¼ä´ÁÖµ¸ñÊ½ÊÇ·ñÕıÈ·
+			// æ£€æŸ¥æ—¶é—´æˆ³å€¼æ ¼å¼æ˜¯å¦æ­£ç¡®
 			if(!DateUtils.isValidTimestamp14(sendtime))
 			{
 				sendtime=DateUtils.getTimestamp14(sendtime);
@@ -60,7 +68,7 @@ public class SmsAction extends BaseAction
 		}
 		this.getSms().setSendtime(sendtime);
 		
-		//¹ıÂË·Ç·¨ºÅÂë£¬ÖØ¸´ºÅÂë
+		//è¿‡æ»¤éæ³•å·ç ï¼Œé‡å¤å·ç 
 		String recipient=Tools.parse(this.getSms().getRecipient());
 		if(recipient.length()<=0)
 		{
@@ -69,11 +77,11 @@ public class SmsAction extends BaseAction
 			return;
 		}
 		this.getSms().setRecipient(recipient);
-		this.getSms().setStatus(0);// 0±íÊ¾Î´·¢ËÍ£¬1±íÊ¾ÒÑ·¢ËÍ
+		this.getSms().setStatus(0);// 0è¡¨ç¤ºæœªå‘é€ï¼Œ1è¡¨ç¤ºå·²å‘é€
 	}
 
 	/**
-	 * ÁĞ±íÏÔÊ¾,´ø²éÑ¯¹¦ÄÜ
+	 * åˆ—è¡¨æ˜¾ç¤º,å¸¦æŸ¥è¯¢åŠŸèƒ½
 	 * 
 	 * @return
 	 * @throws Exception
@@ -85,7 +93,7 @@ public class SmsAction extends BaseAction
 	}
 
 	/**
-	 * Ìí¼Ó»òĞŞ¸Ä£¬Ìø×ªµ½¸Ã·½·¨
+	 * æ·»åŠ æˆ–ä¿®æ”¹ï¼Œè·³è½¬åˆ°è¯¥æ–¹æ³•
 	 */
 	public String input() throws Exception
 	{
@@ -102,7 +110,7 @@ public class SmsAction extends BaseAction
 	}
 
 	/**
-	 * É¾³ı
+	 * åˆ é™¤
 	 */
 	public String del() throws Exception
 	{
@@ -114,7 +122,7 @@ public class SmsAction extends BaseAction
 	}
 
 	/**
-	 * ±£´æ
+	 * ä¿å­˜
 	 * 
 	 * @return
 	 * @throws Exception
@@ -129,7 +137,7 @@ public class SmsAction extends BaseAction
 	}
 
 	/**
-	 * Èº·¢ºÅÂëÑ¡ÔñºóÌø»Ø
+	 * ç¾¤å‘å·ç é€‰æ‹©åè·³å›
 	 * 
 	 * @param mapping
 	 * @param form
@@ -141,22 +149,24 @@ public class SmsAction extends BaseAction
 	/*
 	 * public ActionForward toNext(ActionMapping mapping, ActionForm form,
 	 * HttpServletRequest request, HttpServletResponse response) throws
-	 * Exception { SmsForm myForm = (SmsForm)form; //È¡µÃºÅÂë×Ö¶ÎµÄÖµ String
+	 * Exception { SmsForm myForm = (SmsForm)form; //å–å¾—å·ç å­—æ®µçš„å€¼ String
 	 * queryStr=request.getParameter("query"); StringBuffer query=new
-	 * StringBuffer(); String[] items=queryStr.split("[£¬,]"); //×é×°²éÑ¯Ìõ¼ş
-	 * //Í¨Ñ¶Â¼·ûºÏ(ÊÖ»úºÅÂë=13777802386,ĞÕÃû=ÁÖĞÂÕı)µÄºÅÂë //Í¨Ñ¶Â¼ÖĞËùÓĞÊÖ»úºÅÂë if(items.length==0) {
-	 * query.append("Í¨Ñ¶Â¼ÖĞËùÓĞºÅÂë"); }else if(items.length==1) {
-	 * query.append("Í¨Ñ¶Â¼·ûºÏ(ÊÖ»úºÅÂë="+items[0]+")µÄºÅÂë"); }else if(items.length==2) {
-	 * query.append("Í¨Ñ¶Â¼·ûºÏ("); if(!items[0].trim().equals("")) {
-	 * query.append("ÊÖ»úºÅÂë="+items[0]+","); }
-	 * query.append("ĞÕÃû="+items[1]+")µÄºÅÂë"); }else if(items.length==3) {
-	 * query.append("Í¨Ñ¶Â¼·ûºÏ("); if(!items[0].trim().equals("")) {
-	 * query.append("ÊÖ»úºÅÂë="+items[0]+","); } if(!items[1].trim().equals("")) {
-	 * query.append("ĞÕÃû="+items[1]+","); } query.append("²¿ÃÅ="+items[2]+")µÄºÅÂë"); }
+	 * StringBuffer(); String[] items=queryStr.split("[ï¼Œ,]"); //ç»„è£…æŸ¥è¯¢æ¡ä»¶
+	 * //é€šè®¯å½•ç¬¦åˆ(æ‰‹æœºå·ç =13777802386,å§“å=æ—æ–°æ­£)çš„å·ç  //é€šè®¯å½•ä¸­æ‰€æœ‰æ‰‹æœºå·ç  if(items.length==0) {
+	 * query.append("é€šè®¯å½•ä¸­æ‰€æœ‰å·ç "); }else if(items.length==1) {
+	 * query.append("é€šè®¯å½•ç¬¦åˆ(æ‰‹æœºå·ç ="+items[0]+")çš„å·ç "); }else if(items.length==2) {
+	 * query.append("é€šè®¯å½•ç¬¦åˆ("); if(!items[0].trim().equals("")) {
+	 * query.append("æ‰‹æœºå·ç ="+items[0]+","); }
+	 * query.append("å§“å="+items[1]+")çš„å·ç "); }else if(items.length==3) {
+	 * query.append("é€šè®¯å½•ç¬¦åˆ("); if(!items[0].trim().equals("")) {
+	 * query.append("æ‰‹æœºå·ç ="+items[0]+","); } if(!items[1].trim().equals("")) {
+	 * query.append("å§“å="+items[1]+","); } query.append("éƒ¨é—¨="+items[2]+")çš„å·ç "); }
 	 * myForm.getItem().setRecipient(query.toString()); return
 	 * mapping.findForward("next"); }
 	 */
 
+
+	
 	public SmsService getSmsService()
 	{
 		return smsService;

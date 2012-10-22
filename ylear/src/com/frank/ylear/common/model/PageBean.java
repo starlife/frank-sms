@@ -9,18 +9,15 @@ import java.util.List;
  * @param <E>
  */
 public class PageBean<E> {
-	private List<E> list = new ArrayList<E>(); //Òª·µ»ØµÄÄ³Ò»Ò³µÄ¼ÇÂ¼ÁÐ±í
-	private int totalCount;         //×Ü¼ÇÂ¼Êý
-    //private int totalPage;        //×ÜÒ³Êý
-    private int currentPage=1;    //µ±Ç°Ò³
-    private int pageSize=10;        //Ã¿Ò³¼ÇÂ¼Êý
+	private List<E> list = new ArrayList<E>(); //ï¿½Ä¼ï¿½Â¼ï¿½Ð±ï¿½
+	private int totalCount;         //ï¿½Ü¼ï¿½Â¼ï¿½ï¿½
+    //private int totalPage;        //ï¿½ï¿½
+    private int currentPage=1;    //ï¿½ï¿½Ç°
+    private int pageSize=10;        //ï¿½ï¿½Â¼ï¿½ï¿½
     
-    /*private boolean isFirstPage;    //ÊÇ·ñÎªµÚÒ»Ò³
-    private boolean isLastPage;        //ÊÇ·ñÎª×îºóÒ»Ò³
-    private boolean hasPreviousPage;    //ÊÇ·ñÓÐÇ°Ò»Ò³
-    private boolean hasNextPage;        //ÊÇ·ñÓÐÏÂÒ»Ò³*/
+  
 
-	//Ìí¼ÓÅÅÐò¹¦ÄÜ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String orderBy = "";
 	private String sort = "asc";
 	
@@ -53,7 +50,7 @@ public class PageBean<E> {
 	}
 	
 	/**
-	 * ¼ÆËã×ÜÒ³Êý
+	 * ï¿½ï¿½
 	 * @return
 	 */
 	public int getTotalPage() {
@@ -63,7 +60,7 @@ public class PageBean<E> {
 	}
 	
     /**
-	 * ¼ÇÂ¼¿ªÊ¼
+	 * ï¿½ï¿½Â¼ï¿½ï¿½Ê¼
 	 * @return
 	 */
 	public int getOffset()
@@ -74,22 +71,11 @@ public class PageBean<E> {
 	}
 
 	 /** *//**
-     * ÒÔÏÂÅÐ¶ÏÒ³µÄÐÅÏ¢,Ö»Ðègetter·½·¨(is·½·¨)¼´¿É
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
      * @return
      */
     
-    /*public boolean isFirstPage() {
-        return currentPage == 1;    // ÈçÊÇµ±Ç°Ò³ÊÇµÚ1Ò³
-    }
-    public boolean isLastPage() {
-        return currentPage == totalPage;    //Èç¹ûµ±Ç°Ò³ÊÇ×îºóÒ»Ò³
-    }
-    public boolean isHasPreviousPage() {
-        return currentPage != 1;        //Ö»Òªµ±Ç°Ò³²»ÊÇµÚ1Ò³
-    }
-    public boolean isHasNextPage() {
-        return currentPage != totalPage;    //Ö»Òªµ±Ç°Ò³²»ÊÇ×îºó1Ò³
-    }*/
+   
 
 	
 	public String getOrderBy() {
