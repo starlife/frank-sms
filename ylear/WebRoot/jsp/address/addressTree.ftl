@@ -70,7 +70,7 @@
 					</#list>
 					<#if linkManList?? && (linkManList.size() > 0) >,
 						<#list linkManList as linkMan>
-						{ id:${linkMan.id}, pId:${linkMan.TPosition.unitid}, 
+						{ id:99999${linkMan.id}, pId:${linkMan.TPosition.unitid}, 
 										open:true,
 										target:${linkMan.phonenumber},//存取号码
 										icon:"${ctx}/images/men.png",
