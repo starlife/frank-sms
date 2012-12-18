@@ -195,6 +195,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				return res;
 			}
 			log.debug("开始发送包...");
+			//log.debug(new String(msgByte,Charset.forName("UTF-8")));
 			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
