@@ -41,7 +41,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			10000);
 
 	private volatile boolean stop = false;
-	
+
 	private String mmscIP = null;
 	private String mmscURL = "/";
 	private int authmode = 0;
@@ -51,21 +51,21 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	private boolean keepAlive = false;
 	private int MaxMsgSize = 102400;
 	private int retryCount = 3;
-	
-	private static final Object lock=new Object();
 
-	//private ConnectionPool conn = null;
+	private static final Object lock = new Object();
+
+	// private ConnectionPool conn = null;
 
 	/** 构造方法 */
 	public MM7Sender(String mmscIP, String mmscURL, int authmode,
 			String username, String password, String charset, int maxMsgSize,
-			int reSendCount, boolean keepAlive, int timeout,int poolSize)
+			int reSendCount, boolean keepAlive, int timeout, int poolSize)
 	{
 		super("MM7Sender");
 		synchronized (lock)
 		{
-			ConnectionPool conn=ConnectionPool.getPool();
-			if(conn==null)
+			ConnectionPool conn = ConnectionPool.getPool();
+			if (conn == null)
 			{
 				ConnectionPool.init(mmscIP, timeout, poolSize);
 			}
@@ -167,22 +167,22 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			return ErrorRes;
 		}
 	}
-	
+
 	public Socket getSocket()
 	{
 		return ConnectionPool.getPool().getSocket();
 	}
-	
+
 	public void freeSocket(Socket s)
 	{
 		ConnectionPool.getPool().freeSocket(s);
 	}
-	
+
 	private MM7RSRes send(byte[] msgByte)
 	{
-		//log.debug(new String(msgByte));
+		// log.debug(new String(msgByte));
 		MM7RSRes res = null;
-		Socket socket=null;
+		Socket socket = null;
 		try
 		{
 			// 得到通道，检测当前通道是否可用，如果不可用，那么关闭该通道,等待回收
@@ -195,7 +195,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				return res;
 			}
 			log.debug("开始发送包...");
-			//log.debug(new String(msgByte,Charset.forName("UTF-8")));
+			// log.debug(new String(msgByte,Charset.forName("UTF-8")));
 			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
@@ -213,7 +213,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			}
 			log.debug("接收完成(SubmitRsp)");
 			// 接收完成，送回去
-			//log.debug("MM7Sender收到消息：" + http.toString());
+			// log.debug("MM7Sender收到消息：" + http.toString());
 
 			if (http.getStatusCode() != 200)
 			{
@@ -233,7 +233,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			{
 				log.debug("当前配置短连接，发送结束，尝试关闭socket");
 				ConnectionUtil.closeSocket(socket);
-							
+
 			}
 			res = DecodeMM7.decodeResMessage(http.getBody(), charset);
 			return res;
@@ -247,7 +247,8 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			res.setStatusText("接收失败getException！");
 			return res;
 
-		}finally
+		}
+		finally
 		{
 			this.freeSocket(socket);
 		}
@@ -261,7 +262,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			// 如果发送失败，那么加入到发送队列重新发送
 			if (req.getTimes() <= retryCount)
 			{
-				log.debug("包发送失败，需要重新发送"+req.getTransactionID()+res);
+				log.debug("包发送失败，需要重新发送" + req.getTransactionID() + res);
 				req.addTimes();
 				buffer.offer(req);
 				return;
@@ -332,7 +333,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		int reSendCount = 3;
 		MM7Sender mm7Sender = new MM7Sender(mmscIP, mmscURL, authmode,
 				username, password, charset, maxMsgSize, reSendCount,
-				keepAlive, timeout,2);
+				keepAlive, timeout, 2);
 		MM7SubmitReq submit = new MM7SubmitReq();
 		submit.setTransactionID("11111111");
 		submit.setVASPID("895192");
