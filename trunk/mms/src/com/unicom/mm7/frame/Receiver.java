@@ -1,10 +1,16 @@
 package com.unicom.mm7.frame;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cmcc.mm7.vasp.MM7Receiver;
 import com.cmcc.mm7.vasp.common.MMConstants;
+import com.cmcc.mm7.vasp.common.MMContent;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliverRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportReq;
@@ -12,10 +18,14 @@ import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
-import com.vasp.mm7.conf.MM7Config;
-import com.vasp.mm7.dao.SubmitDaoImpl;
-import com.vasp.mm7.database.pojo.DeliverBean;
-import com.vasp.mm7.util.DateUtils;
+import com.cmcc.mm7.vasp.protocol.util.Hex;
+import com.unicom.mm7.bean.MmsFile;
+import com.unicom.mm7.bean.UMms;
+import com.unicom.mm7.bean.UploadFile;
+import com.unicom.mm7.conf.MM7Config;
+import com.unicom.mm7.util.DateUtils;
+import com.unicom.mm7.util.FileUtil;
+import com.unicom.mm7.util.SmilParser;
 
 public class Receiver extends MM7Receiver
 {
@@ -24,12 +34,18 @@ public class Receiver extends MM7Receiver
 
 	// private static final Log db = LogFactory.getLog("db");
 
-	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
+	// private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
+	/**
+	 * 用来保存彩信messageid和sendid的对应关系
+	 */
+	static final Map<String, String> messageidMap = new HashMap<String, String>();
+	
+	//public static final LinkedBlockingQueue<UMms> mmsQue = new LinkedBlockingQueue<UMms>();
 
 	/**
 	 * 数据库访问对象
 	 */
-	//private SubmitDaoImpl1 dao = SubmitDaoImpl1.getInstance();
+	// private SubmitDaoImpl1 dao = SubmitDaoImpl1.getInstance();
 	public Receiver(MM7Config config)
 	{
 		super(config.getListenIP(), config.getListenPort(),
@@ -92,24 +108,152 @@ public class Receiver extends MM7Receiver
 		return res;
 	}
 
+	/**
+	 * 组装UMms对象
+	 * 
+	 * @param mmsFile
+	 * @param deliverReq
+	 * @return
+	 */
+	public static UMms makeMms(MmsFile mmsFile, MM7DeliverReq deliverReq)
+	{
+		UMms mms = new UMms();
+		mms.setMmsFile(mmsFile);
+		mms.setRecipient(deliverReq.getSender());
+		mms.setSubject(deliverReq.getSubject());
+		mms.setSendtime(DateUtils.getTimestamp14());
+		// 随机分配sendid
+		// mms.setSendID("senid");
+		return mms;
+	}
+
+	
+
+	/**
+	 * 组装MmsFile对象
+	 * 
+	 * @param deliverReq
+	 * @return
+	 */
+	public static MmsFile makeMmsFile(MM7DeliverReq deliverReq)
+	{
+		MmsFile mmsFile = new MmsFile();
+		if (deliverReq.getContent() != null)
+		{
+			// 用来编辑文件名和Upload对象的对应关系
+			Map<String, UploadFile> fileNameMap = new HashMap<String, UploadFile>();
+			long uploadFileSize = 0;// 用来记录各个附件的大小
+			List<MMContent> list = deliverReq.getContent().getSubContents();
+			for (int i = 0; i < list.size(); i++)
+			{
+				MMContent content = list.get(i);
+				if (content.getContentType().equals(
+						MMConstants.ContentType.TEXT)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.XML)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.AMR)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.MIDI)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.JPEG)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.PNG)
+						|| content.getContentType().equals(
+								MMConstants.ContentType.GIF)
+
+				)
+				{
+					UploadFile upload = new UploadFile();
+					upload.setFiledata(content.getContent());
+					upload.setCharset(content.getCharset());
+					upload.setFilename(content.getContentLocation());
+					upload.setFilesize((long) content.getContent().length);
+					upload.setFiletype(content.getContentType().toString());
+					fileNameMap.put(upload.getFilename(), upload);
+					uploadFileSize += upload.getFilesize();
+					mmsFile.addUploadFile(upload);
+				}
+			}
+			// smil消息最后解析
+			for (int i = 0; i < list.size(); i++)
+			{
+				MMContent content = list.get(i);
+				if (content.getContentType().equals(
+						MMConstants.ContentType.SMIL))
+				{
+					// 解析SMIL
+					String smil = content.getContentAsString();
+					SmilParser parser = new SmilParser(smil);
+					parser.parse();//解析
+					for (int j = 0; j < parser.getFrames().size(); j++)
+					{
+						SmilParser.Frame fr = parser.getFrames().get(j);
+						if (fr.getImagesrc() != null)
+						{
+							String fileName = fr.getImagesrc();
+							UploadFile upload = fileNameMap.get(fileName);
+							if (upload != null)
+							{
+								upload.setFrameid(fr.getFramenumber());
+							}
+						}
+						if (fr.getTxtsrc() != null)
+						{
+							String fileName = fr.getTxtsrc();
+							UploadFile upload = fileNameMap.get(fileName);
+							if (upload != null)
+							{
+								upload.setFrameid(fr.getFramenumber());
+							}
+						}
+						if (fr.getAudiosrc() != null)
+						{
+							String fileName = fr.getAudiosrc();
+							UploadFile upload = fileNameMap.get(fileName);
+							if (upload != null)
+							{
+								upload.setFrameid(fr.getFramenumber());
+							}
+						}
+					}
+					mmsFile.setFrames(parser.getFrames().size());
+					mmsFile.setSmilname(content.getContentLocation());
+					mmsFile.setSmildata(content.getContentAsString());
+					mmsFile.setSmilsize((long) content.getContent().length);
+					mmsFile.setMmsSize(mmsFile.getSmilsize() + uploadFileSize);
+					break;
+				}
+			}
+		}
+		mmsFile.setMmsName(deliverReq.getSubject());// 设置彩信标题
+		return mmsFile;
+	}
+
 	private void dealDeliver(MM7DeliverReq deliverReq)
 	{
 		// 入库
-		DeliverBean deliver = new DeliverBean();
-		deliver.setTransactionid(deliverReq.getTransactionID());
-		deliver.setLinkId(deliverReq.getLinkedID());
-		deliver.setMm7version(deliverReq.getMM7Version());
-		deliver.setSubject(deliverReq.getSubject());
-		// deliver.setRecvTime(deliverReq.getTimeStamp());
-		deliver.setRecvTime(DateUtils.getTimestamp14());
-		// dao.save(deliver);
-		log.info(deliverReq);
+		/*
+		 * DeliverBean deliver = new DeliverBean();
+		 * deliver.setTransactionid(deliverReq.getTransactionID());
+		 * deliver.setLinkId(deliverReq.getLinkedID());
+		 * deliver.setMm7version(deliverReq.getMM7Version());
+		 * deliver.setSubject(deliverReq.getSubject()); //
+		 * deliver.setRecvTime(deliverReq.getTimeStamp());
+		 * deliver.setRecvTime(DateUtils.getTimestamp14()); //
+		 * dao.save(deliver);
+		 */
+		MmsFile mmsFile = makeMmsFile(deliverReq);
+		UMms mms = makeMms(mmsFile, deliverReq);
+		//log.info(mms);
+		Result.getInstance().notifyResult(mms);
+		// log.info(deliverReq);
 	}
-	
+
 	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
 		log.info("收到发送报告");
-		// 这里更新s_log_mmssubmit表
+
 		String messageid = deliverReportReq.getMessageID();
 		String to = deliverReportReq.getRecipient();
 		if (to.startsWith("+86"))
@@ -120,21 +264,20 @@ public class Receiver extends MM7Receiver
 		{
 			to = to.substring(2, to.length());
 		}
-		String transcationid=deliverReportReq.getTransactionID();
-		String reportTime=DateUtils.getTimestamp14(deliverReportReq
+		// String transcationid=deliverReportReq.getTransactionID();
+		String reportTime = DateUtils.getTimestamp14(deliverReportReq
 				.getTimeStamp());
-		Integer mmStatus=(int)deliverReportReq.getMMStatus();
-		String mmStatusText=deliverReportReq.getStatusText();
-		log.debug("submitDao.update之前:"+System.currentTimeMillis());
-		try
+		Integer mmStatus = (int) deliverReportReq.getMMStatus();
+		String mmStatusText = deliverReportReq.getStatusText();
+
+		String sendid = null;
+		synchronized (messageidMap)
 		{
-			submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
-			
-		}catch(Exception ex)
-		{
-			log.error(null,ex);
+			sendid = messageidMap.remove(messageid + "|" + to);
+
 		}
-		log.debug("submitDao.update之后:"+System.currentTimeMillis());
+		// 状态报告通知
+		Result.getInstance().notifyResult(sendid, to, mmStatus, mmStatusText, reportTime);
 
 	}
 

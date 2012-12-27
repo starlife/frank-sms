@@ -38,4 +38,8 @@ public class Tools
 
 		return (null == str) || "".equals(str.trim());
 	}
+	public static void main(String[] args)
+	{
+		System.out.println(java.util.UUID.randomUUID());
+	}
 }
