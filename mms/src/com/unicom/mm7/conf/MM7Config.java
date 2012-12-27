@@ -19,6 +19,8 @@ public class MM7Config
 	private String VASPID;// SPID
 	private String VASID;// 接入号
 	private String ServiceCode;// 业务代码
+	private boolean ChargedPartyExist=false;
+	private int ChargedParty=0;
 	
 	private int MaxMsgSize;// 最大消息长度
 	
@@ -40,6 +42,8 @@ public class MM7Config
 	private int maxSpeed=2;//每秒发送条数
 	
 	private int massCount=10;//群发短信每条短信号码数
+	
+	private String rmi;
 	
 	//private boolean bload=false;
 
@@ -74,6 +78,8 @@ public class MM7Config
 		VASPID = hashmap.get("VASPID");
 		VASID = hashmap.get("VASID");
 		ServiceCode = hashmap.get("ServiceCode");
+		ChargedPartyExist=Boolean.parseBoolean(hashmap.get("ChargedPartyExist"));
+		ChargedParty=Integer.parseInt(hashmap.get("ChargedParty"));
 		ListenIP = (String) hashmap.get("ListenIP");
 		ListenPort = Integer.parseInt((String) hashmap.get("ListenPort"));
 		BackLog = Integer.parseInt((String) hashmap.get("BackLog"));
@@ -85,6 +91,7 @@ public class MM7Config
 		sendThread=Integer.parseInt((String)hashmap.get("SendThread"));
 		maxSpeed=Integer.parseInt((String)hashmap.get("MaxSpeed"));
 		massCount=Integer.parseInt((String)hashmap.get("MassCount"));
+		rmi = (String)hashmap.get("RMI");
 		
 	}
 
@@ -365,5 +372,35 @@ public class MM7Config
 	public void setMassCount(int massCount)
 	{
 		this.massCount = massCount;
+	}
+
+	public String getRmi()
+	{
+		return rmi;
+	}
+
+	public void setRmi(String rmi)
+	{
+		this.rmi = rmi;
+	}
+
+	public boolean isChargedPartyExist()
+	{
+		return ChargedPartyExist;
+	}
+
+	public void setChargedPartyExist(boolean chargedPartyExist)
+	{
+		ChargedPartyExist = chargedPartyExist;
+	}
+
+	public int getChargedParty()
+	{
+		return ChargedParty;
+	}
+
+	public void setChargedParty(int chargedParty)
+	{
+		ChargedParty = chargedParty;
 	}
 }

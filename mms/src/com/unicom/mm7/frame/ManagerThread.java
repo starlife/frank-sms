@@ -2,7 +2,8 @@ package com.unicom.mm7.frame;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
-import com.vasp.mm7.conf.MM7Config;
+import com.unicom.mm7.conf.MM7Config;
+
 
 /**
  * 线程管理类
