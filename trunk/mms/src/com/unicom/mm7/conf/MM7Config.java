@@ -6,46 +6,44 @@ package com.unicom.mm7.conf;
 
 import java.util.Map;
 
-
-
 public class MM7Config
 {
 	private int AuthenticationMode;// 鉴权模式 0表示不鉴权 1表示基本鉴权 2表示摘要鉴权
 	private String UserName;// 鉴权登陆用户名
 	private String Password;// 鉴权登陆密码
-	
+
 	private String MMSCURL;// 彩信提交url
 	private String MMSCIP;// 彩信提交网关地址
 	private String VASPID;// SPID
 	private String VASID;// 接入号
 	private String ServiceCode;// 业务代码
-	private boolean ChargedPartyExist=false;
-	private int ChargedParty=0;
-	
+	private boolean ChargedPartyExist = false;
+	private int ChargedParty = 0;
+
 	private int MaxMsgSize;// 最大消息长度
-	
+
 	private String CharSet;// 彩信默认编码类型
 	private String ListenIP;// 本地服务端ip地址
 	private int ListenPort;// 本地服务端端口
 	private int TimeOut;// 超时时间，用于长连接
 	private int ReSendCount;// 重发次数
 	public int BackLog;// 本地服务最大监听数
-	
+
 	private String MMSCID;// 彩信网关编码
 	private String ConnConfigName;
-	
-	private boolean keepAlive=false;
-	
-	private int poolSize=1;//和移动网关的socket连接池
-	
-	private int sendThread=1;//发送线程
-	private int maxSpeed=2;//每秒发送条数
-	
-	private int massCount=10;//群发短信每条短信号码数
-	
+
+	private boolean keepAlive = false;
+
+	private int poolSize = 1;// 和移动网关的socket连接池
+
+	private int sendThread = 1;// 发送线程
+	private int maxSpeed = 2;// 每秒发送条数
+
+	private int massCount = 10;// 群发短信每条短信号码数
+
 	private String rmi;
-	
-	//private boolean bload=false;
+
+	// private boolean bload=false;
 
 	/** 默认构造方法 */
 	public MM7Config()
@@ -55,15 +53,15 @@ public class MM7Config
 	/** 构造方法。参数必须传递系统配置文件名 */
 	public MM7Config(String configFileName)
 	{
-		//bload=true;
+		// bload=true;
 		load(configFileName);
-		
+
 	}
 
 	/** 加载配置文件 */
 	public void load(String configFileName)
 	{
-		//bload=true;
+		// bload=true;
 		MM7ConfigManager mm7c = new MM7ConfigManager();
 		mm7c.load(configFileName);
 		Map<String, String> hashmap = mm7c.map;
@@ -78,21 +76,22 @@ public class MM7Config
 		VASPID = hashmap.get("VASPID");
 		VASID = hashmap.get("VASID");
 		ServiceCode = hashmap.get("ServiceCode");
-		ChargedPartyExist=Boolean.parseBoolean(hashmap.get("ChargedPartyExist"));
-		ChargedParty=Integer.parseInt(hashmap.get("ChargedParty"));
+		ChargedPartyExist = Boolean.parseBoolean(hashmap
+				.get("ChargedPartyExist"));
+		ChargedParty = Integer.parseInt(hashmap.get("ChargedParty"));
 		ListenIP = (String) hashmap.get("ListenIP");
 		ListenPort = Integer.parseInt((String) hashmap.get("ListenPort"));
 		BackLog = Integer.parseInt((String) hashmap.get("BackLog"));
 		TimeOut = Integer.parseInt((String) hashmap.get("TimeOut"));
 		ReSendCount = Integer.parseInt((String) hashmap.get("ReSendCount"));
 		MMSCID = (String) hashmap.get("MmscID");
-		keepAlive="on".equals((String)hashmap.get("KeepAlive"));
-		poolSize=Integer.parseInt((String)hashmap.get("PoolSize"));
-		sendThread=Integer.parseInt((String)hashmap.get("SendThread"));
-		maxSpeed=Integer.parseInt((String)hashmap.get("MaxSpeed"));
-		massCount=Integer.parseInt((String)hashmap.get("MassCount"));
-		rmi = (String)hashmap.get("RMI");
-		
+		keepAlive = "on".equals((String) hashmap.get("KeepAlive"));
+		poolSize = Integer.parseInt((String) hashmap.get("PoolSize"));
+		sendThread = Integer.parseInt((String) hashmap.get("SendThread"));
+		maxSpeed = Integer.parseInt((String) hashmap.get("MaxSpeed"));
+		massCount = Integer.parseInt((String) hashmap.get("MassCount"));
+		rmi = (String) hashmap.get("RMI");
+
 	}
 
 	public void setAuthenticationMode(int authMode) // 设置鉴权方式

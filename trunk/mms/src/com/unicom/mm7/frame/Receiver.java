@@ -29,21 +29,11 @@ public class Receiver extends MM7Receiver
 
 	private static final Log log = LogFactory.getLog(Receiver.class);
 
-	// private static final Log db = LogFactory.getLog("db");
-
-	// private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 	/**
 	 * 用来保存彩信messageid和sendid的对应关系
 	 */
 	static final Map<String, String> messageidMap = new HashMap<String, String>();
 
-	// public static final LinkedBlockingQueue<UMms> mmsQue = new
-	// LinkedBlockingQueue<UMms>();
-
-	/**
-	 * 数据库访问对象
-	 */
-	// private SubmitDaoImpl1 dao = SubmitDaoImpl1.getInstance();
 	public Receiver(MM7Config config)
 	{
 		super(config.getListenIP(), config.getListenPort(),
@@ -121,7 +111,7 @@ public class Receiver extends MM7Receiver
 		mms.setSubject(deliverReq.getSubject());
 		mms.setSendtime(DateUtils.getTimestamp14());
 		// 随机分配sendid
-		// mms.setSendID("senid");
+		mms.setSendID(java.util.UUID.randomUUID().toString());
 		return mms;
 	}
 
@@ -228,17 +218,6 @@ public class Receiver extends MM7Receiver
 
 	private void dealDeliver(MM7DeliverReq deliverReq)
 	{
-		// 入库
-		/*
-		 * DeliverBean deliver = new DeliverBean();
-		 * deliver.setTransactionid(deliverReq.getTransactionID());
-		 * deliver.setLinkId(deliverReq.getLinkedID());
-		 * deliver.setMm7version(deliverReq.getMM7Version());
-		 * deliver.setSubject(deliverReq.getSubject()); //
-		 * deliver.setRecvTime(deliverReq.getTimeStamp());
-		 * deliver.setRecvTime(DateUtils.getTimestamp14()); //
-		 * dao.save(deliver);
-		 */
 		MmsFile mmsFile = makeMmsFile(deliverReq);
 		UMms mms = makeMms(mmsFile, deliverReq);
 		// log.info(mms);
@@ -297,9 +276,7 @@ public class Receiver extends MM7Receiver
 	public static void main(String[] args) throws Exception
 	{
 		// 初始化VASP
-		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		// 设置ConnConfig.xml文件的路径
-		mm7Config.setConnConfigName("./config/ConnConfig.xml"); // 必备
+		MM7Config mm7Config = new MM7Config("./config/uni-mm7Config.xml");
 		// 构造MyReceiver
 		Receiver receiver = new Receiver(mm7Config);
 		// 启动接收器

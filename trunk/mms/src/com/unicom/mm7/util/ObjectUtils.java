@@ -45,7 +45,8 @@ public class ObjectUtils
 		return in.readObject();
 	}
 
-	public static Object readObject(File file) throws IOException, ClassNotFoundException
+	public static Object readObject(File file) throws IOException,
+			ClassNotFoundException
 	{
 		ObjectInputStream in = null;
 		try
@@ -77,5 +78,4 @@ public class ObjectUtils
 
 	}
 
-	
 }

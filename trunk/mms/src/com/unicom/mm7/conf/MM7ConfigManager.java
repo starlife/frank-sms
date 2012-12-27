@@ -18,7 +18,7 @@ import org.jdom.input.DOMBuilder;
 public class MM7ConfigManager
 {
 	private static final Log log = LogFactory.getLog(MM7ConfigManager.class);
-	public Map<String,String> map = new HashMap<String,String>();
+	public Map<String, String> map = new HashMap<String, String>();
 
 	public MM7ConfigManager()
 	{
@@ -27,9 +27,9 @@ public class MM7ConfigManager
 	/** read XML file through the parameter and get value */
 	public void load(String configFileName)
 	{
-		
+
 		readXMLFile(configFileName);
-		
+
 	}
 
 	/** read XML File and parser it */
@@ -48,17 +48,16 @@ public class MM7ConfigManager
 			int size = root.getChildren().size();
 			for (int i = 0; i < size; i++)
 			{
-				Element element = (Element) root.getChildren().get(i);			
+				Element element = (Element) root.getChildren().get(i);
 				map.put(element.getName(), element.getTextTrim());
-				
+
 			}
 		}
 		catch (Exception ex)
 		{
-			log.error("解析配置文件时遇到错误",ex);
+			log.error("解析配置文件时遇到错误", ex);
 			System.exit(1);
 		}
-		
-		
+
 	}
 }
