@@ -20,12 +20,12 @@ public class Result
 {
 	public static final String MO_DIR = "MO";// MO彩信保存目录
 
-	// private static int sendid = 100000; // 生成sendid用的
 	private static String TIMESTAMP = ""; // 保存时间戳用的
 
 	private static final Log log = LogFactory.getLog(Result.class);
 
 	private static final Log resultLog = LogFactory.getLog("result");
+
 	private static final Result result = new Result();
 
 	private Result()
@@ -93,13 +93,15 @@ public class Result
 	 */
 	public void notifyResult(UMms mms)
 	{
-		// 先生成sendid，然后保存文件，然后发送通知消息给ws
-		// 如果发送通知消息失败，那么写离线日志
-		// genSendid(mms);
-		mms.setSendID(java.util.UUID.randomUUID().toString());
+		// 保存文件，然后通知到ws，
+		// 如果通知失败，记录通知失败原因
 		if (writeObject(mms))
 		{
-			;// 通知ws
+			resultLog.info("deliver:" + mms.getSendID());// 通知ws
+		}
+		else
+		{
+			log.error("MO消息写文件失败" + mms.getSendID());
 		}
 	}
 
@@ -153,21 +155,5 @@ public class Result
 		}
 		return dir;
 	}
-
-	/**
-	 * 生成每一个MO彩信的sendid，需要保证唯一性 生成算法为：yyyyMMddHHmmss+6位递增整数 总20位
-	 * 
-	 * @param mms
-	 * @return
-	 */
-	/*
-	 * public void genSendid(UMms mms) { String timestamp = mms.getSendtime();
-	 * String sendid = timestamp + allocID(); mms.setSendID(sendid); }
-	 */
-
-	/*
-	 * public synchronized String allocID() { sendid = (sendid + 1); if (sendid >=
-	 * 200000) { sendid = 100000; } return String.valueOf(sendid); }
-	 */
 
 }

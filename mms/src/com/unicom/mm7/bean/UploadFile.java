@@ -100,7 +100,7 @@ public class UploadFile implements java.io.Serializable
 		sb.append("Filesize:" + filesize + "\r\n");
 		sb.append("Filetype:" + filetype + "\r\n");
 		sb.append("Frameid:" + frameid + "\r\n");
-		sb.append("Charset:" +charset + "\r\n");
+		sb.append("Charset:" + charset + "\r\n");
 		return sb.toString();
 	}
 

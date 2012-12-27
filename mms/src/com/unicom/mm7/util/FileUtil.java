@@ -13,14 +13,19 @@ import java.io.InputStreamReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileUtil {
+public class FileUtil
+{
 	private static final Log log = LogFactory.getLog(FileUtil.class);
 
-	public static String getData(File f, String charset) {
+	public static String getData(File f, String charset)
+	{
 		String str = null;
-		try {
+		try
+		{
 			str = getData(new FileInputStream(f), charset);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e)
+		{
 			// TODO Auto-generated catch block
 			log.error(null, e);
 
@@ -34,25 +39,35 @@ public class FileUtil {
 	 * @param in
 	 * @return
 	 */
-	public static String getData(InputStream in, String charset) {
+	public static String getData(InputStream in, String charset)
+	{
 		String data = null;
-		try {
+		try
+		{
 			StringBuffer sb = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					in, charset));
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null)
+			{
 				sb.append(line + Constants.NEWLINE);
 			}
 			data = sb.toString();
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			// TODO Auto-generated catch block
 			log.error(null, e);
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				in.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				log.error(null, e);
 			}
@@ -66,21 +81,31 @@ public class FileUtil {
 	 * @param in
 	 * @param f
 	 */
-	public static void saveData(File f, byte[] bytes) {
+	public static void saveData(File f, byte[] bytes)
+	{
 		FileOutputStream output = null;
-		try {
+		try
+		{
 			output = new FileOutputStream(f);
 			output.write(bytes);
-		} catch (IOException ex) {
+		}
+		catch (IOException ex)
+		{
 			log.error(null, ex);
-		} finally {
-			if (output != null) {
+		}
+		finally
+		{
+			if (output != null)
+			{
 
-				try {
+				try
+				{
 
 					output.close();
 
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					log.error(null, e);
 				}
@@ -95,25 +120,36 @@ public class FileUtil {
 	 * @param in
 	 * @param f
 	 */
-	public static void saveData(InputStream in, File f) {
+	public static void saveData(InputStream in, File f)
+	{
 		FileOutputStream output = null;
-		try {
+		try
+		{
 			output = new FileOutputStream(f);
 			byte[] buf = new byte[102400];
 			int len = 0;
-			while ((len = in.read(buf)) != -1) {
+			while ((len = in.read(buf)) != -1)
+			{
 				output.write(buf, 0, len);
 			}
 			buf = null;
-		} catch (IOException ex) {
+		}
+		catch (IOException ex)
+		{
 			log.error(null, ex);
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				in.close();
-				if (output != null) {
+				if (output != null)
+				{
 					output.close();
 				}
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				log.error(null, e);
 			}
@@ -127,28 +163,39 @@ public class FileUtil {
 	 * @param in
 	 * @param f
 	 */
-	public static byte[] readData(InputStream in) {
+	public static byte[] readData(InputStream in)
+	{
 		// byte[] bytes=null;
 		ByteArrayOutputStream output = null;
-		try {
+		try
+		{
 			output = new ByteArrayOutputStream();
 			byte[] buf = new byte[102400];
 			int len = 0;
-			while ((len = in.read(buf)) != -1) {
+			while ((len = in.read(buf)) != -1)
+			{
 				output.write(buf, 0, len);
 			}
 			buf = null;
 			return output.toByteArray();
-		} catch (IOException ex) {
+		}
+		catch (IOException ex)
+		{
 			log.error(null, ex);
 			return null;
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				in.close();
-				if (output != null) {
+				if (output != null)
+				{
 					output.close();
 				}
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				log.error(null, e);
 			}

@@ -32,9 +32,6 @@ public class Sender extends MM7Sender
 
 	private static final Log log = LogFactory.getLog(Sender.class);
 
-	// private static final Log db = LogFactory.getLog("db");
-	// private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
-
 	private static final Log transactionidLog = LogFactory
 			.getLog("transactionid");
 
@@ -46,20 +43,13 @@ public class Sender extends MM7Sender
 
 	public static final LinkedBlockingQueue<UMms> mmsQue = new LinkedBlockingQueue<UMms>();
 
-	public static int maxSrcID = 10;
-
 	private String vaspid = "";// spid
 	private String vasid = "";// 接入号
 	private String serviceCode = "";
 	private boolean chargedPartyExist = false;
-	private int chargedParty = 0;
+	private int chargedParty = 0;// 计费 0表示发送方计费
+	private int maxSrcID = 10;// 群发号码数
 
-	/**
-	 * 数据库访问对象
-	 */
-	// private UMmsDaoImpl ummsDao = UMmsDaoImpl.getInstance();
-	// private MmsFileDaoImpl mmsFileDao = MmsFileDaoImpl.getInstance();
-	// private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 	/**
 	 * 群发每条彩信最大的接收号码
 	 */
@@ -79,6 +69,7 @@ public class Sender extends MM7Sender
 		serviceCode = mm7Config.getServiceCode();
 		chargedPartyExist = mm7Config.isChargedPartyExist();
 		chargedParty = mm7Config.getChargedParty();
+		this.maxSrcID = mm7Config.getMassCount();
 
 	}
 
@@ -261,7 +252,6 @@ public class Sender extends MM7Sender
 				}
 				else
 				{
-
 					// 彩信sendid
 					String sendid = mms.getSendID();
 					String subject = mms.getSubject();
@@ -367,8 +357,7 @@ public class Sender extends MM7Sender
 
 	public static void main(String[] args) throws Exception
 	{
-		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		mm7Config.setConnConfigName("./config/ConnConfig.xml");
+		MM7Config mm7Config = new MM7Config("./config/uni-mm7Config.xml");
 		Sender sender = new Sender(mm7Config);
 		sender.start();
 	}
