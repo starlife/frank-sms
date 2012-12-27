@@ -1,66 +1,149 @@
 package com.cmcc.mm7.vasp.http;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MIMEMessage
 {
-	//private static final Log log = LogFactory.getLog(MIMEMessage.class);
+	// private static final Log log = LogFactory.getLog(MIMEMessage.class);
+	public static final String CONTENT_TYPE = "Content-Type";
+	public static final String CONTENT_TRANSFER_ENCODING = "Content-Transfer-Encoding";
+	public static final String CONTENT_ID = "Content-ID";
+	public static final String CONTENT_LOCATION = "Content-Location";
+
 	private byte[] bytes = null;
 	private final ByteArrayOutputStream headBaos = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
 
 	private String contentType = null;
 	private String charset = null;
+	private String name = null;
+	private String boundary = null;
 	private String contentTransferEncoding = null;
 	private String contentID = null;
 	private String contentLocation = null;
 
-	public MIMEMessage(byte[] bytes)
+	/**
+	 * 不是一个MIME消息的时候抛出错误
+	 * 
+	 * @param bytes
+	 * @throws IOException
+	 */
+	public MIMEMessage(byte[] bytes) throws IOException
+	{
+		this(bytes, null);
+	}
+
+	/**
+	 * 修改支持MIME头包含中文
+	 * 
+	 * @param bytes
+	 * @param charset
+	 * @throws IOException
+	 */
+	public MIMEMessage(byte[] bytes, String charset) throws IOException
 	{
 		this.bytes = bytes;
-		String mime = new String(bytes);
+		this.charset = charset;
+		String mime = null;
+		if (getCharset() != null)
+		{
+			mime = new String(bytes, Charset.forName(getCharset()));
+		}
+		else
+		{
+			mime = new String(bytes);
+		}
+
 		int index = mime.indexOf("\r\n\r\n");
-		headBaos.write(bytes, 0, index + 4);
-		bodyBaos.write(bytes, index + 4, bytes.length);
+		if (index == -1)
+		{
+			throw new IOException();
+		}
+		String header = mime.substring(0, index + 4);
+		byte[] headBytes = null;
+		if (getCharset() != null)
+		{
+			headBytes = header.getBytes(Charset.forName(getCharset()));
+		}
+		else
+		{
+			headBytes = header.getBytes();
+		}
+		headBaos.write(headBytes);
+		bodyBaos
+				.write(bytes, headBytes.length, bytes.length - headBytes.length);
 		parseHeader();
 	}
 
 	private void parseHeader()
 	{
-		String contentTypeStr = getHeaderValue("Content-Type");
+		String contentTypeStr = getHeaderValue(CONTENT_TYPE);
 		if (contentTypeStr != null)
 		{
 			String[] tuple = contentTypeStr.split(";");
-			if (tuple.length == 1)
+			if (tuple.length >= 1)
 			{
-				contentType = tuple[0];
+				setContentType(tuple[0]);
 			}
-			else if (tuple.length == 2)
+			if (tuple.length >= 2)
 			{
-				contentType = tuple[0];
-				charset = tuple[1];
+				for (int i = 1; i < tuple.length; i++)
+				{
+					String field = tuple[i];
+					if (field.indexOf("charset") != -1)
+					{
+						setCharset(getValue("charset", field));
+					}
+					else if (field.indexOf("name") != -1)
+					{
+						this.setName(getValue("name", field));
+					}
+					else if (field.indexOf("boundary") != -1)
+					{
+						setBoundary(getValue("boundary", field));
+					}
+
+				}
 			}
 		}
-		contentTransferEncoding = getHeaderValue("Content-Transfer-Encoding");
-		this.contentID = getHeaderValue("Content-ID");
-		this.contentLocation = getHeaderValue("Content-Location");
+		setContentTransferEncoding(getHeaderValue(CONTENT_TRANSFER_ENCODING));
+		setContentID(getHeaderValue(CONTENT_ID));
+		setContentLocation(getHeaderValue(CONTENT_LOCATION));
+		if(getContentLocation()!=null&&getContentLocation().equals("img_18.jpg"))
+		{
+			//log.info(Hex.rhex(bytes));
+		}
 	}
 
 	public String getHeaderValue(String key)
 	{
-		String tkey = "";
-		for (int i = 0; i < key.length(); i++)
-			tkey = (new StringBuilder()).append(tkey).append("[").append(
-					key.substring(i, i + 1).toLowerCase()).append(
-					key.substring(i, i + 1).toUpperCase()).append("]")
-					.toString();
+		String header = null;
+		if (getCharset() != null)
+		{
+			try
+			{
+				header = headBaos.toString(getCharset());
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				// TODO Auto-generated catch block
+				header = headBaos.toString();
+			}
+		}
+		else
+		{
+			header = headBaos.toString();
+		}
 
-		String pattern = (new StringBuilder()).append("(").append(tkey).append(
+		String pattern = (new StringBuilder()).append("(").append(key).append(
 				"[ ]*:[ ]*)(.*)(\r\n)").toString();
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(headBaos.toString());
+		Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(header);
 		if (m.find())
 			return m.group(2);
 		else
@@ -76,10 +159,22 @@ public class MIMEMessage
 	{
 		return bodyBaos.toByteArray();
 	}
-
+	
+	public byte[] getHeader()
+	{
+		return headBaos.toByteArray();
+	}
+	
 	public String toString()
 	{
-		return new String(bytes);
+		if (getCharset() != null)
+		{
+			return new String(bytes, Charset.forName(getCharset()));
+		}
+		else
+		{
+			return new String(bytes);
+		}
 	}
 
 	public String getContentType()
@@ -131,5 +226,40 @@ public class MIMEMessage
 	{
 		this.contentLocation = contentLocation;
 	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getBoundary()
+	{
+		return boundary;
+	}
+
+	public void setBoundary(String boundary)
+	{
+		this.boundary = boundary;
+	}
+
+	public static String getValue(String key, String data)
+	{
+
+		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("("
+				+ key + "=\"?)([^\"?]+)");
+		java.util.regex.Matcher matcher = pattern.matcher(data);
+		if (matcher.find())
+			return matcher.group(2);
+		else
+			return null;
+
+	}
+
+	
 
 }
