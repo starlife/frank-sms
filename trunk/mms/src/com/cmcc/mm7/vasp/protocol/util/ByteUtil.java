@@ -1,5 +1,7 @@
 package com.cmcc.mm7.vasp.protocol.util;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 浜岃繘鍒跺拰鍏朵粬绫诲瀷锛坰hort,char,int,long,float,double,string锛夎浆鎹㈠伐鍏风被
@@ -80,7 +82,8 @@ public class ByteUtil
 	}
 
 	/**
-	 * 鎷疯礉瀛楃涓瞫rc鐨刲en涓瓧鑺傜殑闀垮害锛屽鏋渓en<src.lenght()鍒欐嫹璐濋儴鍒? 锛屽鏋渓en>=src.length()鍏ㄦ嫹
+	 * 鎷疯礉瀛楃涓瞫rc鐨刲en涓瓧鑺傜殑闀垮害锛屽鏋渓en<src.lenght()鍒欐嫹璐濋儴鍒?
+	 * 锛屽鏋渓en>=src.length()鍏ㄦ嫹
 	 */
 	public static byte[] getBytes(String src, int len)
 	{
@@ -97,8 +100,7 @@ public class ByteUtil
 		}
 		return buf;
 	}
-	
-	
+
 	public static byte[] getBytes(String[] src, int len)
 	{
 
@@ -110,13 +112,75 @@ public class ByteUtil
 		}
 		return buf;
 	}
-	
+
 	public static byte[] merge(byte[] byte1, byte[] byte2)
 	{
-		byte[] buf=new byte[byte1.length+byte2.length];
-		System.arraycopy(byte1,0,buf,0, byte1.length);
-		System.arraycopy(byte2,0,buf,byte1.length, byte2.length);
+		byte[] buf = new byte[byte1.length + byte2.length];
+		System.arraycopy(byte1, 0, buf, 0, byte1.length);
+		System.arraycopy(byte2, 0, buf, byte1.length, byte2.length);
 		return buf;
+	}
+
+	/**
+	 * 字符串split的byte实现形式
+	 * 
+	 * @param bytes
+	 *            字符串的byte
+	 * @param boundary
+	 *            分隔符的byte
+	 * @return 各个段的byte
+	 */
+	public static List<byte[]> split(byte[] bytes, byte[] boundary)
+	{
+		List<byte[]> tupleList = new ArrayList<byte[]>();
+		List<Integer> posList = new ArrayList<Integer>();
+		for (int i = 0, j = 0; i <= bytes.length; i++)
+		{
+			if (i == bytes.length)
+			{
+				if (j == boundary.length)
+				{
+					posList.add(i - boundary.length);
+				}
+				break;
+			}
+			if (j == boundary.length)
+			{
+				// 找到，b[0..j-1] 和a[i-j..i-1]都相等
+				posList.add(i - boundary.length);
+				j = 0;
+			}
+			if (bytes[i] == boundary[j])
+			{
+				j++;
+			}
+			else
+			{
+				j = 0;
+			}
+		}
+		int bpos = 0;
+		int epos = 0;
+		for (Integer i : posList)
+		{
+			epos = i;
+			if (epos > bpos)
+			{
+				byte[] temp = new byte[epos - bpos];
+				System.arraycopy(bytes, bpos, temp, 0, temp.length);
+				tupleList.add(temp);
+				bpos = i + boundary.length;
+			}
+		}
+		if (bpos < bytes.length)
+		{
+			epos = bytes.length;
+			byte[] temp = new byte[epos - bpos];
+			System.arraycopy(bytes, bpos, temp, 0, temp.length);
+			// System.out.println(bpos+":"+epos);
+			tupleList.add(temp);
+		}
+		return tupleList;
 	}
 
 }
