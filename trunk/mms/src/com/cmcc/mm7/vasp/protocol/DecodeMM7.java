@@ -23,6 +23,7 @@ import com.cmcc.mm7.vasp.http.MIMEMessage;
 import com.cmcc.mm7.vasp.protocol.message.MM7DeliverReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7RSReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7RSRes;
+import com.cmcc.mm7.vasp.protocol.util.ByteUtil;
 
 public class DecodeMM7
 {
@@ -60,6 +61,7 @@ public class DecodeMM7
 			else
 			{
 				bodyMessage = baos.toString(charset);
+
 			}
 			int xmlbeg = bodyMessage.indexOf(MMConstants.BEGINXMLFLAG);
 			int xmlend = bodyMessage.indexOf(MMConstants.ENDXMLFLAG)
@@ -71,8 +73,7 @@ public class DecodeMM7
 					&& (baos.size() > xmlend))
 			{
 				// 解析附件 附件是一个multipart/mixed;
-				String attachMessage = bodyMessage.substring(xmlend);
-				parseAttachment(attachMessage, charset, boundary,
+				parseAttachment(baos.toByteArray(), charset, boundary,
 						(MM7DeliverReq) req);
 			}
 
@@ -89,43 +90,40 @@ public class DecodeMM7
 	/**
 	 * 解析附件，把解析得到的MMContent对象添加到MM7DeliverReq消息中
 	 * 
-	 * @param attachMessage
+	 * @param bodyBytes
 	 * @param charset
 	 * @param boundary
 	 * @param req
 	 * @throws IOException
 	 */
-	private static void parseAttachment(String attachMessage, String charset,
+	private static void parseAttachment(byte[] bodyBytes, String charset,
 			String boundary, MM7DeliverReq req) throws IOException
 	{
-		// 去除attachMessage中的boundary ，然后调用parseAttachment(mime, req);
 		MMContent deliverContent = new MMContent();
-
-		String regex = "--" + boundary + "(--)?\r\n";
-		String[] parts = attachMessage.split(regex);
-		for (int i = 0; i < parts.length; i++)
+		deliverContent.setContentType(MMConstants.ContentType.MULTIPART_MIXED);
+		List<byte[]> list = splitMime(bodyBytes, boundary);
+		for (int i = 0; i < list.size(); i++)
 		{
-			String part = parts[i];
-			if (part.indexOf("\r\n\r\n") == -1)
+			byte[] part = list.get(i);
+			if (new String(part).indexOf("\r\n\r\n") == -1)
 			{
 				// 错误的部分
 				continue;
 			}
-			byte[] bytes = null;
-			if (charset == null)
+
+			MIMEMessage mime = new MIMEMessage(part, charset);
+			if (mime.getContentType() != null
+					&& mime.getContentType().equals(
+							MMConstants.ContentType.MULTIPART_MIXED.toString()))
 			{
-				bytes = part.getBytes();
-			}
-			else
-			{
-				bytes = part.getBytes(Charset.forName(charset));
-			}
-			// 解析MIME消息为MMContent对象
-			List<MMContent> contents = new ArrayList<MMContent>();
-			parseMIME(new MIMEMessage(bytes, charset), contents);
-			for (int j = 0; j < contents.size(); j++)
-			{
-				deliverContent.addSubContent(contents.get(j));
+				// 解析MIME消息为MMContent对象
+				List<MMContent> contents = new ArrayList<MMContent>();
+				parseMIME(mime, contents);
+				for (int j = 0; j < contents.size(); j++)
+				{
+					deliverContent.addSubContent(contents.get(j));
+				}
+				break;
 			}
 
 		}
@@ -134,7 +132,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * MIME消息解析为MMContent
+	 * MIME消息解析为MMContent,递归
 	 * 
 	 * @param mime
 	 * @param contents
@@ -170,39 +168,19 @@ public class DecodeMM7
 
 		String charset = mime.getCharset();
 		String boundary = mime.getBoundary();
-		byte[] bodyByes = mime.getBody();
-		String bodyMessage = null;
-		if (charset == null)
+		byte[] bodyBytes = mime.getBody();
+		List<byte[]> list = splitMime(bodyBytes, boundary);
+		for (int i = 0; i < list.size(); i++)
 		{
-			bodyMessage = new String(bodyByes);
-		}
-		else
-		{
-			bodyMessage = new String(bodyByes, Charset.forName(charset));
-		}
-
-		String regex = "--" + boundary + "(--)?\r\n";
-		String[] parts = bodyMessage.split(regex);
-		for (int i = 0; i < parts.length; i++)
-		{
-			String part = parts[i];
-			if (part.indexOf("\r\n\r\n") == -1)
+			byte[] part = list.get(i);
+			if (new String(part).indexOf("\r\n\r\n") == -1)
 			{
 				// 错误的部分
 				continue;
 			}
-			byte[] bytes = null;
-			if (charset == null)
-			{
-				bytes = part.getBytes();
-			}
-			else
-			{
-				bytes = part.getBytes(Charset.forName(charset));
-			}
 			try
 			{
-				mimes.add(new MIMEMessage(bytes, charset));
+				mimes.add(new MIMEMessage(part, charset));
 			}
 			catch (IOException ex)
 			{
@@ -241,7 +219,6 @@ public class DecodeMM7
 			}
 			subContent = MMContent.createFromBytes(bodyBytes);
 		}
-
 		subContent.setContentType(new MMContentType(mime.getContentType()));
 
 		if (mime.getContentID() != null)
@@ -260,6 +237,27 @@ public class DecodeMM7
 		}
 
 		return subContent;
+
+	}
+
+	/**
+	 * 分割MME消息的byte版本
+	 * 
+	 * @param bytes
+	 * @param boundary
+	 * @return
+	 */
+	public static List<byte[]> splitMime(byte[] bytes, String boundary)
+	{
+		String bBoundary = "--" + boundary + "\r\n";
+		String eBoundary = "--" + boundary + "--" + "\r\n";
+		List<byte[]> list = ByteUtil.split(bytes, bBoundary.getBytes());
+
+		byte[] b = list.remove(list.size() - 1);
+		List<byte[]> extra = ByteUtil.split(b, eBoundary.getBytes());
+		list.addAll(extra);
+		extra.clear();
+		return list;
 
 	}
 
