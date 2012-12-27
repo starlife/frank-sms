@@ -12,15 +12,15 @@ import com.unicom.mm7.bean.UMms;
 import com.unicom.mm7.util.ObjectUtils;
 
 /**
- * 该类可以看做是一个缓冲类，先通知消息给对方，如果通知失败，写文件 该类是一个单实例类
- * 改为用uuid  2012-12-22
+ * 该类可以看做是一个缓冲类，先通知消息给对方，如果通知失败，写文件 该类是一个单实例类 改为用uuid 2012-12-22
+ * 
  * @author Administrator
  */
 public class Result
 {
 	public static final String MO_DIR = "MO";// MO彩信保存目录
 
-	//private static int sendid = 100000; // 生成sendid用的
+	// private static int sendid = 100000; // 生成sendid用的
 	private static String TIMESTAMP = ""; // 保存时间戳用的
 
 	private static final Log log = LogFactory.getLog(Result.class);
@@ -95,7 +95,7 @@ public class Result
 	{
 		// 先生成sendid，然后保存文件，然后发送通知消息给ws
 		// 如果发送通知消息失败，那么写离线日志
-		//genSendid(mms);
+		// genSendid(mms);
 		mms.setSendID(java.util.UUID.randomUUID().toString());
 		if (writeObject(mms))
 		{
@@ -160,22 +160,14 @@ public class Result
 	 * @param mms
 	 * @return
 	 */
-	/*public void genSendid(UMms mms)
-	{
-		String timestamp = mms.getSendtime();
-		String sendid = timestamp + allocID();
-		mms.setSendID(sendid);
+	/*
+	 * public void genSendid(UMms mms) { String timestamp = mms.getSendtime();
+	 * String sendid = timestamp + allocID(); mms.setSendID(sendid); }
+	 */
 
-	}*/
-
-	/*public synchronized String allocID()
-	{
-		sendid = (sendid + 1);
-		if (sendid >= 200000)
-		{
-			sendid = 100000;
-		}
-		return String.valueOf(sendid);
-	}*/
+	/*
+	 * public synchronized String allocID() { sendid = (sendid + 1); if (sendid >=
+	 * 200000) { sendid = 100000; } return String.valueOf(sendid); }
+	 */
 
 }

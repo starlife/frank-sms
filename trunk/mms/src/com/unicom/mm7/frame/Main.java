@@ -13,6 +13,7 @@ import com.cmcc.mm7.vasp.common.Constants;
 import com.unicom.mm7.conf.MM7Config;
 import com.unicom.mm7.rmi.MmsService;
 import com.unicom.mm7.rmi.MmsServiceImpl;
+
 public class Main
 {
 	private static final Log log = LogFactory.getLog(Main.class);
@@ -50,11 +51,11 @@ public class Main
 			// 创建一个远程对象
 			MmsService mmsService = new MmsServiceImpl();
 			// 本地主机上的远程对象注册表Registry的实例，并指定端口为8888，这一步必不可少（Java默认端口是1099），必不可缺的一步，缺少注册表创建，则无法绑定对象到远程注册表上
-			String rmi=config.getRmi();
-			int index1=rmi.lastIndexOf("/");
-			int index2=rmi.lastIndexOf(":");
-			int port =Integer.parseInt(rmi.substring(index2+1,index1));
-			
+			String rmi = config.getRmi();
+			int index1 = rmi.lastIndexOf("/");
+			int index2 = rmi.lastIndexOf(":");
+			int port = Integer.parseInt(rmi.substring(index2 + 1, index1));
+
 			LocateRegistry.createRegistry(port);
 
 			// 把远程对象注册到RMI注册服务器上，并命名为RHello
@@ -62,7 +63,7 @@ public class Main
 			Naming.bind(config.getRmi(), mmsService);
 			// Naming.bind("//localhost:8888/RHello",rhello);
 
-			System.out.println(">>>>>INFO:远程mmsService对象绑定成功！端口"+port);
+			System.out.println(">>>>>INFO:远程mmsService对象绑定成功！端口" + port);
 		}
 		catch (RemoteException e)
 		{
