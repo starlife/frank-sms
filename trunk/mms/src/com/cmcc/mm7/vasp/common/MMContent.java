@@ -21,7 +21,7 @@ public class MMContent implements Serializable, Cloneable
 	private boolean ContentIDExist;
 	private boolean ContentLocationExist;
 	private boolean PresentionContentExist;
-	public List<MMContent> SubContents = new ArrayList<MMContent>();
+	private final List<MMContent> SubContents = new ArrayList<MMContent>();
 	private boolean Multipart;
 	private ByteArrayOutputStream byteOutput;
 
@@ -37,7 +37,6 @@ public class MMContent implements Serializable, Cloneable
 		ContentIDExist = false;
 		ContentLocationExist = false;
 		PresentionContentExist = false;
-		// SubContents = new ArrayList();
 		Multipart = false;
 		byteOutput = new ByteArrayOutputStream();
 	}
@@ -216,12 +215,12 @@ public class MMContent implements Serializable, Cloneable
 	 */
 	public MMContent getSubContentByID(String contentID)
 	{
-		List<MMContent> subcontents = new ArrayList<MMContent>();
-		subcontents = SubContents;
+		// List<MMContent> subcontents = new ArrayList<MMContent>();
+		// subcontents = SubContents;
 		MMContent subContent = new MMContent();
-		for (int i = 0; i < subcontents.size(); i++)
+		for (int i = 0; i < SubContents.size(); i++)
 		{
-			MMContent subcontent = (MMContent) subcontents.get(i);
+			MMContent subcontent = (MMContent) SubContents.get(i);
 			if (subcontent.isContentIDExist())
 			{
 				if (contentID.equals(subcontent.getContentID()))
@@ -398,7 +397,7 @@ public class MMContent implements Serializable, Cloneable
 								+ "\n");
 		}
 		sb.append("Multipart=" + Multipart + "\n");
-		sb.append("byteOutput=" + byteOutput + "\n");
+		sb.append("byteOutput=" + getContentAsString() + "\n");
 		return sb.toString();
 	}
 }
