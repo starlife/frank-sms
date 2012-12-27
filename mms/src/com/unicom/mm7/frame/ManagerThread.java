@@ -1,38 +1,38 @@
 package com.unicom.mm7.frame;
+
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import com.unicom.mm7.conf.MM7Config;
 
-
 /**
  * 线程管理类
+ * 
  * @author Administrator
- *
  */
 public class ManagerThread extends Thread
 {
 	private volatile boolean stop = false;
 
-	private  final LinkedList<Receiver> recvThreadList = new LinkedList<Receiver>();
-	private  final LinkedList<Sender> sendThreadList = new LinkedList<Sender>();
-	
-	private static final Object recvLock=new Object();
-	private static final Object sendLock=new Object();
-	
+	private final LinkedList<Receiver> recvThreadList = new LinkedList<Receiver>();
+	private final LinkedList<Sender> sendThreadList = new LinkedList<Sender>();
+
+	private static final Object recvLock = new Object();
+	private static final Object sendLock = new Object();
+
 	private int sendThreadCount = 1;
 	private final int recvThreadCount = 1;
-	private MM7Config config=null;
+	private MM7Config config = null;
 
 	public ManagerThread()
 	{
 		this.setDaemon(true);
 	}
 
-	public ManagerThread(MM7Config config,int sendThreadCount)
+	public ManagerThread(MM7Config config, int sendThreadCount)
 	{
 		super("ManagerThread");
-		this.config=config;
+		this.config = config;
 		this.sendThreadCount = sendThreadCount;
 		this.setDaemon(true);
 	}
@@ -81,7 +81,7 @@ public class ManagerThread extends Thread
 						recvThreadList.add(t);
 					}
 				}
-				//睡眠30s
+				// 睡眠30s
 				TimeUnit.SECONDS.sleep(30);
 
 			}
@@ -107,8 +107,7 @@ public class ManagerThread extends Thread
 			}
 			this.sendThreadList.clear();
 		}
-		
-		
+
 		synchronized (recvLock)
 		{
 			for (int i = 0; i < this.recvThreadList.size(); i++)
@@ -118,10 +117,9 @@ public class ManagerThread extends Thread
 			}
 			this.recvThreadList.clear();
 
-			
 		}
 		this.stop = true;
-		
+
 	}
 
 }

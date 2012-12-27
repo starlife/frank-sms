@@ -20,7 +20,7 @@ import com.unicom.mm7.bean.UMms;
 public class Test
 {
 	private static final Log log = LogFactory.getLog(Test.class);
-	
+
 	public static void main(String[] args) throws IOException
 	{
 		log.debug("本地接收前");
@@ -33,21 +33,20 @@ public class Test
 		{
 			// log.info("接收到数据包：" +
 			// com.cmcc.mm7.vasp.protocol.util.Hex.rhex(http.getData()));
-			//log.info(http.toString(Charset.forName("UTF-8")));
-			//log.info("http.getData().length:"+http.getData().length);
-			//log.info("bytes.length:"+bytes.length);
-			//log.info("Hex.rhex(http.getHeader().getBytes()):"+Hex.rhex(http.getHeader().getBytes()));
-			//log.info("http.getHeader().getBytes().length:"+http.getHeader().getBytes().length);
-			//log.info("http.getBody().length:"+http.getBody().length);
-			//log.info("Hex.rhex(http.getBody()):"+Hex.rhex(http.getBody()));
+			// log.info(http.toString(Charset.forName("UTF-8")));
+			// log.info("http.getData().length:"+http.getData().length);
+			// log.info("bytes.length:"+bytes.length);
+			// log.info("Hex.rhex(http.getHeader().getBytes()):"+Hex.rhex(http.getHeader().getBytes()));
+			// log.info("http.getHeader().getBytes().length:"+http.getHeader().getBytes().length);
+			// log.info("http.getBody().length:"+http.getBody().length);
+			// log.info("Hex.rhex(http.getBody()):"+Hex.rhex(http.getBody()));
 			MM7RSReq req = DecodeMM7.decodeReqMessage(http.getBody(), "UTF-8",
 					DecodeMM7.getBoundary(http.getHeader()));
 			MM7DeliverReq deliverReq = (MM7DeliverReq) req;
 			MmsFile mmsFile = Receiver.makeMmsFile(deliverReq);
 			UMms mms = Receiver.makeMms(mmsFile, deliverReq);
-			//log.info(mms);
+			// log.info(mms);
 			Result.getInstance().notifyResult(mms);
-			
 
 		}
 		else

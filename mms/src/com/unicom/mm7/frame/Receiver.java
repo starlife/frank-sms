@@ -1,6 +1,5 @@
 package com.unicom.mm7.frame;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +17,11 @@ import com.cmcc.mm7.vasp.protocol.message.MM7DeliveryReportRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7ReadReplyRes;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
-import com.cmcc.mm7.vasp.protocol.util.Hex;
 import com.unicom.mm7.bean.MmsFile;
 import com.unicom.mm7.bean.UMms;
 import com.unicom.mm7.bean.UploadFile;
 import com.unicom.mm7.conf.MM7Config;
 import com.unicom.mm7.util.DateUtils;
-import com.unicom.mm7.util.FileUtil;
 import com.unicom.mm7.util.SmilParser;
 
 public class Receiver extends MM7Receiver
@@ -39,8 +36,9 @@ public class Receiver extends MM7Receiver
 	 * 用来保存彩信messageid和sendid的对应关系
 	 */
 	static final Map<String, String> messageidMap = new HashMap<String, String>();
-	
-	//public static final LinkedBlockingQueue<UMms> mmsQue = new LinkedBlockingQueue<UMms>();
+
+	// public static final LinkedBlockingQueue<UMms> mmsQue = new
+	// LinkedBlockingQueue<UMms>();
 
 	/**
 	 * 数据库访问对象
@@ -127,8 +125,6 @@ public class Receiver extends MM7Receiver
 		return mms;
 	}
 
-	
-
 	/**
 	 * 组装MmsFile对象
 	 * 
@@ -185,7 +181,7 @@ public class Receiver extends MM7Receiver
 					// 解析SMIL
 					String smil = content.getContentAsString();
 					SmilParser parser = new SmilParser(smil);
-					parser.parse();//解析
+					parser.parse();// 解析
 					for (int j = 0; j < parser.getFrames().size(); j++)
 					{
 						SmilParser.Frame fr = parser.getFrames().get(j);
@@ -245,7 +241,7 @@ public class Receiver extends MM7Receiver
 		 */
 		MmsFile mmsFile = makeMmsFile(deliverReq);
 		UMms mms = makeMms(mmsFile, deliverReq);
-		//log.info(mms);
+		// log.info(mms);
 		Result.getInstance().notifyResult(mms);
 		// log.info(deliverReq);
 	}
@@ -277,7 +273,8 @@ public class Receiver extends MM7Receiver
 
 		}
 		// 状态报告通知
-		Result.getInstance().notifyResult(sendid, to, mmStatus, mmStatusText, reportTime);
+		Result.getInstance().notifyResult(sendid, to, mmStatus, mmStatusText,
+				reportTime);
 
 	}
 
