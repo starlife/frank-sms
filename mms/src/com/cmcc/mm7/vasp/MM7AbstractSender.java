@@ -11,15 +11,17 @@ import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
 
 public interface MM7AbstractSender
 {
-	
+
 	/**
 	 * 定义如何提交彩信
+	 * 
 	 * @return
 	 */
 	public MM7SubmitReq submit();
-	
+
 	/**
 	 * 对提交消息的处理
+	 * 
 	 * @param req
 	 * @param res
 	 */
@@ -27,17 +29,18 @@ public interface MM7AbstractSender
 
 	/**
 	 * 对替换消息的处理
+	 * 
 	 * @param req
 	 * @param res
 	 */
 	public void doReplace(MM7ReplaceReq req, MM7RSRes res);
-	
+
 	/**
 	 * 对取消消息的处理
+	 * 
 	 * @param req
 	 * @param res
 	 */
 	public void doCancel(MM7CancelReq req, MM7RSRes res);
-	
 
 }
