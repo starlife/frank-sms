@@ -162,29 +162,29 @@ public class SOAPDecoder
 			if (name.equals("MMSRelayServerID"))
 			{
 				deliveryReportReq.setMMSRelayServerID(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("MessageID"))
+			else if (name.equals("MessageID"))
 			{
 				deliveryReportReq.setMessageID(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("Recipient"))
+			else if (name.equals("Recipient"))
 			{
 				int recsize = child.getChildren().size();
 				for (int j = 0; j < recsize; j++)
 				{
 					Element rec = (Element) child.getChildren().get(j);
 					deliveryReportReq.setRecipient(rec.getTextTrim());
-					continue;
+
 				}
 			}
-			if (name.equals("Sender"))
+			else if (name.equals("Sender"))
 			{
 				deliveryReportReq.setSender(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("TimeStamp"))
+			else if (name.equals("TimeStamp"))
 			{
 				String time = child.getTextTrim();
 				if (time.length() > 19)
@@ -200,9 +200,9 @@ public class SOAPDecoder
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				continue;
+
 			}
-			if (name.equals("MMStatus"))
+			else if (name.equals("MMStatus"))
 			{
 				if (child.getTextTrim().equalsIgnoreCase("Expired"))
 					deliveryReportReq.setMMStatus((byte) 0);
@@ -222,12 +222,11 @@ public class SOAPDecoder
 					deliveryReportReq.setMMStatus((byte) 5);
 				else
 					deliveryReportReq.setMMStatus((byte) 4);
-				continue;
+
 			}
-			if (name.equals("StatusText"))
+			else if (name.equals("StatusText"))
 			{
 				deliveryReportReq.setStatusText(child.getTextTrim());
-				continue;
 			}
 		}
 		return deliveryReportReq;
@@ -250,29 +249,29 @@ public class SOAPDecoder
 			if (name.equals("MMSReplayServerID"))
 			{
 				readReplyReq.setMMSRelayServerID(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("MessageID"))
+			else if (name.equals("MessageID"))
 			{
 				readReplyReq.setMessageID(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("Recipient"))
+			else if (name.equals("Recipient"))
 			{
 				int recsize = child.getChildren().size();
 				for (int j = 0; j < recsize; j++)
 				{
 					Element rec = (Element) child.getChildren().get(j);
 					readReplyReq.setRecipient(rec.getTextTrim());
-					continue;
+
 				}
 			}
-			if (name.equals("Sender"))
+			else if (name.equals("Sender"))
 			{
 				readReplyReq.setSender(child.getTextTrim());
-				continue;
+
 			}
-			if (name.equals("TimeStamp"))
+			else if (name.equals("TimeStamp"))
 			{
 				String time = child.getTextTrim();
 				if (time.length() > 19)
@@ -288,9 +287,9 @@ public class SOAPDecoder
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				continue;
+
 			}
-			if (name.equals("MMStatus"))
+			else if (name.equals("MMStatus"))
 			{
 				String strReadStatus = child.getTextTrim().trim();
 				byte bReadStatus = 2;
@@ -302,12 +301,12 @@ public class SOAPDecoder
 					bReadStatus = 2;
 				readReplyReq.setMMStatus(bReadStatus);
 				// readReplyReq.setMMStatus(Byte.parseByte(child.getTextTrim()));
-				continue;
+
 			}
-			if (name.equals("StatusText"))
+			else if (name.equals("StatusText"))
 			{
 				readReplyReq.setStatusText(child.getTextTrim());
-				continue;
+
 			}
 		}
 		return readReplyReq;
@@ -395,10 +394,7 @@ public class SOAPDecoder
 			deliverReq.setBcc(Bcc);
 
 	}
-	
-	
-	
-	
+
 	public static MM7RSRes parseResXML(byte[] xmlBytes)
 	{
 		SAXBuilder sax = new SAXBuilder();
@@ -406,9 +402,9 @@ public class SOAPDecoder
 		{
 
 			ByteArrayInputStream in = new ByteArrayInputStream(xmlBytes);
-			//log.debug("sax.build(in) 之前:"+System.currentTimeMillis());
+			// log.debug("sax.build(in) 之前:"+System.currentTimeMillis());
 			Document doc = sax.build(in);
-			//log.debug("sax.build(in) 之后:"+System.currentTimeMillis());
+			// log.debug("sax.build(in) 之后:"+System.currentTimeMillis());
 			Element root = doc.getRootElement();
 			Element envHeader = (Element) root.getChildren().get(0);
 			Element envBody = (Element) root.getChildren().get(1);
@@ -424,7 +420,7 @@ public class SOAPDecoder
 			String transactionID = transID.getTextTrim();
 			// 消息体
 			Element message = (Element) envBody.getChildren().get(0);
-			
+
 			log.info("Message.getName()=" + message.getName() + "\r\n");
 
 			int size = message.getChildren().size();
@@ -475,9 +471,10 @@ public class SOAPDecoder
 					}
 				}
 				return replaceRes;
-			}else if (message.getName().equals(MMConstants.RSERRORRSP))
+			}
+			else if (message.getName().equals(MMConstants.RSERRORRSP))
 			{
-				log.debug("xmlBytes:"+new String(xmlBytes,"UTF-8"));
+				log.debug("xmlBytes:" + new String(xmlBytes, "UTF-8"));
 				MM7RSErrorRes res = new MM7RSErrorRes();
 				res.setTransactionID(transactionID);
 				for (int i = 0; i < size; i++)
@@ -510,7 +507,7 @@ public class SOAPDecoder
 			MM7RSErrorRes error = new MM7RSErrorRes();
 			log.error(null, jdome);
 			error.setStatusCode(-109);
-			error.setStatusText("XML解析错误！原因：" + jdome);	
+			error.setStatusText("XML解析错误！原因：" + jdome);
 			return error;
 		}
 		catch (Exception e)
@@ -521,7 +518,7 @@ public class SOAPDecoder
 			return error;
 		}
 	}
-	
+
 	protected static void parseStatus(MM7RSRes res, Element element)
 	{
 		for (int j = 0; j < element.getChildren().size(); j++)
