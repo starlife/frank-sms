@@ -11,9 +11,9 @@
 	<mmscURL>/</mmscURL>
 	<mmscIP>211.140.27.30:5700</mmscIP>
 	<MmscID></MmscID>
-	<ListenIP>192.168.1.109</ListenIP>
+	<ListenIP>192.168.1.102</ListenIP>
 	<ListenPort>5700</ListenPort>
-	<BackLog>50</BackLog>
+	<BackLog>5</BackLog>
 	<KeepAlive>on</KeepAlive>
 	<PoolSize>5</PoolSize>
 	<TimeOut>30000</TimeOut>
