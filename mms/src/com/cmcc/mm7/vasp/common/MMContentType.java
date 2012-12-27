@@ -5,9 +5,6 @@
 package com.cmcc.mm7.vasp.common;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class MMContentType implements Serializable, Cloneable
 {
@@ -18,7 +15,8 @@ public class MMContentType implements Serializable, Cloneable
 	private String strPrimaryType;
 	private String strSubType;
 	private boolean bLock;
-	private Map<String, String> ParmeterList;
+
+	// private Map<String, String> ParmeterList;
 
 	/**
 	 * 构造方法
@@ -28,7 +26,7 @@ public class MMContentType implements Serializable, Cloneable
 		strPrimaryType = "";
 		strSubType = "";
 		bLock = false;
-		ParmeterList = new HashMap<String, String>();
+		// ParmeterList = new HashMap<String, String>();
 	}
 
 	/**
@@ -39,7 +37,7 @@ public class MMContentType implements Serializable, Cloneable
 		strPrimaryType = "";
 		strSubType = "";
 		bLock = false;
-		ParmeterList = new HashMap<String, String>();
+		// ParmeterList = new HashMap<String, String>();
 
 		int index = type.indexOf("/");
 		if (index > 0)
@@ -53,30 +51,6 @@ public class MMContentType implements Serializable, Cloneable
 		}
 		else
 			System.err.println("该类型不是标准类型！type=" + type);
-	}
-
-	/**
-	 * 设置参数
-	 */
-	public void setParameter(String name, String value)
-	{
-		ParmeterList.put(name, value);
-	}
-
-	/**
-	 * 获得参数
-	 */
-	public String getParameter(String name)
-	{
-		return ((String) ParmeterList.get(name));
-	}
-
-	/**
-	 * 返回所有参数的列表
-	 */
-	public Map<String, String> etParameterList()
-	{
-		return (ParmeterList);
 	}
 
 	/**
@@ -128,17 +102,10 @@ public class MMContentType implements Serializable, Cloneable
 		return (this.strSubType);
 	}
 
-	/**
-	 * 比较主类型与子类型是否一致
-	 */
-	public boolean match(MMContentType type)
+	public boolean equals(MMContentType type)
 	{
-		String strPrimaryType = type.getPrimaryType().trim();
-		String strSubType = type.getSubType().trim();
-		if (strPrimaryType.equals(strSubType))
-			return true;
-		else
-			return false;
+		return type.getPrimaryType().equals(this.getPrimaryType())
+				&& type.getSubType().equals(this.getSubType());
 	}
 
 	/**
@@ -174,20 +141,7 @@ public class MMContentType implements Serializable, Cloneable
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("strPrimaryType=" + strPrimaryType + "\n");
-		sb.append("strSubType=" + strSubType + "\n");
-		sb.append("bLock=" + bLock + "\n");
-		System.out.println("ParmeterList=" + ParmeterList);
-		if (ParmeterList != null)
-		{
-			Iterator<String> it = ParmeterList.keySet().iterator();
-			int i = 0;
-			while (it.hasNext())
-			{
-				sb.append("ParmeterList[" + i + "]="
-						+ ParmeterList.get(it.next()) + "\n");
-			}
-		}
+		sb.append(getPrimaryType()).append("/").append(getSubType());
 		return sb.toString();
 	}
 }
