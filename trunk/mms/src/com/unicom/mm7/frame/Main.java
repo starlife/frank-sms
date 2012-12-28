@@ -77,7 +77,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		MM7Config mm7Config = new MM7Config("./config/uni-mm7Config.xml");
+		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
 		log.info("读取程序配置信息\r\n " + mm7Config);
 		// mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
