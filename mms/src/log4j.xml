@@ -31,7 +31,7 @@
 		</layout>
 	</appender>
 	
-	<!-- 连接错误日志，这个日志理论上来说为空 -->
+	<!--  连接错误日志，这个日志理论上来说为空  -->
 	<appender name="connErrAppender"
 		class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="logs/conn/err.log" />
@@ -92,7 +92,7 @@
 		</layout>
 	</appender>
 	
-	<!-- -------------------------------------------------------------------- -->
+	<!-- logger -->
 	<!-- 不打印Hibernate框架的调试日志 -->
 	<logger name="org.hibernate">
     	<level value="ERROR" />
@@ -126,7 +126,7 @@
 		<appender-ref ref="resultAppender" />
 	</logger>
 	
-	<!--在插入失败的时候保存数据库操作的sql记录 -->
+	<!-- 在插入失败的时候保存数据库操作的sql记录 -->
 	<logger name="insertSql" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="insertSqlAppender" />
