@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<vasp:MM7Config xmlns:vasp="http://mms.chinamobile.com/mm7ConfigSchema">
+	<AuthenticationMode>1</AuthenticationMode>
+	<UserName>C61704</UserName>
+	<Password>sdop77</Password>
+	<VASPID>895192</VASPID>
+	<VASID>106573061704</VASID>
+	<ServiceCode>1113329901</ServiceCode>
+	<ChargedPartyExist>fasle</ChargedPartyExist><!-- 发送方(0)、接收方(1)、发送方和接收方(2)、两方均不付(3) -->
+	<ChargedParty>1</ChargedParty>
+	<MaxMessageSize>307200</MaxMessageSize>
+	<Charset>UTF-8</Charset>
+	<mmscURL>/</mmscURL>
+	<mmscIP>211.140.27.30:5700</mmscIP>
+	<MmscID></MmscID>
+	<ListenIP>192.168.100.239</ListenIP>
+	<ListenPort>5700</ListenPort>
+	<BackLog>100</BackLog>
+	<KeepAlive>on</KeepAlive>
+	<PoolSize>5</PoolSize>
+	<TimeOut>30000</TimeOut>
+	<ReSendCount>3</ReSendCount>
+	<SendThread>2</SendThread>
+	<MaxSpeed>2</MaxSpeed>
+	<MassCount>7</MassCount>
+	<RMI>rmi://localhost:8888/MmsService</RMI>
+</vasp:MM7Config>
