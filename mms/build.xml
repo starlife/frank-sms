@@ -70,12 +70,12 @@
 	        </java>
 	    </target>
     
-    <target name="uni-Main">
+    <target name="Main">
         <java classname="com.unicom.mm7.frame.Main" failonerror="true" fork="yes">
             <classpath refid="mms.classpath"/>
         </java>
     </target>
-	<target name="cm-Main">
+	<target name="db-Main">
 	        <java classname="com.vasp.mm7.frame.Main" failonerror="true" fork="yes">
 	            <classpath refid="mms.classpath"/>
 	        </java>
