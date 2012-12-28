@@ -32,7 +32,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 {
 	private static final Log log = LogFactory.getLog(MM7Sender.class);
 
-	private static final Log lose = LogFactory.getLog("lose");// 记录日志
+	private static final Log discard = LogFactory.getLog("discard");// 记录日志
 
 	/**
 	 * 保存发送提交失败的包，便于重新发送
@@ -269,7 +269,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			}
 			else
 			{
-				lose.info("包达到最大发送次数（" + retryCount + "次）,丢弃" + req);
+				discard.info("包达到最大发送次数（" + retryCount + "次）,丢弃" + req);
 			}
 
 		}
