@@ -38,7 +38,6 @@ public class Sender extends MM7Sender
 	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
 			.newFixedThreadPool(10);
 	// private static final Log db = LogFactory.getLog("db");
-	// private static final Log lose = LogFactory.getLog("lose");// 保存丢失包
 	private static final Log sessionLog = LogFactory.getLog("session");// 记录丢弃的session日志
 	/**
 	 * 待发送彩信消息队列
@@ -401,7 +400,6 @@ public class Sender extends MM7Sender
 	public static void main(String[] args) throws Exception
 	{
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Sender sender = new Sender(mm7Config);
 		sender.start();
 	}
