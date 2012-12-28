@@ -69,18 +69,6 @@
 	            <classpath refid="mms.classpath"/>
 	        </java>
 	    </target>
-    <target name="Sender">
-        <java classname="com.vasp.mm7.frame.Sender" failonerror="true" fork="yes">
-            <classpath refid="mms.classpath"/>
-        </java>
-    </target>
-	
-	<target name="Receiver">
-	        <java classname="com.vasp.mm7.frame.Receiver" failonerror="true" fork="yes">
-	            <classpath refid="mms.classpath"/>
-	        </java>
-	    </target>
-	
     
     <target name="uni-Main">
         <java classname="com.unicom.mm7.frame.Main" failonerror="true" fork="yes">
