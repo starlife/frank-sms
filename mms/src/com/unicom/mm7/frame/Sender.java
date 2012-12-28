@@ -363,7 +363,7 @@ public class Sender extends MM7Sender
 
 	public static void main(String[] args) throws Exception
 	{
-		MM7Config mm7Config = new MM7Config("./config/uni-mm7Config.xml");
+		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
 		Sender sender = new Sender(mm7Config);
 		sender.start();
 	}

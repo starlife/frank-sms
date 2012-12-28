@@ -270,7 +270,7 @@ public class Receiver extends MM7Receiver
 	public static void main(String[] args) throws Exception
 	{
 		// 初始化VASP
-		MM7Config mm7Config = new MM7Config("./config/uni-mm7Config.xml");
+		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
 		// 构造MyReceiver
 		Receiver receiver = new Receiver(mm7Config);
 		// 启动接收器
