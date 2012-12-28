@@ -25,17 +25,23 @@ import com.unicom.mm7.conf.MM7Config;
 
 public class Sender extends MM7Sender
 {
+	private static final Log log = LogFactory.getLog(Sender.class);
+
+	/**
+	 * 保存错误的session对应关系
+	 */
+	private static final Log sessionLog = LogFactory.getLog("session");
+
 	/**
 	 * 用来保存彩信transactionid和sendid的对应关系
 	 */
-	static final Map<String, String> transactionidMap = new HashMap<String, String>();// 保存sendid
+	static final Map<String, String> transactionidMap = new HashMap<String, String>();
 
-	private static final Log log = LogFactory.getLog(Sender.class);
+	/**
+	 * 用来保存彩信messageid和sendid的对应关系
+	 */
+	static final Map<String, String> messageidMap = new HashMap<String, String>();
 
-	private static final Log transactionidLog = LogFactory
-			.getLog("transactionid");
-
-	private static final Log messageidLog = LogFactory.getLog("messageid");
 	/**
 	 * 待发送彩信消息队列
 	 */
@@ -69,39 +75,15 @@ public class Sender extends MM7Sender
 		serviceCode = mm7Config.getServiceCode();
 		chargedPartyExist = mm7Config.isChargedPartyExist();
 		chargedParty = mm7Config.getChargedParty();
-		this.maxSrcID = mm7Config.getMassCount();
+		maxSrcID = mm7Config.getMassCount();
 
-	}
-
-	/**
-	 * 解析号码列表
-	 * 
-	 * @param recipient
-	 * @return
-	 */
-	private String[] parse(String recipient)
-	{
-		List<String> list = new ArrayList<String>();
-		String[] numbers = recipient.split("\r\n?|[,；，;]");
-		for (int i = 0; i < numbers.length; i++)
-		{
-			if (numbers[i] != null && numbers[i].length() > 0)
-			{
-				list.add(numbers[i].trim());
-			}
-		}
-		numbers = new String[list.size()];
-		for (int i = 0; i < numbers.length; i++)
-		{
-			numbers[i] = list.get(i);
-		}
-		list.clear();
-		return numbers;
 	}
 
 	/**
 	 * 创建消息
 	 * 
+	 * @param trasactionid
+	 *            流水号
 	 * @param subject
 	 *            消息主题
 	 * @param content
@@ -126,7 +108,6 @@ public class Sender extends MM7Sender
 		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
 		submitReq.setContent(content);
-		// System.out.println(submitReq);
 		return submitReq;
 	}
 
@@ -151,10 +132,9 @@ public class Sender extends MM7Sender
 		while (attachs.hasNext())
 		{
 			UploadFile attach = attachs.next();
-			MMContent sub;
 			try
 			{
-				sub = MMContent.createFromBytes(attach.getFiledata());
+				MMContent sub = MMContent.createFromBytes(attach.getFiledata());
 				String filename = attach.getFilename();
 				sub.setContentID(filename);
 				sub.setContentType(getContentType(attach.getFiletype()));
@@ -229,13 +209,12 @@ public class Sender extends MM7Sender
 	@Override
 	public MM7SubmitReq submit()
 	{
-		// 从队列中取数据，如果没有，那么从数据库中取并加入到队列中
+		// 从队列中取数据，如果没有，那么彩信队列中去取然后组装
 		synchronized (que)
 		{
 			MM7SubmitReq pack = que.poll();
 			if (pack == null)
 			{
-
 				UMms mms = mmsQue.poll();
 				if (mms == null)
 				{
@@ -281,7 +260,8 @@ public class Sender extends MM7Sender
 							// 如果transactionidMap大于100000，说明程序有错误，需要清理
 							if (transactionidMap.size() > 100000)
 							{
-								transactionidLog.info(transactionidMap);
+								sessionLog.info("transactionidMap:"
+										+ transactionidMap);
 								transactionidMap.clear();
 							}
 							transactionidMap.put(trasactionid, sendid);
@@ -315,7 +295,7 @@ public class Sender extends MM7Sender
 		}
 		else
 		{
-			log.info("发送失败，收不到的并不是MM7SubmitRes包");
+			log.error("发送失败，收不到的并不是MM7SubmitRes包");
 
 		}
 		// 记录失败消息
@@ -326,22 +306,22 @@ public class Sender extends MM7Sender
 					res.getStatusCode());
 		}
 
-		// 做messageid和sendid的映射
+		// 做messageid和sendid的映射 ，收状态报告处有用
 		if (messageid != null && sendid != null)
 		{
 			List<String> mobiles = submitMsg.getTo();
 			for (int i = 0; i < mobiles.size(); i++)
 			{
 				String mobile = mobiles.get(i);
-				synchronized (Receiver.messageidMap)
+				synchronized (messageidMap)
 				{
-					// 如果transactionidMap大于100000，说明程序有错误，需要清理
-					if (Receiver.messageidMap.size() > 100000)
+					// 如果messageidMap大于100000，说明程序有错误，需要清理
+					if (messageidMap.size() > 100000)
 					{
-						messageidLog.info(Receiver.messageidMap);
-						Receiver.messageidMap.clear();
+						sessionLog.info("messageidMap:" + messageidMap);
+						messageidMap.clear();
 					}
-					Receiver.messageidMap.put(messageid + "|" + mobile, sendid);
+					messageidMap.put(messageid + "|" + mobile, sendid);
 				}
 
 			}
@@ -353,6 +333,32 @@ public class Sender extends MM7Sender
 	{
 		super.myStop();
 
+	}
+
+	/**
+	 * 解析号码列表
+	 * 
+	 * @param recipient
+	 * @return
+	 */
+	public static String[] parse(String recipient)
+	{
+		List<String> list = new ArrayList<String>();
+		String[] numbers = recipient.split("\r\n?|[,；，;]");
+		for (int i = 0; i < numbers.length; i++)
+		{
+			if (numbers[i] != null && numbers[i].trim().length() > 0)
+			{
+				list.add(numbers[i].trim());
+			}
+		}
+		numbers = new String[list.size()];
+		for (int i = 0; i < numbers.length; i++)
+		{
+			numbers[i] = list.get(i);
+		}
+		list.clear();
+		return numbers;
 	}
 
 	public static void main(String[] args) throws Exception

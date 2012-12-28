@@ -29,11 +29,6 @@ public class Receiver extends MM7Receiver
 
 	private static final Log log = LogFactory.getLog(Receiver.class);
 
-	/**
-	 * 用来保存彩信messageid和sendid的对应关系
-	 */
-	static final Map<String, String> messageidMap = new HashMap<String, String>();
-
 	public Receiver(MM7Config config)
 	{
 		super(config.getListenIP(), config.getListenPort(),
@@ -107,7 +102,7 @@ public class Receiver extends MM7Receiver
 	{
 		UMms mms = new UMms();
 		mms.setMmsFile(mmsFile);
-		mms.setRecipient(deliverReq.getSender());
+		mms.setRecipient(deliverReq.getSender());//这里是发送号码 不是接收号码
 		mms.setSubject(deliverReq.getSubject());
 		mms.setSendtime(DateUtils.getTimestamp14());
 		// 随机分配sendid
@@ -220,7 +215,6 @@ public class Receiver extends MM7Receiver
 	{
 		MmsFile mmsFile = makeMmsFile(deliverReq);
 		UMms mms = makeMms(mmsFile, deliverReq);
-		// log.info(mms);
 		Result.getInstance().notifyResult(mms);
 		// log.info(deliverReq);
 	}
@@ -246,9 +240,9 @@ public class Receiver extends MM7Receiver
 		String mmStatusText = deliverReportReq.getStatusText();
 
 		String sendid = null;
-		synchronized (messageidMap)
+		synchronized (Sender.messageidMap)
 		{
-			sendid = messageidMap.remove(messageid + "|" + to);
+			sendid = Sender.messageidMap.remove(messageid + "|" + to);
 
 		}
 		// 状态报告通知

@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.unicom.mm7.bean.UMms;
+import com.unicom.mm7.util.DateUtils;
 import com.unicom.mm7.util.ObjectUtils;
 
 /**
@@ -65,8 +66,14 @@ public class Result
 	 */
 	public void notifyResult(String sendid, String mobile, int resultCode)
 	{
-		resultLog.info("sendid:" + sendid + "|mobile:" + mobile
-				+ "|resultCode:" + resultCode);
+		// 提交失败 result=-1
+		int result = -1;
+		String resultMessage = String.valueOf(resultCode);
+		String reportTime = DateUtils.getTimestamp14();
+		// 如果通知失败，那么写日志
+		resultLog.info("sendid:" + sendid + "|mobile:" + mobile + "|result:"
+				+ result + "|resultMessage:" + resultMessage + "|reportTime:"
+				+ reportTime);
 	}
 
 	/**
@@ -81,8 +88,12 @@ public class Result
 	public void notifyResult(String sendid, String mobile, int mmStatus,
 			String mmStatusText, String reportTime)
 	{
-		resultLog.info("sendid:" + sendid + "|mobile:" + mobile + "|mmStatus:"
-				+ mmStatus + "|mmStatusText:" + mmStatusText + "|reportTime:"
+		// 提交成功 result=0
+		int result = 0;
+		String resultMessage = mmStatusText;
+		// 如果通知失败，那么写日志
+		resultLog.info("sendid:" + sendid + "|mobile:" + mobile + "|result:"
+				+ result + "|resultMessage:" + resultMessage + "|reportTime:"
 				+ reportTime);
 	}
 
@@ -97,6 +108,7 @@ public class Result
 		// 如果通知失败，记录通知失败原因
 		if (writeObject(mms))
 		{
+			// 如果通知失败，那么写日志
 			resultLog.info("deliver:" + mms.getSendID());// 通知ws
 		}
 		else
