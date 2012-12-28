@@ -6,19 +6,19 @@
 	<VASPID>895192</VASPID>
 	<VASID>106573061704</VASID>
 	<ServiceCode>1113329901</ServiceCode>
-	<MaxMessageSize>102400</MaxMessageSize>
+	<MaxMessageSize>307200</MaxMessageSize>
 	<Charset>UTF-8</Charset>
 	<mmscURL>/</mmscURL>
 	<mmscIP>211.140.27.30:5700</mmscIP>
 	<MmscID></MmscID>
-	<ListenIP>192.168.1.102</ListenIP>
+	<ListenIP>192.168.100.239</ListenIP>
 	<ListenPort>5700</ListenPort>
-	<BackLog>5</BackLog>
+	<BackLog>100</BackLog>
 	<KeepAlive>on</KeepAlive>
 	<PoolSize>5</PoolSize>
 	<TimeOut>30000</TimeOut>
 	<ReSendCount>3</ReSendCount>
-	<SendThread>3</SendThread>
+	<SendThread>2</SendThread>
 	<MaxSpeed>2</MaxSpeed>
-	<MassCount>8</MassCount>
+	<MassCount>7</MassCount>
 </vasp:MM7Config>
