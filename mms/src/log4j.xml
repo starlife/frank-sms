@@ -52,16 +52,6 @@
 		</layout>
 	</appender>
 	
-	<appender name="loseAppender"
-		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="logs/lose/lose.log" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
-		</layout>
-	</appender>
-	
 	<appender name="sessionAppender"
 		class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="logs/session/session.log" />
@@ -72,19 +62,10 @@
 		</layout>
 	</appender>
 	
-	<appender name="speedAppender"
-		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="logs/speed/speed.log" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
-		</layout>
-	</appender>
 	
-	<appender name="dbAppender"
+	<appender name="resultAppender"
 		class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="logs/db.log" />
+		<param name="File" value="logs/result/result.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
@@ -111,6 +92,7 @@
 		</layout>
 	</appender>
 	
+	<!-- -------------------------------------------------------------------- -->
 	<!-- 不打印Hibernate框架的调试日志 -->
 	<logger name="org.hibernate">
     	<level value="ERROR" />
@@ -119,7 +101,7 @@
     <logger name="org.hibernate.SQL">
     	<level value="DEBUG" />
     </logger>
-	
+	<!-- ConnectionPool使用的错误日志 -->
 	<logger name="connErr" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="connErrAppender" />
@@ -131,29 +113,20 @@
 		<appender-ref ref="discardAppender" />
 	</logger>
 	
-	<!-- 保存由于程序问题发送失败的包 -->
-	<logger name="lose" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="loseAppender" />
-	</logger>
-	
-	<!-- 保存错误的session -->
+	<!-- 保存错误的session信息 -->
 	<logger name="session" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="sessionAppender" />
 	</logger>
 	
-	<!-- 保存错误的速率控制信息 -->
-	<logger name="speed" additivity="false">
+
+	<!-- 保存失败写文件日志 -->
+	<logger name="result" additivity="false">
 		<level value="INFO" />
-		<appender-ref ref="speedAppender" />
+		<appender-ref ref="resultAppender" />
 	</logger>
 	
-	<!-- <logger name="db" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="dbAppender" />
-	</logger>-->
-	
+	<!--在插入失败的时候保存数据库操作的sql记录 -->
 	<logger name="insertSql" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="insertSqlAppender" />
@@ -162,9 +135,10 @@
 		<level value="INFO" />
 		<appender-ref ref="updateSqlAppender" />
 	</logger>
+	
 	<!-- for all other loggers log only debug and above log messages -->
 	<root>
-		<priority value="INFO" />
+		<priority value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="dailyAppender" />
 	</root>
