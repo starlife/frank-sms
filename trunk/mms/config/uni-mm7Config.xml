@@ -24,4 +24,5 @@
 	<MaxSpeed>2</MaxSpeed>
 	<MassCount>7</MassCount>
 	<RMI>rmi://localhost:8888/MmsService</RMI>
+	<NotifyURL>http://localhost/ws/services/MmsEngine</NotifyURL>
 </vasp:MM7Config>
