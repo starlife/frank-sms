@@ -101,6 +101,13 @@
     <logger name="org.hibernate.SQL">
     	<level value="DEBUG" />
     </logger>
+    
+    <logger name="org.apache.axis">
+    	<level value="ERROR" />
+    </logger>
+    <logger name="org.apache.axis.transport.http.HTTPSender">
+    	<level value="INFO" />
+    </logger>
 	<!-- ConnectionPool使用的错误日志 -->
 	<logger name="connErr" additivity="false">
 		<level value="INFO" />
