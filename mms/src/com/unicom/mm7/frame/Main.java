@@ -30,6 +30,7 @@ public class Main
 		// 设置Max_speed
 		log.info("启动彩信程序...");
 		Constants.MAX_SPEED = config.getMaxSpeed();
+		NotifyThread.URL = config.getNotifyURL();
 		startRMIServer();
 		tm = new ManagerThread(config, config.getSendThread());
 		tm.start();
@@ -72,6 +73,7 @@ public class Main
 		{
 			tm.myStop();
 		}
+		NotifyThread.getInstance().myStop();
 		stop = true;
 	}
 

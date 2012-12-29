@@ -42,6 +42,7 @@ public class MM7Config
 	private int massCount = 10;// 群发短信每条短信号码数
 
 	private String rmi;
+	private String notifyURL=null;
 
 	// private boolean bload=false;
 
@@ -91,6 +92,7 @@ public class MM7Config
 		maxSpeed = Integer.parseInt((String) hashmap.get("MaxSpeed"));
 		massCount = Integer.parseInt((String) hashmap.get("MassCount"));
 		rmi = (String) hashmap.get("RMI");
+		notifyURL = (String) hashmap.get("NotifyURL");
 
 	}
 
@@ -401,5 +403,15 @@ public class MM7Config
 	public void setChargedParty(int chargedParty)
 	{
 		ChargedParty = chargedParty;
+	}
+
+	public String getNotifyURL()
+	{
+		return notifyURL;
+	}
+
+	public void setNotifyURL(String notifyURL)
+	{
+		this.notifyURL = notifyURL;
 	}
 }
