@@ -44,11 +44,13 @@ public class Sender extends MM7Sender
 	 */
 	private static final LinkedBlockingQueue<MM7SubmitReq> que = new LinkedBlockingQueue<MM7SubmitReq>();
 
-	public static int maxSrcID = 10;
+	private int maxSrcID = 10;
 
 	private String vaspid = "";// spid
 	private String vasid = "";// 接入号
 	private String serviceCode = "";
+	private boolean chargedPartyExist = false;
+	private int chargedParty = 0;// 计费 0表示发送方计费
 
 	/**
 	 * 数据库访问对象
@@ -71,11 +73,14 @@ public class Sender extends MM7Sender
 				.getAuthenticationMode(), mm7Config.getUserName(), mm7Config
 				.getPassword(), mm7Config.getCharSet(), mm7Config
 				.getMaxMsgSize(), mm7Config.getReSendCount(), mm7Config
-				.isKeepAlive(), mm7Config.getTimeOut(),mm7Config.getPoolSize());
+				.isKeepAlive(), mm7Config.getTimeOut(), mm7Config.getPoolSize());
 
 		vaspid = mm7Config.getVASPID();
 		vasid = mm7Config.getVASID();
 		serviceCode = mm7Config.getServiceCode();
+		chargedPartyExist = mm7Config.isChargedPartyExist();
+		chargedParty = mm7Config.getChargedParty();
+		maxSrcID = mm7Config.getMassCount();
 
 	}
 
@@ -87,19 +92,19 @@ public class Sender extends MM7Sender
 	 */
 	private String[] parse(String recipient)
 	{
-		List<String> list=new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		String[] numbers = recipient.split("[,；，;]");
-		for(int i=0;i<numbers.length;i++)
+		for (int i = 0; i < numbers.length; i++)
 		{
-			if(numbers[i]!=null&&numbers[i].length()>0)
+			if (numbers[i] != null && numbers[i].length() > 0)
 			{
 				list.add(numbers[i].trim());
 			}
 		}
-		numbers=new String[list.size()];
-		for(int i=0;i<numbers.length;i++)
+		numbers = new String[list.size()];
+		for (int i = 0; i < numbers.length; i++)
 		{
-			numbers[i]=list.get(i);
+			numbers[i] = list.get(i);
 		}
 		list.clear();
 		return numbers;
@@ -122,6 +127,11 @@ public class Sender extends MM7Sender
 		submitReq.setVASPID(vaspid);
 		submitReq.setVASID(vasid);
 		submitReq.setServiceCode(serviceCode);
+		if (chargedPartyExist)
+		{
+			submitReq.setChargedParty((byte) chargedParty);
+		}
+		submitReq.setSenderAddress(vasid);
 		submitReq.setDeliveryReport(true);
 		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
@@ -344,7 +354,7 @@ public class Sender extends MM7Sender
 		// + System.currentTimeMillis());
 
 	}
-	
+
 	public void doTask(final List<SubmitBean> list)
 	{
 		exec.execute(new Runnable()
@@ -367,14 +377,13 @@ public class Sender extends MM7Sender
 
 		});
 	}
-	
-	
+
 	public void myStop()
 	{
 		super.myStop();
 		submitDao.mystop();
 		exec.shutdown();
-		
+
 	}
 
 	public void remove(Long sessionid)
