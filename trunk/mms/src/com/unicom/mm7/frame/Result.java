@@ -25,8 +25,6 @@ public class Result
 
 	private static final Log log = LogFactory.getLog(Result.class);
 
-	private static final Log resultLog = LogFactory.getLog("result");
-
 	private static final Result result = new Result();
 
 	private Result()
@@ -70,10 +68,9 @@ public class Result
 		int result = -1;
 		String resultMessage = String.valueOf(resultCode);
 		String reportTime = DateUtils.getTimestamp14();
-		// 如果通知失败，那么写日志
-		resultLog.info("sendid:" + sendid + "|mobile:" + mobile + "|result:"
-				+ result + "|resultMessage:" + resultMessage + "|reportTime:"
-				+ reportTime);
+		NotifyThread.notifyDeliverReport(sendid, mobile, result, resultMessage,
+				reportTime);
+
 	}
 
 	/**
@@ -92,9 +89,9 @@ public class Result
 		int result = 0;
 		String resultMessage = mmStatusText;
 		// 如果通知失败，那么写日志
-		resultLog.info("sendid:" + sendid + "|mobile:" + mobile + "|result:"
-				+ result + "|resultMessage:" + resultMessage + "|reportTime:"
-				+ reportTime);
+		NotifyThread.notifyDeliverReport(sendid, mobile, result, resultMessage,
+				reportTime);
+
 	}
 
 	/**
@@ -109,7 +106,7 @@ public class Result
 		if (writeObject(mms))
 		{
 			// 如果通知失败，那么写日志
-			resultLog.info("deliver:" + mms.getSendID());// 通知ws
+			NotifyThread.notifyDeliver(mms.getSendID());
 		}
 		else
 		{
