@@ -60,7 +60,7 @@ public class NotifyThread extends Thread
 
 	public void run()
 	{
-		log.info("NotifyThread start");
+		log.info("NotifyThread 线程开启");
 		while (!stop)
 		{
 			try
@@ -68,7 +68,11 @@ public class NotifyThread extends Thread
 				Request req = buffer.poll();
 				if (req == null)
 				{
-					return;
+					synchronized (this)
+					{
+						this.wait();
+					}
+					continue;
 				}
 				if (req instanceof DeliverReportReq)
 				{
@@ -99,7 +103,7 @@ public class NotifyThread extends Thread
 				log.error(null, e);
 			}
 		}
-		log.info("NotifyThread end");
+		log.info("NotifyThread 线程关闭");
 	}
 
 	public static NotifyThread getInstance()
@@ -119,6 +123,7 @@ public class NotifyThread extends Thread
 		DeliverReportRsp rsp = null;
 		try
 		{
+			log.debug("DeliverReport notify");
 			MmsEngineSoapBindingStub stub = new MmsEngineSoapBindingStub(
 					new URL(URL), null);
 			stub.setTimeout(TIMEOUT);
@@ -141,6 +146,7 @@ public class NotifyThread extends Thread
 		DeliverRsp rsp = null;
 		try
 		{
+			log.debug("Deliver notify");
 			MmsEngineSoapBindingStub stub = new MmsEngineSoapBindingStub(
 					new URL(URL), null);
 			stub.setTimeout(TIMEOUT);
@@ -171,26 +177,51 @@ public class NotifyThread extends Thread
 		req.setResult(result);
 		req.setResultMessage(resultMessage);
 		req.setReportTime(reportTime);
-		getInstance().buffer.offer(req);
+
+		if (getInstance().buffer.offer(req))
+		{
+			synchronized (getInstance())
+			{
+				getInstance().notify();
+			}
+			log.debug("DeliverReportReq入队成功等待通知");
+		}
+		else
+		{
+			log.debug("DeliverReportReq入队失败");
+		}
 	}
 
 	public static void notifyDeliver(String sendid)
 	{
 		DeliverReq req = new DeliverReq();
 		req.setSendId(sendid);
-		getInstance().buffer.offer(req);
+		if (getInstance().buffer.offer(req))
+		{
+			synchronized (getInstance())
+			{
+				getInstance().notify();
+			}
+			log.debug("DeliverReq入队成功等待通知");
+		}
+		else
+		{
+			log.debug("DeliverReq入队失败");
+		}
+
 	}
 
 	public static void main(String[] args)
 	{
 		// NotifyThread client = new NotifyThread();
 		// notifyDeliver("5d9ee15e-fb8f-49cf-a397-adde8e4999ae");
-		for (int i = 0; i < 1; i++)
+		NotifyThread.URL = "http://60.191.70.231/ws/services/MmsEngine";
+		for (int i = 0; i < 10; i++)
 		{
-			notifyDeliver("5d9ee15e-fb8f-49cf-a397-adde8e4999ae");
-			//notifyDeliverReport("5d9ee15e-fb8f-49cf-a397-adde8e4999ae",
-			//		"1377802386", 0, "1000", com.unicom.mm7.util.DateUtils
-			//				.getTimestamp14());
+			// notifyDeliver("5d9ee15e-fb8f-49cf-a397-adde8e4999ae");
+			notifyDeliverReport("34c53ce1-5656-4e78-b16d-93ffe84e9445",
+					"1377802386", 0, "1000", com.unicom.mm7.util.DateUtils
+							.getTimestamp14());
 		}
 		while (getInstance().buffer.size() != 0)
 		{
@@ -204,6 +235,18 @@ public class NotifyThread extends Thread
 				e.printStackTrace();
 			}
 		}
-		getInstance().myStop();
+		try
+		{
+			Thread.sleep(10000);
+		}
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		notifyDeliverReport("34c53ce1-5656-4e78-b16d-93ffe84e9445",
+				"1377802386", 0, "1000", com.unicom.mm7.util.DateUtils
+						.getTimestamp14());
+		// getInstance().myStop();
 	}
 }
