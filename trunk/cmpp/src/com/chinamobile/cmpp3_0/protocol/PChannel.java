@@ -1,11 +1,15 @@
 package com.chinamobile.cmpp3_0.protocol;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.logging.LogFactory;
+
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 import com.chinamobile.cmpp3_0.protocol.message.APackage;
@@ -16,7 +20,6 @@ import com.chinamobile.cmpp3_0.protocol.message.ConnectMessage;
 import com.chinamobile.cmpp3_0.protocol.message.ConnectRespMessage;
 import com.chinamobile.cmpp3_0.protocol.message.SubmitMessage;
 import com.chinamobile.cmpp3_0.protocol.message.TerminateMessage;
-import com.chinamobile.cmpp2_0.protocol.util.*;
 
 /**
  * 通道类（最重要的类） 约定如下： 
