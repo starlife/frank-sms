@@ -1,5 +1,6 @@
 package com.chinaunicom.sgip1_2.protocol.message;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,20 +28,39 @@ public class Sequence
 
 	public Sequence(byte[] buf, int loc)
 	{
-		this.nodeid = String.valueOf(ByteConvert.byte2int(buf, loc + 0));
-		setTimestamp(String.valueOf(ByteConvert.byte2int(buf, loc + 4)));
-		this.seq = String.valueOf(ByteConvert.byte2int(buf, loc + 8));
-	}
-
-	private void setTimestamp(String timestamp)
-	{
-		StringBuffer sb = new StringBuffer();
+		// copy nodeid 适配大于0x7fffffff
+		byte[] temp = new byte[5];
+		System.arraycopy(buf, loc + 0, temp, 1, 4);
+		this.nodeid = String.valueOf(new BigInteger(temp).longValue());
+		// copy timestamp 适配MMddHHmmss 对于1到9月 加上0
+		timestamp = String.valueOf(ByteConvert.byte2int(buf, loc + 4));
 		if (timestamp.length() < 10)
 		{
-			sb.append("0");
+			this.timestamp = "0" + timestamp;
 		}
-		sb.append(timestamp);
-		this.timestamp = sb.toString();
+		// copy seq 适配大于0x7fffffff
+		temp = new byte[5];
+		System.arraycopy(buf, loc + 8, temp, 1, 4);
+		this.seq = String.valueOf(new BigInteger(temp).longValue());
+	}
+
+	/**
+	 * 取得Sequence的byte形式
+	 * 
+	 * @return
+	 */
+	public byte[] getBytes()
+	{
+		byte[] buf = new byte[12];
+		// 源节点编号 适配大于0x7fffffff
+		System.arraycopy(ByteConvert
+				.int2byte(new BigInteger(nodeid).intValue()), 0, buf, 0, 4);
+		System.arraycopy(ByteConvert.int2byte(Integer.valueOf(timestamp)), 0,
+				buf, 4, 4);
+		// 流水号
+		System.arraycopy(ByteConvert.int2byte(new BigInteger(seq).intValue()),
+				0, buf, 8, 4);
+		return buf;
 	}
 
 	/**
@@ -50,7 +70,7 @@ public class Sequence
 	 */
 	public static synchronized int allocSequenceID()
 	{
-		allocSequenceId = (allocSequenceId + 1) & 0xffffffff;
+		allocSequenceId = (allocSequenceId + 1) & 0x7fffffff;
 		return allocSequenceId;
 	}
 
@@ -85,4 +105,20 @@ public class Sequence
 	{
 		this.seq = seq;
 	}
+
+	public void setTimestamp(String timestamp)
+	{
+		this.timestamp = timestamp;
+	}
+
+	public static void main(String[] args)
+	{
+		Sequence seq = new Sequence("3053141211");
+		seq.setSeq("3053141211");
+		System.out.println(seq);
+		Sequence seq1 = new Sequence(seq.getBytes());
+		System.out.println(seq1);
+
+	}
+
 }

@@ -1,7 +1,5 @@
 package com.chinaunicom.sgip1_2.protocol.message;
 
-import java.math.BigInteger;
-
 import com.chinamobile.cmpp2_0.protocol.util.ByteConvert;
 
 /**
@@ -26,13 +24,8 @@ public class Header
 
 		System.arraycopy(ByteConvert.int2byte(packageLength), 0, buf, 0, 4);
 		System.arraycopy(ByteConvert.int2byte(commandId), 0, buf, 4, 4);
-		// 修改支持11位的源节点编号
-		int srcnode = new BigInteger(sequenceId.getNodeid()).intValue(); // 源节点编号
-		System.arraycopy(ByteConvert.int2byte(srcnode), 0, buf, 8, 4);
-		System.arraycopy(ByteConvert.int2byte(Integer.valueOf(sequenceId
-				.getTimestamp())), 0, buf, 12, 4);
-		System.arraycopy(ByteConvert.int2byte(Integer.valueOf(sequenceId
-				.getSeq())), 0, buf, 16, 4);
+		//
+		System.arraycopy(sequenceId.getBytes(), 0, buf, 8, 12);
 	}
 
 	/**
