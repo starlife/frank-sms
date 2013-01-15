@@ -8,7 +8,7 @@ package com.chinaunicom.sgip1_2.protocol.message;
 /**
  * @author Administrator
  */
-public class UnbindMessage extends Message implements Send, Recv
+public class UnbindMessage extends SGIPMessage implements Send, Recv
 {
 
 	public UnbindMessage(String nodeid)
