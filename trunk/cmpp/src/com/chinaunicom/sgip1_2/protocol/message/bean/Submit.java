@@ -5,9 +5,8 @@
 
 package com.chinaunicom.sgip1_2.protocol.message.bean;
 import java.io.UnsupportedEncodingException;
-import java.util.regex.*;
-
-import com.chinaunicom.sgip1_2.protocol.message.SubmitMessage;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *

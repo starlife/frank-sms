@@ -64,6 +64,28 @@ public class Sequence
 	}
 
 	/**
+	 * 重载equals方法便于判断seq是否相同
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean equals(Sequence other)
+	{
+		if (other == null)
+		{
+			return false;
+		}
+		if (this == other)
+		{
+			return true;
+		}
+		return this.nodeid.equals(other.nodeid)
+				&& this.timestamp.equals(other.timestamp)
+				&& this.seq.equals(other.seq);
+
+	}
+
+	/**
 	 * 分配流水号
 	 * 
 	 * @return
