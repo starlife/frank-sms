@@ -8,7 +8,7 @@ package com.chinaunicom.sgip1_2.protocol.message;
 /**
  * @author Administrator
  */
-public class DeliverRespMessage extends CommonRespMessage
+public class DeliverRespMessage extends CommonRespMessage implements Send
 {
 
 	public DeliverRespMessage(String nodeid)
