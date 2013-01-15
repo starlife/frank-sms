@@ -117,12 +117,13 @@ public class SubmitMessage extends SGIPMessage implements Send
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		sb
-				.append("\r\n---------------SubmitMessage--------------------------\r\n");
+		sb.append("\r\n--------------------")
+				.append(getClass().getSimpleName()).append(
+						"--------------------\r\n");
 		sb.append(getHead() + "\r\n");
 		sb.append(getSubmit().toString());
 		sb
-				.append("\r\n------------------------------------------------------\r\n");
+				.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 
 	}
