@@ -22,8 +22,8 @@ public class Main
 
 	public void start()
 	{
-		// 设置Max_speed
-		log.info("启动彩信程序...");
+		// 璁剧疆Max_speed
+		log.info("鍚姩褰╀俊绋嬪簭...");
 		Constants.MAX_SPEED = config.getMaxSpeed();
 		tm = new ManagerThread(config, config.getSendThread());
 		tm.start();
@@ -46,7 +46,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		log.info("读取程序配置信息\r\n " + mm7Config);
+		log.info("璇诲彇绋嬪簭閰嶇疆淇℃伅\r\n " + mm7Config);
 		// mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
 		try
