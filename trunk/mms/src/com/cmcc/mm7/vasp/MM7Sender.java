@@ -1,5 +1,5 @@
 /**
- * File Name:MM7Sender.java Company: ÖĞ¹úÒÆ¶¯2011
+ * File Name:MM7Sender.java Company: ä¸­å›½ç§»åŠ¨2011
  */
 package com.cmcc.mm7.vasp;
 
@@ -32,10 +32,10 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 {
 	private static final Log log = LogFactory.getLog(MM7Sender.class);
 
-	private static final Log discard = LogFactory.getLog("discard");// ¼ÇÂ¼ÈÕÖ¾
+	private static final Log discard = LogFactory.getLog("discard");// è®°å½•æ—¥å¿—
 
 	/**
-	 * ±£´æ·¢ËÍÌá½»Ê§°ÜµÄ°ü£¬±ãÓÚÖØĞÂ·¢ËÍ
+	 * ä¿å­˜å‘é€æäº¤å¤±è´¥çš„åŒ…ï¼Œä¾¿äºé‡æ–°å‘é€
 	 */
 	private final LinkedBlockingQueue<MM7VASPReq> buffer = new LinkedBlockingQueue<MM7VASPReq>(
 			10000);
@@ -56,7 +56,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 
 	// private ConnectionPool conn = null;
 
-	/** ¹¹Ôì·½·¨ */
+	/** æ„é€ æ–¹æ³• */
 	public MM7Sender(String mmscIP, String mmscURL, int authmode,
 			String username, String password, String charset, int maxMsgSize,
 			int reSendCount, boolean keepAlive, int timeout, int poolSize)
@@ -85,17 +85,17 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	@Override
 	public void run()
 	{
-		log.info("Æô¶¯·¢ËÍÏß³Ì...");
+		log.info("å¯åŠ¨å‘é€çº¿ç¨‹...");
 		while (!stop)
 		{
 			try
 			{
-				// Á÷Á¿¿ØÖÆ
+				// æµé‡æ§åˆ¶
 				TpsTool.limitTPS();
 				MM7VASPReq req = buffer.poll();
 				if (req == null)
 				{
-					// È¡°ü·¢ËÍ
+					// å–åŒ…å‘é€
 					req = this.submit();
 				}
 
@@ -105,7 +105,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				}
 				MM7RSRes res = this.send(req);
 
-				log.info("ÊÕµ½»ØÓ¦°ü " + LogHelper.logMM7RSRes(res));
+				log.info("æ”¶åˆ°å›åº”åŒ… " + LogHelper.logMM7RSRes(res));
 
 				dealRecv(req, res);
 
@@ -118,27 +118,27 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 
 	}
 
-	private MM7RSRes send(MM7VASPReq mm7VASPReq) // ·¢ËÍÏûÏ¢
+	private MM7RSRes send(MM7VASPReq mm7VASPReq) // å‘é€æ¶ˆæ¯
 	{
-		// ÅĞ¶ÏÀàĞÍÊÇ·ñÕıÈ·£¬ÅĞ¶ÏÏûÏ¢´óĞ¡ÊÇ·ñ·ûºÏ£¬»ñÈ¡Á¬½ÓÊÇ·ñ³É¹¦£¬·¢ËÍ
+		// åˆ¤æ–­ç±»å‹æ˜¯å¦æ­£ç¡®ï¼Œåˆ¤æ–­æ¶ˆæ¯å¤§å°æ˜¯å¦ç¬¦åˆï¼Œè·å–è¿æ¥æ˜¯å¦æˆåŠŸï¼Œå‘é€
 		MM7RSRes res = null;
 		if (!((mm7VASPReq instanceof MM7SubmitReq)
 				|| (mm7VASPReq instanceof MM7ReplaceReq) || (mm7VASPReq instanceof MM7CancelReq)))
 		{
 			res = new MM7RSErrorRes();
 			res.setStatusCode(-106);
-			res.setStatusText("²»½ÓÊÜµÄ·¢ËÍÏûÏ¢ÀàĞÍ£¡");
+			res.setStatusText("ä¸æ¥å—çš„å‘é€æ¶ˆæ¯ç±»å‹ï¼");
 			return res;
 		}
 
 		try
 		{
-			// ÉèÖÃ
+			// è®¾ç½®
 			if (mm7VASPReq.getBytes() == null)
 			{
 
-				// µÃµ½ÏûÏ¢µÄbyte
-				log.debug("getMM7MessageÖ®Ç°");
+				// å¾—åˆ°æ¶ˆæ¯çš„byte
+				log.debug("getMM7Messageä¹‹å‰");
 				byte[] msgByte = MM7Helper.getMM7Message(mm7VASPReq, mmscIP,
 						mmscURL, authmode, username, password, keepAlive,
 						charset);
@@ -147,12 +147,12 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 				{
 					res = new MM7RSErrorRes();
 					res.setStatusCode(-113);
-					res.setStatusText("ÏûÏ¢´óĞ¡³¬³öÔÊĞí·¢ËÍµÄ´óĞ¡£¡");
+					res.setStatusText("æ¶ˆæ¯å¤§å°è¶…å‡ºå…è®¸å‘é€çš„å¤§å°ï¼");
 					return res;
 				}
 				mm7VASPReq.setBytes(msgByte);
 			}
-			log.info("×¼±¸·¢ËÍ°ü " + LogHelper.logMM7VASPReq(mm7VASPReq));
+			log.info("å‡†å¤‡å‘é€åŒ… " + LogHelper.logMM7VASPReq(mm7VASPReq));
 			mm7VASPReq.addTimes();
 			res = send(mm7VASPReq.getBytes());
 
@@ -163,7 +163,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 			log.error(null, e);
 			MM7RSErrorRes ErrorRes = new MM7RSErrorRes();
 			ErrorRes.setStatusCode(-100);
-			ErrorRes.setStatusText("ÏµÍ³´íÎó£¡Ô­Òò£º" + e);
+			ErrorRes.setStatusText("ç³»ç»Ÿé”™è¯¯ï¼åŸå› ï¼š" + e);
 			return ErrorRes;
 		}
 	}
@@ -185,53 +185,53 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		Socket socket = null;
 		try
 		{
-			// µÃµ½Í¨µÀ£¬¼ì²âµ±Ç°Í¨µÀÊÇ·ñ¿ÉÓÃ£¬Èç¹û²»¿ÉÓÃ£¬ÄÇÃ´¹Ø±Õ¸ÃÍ¨µÀ,µÈ´ı»ØÊÕ
+			// å¾—åˆ°é€šé“ï¼Œæ£€æµ‹å½“å‰é€šé“æ˜¯å¦å¯ç”¨ï¼Œå¦‚æœä¸å¯ç”¨ï¼Œé‚£ä¹ˆå…³é—­è¯¥é€šé“,ç­‰å¾…å›æ”¶
 			socket = this.getSocket();
 			if (socket == null)
 			{
 				res = new MM7RSErrorRes();
 				res.setStatusCode(-104);
-				res.setStatusText("´´½¨SocketÍ¨µÀÊ§°Ü");
+				res.setStatusText("åˆ›å»ºSocketé€šé“å¤±è´¥");
 				return res;
 			}
-			log.debug("¿ªÊ¼·¢ËÍ°ü...");
+			log.debug("å¼€å§‹å‘é€åŒ…...");
 			// log.debug(new String(msgByte,Charset.forName("UTF-8")));
 			OutputStream sender = socket.getOutputStream();
 			sender.write(msgByte);
 			sender.flush();
 
-			// ½ÓÏÂÀ´ÊÇ½ÓÊÕ»ØÓ¦°ü
-			log.debug("¿ªÊ¼½ÓÊÕ(SubmitRsp)");
+			// æ¥ä¸‹æ¥æ˜¯æ¥æ”¶å›åº”åŒ…
+			log.debug("å¼€å§‹æ¥æ”¶(SubmitRsp)");
 			HttpResponse http = new HttpResponse();
 			if (!http.recvData(socket.getInputStream()))
 			{
 				res = new MM7RSErrorRes();
 				res.setStatusCode(-102);
-				res.setStatusText("½ÓÊÕ»ØÓ¦ÏûÏ¢Ê§°Ü£¡");
+				res.setStatusText("æ¥æ”¶å›åº”æ¶ˆæ¯å¤±è´¥ï¼");
 				return res;
 
 			}
-			log.debug("½ÓÊÕÍê³É(SubmitRsp)");
-			// ½ÓÊÕÍê³É£¬ËÍ»ØÈ¥
-			// log.debug("MM7SenderÊÕµ½ÏûÏ¢£º" + http.toString());
+			log.debug("æ¥æ”¶å®Œæˆ(SubmitRsp)");
+			// æ¥æ”¶å®Œæˆï¼Œé€å›å»
+			// log.debug("MM7Senderæ”¶åˆ°æ¶ˆæ¯ï¼š" + http.toString());
 
 			if (http.getStatusCode() != 200)
 			{
 				res = new MM7RSErrorRes();
 				res.setStatusCode(-108);
-				res.setStatusText("»ØÓ¦ÏûÏ¢×´Ì¬Îª" + http.getReasonPhrase());
+				res.setStatusText("å›åº”æ¶ˆæ¯çŠ¶æ€ä¸º" + http.getReasonPhrase());
 				return res;
 			}
 			if (http.getBody().length == 0)
 			{
 				res = new MM7RSErrorRes();
 				res.setStatusCode(-108);
-				res.setStatusText("ÏûÏ¢ÌåÎª¿Õ");
+				res.setStatusText("æ¶ˆæ¯ä½“ä¸ºç©º");
 				return res;
 			}
 			if (!keepAlive)
 			{
-				log.debug("µ±Ç°ÅäÖÃ¶ÌÁ¬½Ó£¬·¢ËÍ½áÊø£¬³¢ÊÔ¹Ø±Õsocket");
+				log.debug("å½“å‰é…ç½®çŸ­è¿æ¥ï¼Œå‘é€ç»“æŸï¼Œå°è¯•å…³é—­socket");
 				ConnectionUtil.closeSocket(socket);
 
 			}
@@ -241,10 +241,10 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		catch (IOException ex)
 		{
 			ConnectionUtil.closeSocket(socket);
-			log.error("IOException ³¢ÊÔ¹Ø±Õsocket", ex);
+			log.error("IOException å°è¯•å…³é—­socket", ex);
 			res = new MM7RSErrorRes();
 			res.setStatusCode(-102);
-			res.setStatusText("½ÓÊÕÊ§°ÜgetException£¡");
+			res.setStatusText("æ¥æ”¶å¤±è´¥getExceptionï¼");
 			return res;
 
 		}
@@ -259,17 +259,17 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 	{
 		if (res instanceof MM7RSErrorRes)
 		{
-			// Èç¹û·¢ËÍÊ§°Ü£¬ÄÇÃ´¼ÓÈëµ½·¢ËÍ¶ÓÁĞÖØĞÂ·¢ËÍ
+			// å¦‚æœå‘é€å¤±è´¥ï¼Œé‚£ä¹ˆåŠ å…¥åˆ°å‘é€é˜Ÿåˆ—é‡æ–°å‘é€
 			if (req.getTimes() <= retryCount)
 			{
-				log.debug("°ü·¢ËÍÊ§°Ü£¬ĞèÒªÖØĞÂ·¢ËÍ" + req.getTransactionID() + res);
+				log.debug("åŒ…å‘é€å¤±è´¥ï¼Œéœ€è¦é‡æ–°å‘é€" + req.getTransactionID() + res);
 				req.addTimes();
 				buffer.offer(req);
 				return;
 			}
 			else
 			{
-				discard.info("°ü´ïµ½×î´ó·¢ËÍ´ÎÊı£¨" + retryCount + "´Î£©,¶ªÆú" + req);
+				discard.info("åŒ…è¾¾åˆ°æœ€å¤§å‘é€æ¬¡æ•°ï¼ˆ" + retryCount + "æ¬¡ï¼‰,ä¸¢å¼ƒ" + req);
 			}
 
 		}
@@ -287,12 +287,12 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		}
 		else
 		{
-			log.error("´¦ÀíÎ´ÖªÌá½»°ü" + req + "," + res);
+			log.error("å¤„ç†æœªçŸ¥æäº¤åŒ…" + req + "," + res);
 		}
 
 	}
 
-	/** ÊäÈëstring£¬Êä³ö¾­¹ıMD5±àÂëµÄString */
+	/** è¾“å…¥stringï¼Œè¾“å‡ºç»è¿‡MD5ç¼–ç çš„String */
 
 	public void myStop()
 	{
@@ -340,7 +340,7 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		submit.addTo("13777802386");
 		submit.setVASID("106573061704");
 		submit.setServiceCode("1113329901");
-		submit.setSubject("²âÊÔ");
+		submit.setSubject("æµ‹è¯•");
 		MMContent content = new MMContent();
 		content.setContentType(MMConstants.ContentType.MULTIPART_MIXED);
 
@@ -371,9 +371,9 @@ public class MM7Sender extends Thread implements MM7AbstractSender
 		content.addSubContent(sub4);
 
 		submit.setContent(content);
-		log.debug("¿ªÊ¼·¢ËÍ");
+		log.debug("å¼€å§‹å‘é€");
 		MM7RSRes res = mm7Sender.send(submit);
-		log.debug("·¢ËÍ½áÊø");
+		log.debug("å‘é€ç»“æŸ");
 		System.out.println("#####################");
 		// System.out.println(res);
 		System.out.println("res.statuscode=" + res.getStatusCode()

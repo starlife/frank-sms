@@ -1,5 +1,5 @@
 /**
- * File Name:MM7SubmitReq.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7SubmitReq.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -89,197 +89,197 @@ public class MM7SubmitReq extends MM7VASPReq
 	 * false; DistributionIndicatorExist = false;
 	 */
 	// }
-	public void setVASPID(String vaspid) // ÉèÖÃSP´úÂë
+	public void setVASPID(String vaspid) // è®¾ç½®SPä»£ç 
 	{
 		this.VASPID = vaspid;
 		VASPIDExist = true;
 	}
 
-	public String getVASPID() // »ñµÃSP´úÂë
+	public String getVASPID() // è·å¾—SPä»£ç 
 	{
 		return (this.VASPID);
 	}
 
-	public boolean isVASPIDExist() // ÊÇ·ñ´æÔÚSP´úÂë
+	public boolean isVASPIDExist() // æ˜¯å¦å­˜åœ¨SPä»£ç 
 	{
 		return (VASPIDExist);
 	}
 
-	public void setVASID(String vasid) // ÉèÖÃ·şÎñ´úÂë
+	public void setVASID(String vasid) // è®¾ç½®æœåŠ¡ä»£ç 
 	{
 		this.VASID = vasid;
 		VASIDExist = true;
 	}
 
-	public String getVASID() // »ñµÃ·şÎñ´úÂë
+	public String getVASID() // è·å¾—æœåŠ¡ä»£ç 
 	{
 		return (this.VASID);
 	}
 
-	public boolean isVASIDExist() // ÊÇ·ñ´æÔÚ·şÎñ´úÂë
+	public boolean isVASIDExist() // æ˜¯å¦å­˜åœ¨æœåŠ¡ä»£ç 
 	{
 		return (VASIDExist);
 	}
 
-	public void setServiceCode(String servicecode) // ÉèÖÃÒµÎñ´úÂë
+	public void setServiceCode(String servicecode) // è®¾ç½®ä¸šåŠ¡ä»£ç 
 	{
 		this.ServiceCode = servicecode;
 		ServiceCodeExist = true;
 	}
 
-	public String getServiceCode() // »ñµÃÒµÎñ´úÂë
+	public String getServiceCode() // è·å¾—ä¸šåŠ¡ä»£ç 
 	{
 		return (this.ServiceCode);
 	}
 
-	public boolean isServiceCodeExist() // ÊÇ·ñ´æÔÚÒµÎñ´úÂë
+	public boolean isServiceCodeExist() // æ˜¯å¦å­˜åœ¨ä¸šåŠ¡ä»£ç 
 	{
 		return (ServiceCodeExist);
 	}
 
-	public void setSenderAddress(String senderAddress) // ÉèÖÃMMÊ¼·¢·½µÄµØÖ·
+	public void setSenderAddress(String senderAddress) // è®¾ç½®MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		this.SenderAddress = senderAddress;
 		SenderAddressExist = true;
 	}
 
-	public String getSenderAddress() // »ñµÃMMÊ¼·¢·½µÄµØÖ·
+	public String getSenderAddress() // è·å¾—MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (this.SenderAddress);
 	}
 
-	public boolean isSenderAddressExist() // ÊÇ·ñ´æÔÚMMÊ¼·¢·½µÄµØÖ·
+	public boolean isSenderAddressExist() // æ˜¯å¦å­˜åœ¨MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (SenderAddressExist);
 	}
 
-	public void setTo(List<String> addressList) // ÅúÁ¿ÉèÖÃ½ÓÊÕ·½MMµÄµØÖ·
+	public void setTo(List<String> addressList) // æ‰¹é‡è®¾ç½®æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		this.To = addressList;
 		ToExist = true;
 	}
 
-	public void addTo(String address) // Ôö¼Óµ¥¸öµØÖ·
+	public void addTo(String address) // å¢åŠ å•ä¸ªåœ°å€
 	{
 		To.add(address);
 		ToExist = true;
 	}
 
-	public List<String> getTo() // »ñµÃ½ÓÊÕ·½MMµÄµØÖ·
+	public List<String> getTo() // è·å¾—æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		return (this.To);
 	}
 
-	public boolean isToExist() // ÊÇ·ñ´æÔÚ½ÓÊÕ·½MMµÄµØÖ·
+	public boolean isToExist() // æ˜¯å¦å­˜åœ¨æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		return (ToExist);
 	}
 
-	public void setCc(List<String> ccAddressList) // ÉèÖÃ³­ËÍ·½MMµÄµØÖ·
+	public void setCc(List<String> ccAddressList) // è®¾ç½®æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		this.Cc = ccAddressList;
 		CcExist = true;
 	}
 
-	public void addCc(String ccAddress) // Ôö¼Óµ¥¸ö³­ËÍµØÖ·
+	public void addCc(String ccAddress) // å¢åŠ å•ä¸ªæŠ„é€åœ°å€
 	{
 		Cc.add(ccAddress);
 		CcExist = true;
 	}
 
-	public List<String> getCc() // »ñµÃ³­ËÍ·½MMµÄµØÖ·
+	public List<String> getCc() // è·å¾—æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		return (this.Cc);
 	}
 
-	public boolean isCcExist() // ÊÇ·ñ´æÔÚ³­ËÍ·½MMµÄµØÖ·
+	public boolean isCcExist() // æ˜¯å¦å­˜åœ¨æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		return (CcExist);
 	}
 
-	public void setBcc(List<String> bccAddressList) // ÉèÖÃÃÜËÍ·½MMµÄµØÖ·
+	public void setBcc(List<String> bccAddressList) // è®¾ç½®å¯†é€æ–¹MMçš„åœ°å€
 	{
 		this.Bcc = bccAddressList;
 		BccExist = true;
 	}
 
-	public void addBcc(String bccAddress) // Ôö¼Óµ¥¸öÃÜËÍµØÖ·
+	public void addBcc(String bccAddress) // å¢åŠ å•ä¸ªå¯†é€åœ°å€
 	{
 		Bcc.add(bccAddress);
 		BccExist = true;
 	}
 
-	public List<String> getBcc() // »ñµÃÃÜËÍ·½MMµÄµØÖ·
+	public List<String> getBcc() // è·å¾—å¯†é€æ–¹MMçš„åœ°å€
 	{
 		return (this.Bcc);
 	}
 
-	public boolean isBccExist() // ÊÇ·ñ´æÔÚÃÜËÍ·½MMµÄµØÖ·
+	public boolean isBccExist() // æ˜¯å¦å­˜åœ¨å¯†é€æ–¹MMçš„åœ°å€
 	{
 		return (BccExist);
 	}
 
-	public void setLinkedID(String linkedID) // ÉèÖÃÁ´½Ó±êÊ¶
+	public void setLinkedID(String linkedID) // è®¾ç½®é“¾æ¥æ ‡è¯†
 	{
 		this.LinkedID = linkedID;
 		LinkedIDExist = true;
 	}
 
-	public String getLinkedID() // »ñµÃÁ´½Ó±êÊ¶
+	public String getLinkedID() // è·å¾—é“¾æ¥æ ‡è¯†
 	{
 		return (this.LinkedID);
 	}
 
-	public boolean isLinkedIDExist() // ÊÇ·ñ´æÔÚÁ´½Ó±êÊ¶
+	public boolean isLinkedIDExist() // æ˜¯å¦å­˜åœ¨é“¾æ¥æ ‡è¯†
 	{
 		return (LinkedIDExist);
 	}
 
-	public void setMessageClass(String messageclass) // ÉèÖÃMMµÄÀà±ğ
+	public void setMessageClass(String messageclass) // è®¾ç½®MMçš„ç±»åˆ«
 	{
 		this.MessageClass = messageclass;
 		MessageClassExist = true;
 	}
 
-	public String getMessageClass() // »ñµÃMMµÄÀà±ğ
+	public String getMessageClass() // è·å¾—MMçš„ç±»åˆ«
 	{
 		return (this.MessageClass);
 	}
 
-	public boolean isMessageClassExist() // ÊÇ·ñ´æÔÚMMµÄÀà±ğ
+	public boolean isMessageClassExist() // æ˜¯å¦å­˜åœ¨MMçš„ç±»åˆ«
 	{
 		return (MessageClassExist);
 	}
 
-	public void setTimeStamp(Date timeStamp) // ÉèÖÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public void setTimeStamp(Date timeStamp) // è®¾ç½®æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		this.TimeStamp = timeStamp;
 		TimeStampExist = true;
 	}
 
-	public Date getTimeStamp() // »ñµÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public Date getTimeStamp() // è·å¾—æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (this.TimeStamp);
 	}
 
-	public boolean isTimeStampExist() // ÊÇ·ñ´æÔÚÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public boolean isTimeStampExist() // æ˜¯å¦å­˜åœ¨æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStampExist);
 	}
 
-	public void setExpiryDate(Date expiryDate) // ÉèÖÃMMµÄÖ¸¶¨³¬Ê±Ê±¼ä£¨¾ø¶ÔÊ±¼ä£©
+	public void setExpiryDate(Date expiryDate) // è®¾ç½®MMçš„æŒ‡å®šè¶…æ—¶æ—¶é—´ï¼ˆç»å¯¹æ—¶é—´ï¼‰
 	{
 		this.ExpiryDate = expiryDate;
 		ExpiryDateAbsoluteExist = true;
 	}
 
-	public void setExpiryDate(long duration) // durationÌá¹©Ïà¶ÔÊ±¼ä£¬ÒÔÃëÎªµ¥Î»
+	public void setExpiryDate(long duration) // durationæä¾›ç›¸å¯¹æ—¶é—´ï¼Œä»¥ç§’ä¸ºå•ä½
 	{
 		this.ExpiryDateDuration = duration;
 		ExpiryDateExist = true;
 	}
 
-	public long getExpiryDateRelative() // »ñµÃMMµÄÖ¸¶¨³¬Ê±Ê±¼ä
+	public long getExpiryDateRelative() // è·å¾—MMçš„æŒ‡å®šè¶…æ—¶æ—¶é—´
 	{
 		return (this.ExpiryDateDuration);
 	}
@@ -289,109 +289,109 @@ public class MM7SubmitReq extends MM7VASPReq
 		return (this.ExpiryDate);
 	}
 
-	public boolean isExpiryDateExist() // ÊÇ·ñ´æÔÚMMµÄÖ¸¶¨³¬Ê±Ê±¼ä
+	public boolean isExpiryDateExist() // æ˜¯å¦å­˜åœ¨MMçš„æŒ‡å®šè¶…æ—¶æ—¶é—´
 	{
 		return (ExpiryDateExist);
 	}
 
-	public boolean isExpiryDateAbsolute() // ÊÇ·ñ¾ø¶ÔÊ±¼ä¸ñÊ½
+	public boolean isExpiryDateAbsolute() // æ˜¯å¦ç»å¯¹æ—¶é—´æ ¼å¼
 	{
 		return (ExpiryDateAbsoluteExist);
 	}
 
-	public void setEarliestDeliveryTime(Date time) // ÉèÖÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÀíÏëÊ±¼ä£¨¾ø¶ÔÊ±¼ä£©
+	public void setEarliestDeliveryTime(Date time) // è®¾ç½®å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç†æƒ³æ—¶é—´ï¼ˆç»å¯¹æ—¶é—´ï¼‰
 	{
 		this.EarliestDeliveryTime = time;
 		EarliestDeliveryTimeAbsoluteExist = true;
 	}
 
-	public void setEarliestDeliveryTime(long duration) // durationÌá¹©Ïà¶ÔÊ±¼ä£¬ÒÔÃëÎªµ¥Î»
+	public void setEarliestDeliveryTime(long duration) // durationæä¾›ç›¸å¯¹æ—¶é—´ï¼Œä»¥ç§’ä¸ºå•ä½
 	{
 		this.EarliestTimeDuration = duration;
 		EarliestDeliveryTimeExist = true;
 	}
 
-	public long getEarliestDeliveryTimeRelative() // »ñµÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÏà¶ÔÀíÏëÊ±¼ä
+	public long getEarliestDeliveryTimeRelative() // è·å¾—å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç›¸å¯¹ç†æƒ³æ—¶é—´
 	{
 		return (this.EarliestTimeDuration);
 	}
 
-	public Date getEarliestDeliveryTimeAbsolute() // »ñµÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔç¾ø¶ÔÀíÏëÊ±¼ä
+	public Date getEarliestDeliveryTimeAbsolute() // è·å¾—å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç»å¯¹ç†æƒ³æ—¶é—´
 	{
 		return (this.EarliestDeliveryTime);
 	}
 
-	public boolean isEarliestDeliveryTimeExist() // ÊÇ·ñ´æÔÚ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÀíÏëÊ±¼ä¡£
+	public boolean isEarliestDeliveryTimeExist() // æ˜¯å¦å­˜åœ¨å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç†æƒ³æ—¶é—´ã€‚
 	{
 		return (EarliestDeliveryTimeExist);
 	}
 
-	public boolean isEarliestDeliveryTimeAbsolute() // ÊÇ·ñ¾ø¶ÔÊ±¼ä¸ñÊ½
+	public boolean isEarliestDeliveryTimeAbsolute() // æ˜¯å¦ç»å¯¹æ—¶é—´æ ¼å¼
 	{
 		return (EarliestDeliveryTimeAbsoluteExist);
 	}
 
-	public void setDeliveryReport(boolean deliveryreport) // ÉèÖÃÊÇ·ñĞèÒª·¢ËÍ±¨¸æµÄÇëÇó
+	public void setDeliveryReport(boolean deliveryreport) // è®¾ç½®æ˜¯å¦éœ€è¦å‘é€æŠ¥å‘Šçš„è¯·æ±‚
 	{
 		this.DeliveryReport = deliveryreport;
 		DeliveryReportExist = true;
 	}
 
-	public boolean getDeliveryReport() // »ñµÃÊÇ·ñĞèÒª·¢ËÍ±¨¸æµÄÇëÇó
+	public boolean getDeliveryReport() // è·å¾—æ˜¯å¦éœ€è¦å‘é€æŠ¥å‘Šçš„è¯·æ±‚
 	{
 		return (this.DeliveryReport);
 	}
 
-	public boolean isDeliveryReportExist() // ÊÇ·ñ´æÔÚÊÇ·ñĞèÒª·¢ËÍ±¨¸æµÄÇëÇó
+	public boolean isDeliveryReportExist() // æ˜¯å¦å­˜åœ¨æ˜¯å¦éœ€è¦å‘é€æŠ¥å‘Šçš„è¯·æ±‚
 	{
 		return (DeliveryReportExist);
 	}
 
-	public void setReadReply(boolean readreply) // ÉèÖÃÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public void setReadReply(boolean readreply) // è®¾ç½®æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		this.ReadReply = readreply;
 		ReadReplyExist = true;
 	}
 
-	public boolean getReadReply() // »ñµÃÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public boolean getReadReply() // è·å¾—æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		return (this.ReadReply);
 	}
 
-	public boolean isReadReplyExist() // ÊÇ·ñ´æÔÚÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public boolean isReadReplyExist() // æ˜¯å¦å­˜åœ¨æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		return (ReadReplyExist);
 	}
 
-	public void setReplyCharging(boolean replyCharging) // ÉèÖÃÓ¦´ğ¼Æ·ÑµÄÇëÇó
+	public void setReplyCharging(boolean replyCharging) // è®¾ç½®åº”ç­”è®¡è´¹çš„è¯·æ±‚
 	{
 		this.ReplyCharging = replyCharging;
 		ReplyChargingExist = true;
 	}
 
-	public boolean getReplyCharging() // »ñµÃÓ¦´ğ¼Æ·ÑµÄÇëÇó
+	public boolean getReplyCharging() // è·å¾—åº”ç­”è®¡è´¹çš„è¯·æ±‚
 	{
 		return (this.ReplyCharging);
 	}
 
-	public boolean isReplyChargingExist() // ÊÇ·ñ´æÔÚÓ¦´ğ¼Æ·ÑµÄÇëÇó
+	public boolean isReplyChargingExist() // æ˜¯å¦å­˜åœ¨åº”ç­”è®¡è´¹çš„è¯·æ±‚
 	{
 		return (ReplyChargingExist);
 	}
 
-	public void setReplyDeadline(Date replyDeadline) // ÉèÖÃReplyChargingDeadline£¨¾ø¶ÔÊ±¼ä£©
+	public void setReplyDeadline(Date replyDeadline) // è®¾ç½®ReplyChargingDeadlineï¼ˆç»å¯¹æ—¶é—´ï¼‰
 	{
 		this.ReplyDeadline = replyDeadline;
 		ReplyDeadlineAbsoluteExist = true;
 	}
 
-	public void setReplyDeadline(long duration) // durationÌá¹©Ïà¶ÔÊ±¼ä ¡¢ÒÔÃëÎªµ¥Î»
+	public void setReplyDeadline(long duration) // durationæä¾›ç›¸å¯¹æ—¶é—´ ã€ä»¥ç§’ä¸ºå•ä½
 	{
 		this.ReplyDeadlineDuration = duration;
 		ReplyDeadlineExist = true;
 	}
 
-	public long getReplyDeadlineRelative() // »ñµÃReplyChargingDeadline
+	public long getReplyDeadlineRelative() // è·å¾—ReplyChargingDeadline
 	{
 		return (this.ReplyDeadlineDuration);
 	}
@@ -401,153 +401,153 @@ public class MM7SubmitReq extends MM7VASPReq
 		return (this.ReplyDeadline);
 	}
 
-	public boolean isReplyDeadlineExist() // ÊÇ·ñ´æÔÚReplyChargingDeadline
+	public boolean isReplyDeadlineExist() // æ˜¯å¦å­˜åœ¨ReplyChargingDeadline
 	{
 		return (ReplyDeadlineExist);
 	}
 
-	public boolean isReplyDeadlineAbsoluteExist() // ÊÇ·ñ¾ø¶ÔÊ±¼ä¸ñÊ½
+	public boolean isReplyDeadlineAbsoluteExist() // æ˜¯å¦ç»å¯¹æ—¶é—´æ ¼å¼
 	{
 		return (ReplyDeadlineAbsoluteExist);
 	}
 
-	public void setReplyChargingSize(int replyChargingSize) // ÉèÖÃReplyChargingSize
+	public void setReplyChargingSize(int replyChargingSize) // è®¾ç½®ReplyChargingSize
 	{
 		this.ReplyChargingSize = replyChargingSize;
 		ReplyChargingSizeExist = true;
 	}
 
-	public int getReplyChargingSize() // »ñµÃReplyChargingSize
+	public int getReplyChargingSize() // è·å¾—ReplyChargingSize
 	{
 		return (this.ReplyChargingSize);
 	}
 
-	public boolean isReplyChargingSizeExist() // ÊÇ·ñ´æÔÚReplyChargingSize
+	public boolean isReplyChargingSizeExist() // æ˜¯å¦å­˜åœ¨ReplyChargingSize
 	{
 		return (ReplyChargingSizeExist);
 	}
 
-	public void setPriority(byte priority) // ÉèÖÃPriority
+	public void setPriority(byte priority) // è®¾ç½®Priority
 	{
 		this.Priority = priority;
 		PriorityExist = true;
 	}
 
-	public byte getPriority() // »ñµÃPriority
+	public byte getPriority() // è·å¾—Priority
 	{
 		return (this.Priority);
 	}
 
-	public boolean isPriorityExist() // ÊÇ·ñ´æÔÚPriority¡£ÏûÏ¢µÄÓÅÏÈ¼¶£¨ÖØÒªĞÔ£©
-	{ // £¨0=×îµÍÓÅÏÈ¼¶£¬1=Õı³££¬2=½ô¼±£©
+	public boolean isPriorityExist() // æ˜¯å¦å­˜åœ¨Priorityã€‚æ¶ˆæ¯çš„ä¼˜å…ˆçº§ï¼ˆé‡è¦æ€§ï¼‰
+	{ // ï¼ˆ0=æœ€ä½ä¼˜å…ˆçº§ï¼Œ1=æ­£å¸¸ï¼Œ2=ç´§æ€¥ï¼‰
 		return (PriorityExist);
 	}
 
-	public void setSubject(String subject) // ÉèÖÃsubject
+	public void setSubject(String subject) // è®¾ç½®subject
 	{
 		this.Subject = subject;
 		SubjectExist = true;
 	}
 
-	public String getSubject() // »ñµÃsubject
+	public String getSubject() // è·å¾—subject
 	{
 		return (this.Subject);
 	}
 
-	public boolean isSubjectExist() // ÊÇ·ñ´æÔÚsubject
+	public boolean isSubjectExist() // æ˜¯å¦å­˜åœ¨subject
 	{
 		return (SubjectExist);
 	}
 
-	public void setAllowAdaptations(boolean allowAdaptations) // ÉèÖÃallowAdaptations
+	public void setAllowAdaptations(boolean allowAdaptations) // è®¾ç½®allowAdaptations
 	{
 		this.AllowAdaptations = allowAdaptations;
 		AllowAdaptationsExist = true;
 	}
 
-	public boolean getAllowAdaptations() // »ñµÃallowAdaptations
+	public boolean getAllowAdaptations() // è·å¾—allowAdaptations
 	{
 		return (this.AllowAdaptations);
 	}
 
-	public boolean isAllowAdaptationsExist() // ÊÇ·ñ´æÔÚallowAdaptations
+	public boolean isAllowAdaptationsExist() // æ˜¯å¦å­˜åœ¨allowAdaptations
 	{
 		return (AllowAdaptationsExist);
 	}
 
-	public void setChargedParty(byte chargedParty) // ÉèÖÃchargedParty
+	public void setChargedParty(byte chargedParty) // è®¾ç½®chargedParty
 	{
 		this.ChargedParty = chargedParty;
 		ChargedPartyExist = true;
 	}
 
-	public byte getChargedParty() // »ñµÃchargedParty
+	public byte getChargedParty() // è·å¾—chargedParty
 	{
 		return (this.ChargedParty);
 	}
 
-	public boolean isChargedPartyExist() // ÊÇ·ñ´æÔÚchargedParty,
-	{ // Ö¸Ã÷VASPËùÌá½»MMµÄ¸¶·Ñ·½£¬ÀıÈç£¬·¢ËÍ·½(0)¡¢½ÓÊÕ·½(1)¡¢
-		return (ChargedPartyExist); // ·¢ËÍ·½ºÍ½ÓÊÕ·½(2)»òÁ½·½¾ù²»¸¶·Ñ(3)
+	public boolean isChargedPartyExist() // æ˜¯å¦å­˜åœ¨chargedParty,
+	{ // æŒ‡æ˜VASPæ‰€æäº¤MMçš„ä»˜è´¹æ–¹ï¼Œä¾‹å¦‚ï¼Œå‘é€æ–¹(0)ã€æ¥æ”¶æ–¹(1)ã€
+		return (ChargedPartyExist); // å‘é€æ–¹å’Œæ¥æ”¶æ–¹(2)æˆ–ä¸¤æ–¹å‡ä¸ä»˜è´¹(3)
 	}
 
 	/*
-	 * public void setFeeTerminalID(String feeTerminalID) //ÉèÖÃfeeTerminalID {
+	 * public void setFeeTerminalID(String feeTerminalID) //è®¾ç½®feeTerminalID {
 	 * this.FeeTerminalID = feeTerminalID; FeeTerminalIDExist = true; } public
-	 * String getFeeTerminalID() //»ñµÃfeeTerminalID { return(this.FeeTerminalID); }
-	 * public boolean isFeeTerminalIDExist() //ÊÇ·ñ´æÔÚfeeTerminalID {
-	 * //ÔÚ¸¶·Ñ·½¼È²»ÊÇ·¢ËÍ·½£¬Ò²²»ÊÇ½ÓÊÕ·½µÄÇé¿öÏÂ£¬ return(FeeTerminalIDExist);
-	 * //ĞèÒªÊ¹ÓÃ¸Ã×Ö¶Î±êÊ¶¸¶·Ñ·½µÄE.164ºÅÂë }
+	 * String getFeeTerminalID() //è·å¾—feeTerminalID { return(this.FeeTerminalID); }
+	 * public boolean isFeeTerminalIDExist() //æ˜¯å¦å­˜åœ¨feeTerminalID {
+	 * //åœ¨ä»˜è´¹æ–¹æ—¢ä¸æ˜¯å‘é€æ–¹ï¼Œä¹Ÿä¸æ˜¯æ¥æ”¶æ–¹çš„æƒ…å†µä¸‹ï¼Œ return(FeeTerminalIDExist);
+	 * //éœ€è¦ä½¿ç”¨è¯¥å­—æ®µæ ‡è¯†ä»˜è´¹æ–¹çš„E.164å·ç  }
 	 */
-	public void setChargedPartyID(String chargedPartyID) // ÉèÖÃfeeTerminalID
+	public void setChargedPartyID(String chargedPartyID) // è®¾ç½®feeTerminalID
 	{
 		this.ChargedPartyID = chargedPartyID;
 		ChargedPartyIDExist = true;
 	}
 
-	public String getChargedPartyID() // »ñµÃfeeTerminalID
+	public String getChargedPartyID() // è·å¾—feeTerminalID
 	{
 		return (this.ChargedPartyID);
 	}
 
-	public boolean isChargedPartyIDExist() // ÊÇ·ñ´æÔÚfeeTerminalID
-	{ // ÔÚ¸¶·Ñ·½¼È²»ÊÇ·¢ËÍ·½£¬Ò²²»ÊÇ½ÓÊÕ·½µÄÇé¿öÏÂ£¬
-		return (ChargedPartyIDExist); // ĞèÒªÊ¹ÓÃ¸Ã×Ö¶Î±êÊ¶¸¶·Ñ·½µÄE.164ºÅÂë
+	public boolean isChargedPartyIDExist() // æ˜¯å¦å­˜åœ¨feeTerminalID
+	{ // åœ¨ä»˜è´¹æ–¹æ—¢ä¸æ˜¯å‘é€æ–¹ï¼Œä¹Ÿä¸æ˜¯æ¥æ”¶æ–¹çš„æƒ…å†µä¸‹ï¼Œ
+		return (ChargedPartyIDExist); // éœ€è¦ä½¿ç”¨è¯¥å­—æ®µæ ‡è¯†ä»˜è´¹æ–¹çš„E.164å·ç 
 	}
 
-	public void setContent(MMContent ammContent) // ÉèÖÃMMContent
+	public void setContent(MMContent ammContent) // è®¾ç½®MMContent
 	{
 		this.Content = ammContent;
 		ContentExist = true;
 	}
 
-	public MMContent getContent() // »ñµÃMMContent
+	public MMContent getContent() // è·å¾—MMContent
 	{
 		return (this.Content);
 	}
 
-	public boolean isContentExist() // ÊÇ·ñ´æÔÚMMContent
+	public boolean isContentExist() // æ˜¯å¦å­˜åœ¨MMContent
 	{
 		return (ContentExist);
 	}
 
-	public void setDistributionIndicator(boolean MDI) // ÉèÖÃDistributionIndicator
+	public void setDistributionIndicator(boolean MDI) // è®¾ç½®DistributionIndicator
 	{
 		this.DistributionIndicator = MDI;
 		DistributionIndicatorExist = true;
 	}
 
-	public boolean getDistributionIndicator() // »ñµÃDistributionIndicator
+	public boolean getDistributionIndicator() // è·å¾—DistributionIndicator
 	{
 		return (this.DistributionIndicator);
 	}
 
-	public boolean isDistributionIndicatorExist() // ÊÇ·ñ´æÔÚDistributionIndicator
+	public boolean isDistributionIndicatorExist() // æ˜¯å¦å­˜åœ¨DistributionIndicator
 	{
 		return (DistributionIndicatorExist);
 	}
 
-	// ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	// è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();

@@ -1,5 +1,5 @@
 /**
- * File Name:MM7Message.java Company: ÖĞ¹úÒÆ¶¯2011
+ * File Name:MM7Message.java Company: ä¸­å›½ç§»åŠ¨2011
  */
 
 package com.cmcc.mm7.vasp.protocol.message;

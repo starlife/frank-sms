@@ -1,5 +1,5 @@
 /**
- * File Name:MM7ReplaceReq.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7ReplaceReq.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -36,183 +36,183 @@ public class MM7ReplaceReq extends MM7VASPReq
 	private boolean DistributionIndicator;
 	private boolean DistributionIndicatorExist;
 
-	public void setVASPID(String vaspID) // ÉèÖÃSP´úÂë
+	public void setVASPID(String vaspID) // è®¾ç½®SPä»£ç 
 	{
 		VASPID = vaspID;
 		VASPIDExist = true;
 	}
 
-	public String getVASPID() // »ñµÃSP´úÂë
+	public String getVASPID() // è·å¾—SPä»£ç 
 	{
 		return (VASPID);
 	}
 
-	public boolean isVASPIDExist() // ÊÇ·ñ´æÔÚSP´úÂë
+	public boolean isVASPIDExist() // æ˜¯å¦å­˜åœ¨SPä»£ç 
 	{
 		return (VASPIDExist);
 	}
 
-	public void setVASID(String vasID) // ÉèÖÃ·şÎñ´úÂë
+	public void setVASID(String vasID) // è®¾ç½®æœåŠ¡ä»£ç 
 	{
 		VASID = vasID;
 		VASIDExist = true;
 	}
 
-	public String getVASID() // »ñµÃ·şÎñ´úÂë
+	public String getVASID() // è·å¾—æœåŠ¡ä»£ç 
 	{
 		return (VASID);
 	}
 
-	public boolean isVASIDExist() // ÊÇ·ñ´æÔÚ·şÎñ´úÂë
+	public boolean isVASIDExist() // æ˜¯å¦å­˜åœ¨æœåŠ¡ä»£ç 
 	{
 		return (VASIDExist);
 	}
 
-	public void setMessageID(String messageID) // ÉèÖÃMessageID
+	public void setMessageID(String messageID) // è®¾ç½®MessageID
 	{
 		MessageID = messageID;
 		MessageIDExist = true;
 	}
 
-	public String getMessageID() // »ñµÃmessageID
+	public String getMessageID() // è·å¾—messageID
 	{
 		return (MessageID);
 	}
 
-	public boolean isMessageIDExist() // ÊÇ·ñ´æÔÚmessageID
+	public boolean isMessageIDExist() // æ˜¯å¦å­˜åœ¨messageID
 	{
 		return (MessageIDExist);
 	}
 
-	public void setServiceCode(String serviceCode) // ÉèÖÃÒµÎñ´úÂë
+	public void setServiceCode(String serviceCode) // è®¾ç½®ä¸šåŠ¡ä»£ç 
 	{
 		ServiceCode = serviceCode;
 		ServiceCodeExist = true;
 	}
 
-	public String getServiceCode() // »ñµÃÒµÎñ´úÂë
+	public String getServiceCode() // è·å¾—ä¸šåŠ¡ä»£ç 
 	{
 		return (ServiceCode);
 	}
 
-	public boolean isServiceCodeExist() // ÊÇ·ñ´æÔÚÒµÎñ´úÂë
+	public boolean isServiceCodeExist() // æ˜¯å¦å­˜åœ¨ä¸šåŠ¡ä»£ç 
 	{
 		return (ServiceCodeExist);
 	}
 
-	public void setTimeStamp(Date timeStamp) // ÉèÖÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public void setTimeStamp(Date timeStamp) // è®¾ç½®æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		TimeStamp = timeStamp;
 		TimeStampExist = true;
 	}
 
-	public Date getTimeStamp() // »ñµÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public Date getTimeStamp() // è·å¾—æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStamp);
 	}
 
-	public boolean isTimeStampExist() // ÊÇ·ñ´æÔÚÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public boolean isTimeStampExist() // æ˜¯å¦å­˜åœ¨æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStampExist);
 	}
 
-	public void setEarliestDeliveryTime(Date time) // ÉèÖÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÀíÏëÊ±¼ä£¨¾ø¶ÔÊ±¼ä£©
+	public void setEarliestDeliveryTime(Date time) // è®¾ç½®å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç†æƒ³æ—¶é—´ï¼ˆç»å¯¹æ—¶é—´ï¼‰
 	{
 		EarliestDeliveryTime = time;
 		EarliestDeliveryTimeAbsoluteExist = true;
 	}
 
-	public void setEarliestDeliveryTime(long duration) // durationÌá¹©Ïà¶ÔÊ±¼ä£¬ÒÔÃëÎªµ¥Î»
+	public void setEarliestDeliveryTime(long duration) // durationæä¾›ç›¸å¯¹æ—¶é—´ï¼Œä»¥ç§’ä¸ºå•ä½
 	{
 		EarliestTimeDuration = duration;
 		EarliestDeliveryTimeExist = true;
 	}
 
-	public long getEarliestDeliveryTimeRelative() // »ñµÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÏà¶ÔÀíÏëÊ±¼ä
+	public long getEarliestDeliveryTimeRelative() // è·å¾—å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç›¸å¯¹ç†æƒ³æ—¶é—´
 	{
 		return (EarliestTimeDuration);
 	}
 
-	public Date getEarliestDeliveryTimeAbsolute() // »ñµÃ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔç¾ø¶ÔÀíÏëÊ±¼ä
+	public Date getEarliestDeliveryTimeAbsolute() // è·å¾—å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç»å¯¹ç†æƒ³æ—¶é—´
 	{
 		return (EarliestDeliveryTime);
 	}
 
-	public boolean isEarliestDeliveryTimeExist() // ÊÇ·ñ´æÔÚ½«MM´«ËÍ¸ø½ÓÊÕ·½µÄ×îÔçÀíÏëÊ±¼ä¡£
+	public boolean isEarliestDeliveryTimeExist() // æ˜¯å¦å­˜åœ¨å°†MMä¼ é€ç»™æ¥æ”¶æ–¹çš„æœ€æ—©ç†æƒ³æ—¶é—´ã€‚
 	{
 		return (EarliestDeliveryTimeExist);
 	}
 
-	public boolean isEarliestDeliveryTimeAbsoluteExist() // ÊÇ·ñ¾ø¶ÔÊ±¼ä¸ñÊ½
+	public boolean isEarliestDeliveryTimeAbsoluteExist() // æ˜¯å¦ç»å¯¹æ—¶é—´æ ¼å¼
 	{
 		return (EarliestDeliveryTimeAbsoluteExist);
 	}
 
-	public void setReadReply(boolean readreply) // ÉèÖÃÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public void setReadReply(boolean readreply) // è®¾ç½®æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		ReadReply = readreply;
 		ReadReplyExist = true;
 	}
 
-	public boolean getReadReply() // »ñµÃÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public boolean getReadReply() // è·å¾—æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		return (ReadReply);
 	}
 
-	public boolean isReadReplyExist() // ÊÇ·ñ´æÔÚÊÇ·ñĞèÒª¶ÁÈ¡±¨¸æ
+	public boolean isReadReplyExist() // æ˜¯å¦å­˜åœ¨æ˜¯å¦éœ€è¦è¯»å–æŠ¥å‘Š
 	{
 		return (ReadReplyExist);
 	}
 
-	public void setAllowAdaptations(boolean allowAdaptations) // ÉèÖÃallowAdaptations
+	public void setAllowAdaptations(boolean allowAdaptations) // è®¾ç½®allowAdaptations
 	{
 		AllowAdaptations = allowAdaptations;
 		AllowAdaptationsExist = true;
 	}
 
-	public boolean getAllowAdaptations() // »ñµÃallowAdaptations
+	public boolean getAllowAdaptations() // è·å¾—allowAdaptations
 	{
 		return (AllowAdaptations);
 	}
 
-	public boolean isAllowAdaptationsExist() // ÊÇ·ñ´æÔÚallowAdaptations
+	public boolean isAllowAdaptationsExist() // æ˜¯å¦å­˜åœ¨allowAdaptations
 	{
 		return (AllowAdaptationsExist);
 	}
 
-	public void setContent(MMContent ammContent) // ÉèÖÃMMContent
+	public void setContent(MMContent ammContent) // è®¾ç½®MMContent
 	{
 		Content = ammContent;
 		ContentExist = true;
 	}
 
-	public MMContent getContent() // »ñµÃMMContent
+	public MMContent getContent() // è·å¾—MMContent
 	{
 		return (Content);
 	}
 
-	public boolean isContentExist() // ÊÇ·ñ´æÔÚMMContent
+	public boolean isContentExist() // æ˜¯å¦å­˜åœ¨MMContent
 	{
 		return (ContentExist);
 	}
 
-	public void setDistributionIndicator(boolean MDI) // ÉèÖÃDistributionIndicator
+	public void setDistributionIndicator(boolean MDI) // è®¾ç½®DistributionIndicator
 	{
 		DistributionIndicator = MDI;
 		DistributionIndicatorExist = true;
 	}
 
-	public boolean getDistributionIndicator() // »ñµÃDistributionIndicator
+	public boolean getDistributionIndicator() // è·å¾—DistributionIndicator
 	{
 		return (DistributionIndicator);
 	}
 
-	public boolean isDistributionIndicatorExist() // ÊÇ·ñ´æÔÚDistributionIndicator
+	public boolean isDistributionIndicatorExist() // æ˜¯å¦å­˜åœ¨DistributionIndicator
 	{
 		return (DistributionIndicatorExist);
 	}
 
-	// ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	// è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();

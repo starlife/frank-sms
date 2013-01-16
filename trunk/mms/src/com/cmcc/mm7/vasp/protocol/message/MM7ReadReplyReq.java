@@ -1,5 +1,5 @@
 /**
- * File Name:MM7ReadReplyReq.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7ReadReplyReq.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -27,119 +27,119 @@ public class MM7ReadReplyReq extends MM7RSReq
 	private String StatusText;
 	private boolean StatusTextExist;
 
-	public void setMMSRelayServerID(String mmscID) // ÉèÖÃMMSRelay/ServerRelay/ServerµÄ±êÊ¶·û
+	public void setMMSRelayServerID(String mmscID) // è®¾ç½®MMSRelay/ServerRelay/Serverçš„æ ‡è¯†ç¬¦
 	{
 		MMSReplayServerID = mmscID;
 		MMSReplayServerIDExist = true;
 	}
 
-	public String getMMSRelayServerID() // »ñµÃMMSRelay/ServerRelay/ServerµÄ±êÊ¶·û
+	public String getMMSRelayServerID() // è·å¾—MMSRelay/ServerRelay/Serverçš„æ ‡è¯†ç¬¦
 	{
 		return (MMSReplayServerID);
 	}
 
-	public boolean isMMSRelayServerID() // ÊÇ·ñ´æÔÚMMSRelay/ServerRelay/ServerµÄ±êÊ¶·û
+	public boolean isMMSRelayServerID() // æ˜¯å¦å­˜åœ¨MMSRelay/ServerRelay/Serverçš„æ ‡è¯†ç¬¦
 	{
 		return (MMSReplayServerIDExist);
 	}
 
-	public void setMessageID(String messageID) // ÉèÖÃmessageID
+	public void setMessageID(String messageID) // è®¾ç½®messageID
 	{
 		MessageID = messageID;
 		MessageIDExist = true;
 	}
 
-	public String getMessageID() // »ñµÃmessageID
+	public String getMessageID() // è·å¾—messageID
 	{
 		return (MessageID);
 	}
 
-	public boolean isMessageIDExist() // ÊÇ·ñ´æÔÚmessageID
+	public boolean isMessageIDExist() // æ˜¯å¦å­˜åœ¨messageID
 	{
 		return (MessageIDExist);
 	}
 
-	public void setRecipient(String address) // ÉèÖÃ¶Áºó»Ø¸´Í¨±¨µÄ×´Ì¬¶ÔÓ¦µÄ½ÓÊÕ·½µØÖ·
+	public void setRecipient(String address) // è®¾ç½®è¯»åå›å¤é€šæŠ¥çš„çŠ¶æ€å¯¹åº”çš„æ¥æ”¶æ–¹åœ°å€
 	{
 		RecipientAddress = address;
 		RecipientAddressExist = true;
 	}
 
-	public String getRecipient() // »ñÈ¡¶Áºó»Ø¸´ËùÍ¨±¨µÄ×´Ì¬¶ÔÓ¦µÄ½ÓÊÕ·½µØÖ·
+	public String getRecipient() // è·å–è¯»åå›å¤æ‰€é€šæŠ¥çš„çŠ¶æ€å¯¹åº”çš„æ¥æ”¶æ–¹åœ°å€
 	{
 		return (RecipientAddress);
 	}
 
-	public boolean isRecipientExist() // ÊÇ·ñ´æÔÚ½ÓÊÕ·½µØÖ·
+	public boolean isRecipientExist() // æ˜¯å¦å­˜åœ¨æ¥æ”¶æ–¹åœ°å€
 	{
 		return (RecipientAddressExist);
 	}
 
-	public void setSender(String senderAddress) // ÉèÖÃMMÊ¼·¢·½µÄµØÖ·
+	public void setSender(String senderAddress) // è®¾ç½®MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		SenderAddress = senderAddress;
 		SenderAddressExist = true;
 	}
 
-	public String getSender() // »ñµÃMMÊ¼·¢·½µÄµØÖ·
+	public String getSender() // è·å¾—MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (SenderAddress);
 	}
 
-	public boolean isSenderExist() // ÊÇ·ñ´æÔÚMMÊ¼·¢·½µÄµØÖ·
+	public boolean isSenderExist() // æ˜¯å¦å­˜åœ¨MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (SenderAddressExist);
 	}
 
-	public void setTimeStamp(Date timeStamp) // ÉèÖÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public void setTimeStamp(Date timeStamp) // è®¾ç½®æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		TimeStamp = timeStamp;
 		TimeStampExist = true;
 	}
 
-	public Date getTimeStamp() // »ñµÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public Date getTimeStamp() // è·å¾—æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStamp);
 	}
 
-	public boolean isTimeStampExist() // ÊÇ·ñ´æÔÚÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public boolean isTimeStampExist() // æ˜¯å¦å­˜åœ¨æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStampExist);
 	}
 
-	public void setMMStatus(byte readStatus) // ÉèÖÃMMStatus
+	public void setMMStatus(byte readStatus) // è®¾ç½®MMStatus
 	{
 		MMStatus = readStatus;
 		MMStatusExist = true;
 	}
 
-	public byte getMMStatus() // »ñµÃMMStatus
+	public byte getMMStatus() // è·å¾—MMStatus
 	{
 		return (MMStatus);
 	}
 
-	public boolean isMMStatusExist() // ÊÇ·ñ´æÔÚMMStatus
+	public boolean isMMStatusExist() // æ˜¯å¦å­˜åœ¨MMStatus
 	{
 		return (MMStatusExist);
 	}
 
-	public void setStatusText(String readStatusText) // ÉèÖÃStatusText
+	public void setStatusText(String readStatusText) // è®¾ç½®StatusText
 	{
 		StatusText = readStatusText;
 		StatusTextExist = true;
 	}
 
-	public String getStatusText() // »ñµÃStatusText
+	public String getStatusText() // è·å¾—StatusText
 	{
 		return (StatusText);
 	}
 
-	public boolean isStatusTextExist() // ÊÇ·ñ´æÔÚStatusText
+	public boolean isStatusTextExist() // æ˜¯å¦å­˜åœ¨StatusText
 	{
 		return (StatusTextExist);
 	}
 
-	public String toString() // ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	public String toString() // è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("MMSReplayServerID=" + MMSReplayServerID + "\n");

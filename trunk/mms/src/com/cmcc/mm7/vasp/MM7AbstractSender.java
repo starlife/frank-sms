@@ -1,5 +1,5 @@
 /**
- * File Name:MM7AbstractReceiver.java Company: 中国移动集团公司 Date : 2004-2-17
+ * File Name:MM7AbstractReceiver.java Company: 涓浗绉诲姩闆嗗洟鍏徃 Date : 2004-2-17
  */
 
 package com.cmcc.mm7.vasp;
@@ -13,14 +13,14 @@ public interface MM7AbstractSender
 {
 
 	/**
-	 * 定义如何提交彩信
+	 * 瀹氫箟濡備綍鎻愪氦褰╀俊
 	 * 
 	 * @return
 	 */
 	public MM7SubmitReq submit();
 
 	/**
-	 * 对提交消息的处理
+	 * 瀵规彁浜ゆ秷鎭殑澶勭悊
 	 * 
 	 * @param req
 	 * @param res
@@ -28,7 +28,7 @@ public interface MM7AbstractSender
 	public void doSubmit(MM7SubmitReq req, MM7RSRes res);
 
 	/**
-	 * 对替换消息的处理
+	 * 瀵规浛鎹㈡秷鎭殑澶勭悊
 	 * 
 	 * @param req
 	 * @param res
@@ -36,7 +36,7 @@ public interface MM7AbstractSender
 	public void doReplace(MM7ReplaceReq req, MM7RSRes res);
 
 	/**
-	 * 对取消消息的处理
+	 * 瀵瑰彇娑堟秷鎭殑澶勭悊
 	 * 
 	 * @param req
 	 * @param res

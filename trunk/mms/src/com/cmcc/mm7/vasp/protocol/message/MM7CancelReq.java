@@ -1,5 +1,5 @@
 /**
- * File Name:MM7CancelReq.java Company: 中国移动集团公司 Date : 2003-12-30
+ * File Name:MM7CancelReq.java Company: 涓浗绉诲姩闆嗗洟鍏徃 Date : 2003-12-30
  */
 package com.cmcc.mm7.vasp.protocol.message;
 
@@ -18,66 +18,66 @@ public class MM7CancelReq extends MM7VASPReq
 	private String MessageID;
 	private boolean MessageIDExist = false;
 
-	public void setVASPID(String vaspID) // 设置SP代码
+	public void setVASPID(String vaspID) // 璁剧疆SP浠ｇ爜
 	{
 		VASPID = vaspID;
 		VASPIDExist = true;
 	}
 
-	public String getVASPID() // 获得SP代码
+	public String getVASPID() // 鑾峰緱SP浠ｇ爜
 	{
 		return (VASPID);
 	}
 
-	public boolean isVASPIDExist() // 是否存在SP代码
+	public boolean isVASPIDExist() // 鏄惁瀛樺湪SP浠ｇ爜
 	{
 		return (VASPIDExist);
 	}
 
-	public void setVASID(String vasID) // 设置服务代码
+	public void setVASID(String vasID) // 璁剧疆鏈嶅姟浠ｇ爜
 	{
 		VASID = vasID;
 		VASIDExist = true;
 	}
 
-	public String getVASID() // 获得服务代码
+	public String getVASID() // 鑾峰緱鏈嶅姟浠ｇ爜
 	{
 		return (VASID);
 	}
 
-	public boolean isVASIDExist() // 是否存在服务代码
+	public boolean isVASIDExist() // 鏄惁瀛樺湪鏈嶅姟浠ｇ爜
 	{
 		return (VASIDExist);
 	}
 
-	public void setSenderAddress(String senderAddress) // 设置MM始发方的地址
+	public void setSenderAddress(String senderAddress) // 璁剧疆MM濮嬪彂鏂圭殑鍦板潃
 	{
 		SenderAddress = senderAddress;
 		SenderAddressExist = true;
 	}
 
-	public String getSenderAddress() // 获得MM始发方的地址
+	public String getSenderAddress() // 鑾峰緱MM濮嬪彂鏂圭殑鍦板潃
 	{
 		return (SenderAddress);
 	}
 
-	public boolean isSenderAddressExist() // 是否存在MM始发方的地址
+	public boolean isSenderAddressExist() // 鏄惁瀛樺湪MM濮嬪彂鏂圭殑鍦板潃
 	{
 		return (SenderAddressExist);
 	}
 
-	public void setMessageID(String messageID) // 设置messageID
+	public void setMessageID(String messageID) // 璁剧疆messageID
 	{
 		MessageID = messageID;
 		MessageIDExist = true;
 	}
 
-	public String getMessageID() // 获得messageID
+	public String getMessageID() // 鑾峰緱messageID
 	{
 		return (MessageID);
 	}
 
-	public boolean isMessageIDExist() // 是否存在messageID
+	public boolean isMessageIDExist() // 鏄惁瀛樺湪messageID
 	{
 		return (MessageIDExist);
 	}

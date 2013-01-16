@@ -1,5 +1,5 @@
 /**
- * File Name:MM7SubmitRes.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7SubmitRes.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -18,23 +18,23 @@ public class MM7SubmitRes extends MM7RSRes
 	{
 	}
 
-	public void setMessageID(String messageID) // ÉèÖÃmessageID
+	public void setMessageID(String messageID) // è®¾ç½®messageID
 	{
 		MessageID = messageID;
 		MessageIDExist = true;
 	}
 
-	public String getMessageID() // »ñµÃmessageID
+	public String getMessageID() // è·å¾—messageID
 	{
 		return (MessageID);
 	}
 
-	public boolean isMessageIDExist() // ÊÇ·ñ´æÔÚmessageID
+	public boolean isMessageIDExist() // æ˜¯å¦å­˜åœ¨messageID
 	{
 		return (MessageIDExist);
 	}
 
-	public String toString() // ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	public String toString() // è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	{
 		StringBuffer sb=new StringBuffer();
 		sb.append("[TransactionID="
