@@ -8,12 +8,17 @@ package com.chinaunicom.sgip1_2.protocol.message;
 /**
  * @author Administrator
  */
-public class BindRespMessage extends CommonRespMessage implements Send
+public class BindRespMessage extends CommonRespMessage implements Send, Recv
 {
 
 	public BindRespMessage(String nodeid, int result)
 	{
 		super(nodeid, CommandID.SGIP_BIND_RESP, result, "");
+	}
+
+	public BindRespMessage(BasePackage pack)
+	{
+		super(pack);
 	}
 
 }
