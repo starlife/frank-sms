@@ -1,5 +1,5 @@
 /**
- * File Name:SOAPEncoder.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-8
+ * File Name:SOAPEncoder.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-8
  */
 
 package com.cmcc.mm7.vasp.protocol;
@@ -21,7 +21,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7SubmitReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPErrorRes;
 
 /**
- * °ÑMM7VASPReqÏûÏ¢ºÍMM7VASPResÏûÏ¢½âÎöÎªByte[]ĞÎÊ½
+ * æŠŠMM7VASPReqæ¶ˆæ¯å’ŒMM7VASPResæ¶ˆæ¯è§£æä¸ºByte[]å½¢å¼
  * 
  * @author Administrator
  */
@@ -29,7 +29,7 @@ public class SOAPEncoder
 {
 	private static final Log log = LogFactory.getLog(SOAPEncoder.class);
 
-	/** Ä¬ÈÏ¹¹Ôì·½·¨ */
+	/** é»˜è®¤æ„é€ æ–¹æ³• */
 	public SOAPEncoder()
 	{
 	}
@@ -50,7 +50,7 @@ public class SOAPEncoder
 		}
 		else
 		{
-			log.error("MM7Version ²»ĞíÎª¿Õ£¡");
+			log.error("MM7Version ä¸è®¸ä¸ºç©ºï¼");
 		}
 
 		sb.append("<Status>");
@@ -61,7 +61,7 @@ public class SOAPEncoder
 		}
 		else
 		{
-			log.error("StatusCode ²»ĞíÎª¿Õ");
+			log.error("StatusCode ä¸è®¸ä¸ºç©º");
 		}
 
 		if (deliveryReportRes.isStatusTextExist())
@@ -98,7 +98,7 @@ public class SOAPEncoder
 		}
 		else
 		{
-			System.err.println("MM7Version ²»ĞíÎª¿Õ£¡");
+			System.err.println("MM7Version ä¸è®¸ä¸ºç©ºï¼");
 		}
 
 		sb.append("<Status>");
@@ -109,7 +109,7 @@ public class SOAPEncoder
 		}
 		else
 		{
-			System.err.println("StatusCode ²»ĞíÎª¿Õ");
+			System.err.println("StatusCode ä¸è®¸ä¸ºç©º");
 		}
 
 		if (readReplyRes.isStatusTextExist())
@@ -225,7 +225,7 @@ public class SOAPEncoder
 
 		addSoapXmlHeader(sb, charset, mm7VaspReq.getTransactionID());
 		/**
-		 * Èô·¢ËÍµÄÏûÏ¢ÎªMM7SubmitReq
+		 * è‹¥å‘é€çš„æ¶ˆæ¯ä¸ºMM7SubmitReq
 		 */
 
 		sb
@@ -302,13 +302,13 @@ public class SOAPEncoder
 			sb.append("</Recipients>");
 		}
 		else
-			System.out.println("½ÓÊÕ·½µØÖ·To¡¢³­ËÍ·½µØÖ·CcºÍÃÜËÍ·½µØÖ·BccÖĞÖÁÉÙĞèÒªÓĞÒ»¸ö²»Îª¿Õ£¡");
+			System.out.println("æ¥æ”¶æ–¹åœ°å€Toã€æŠ„é€æ–¹åœ°å€Ccå’Œå¯†é€æ–¹åœ°å€Bccä¸­è‡³å°‘éœ€è¦æœ‰ä¸€ä¸ªä¸ä¸ºç©ºï¼");
 
 		if (mm7VaspReq.isServiceCodeExist())
 			sb.append("<ServiceCode>" + mm7VaspReq.getServiceCode()
 					+ "</ServiceCode>");
 		else
-			System.out.println("ÒµÎñ´úÂëServiceCode²»ĞíÎª¿Õ£¡");
+			System.out.println("ä¸šåŠ¡ä»£ç ServiceCodeä¸è®¸ä¸ºç©ºï¼");
 
 		if (mm7VaspReq.isLinkedIDExist())
 			sb.append("<LinkedID>" + mm7VaspReq.getLinkedID() + "</LinkedID>");
@@ -426,7 +426,7 @@ public class SOAPEncoder
 			sb.append("<MM7Version>" + cancelReq.getMM7Version()
 					+ "</MM7Version>");
 		else
-			System.out.println("MM7Version ²»ĞíÎª¿Õ£¡");
+			System.out.println("MM7Version ä¸è®¸ä¸ºç©ºï¼");
 		if (cancelReq.isVASPIDExist() || cancelReq.isVASIDExist())
 		{
 			sb.append("<SenderIdentification>");
@@ -444,7 +444,7 @@ public class SOAPEncoder
 					.append("<MessageID>" + cancelReq.getMessageID()
 							+ "</MessageID>");
 		else
-			System.out.println("´ıÈ¡ÏûµÄÏûÏ¢µÄ±êÊ¶·ûMessageID²»ĞíÎª¿Õ£¡");
+			System.out.println("å¾…å–æ¶ˆçš„æ¶ˆæ¯çš„æ ‡è¯†ç¬¦MessageIDä¸è®¸ä¸ºç©ºï¼");
 		sb.append("</CancelReq>");
 		addSoapXmlFooter(sb);
 
@@ -485,7 +485,7 @@ public class SOAPEncoder
 			sb.append("<MessageID>" + replaceReq.getMessageID()
 					+ "</MessageID>");
 		else
-			System.out.println("±»µ±Ç°ÏûÏ¢ËùÌæ»»µÄÏûÏ¢µÄ±êÊ¶·ûMessageID ²»ĞíÎª¿Õ£¡");
+			System.out.println("è¢«å½“å‰æ¶ˆæ¯æ‰€æ›¿æ¢çš„æ¶ˆæ¯çš„æ ‡è¯†ç¬¦MessageID ä¸è®¸ä¸ºç©ºï¼");
 		if (replaceReq.isServiceCodeExist())
 			sb.append("<ServiceCode>" + replaceReq.getServiceCode()
 					+ "</ServiceCode>");

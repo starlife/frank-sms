@@ -36,8 +36,8 @@ public class MM7Helper
 		beforAuth.append("POST " + mmscURL + " HTTP/1.1\r\n");
 		beforAuth.append("Host:" + mmscIP + "\r\n");
 
-		// ÉèÖÃHost½áÊø
-		/** ÉèÖÃContentType£¬²»´ø¸½¼şÎªtext/xml;´ø¸½¼şÎªmultipart/related */
+		// è®¾ç½®Hostç»“æŸ
+		/** è®¾ç½®ContentTypeï¼Œä¸å¸¦é™„ä»¶ä¸ºtext/xml;å¸¦é™„ä»¶ä¸ºmultipart/related */
 		if (mm7VASPReq instanceof MM7SubmitReq)
 		{
 			MM7SubmitReq submitReq = (MM7SubmitReq) mm7VASPReq;
@@ -70,23 +70,23 @@ public class MM7Helper
 			beforAuth.append("Content-Type:text/xml;charset=\"" + charset
 					+ "\"" + "\r\n");
 		}
-		// ÉèÖÃContentType½áÊø
-		// ÉèÖÃContent-Trans-Encoding
+		// è®¾ç½®ContentTypeç»“æŸ
+		// è®¾ç½®Content-Trans-Encoding
 		beforAuth.append("Content-Transfer-Encoding:8bit" + "\r\n");
 
-		// ÑéÖ¤Í·
+		// éªŒè¯å¤´
 		if(authmode==1)
 		{
 			beforAuth.append("Authorization:Basic "
 				+ getBASE64(userName + ":" + password) + "\r\n");
 		}
 
-		// ÑéÖ¤ºó
+		// éªŒè¯å
 		beforAuth.append("SOAPAction:\"\"" + "\r\n");
 		beforAuth.append("MM7APIVersion:" + Global.APIVersion + "\r\n");
 		/**
-		 * ÅĞ¶ÏÊÇ·ñÊÇ³¤Á¬½Ó£¬ÈôÊÇ³¤Á¬½Ó£¬Ôò½«ConnectionÉèÎªkeep-alive£¬
-		 * ·ñÔòÉèÎªclose£¬ÒÔ¸æËß·şÎñÆ÷¶Ë¿Í»§¶ËÊÇ³¤Á¬½Ó»¹ÊÇ¶ÌÁ¬½Ó
+		 * åˆ¤æ–­æ˜¯å¦æ˜¯é•¿è¿æ¥ï¼Œè‹¥æ˜¯é•¿è¿æ¥ï¼Œåˆ™å°†Connectionè®¾ä¸ºkeep-aliveï¼Œ
+		 * å¦åˆ™è®¾ä¸ºcloseï¼Œä»¥å‘Šè¯‰æœåŠ¡å™¨ç«¯å®¢æˆ·ç«¯æ˜¯é•¿è¿æ¥è¿˜æ˜¯çŸ­è¿æ¥
 		 */
 		if (keepAlive)
 		{
@@ -106,7 +106,7 @@ public class MM7Helper
 
 	}
 
-	/** ½øĞĞBASE64±àÂë */
+	/** è¿›è¡ŒBASE64ç¼–ç  */
 	public static String getBASE64(String value)
 	{
 		if (value == null)

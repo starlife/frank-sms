@@ -1,5 +1,5 @@
 /**
- * File Name:MM7VASPReq.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7VASPReq.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -11,7 +11,7 @@ public class MM7VASPReq extends MM7Message
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * ·¢ËÍ´ÎÊı
+	 * å‘é€æ¬¡æ•°
 	 */
 	private int times = 0;
 	

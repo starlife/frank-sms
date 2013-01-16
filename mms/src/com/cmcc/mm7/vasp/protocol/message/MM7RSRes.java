@@ -1,5 +1,5 @@
 /**
- * File Name:MM7RSRes.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7RSRes.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -17,55 +17,55 @@ public class MM7RSRes extends MM7Message
 	private String StatusDetail;
 	private boolean StatusDetailExist;
 
-	public void setStatusCode(int statusCode) // ÉèÖÃStatusCode
+	public void setStatusCode(int statusCode) // è®¾ç½®StatusCode
 	{
 		StatusCode = statusCode;
 		StatusCodeExist = true;
 	}
 
-	public int getStatusCode() // »ñµÃStatusCode
+	public int getStatusCode() // è·å¾—StatusCode
 	{
 		return (StatusCode);
 	}
 
-	public boolean isStatusCodeExist() // ÊÇ·ñ´æÔÚStatusCode
+	public boolean isStatusCodeExist() // æ˜¯å¦å­˜åœ¨StatusCode
 	{
 		return (StatusCodeExist);
 	}
 
-	public void setStatusText(String statusText) // ÉèÖÃStatusText
+	public void setStatusText(String statusText) // è®¾ç½®StatusText
 	{
 		StatusText = statusText;
 		StatusTextExist = true;
 	}
 
-	public String getStatusText() // »ñµÃStatusText
+	public String getStatusText() // è·å¾—StatusText
 	{
 		return (StatusText);
 	}
 
-	public boolean isStatusTextExist() // ÊÇ·ñ´æÔÚStatusText
+	public boolean isStatusTextExist() // æ˜¯å¦å­˜åœ¨StatusText
 	{
 		return (StatusTextExist);
 	}
 
-	public void setStatusDetail(String statusDetail) // ÉèÖÃStatusDetail
+	public void setStatusDetail(String statusDetail) // è®¾ç½®StatusDetail
 	{
 		StatusDetail = statusDetail;
 		StatusDetailExist = true;
 	}
 
-	public String getStatusDetail() // »ñµÃStatusDetail
+	public String getStatusDetail() // è·å¾—StatusDetail
 	{
 		return (StatusDetail);
 	}
 
-	public boolean isStatusDetailExist() // ÊÇ·ñ´æÔÚStatusDetail
+	public boolean isStatusDetailExist() // æ˜¯å¦å­˜åœ¨StatusDetail
 	{
 		return (StatusDetailExist);
 	}
 
-	public String toString() // ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	public String toString() // è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("StatusCode=" + StatusCode + "\n");

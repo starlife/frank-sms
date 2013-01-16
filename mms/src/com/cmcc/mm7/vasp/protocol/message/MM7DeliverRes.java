@@ -1,5 +1,5 @@
 /**
- * File Name:MM7DeliverRes.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-2
+ * File Name:MM7DeliverRes.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-2
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -13,23 +13,23 @@ public class MM7DeliverRes extends MM7VASPRes
 	private String ServiceCode;
 	private boolean ServiceCodeExist = false;
 
-	public void setServiceCode(String serviceCode) // ÉèÖÃÒµÎñ´úÂë
+	public void setServiceCode(String serviceCode) // è®¾ç½®ä¸šåŠ¡ä»£ç 
 	{
 		this.ServiceCode = serviceCode;
 		ServiceCodeExist = true;
 	}
 
-	public String getServiceCode() // »ñµÃÒµÎñ´úÂë
+	public String getServiceCode() // è·å¾—ä¸šåŠ¡ä»£ç 
 	{
 		return (this.ServiceCode);
 	}
 
-	public boolean isServiceCodeExist() // ÊÇ·ñ´æÔÚÒµÎñ´úÂë
+	public boolean isServiceCodeExist() // æ˜¯å¦å­˜åœ¨ä¸šåŠ¡ä»£ç 
 	{
 		return (ServiceCodeExist);
 	}
 
-	public String toString() // ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	public String toString() // è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("ServiceCode=" + ServiceCode + "\n");

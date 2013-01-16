@@ -1,5 +1,5 @@
 /**
- * File Name:MM7DeliverReq.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-1
+ * File Name:MM7DeliverReq.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-1
  */
 
 package com.cmcc.mm7.vasp.protocol.message;
@@ -38,196 +38,196 @@ public class MM7DeliverReq extends MM7RSReq
 	private MMContent Content = new MMContent();
 	private boolean ContentExist;
 
-	public void setMMSRelayServerID(String mmscID) // ÉèÖÃMMSCµÄ±êÊ¶·û
+	public void setMMSRelayServerID(String mmscID) // è®¾ç½®MMSCçš„æ ‡è¯†ç¬¦
 	{
 		MMSRelayServerID = mmscID;
 		MMSRelayServerIDExist = true;
 	}
 
-	public String getMMSRelayServerID() // »ñµÃMMSCµÄ±êÊ¶·û
+	public String getMMSRelayServerID() // è·å¾—MMSCçš„æ ‡è¯†ç¬¦
 	{
 		return (MMSRelayServerID);
 	}
 
-	public boolean isMMSRelayServerIDExist() // ÊÇ·ñ´æÔÚMMSCµÄ±êÊ¶·û
+	public boolean isMMSRelayServerIDExist() // æ˜¯å¦å­˜åœ¨MMSCçš„æ ‡è¯†ç¬¦
 	{
 		return (MMSRelayServerIDExist);
 	}
 
-	public void setLinkedID(String linkedID) // ÉèÖÃlinkedID
+	public void setLinkedID(String linkedID) // è®¾ç½®linkedID
 	{
 		LinkedID = linkedID;
 		LinkedIDExist = true;
 	}
 
-	public String getLinkedID() // »ñµÃlinkedID
+	public String getLinkedID() // è·å¾—linkedID
 	{
 		return (LinkedID);
 	}
 
-	public boolean isLinkedIDExist() // ÊÇ·ñ´æÔÚlinkedID
+	public boolean isLinkedIDExist() // æ˜¯å¦å­˜åœ¨linkedID
 	{
 		return (LinkedIDExist);
 	}
 
-	public void setSender(String senderAddress) // ÉèÖÃMMÊ¼·¢·½µÄµØÖ·
+	public void setSender(String senderAddress) // è®¾ç½®MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		SenderAddress = senderAddress;
 		SenderAddressExist = true;
 	}
 
-	public String getSender() // »ñµÃMMÊ¼·¢·½µÄµØÖ·
+	public String getSender() // è·å¾—MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (SenderAddress);
 	}
 
-	public boolean isSenderExist() // ÊÇ·ñ´æÔÚMMÊ¼·¢·½µÄµØÖ·
+	public boolean isSenderExist() // æ˜¯å¦å­˜åœ¨MMå§‹å‘æ–¹çš„åœ°å€
 	{
 		return (SenderAddressExist);
 	}
 
-	public void setTo(List<String> addressList) // ÅúÁ¿ÉèÖÃ½ÓÊÕ·½MMµÄµØÖ·
+	public void setTo(List<String> addressList) // æ‰¹é‡è®¾ç½®æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		To = addressList;
 		ToExist = true;
 	}
 
-	public void addTo(String address) // Ôö¼Óµ¥¸öµØÖ·
+	public void addTo(String address) // å¢åŠ å•ä¸ªåœ°å€
 	{
 		To.add(address);
 		ToExist = true;
 	}
 
-	public List<String> getTo() // »ñµÃ½ÓÊÕ·½MMµÄµØÖ·
+	public List<String> getTo() // è·å¾—æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		return (To);
 	}
 
-	public boolean isToExist() // ÊÇ·ñ´æÔÚ½ÓÊÕ·½MMµÄµØÖ·
+	public boolean isToExist() // æ˜¯å¦å­˜åœ¨æ¥æ”¶æ–¹MMçš„åœ°å€
 	{
 		return (ToExist);
 	}
 
-	public void setCc(List<String> ccAddressList) // ÉèÖÃ³­ËÍ·½MMµÄµØÖ·
+	public void setCc(List<String> ccAddressList) // è®¾ç½®æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		Cc = ccAddressList;
 		CcExist = true;
 	}
 
-	public void addCc(String ccAddress) // Ôö¼Óµ¥¸ö³­ËÍµØÖ·
+	public void addCc(String ccAddress) // å¢åŠ å•ä¸ªæŠ„é€åœ°å€
 	{
 		Cc.add(ccAddress);
 		CcExist = true;
 	}
 
-	public List<String> getCc() // »ñµÃ³­ËÍ·½MMµÄµØÖ·
+	public List<String> getCc() // è·å¾—æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		return (Cc);
 	}
 
-	public boolean isCcExist() // ÊÇ·ñ´æÔÚ³­ËÍ·½MMµÄµØÖ·
+	public boolean isCcExist() // æ˜¯å¦å­˜åœ¨æŠ„é€æ–¹MMçš„åœ°å€
 	{
 		return (CcExist);
 	}
 
-	public void setBcc(List<String> bccAddressList) // ÉèÖÃÃÜËÍ·½MMµÄµØÖ·
+	public void setBcc(List<String> bccAddressList) // è®¾ç½®å¯†é€æ–¹MMçš„åœ°å€
 	{
 		Bcc = bccAddressList;
 		BccExist = true;
 	}
 
-	public void addBcc(String bccAddress) // Ôö¼Óµ¥¸öÃÜËÍµØÖ·
+	public void addBcc(String bccAddress) // å¢åŠ å•ä¸ªå¯†é€åœ°å€
 	{
 		Bcc.add(bccAddress);
 		BccExist = true;
 	}
 
-	public List<String> getBcc() // »ñµÃÃÜËÍ·½MMµÄµØÖ·
+	public List<String> getBcc() // è·å¾—å¯†é€æ–¹MMçš„åœ°å€
 	{
 		return (Bcc);
 	}
 
-	public boolean isBccExist() // ÊÇ·ñ´æÔÚÃÜËÍ·½MMµÄµØÖ·
+	public boolean isBccExist() // æ˜¯å¦å­˜åœ¨å¯†é€æ–¹MMçš„åœ°å€
 	{
 		return (BccExist);
 	}
 
-	public void setTimeStamp(Date timeStamp) // ÉèÖÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public void setTimeStamp(Date timeStamp) // è®¾ç½®æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		TimeStamp = timeStamp;
 		TimeStampExist = true;
 	}
 
-	public Date getTimeStamp() // »ñµÃÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public Date getTimeStamp() // è·å¾—æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStamp);
 	}
 
-	public boolean isTimeStampExist() // ÊÇ·ñ´æÔÚÌá½»MMµÄÊ±¼äºÍÈÕÆÚ
+	public boolean isTimeStampExist() // æ˜¯å¦å­˜åœ¨æäº¤MMçš„æ—¶é—´å’Œæ—¥æœŸ
 	{
 		return (TimeStampExist);
 	}
 
-	public void setReplyChargingID(String replyChargingID) // ÉèÖÃReplyChargingID
+	public void setReplyChargingID(String replyChargingID) // è®¾ç½®ReplyChargingID
 	{
 		ReplyChargingID = replyChargingID;
 		ReplyChargingIDExist = true;
 	}
 
-	public String getReplyChargingID() // »ñµÃReplyChargingID
+	public String getReplyChargingID() // è·å¾—ReplyChargingID
 	{
 		return (ReplyChargingID);
 	}
 
-	public boolean isReplyChargingIDExist() // ÊÇ·ñ´æÔÚReplyChargingID
+	public boolean isReplyChargingIDExist() // æ˜¯å¦å­˜åœ¨ReplyChargingID
 	{
 		return (ReplyChargingIDExist);
 	}
 
-	public void setPriority(byte priority) // ÉèÖÃPriority
+	public void setPriority(byte priority) // è®¾ç½®Priority
 	{
 		Priority = priority;
 		PriorityExist = true;
 	}
 
-	public byte getPriority() // »ñµÃPriority
+	public byte getPriority() // è·å¾—Priority
 	{
 		return (Priority);
 	}
 
-	public boolean isPriorityExist() // ÊÇ·ñ´æÔÚPriority¡£ÏûÏ¢µÄÓÅÏÈ¼¶£¨ÖØÒªĞÔ£©
-	{ // £¨0=×îµÍÓÅÏÈ¼¶£¬1=Õı³££¬2=½ô¼±£©
+	public boolean isPriorityExist() // æ˜¯å¦å­˜åœ¨Priorityã€‚æ¶ˆæ¯çš„ä¼˜å…ˆçº§ï¼ˆé‡è¦æ€§ï¼‰
+	{ // ï¼ˆ0=æœ€ä½ä¼˜å…ˆçº§ï¼Œ1=æ­£å¸¸ï¼Œ2=ç´§æ€¥ï¼‰
 		return (PriorityExist);
 	}
 
-	public void setSubject(String subject) // ÉèÖÃsubject
+	public void setSubject(String subject) // è®¾ç½®subject
 	{
 		Subject = subject;
 		SubjectExist = true;
 	}
 
-	public String getSubject() // »ñµÃsubject
+	public String getSubject() // è·å¾—subject
 	{
 		return (Subject);
 	}
 
-	public boolean isSubjectExist() // ÊÇ·ñ´æÔÚsubject
+	public boolean isSubjectExist() // æ˜¯å¦å­˜åœ¨subject
 	{
 		return (SubjectExist);
 	}
 
-	public void setContent(MMContent ammContent) // ÉèÖÃMMContent
+	public void setContent(MMContent ammContent) // è®¾ç½®MMContent
 	{
 		Content = ammContent;
 		ContentExist = true;
 	}
 
-	public MMContent getContent() // »ñµÃMMContent
+	public MMContent getContent() // è·å¾—MMContent
 	{
 		return (Content);
 	}
 
-	public boolean isContentExist() // ÊÇ·ñ´æÔÚMMContent
+	public boolean isContentExist() // æ˜¯å¦å­˜åœ¨MMContent
 	{
 		return (ContentExist);
 	}

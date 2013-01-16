@@ -1,5 +1,5 @@
 /**
- * File Name:MM7Receiver.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-17
+ * File Name:MM7Receiver.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-17
  */
 
 package com.cmcc.mm7.vasp;
@@ -43,7 +43,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 	private volatile boolean stop = false;
 
 	public MM7Receiver(String listenIP, int ListenPort, int backLog,
-			boolean keepAlive, int timeout, String charset) // ¹¹Ôì·½·¨
+			boolean keepAlive, int timeout, String charset) // æ„é€ æ–¹æ³•
 	{
 		super("MM7Receiver");
 		listenPort = ListenPort;
@@ -61,20 +61,20 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		this.charset = Charset.forName(charset);
 	}
 
-	public void run() // Æô¶¯½ÓÊÕÆ÷
+	public void run() // å¯åŠ¨æ¥æ”¶å™¨
 	{
-		log.info("Æô¶¯½ÓÊÕÏß³Ì...");
+		log.info("å¯åŠ¨æ¥æ”¶çº¿ç¨‹...");
 		ServerSocket s = null;
 		try
 		{
 			s = new ServerSocket(listenPort, backLog, ip);
-			log.info("¼àÌı¶Ë¿Ú£º" + s.getLocalSocketAddress());
+			log.info("ç›‘å¬ç«¯å£ï¼š" + s.getLocalSocketAddress());
 			while (!stop)
 			{
 				try
 				{
 					Socket client = s.accept();
-					log.info("ÊÕµ½¿Í»§¶ËÁ¬½Ó£º" + client.getRemoteSocketAddress());
+					log.info("æ”¶åˆ°å®¢æˆ·ç«¯è¿æ¥ï¼š" + client.getRemoteSocketAddress());
 					if (this.timeout > 0)
 					{
 						client.setSoTimeout(timeout);
@@ -118,7 +118,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 	}
 
 	/**
-	 * ½ÓÊÕÒ»¸öMM7RSReq°ü²¢»ØÓ¦Ò»¸öMM7VASPRes°ü
+	 * æ¥æ”¶ä¸€ä¸ªMM7RSReqåŒ…å¹¶å›åº”ä¸€ä¸ªMM7VASPResåŒ…
 	 * 
 	 * @param client
 	 * @throws IOException
@@ -136,7 +136,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 
 				try
 				{
-					log.debug("ĞÂÏß³Ì´¦ÀísocketÁ¬½Ó£º"
+					log.debug("æ–°çº¿ç¨‹å¤„ç†socketè¿æ¥ï¼š"
 							+ client.getRemoteSocketAddress());
 					while (true)
 					{
@@ -144,14 +144,14 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 						HttpRequest http = new HttpRequest();
 						if (http.recvData(client.getInputStream()))
 						{
-							// log.info("½ÓÊÕµ½Êı¾İ°ü£º" +
+							// log.info("æ¥æ”¶åˆ°æ•°æ®åŒ…ï¼š" +
 							// com.cmcc.mm7.vasp.protocol.util.Hex.rhex(http.getData()));
 
 							MM7RSReq req = DecodeMM7.decodeReqMessage(http
 									.getBody(), charset.toString(), DecodeMM7
 									.getBoundary(http.getHeader()));
 
-							log.info("ÊÕµ½RSReq°ü " + LogHelper.logMM7RSReq(req));
+							log.info("æ”¶åˆ°RSReqåŒ… " + LogHelper.logMM7RSReq(req));
 
 							if (req instanceof MM7DeliverReq)
 							{
@@ -172,21 +172,21 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 							}
 							else
 							{
-								// ·¢ËÍÒ»¸ö´íÎó»ØÓ¦°ü
+								// å‘é€ä¸€ä¸ªé”™è¯¯å›åº”åŒ…
 								res = new MM7VASPErrorRes();
 								res.setStatusCode(-109);
-								res.setStatusText("ÏûÏ¢½âÎöÊ§°Ü£¡");
+								res.setStatusText("æ¶ˆæ¯è§£æå¤±è´¥ï¼");
 							}
 
 						}
 						else
 						{
-							// ·¢ËÍÒ»¸ö´íÎó»ØÓ¦°ü
+							// å‘é€ä¸€ä¸ªé”™è¯¯å›åº”åŒ…
 							res = new MM7VASPErrorRes();
 							res.setStatusCode(-102);
-							res.setStatusText("½ÓÊÕ»ØÓ¦ÏûÏ¢Ê§°Ü£¡");
+							res.setStatusText("æ¥æ”¶å›åº”æ¶ˆæ¯å¤±è´¥ï¼");
 						}
-						log.info("·¢ËÍVaspRes°ü " + LogHelper.logMM7VaspRes(res));
+						log.info("å‘é€VaspResåŒ… " + LogHelper.logMM7VaspRes(res));
 						byte[] msgByte = MM7Helper.getMM7Message(res, charset,
 								keepAlive);
 						client.getOutputStream().write(msgByte);
@@ -207,7 +207,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 						// TODO Auto-generated catch block
 						log.error(null, ex);
 					}
-					log.info("½ÓÊÕsocket¹Ø±Õ" + client.getRemoteSocketAddress()
+					log.info("æ¥æ”¶socketå…³é—­" + client.getRemoteSocketAddress()
 							+ "(" + timeout + "ms)");
 
 				}
@@ -230,12 +230,12 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 
 	}
 
-	public void myStop() // Í£Ö¹½ÓÊÕÆ÷
+	public void myStop() // åœæ­¢æ¥æ”¶å™¨
 	{
 		stop = true;
 	}
 
-	// ´¦Àíµ½VASPµÄ´«ËÍ£¨deliver£©¶àÃ½ÌåÏûÏ¢
+	// å¤„ç†åˆ°VASPçš„ä¼ é€ï¼ˆdeliverï¼‰å¤šåª’ä½“æ¶ˆæ¯
 	public MM7VASPRes doDeliver(MM7DeliverReq mm7DeliverReq)
 	{
 		MM7DeliverRes res = new MM7DeliverRes();
@@ -253,7 +253,7 @@ public class MM7Receiver extends Thread implements MM7AbstractReceiver
 		return res;
 	}
 
-	// ³éÏó·½·¨¡£´¦Àíµ½VASPµÄ¶Áºó»Ø¸´±¨¸æ
+	// æŠ½è±¡æ–¹æ³•ã€‚å¤„ç†åˆ°VASPçš„è¯»åå›å¤æŠ¥å‘Š
 	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
 		MM7ReadReplyRes res = new MM7ReadReplyRes();

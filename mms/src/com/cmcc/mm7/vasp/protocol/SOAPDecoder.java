@@ -28,7 +28,7 @@ public class SOAPDecoder
 {
 	private static final Log log = LogFactory.getLog(SOAPDecoder.class);
 
-	/** ¶ÔSOAPµÄEnvelope²¿·Ö½øĞĞ½âÂë */
+	/** å¯¹SOAPçš„Envelopeéƒ¨åˆ†è¿›è¡Œè§£ç  */
 	public static MM7RSReq parseReqXML(byte[] xmlBytes)
 	{
 		MM7RSReq mm7rsReq = null;
@@ -51,7 +51,7 @@ public class SOAPDecoder
 			}
 			else
 			{
-				log.error("TransactionID±ØĞëÓĞ¡£");
+				log.error("TransactionIDå¿…é¡»æœ‰ã€‚");
 			}
 			return mm7rsReq;
 		}
@@ -313,7 +313,7 @@ public class SOAPDecoder
 
 	}
 
-	/** ¶Ôsoap EnvelopeÖĞµÄenv:Body²¿·Ö½øĞĞ½âÂë */
+	/** å¯¹soap Envelopeä¸­çš„env:Bodyéƒ¨åˆ†è¿›è¡Œè§£ç  */
 	private static MM7RSReq DecodeBody(Element message)
 	{
 
@@ -402,9 +402,9 @@ public class SOAPDecoder
 		{
 
 			ByteArrayInputStream in = new ByteArrayInputStream(xmlBytes);
-			// log.debug("sax.build(in) Ö®Ç°:"+System.currentTimeMillis());
+			// log.debug("sax.build(in) ä¹‹å‰:"+System.currentTimeMillis());
 			Document doc = sax.build(in);
-			// log.debug("sax.build(in) Ö®ºó:"+System.currentTimeMillis());
+			// log.debug("sax.build(in) ä¹‹å:"+System.currentTimeMillis());
 			Element root = doc.getRootElement();
 			Element envHeader = (Element) root.getChildren().get(0);
 			Element envBody = (Element) root.getChildren().get(1);
@@ -412,13 +412,13 @@ public class SOAPDecoder
 			{
 				MM7RSErrorRes errRes = new MM7RSErrorRes();
 				errRes.setStatusCode(-110);
-				errRes.setStatusText("È±ÉÙHeaderÔªËØ");
+				errRes.setStatusText("ç¼ºå°‘Headerå…ƒç´ ");
 				return errRes;
 			}
-			// ÏûÏ¢Í·
+			// æ¶ˆæ¯å¤´
 			Element transID = (Element) envHeader.getChildren().get(0);
 			String transactionID = transID.getTextTrim();
-			// ÏûÏ¢Ìå
+			// æ¶ˆæ¯ä½“
 			Element message = (Element) envBody.getChildren().get(0);
 
 			log.info("Message.getName()=" + message.getName() + "\r\n");
@@ -507,7 +507,7 @@ public class SOAPDecoder
 			MM7RSErrorRes error = new MM7RSErrorRes();
 			log.error(null, jdome);
 			error.setStatusCode(-109);
-			error.setStatusText("XML½âÎö´íÎó£¡Ô­Òò£º" + jdome);
+			error.setStatusText("XMLè§£æé”™è¯¯ï¼åŸå› ï¼š" + jdome);
 			return error;
 		}
 		catch (Exception e)

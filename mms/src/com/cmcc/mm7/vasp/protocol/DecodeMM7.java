@@ -1,5 +1,5 @@
 /**
- * File Name:SOAPDecoder.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-12
+ * File Name:SOAPDecoder.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-12
  */
 
 package com.cmcc.mm7.vasp.protocol;
@@ -36,13 +36,13 @@ public class DecodeMM7
 	}
 
 	/**
-	 * °ÑÊÕµ½µÄÏûÏ¢½øĞĞ½âÂë
+	 * æŠŠæ”¶åˆ°çš„æ¶ˆæ¯è¿›è¡Œè§£ç 
 	 * 
 	 * @param bodyByte
-	 *            ÏûÏ¢Ìå×Ö½Ú´®
+	 *            æ¶ˆæ¯ä½“å­—èŠ‚ä¸²
 	 * @param charset
-	 *            Ä¬ÈÏ±àÂë
-	 * @return MM7RSReqÏûÏ¢
+	 *            é»˜è®¤ç¼–ç 
+	 * @return MM7RSReqæ¶ˆæ¯
 	 */
 	public static MM7RSReq decodeReqMessage(byte[] bodyByte, String charset,
 			String boundary)
@@ -72,7 +72,7 @@ public class DecodeMM7
 			if (boundary != null && (req instanceof MM7DeliverReq)
 					&& (baos.size() > xmlend))
 			{
-				// ½âÎö¸½¼ş ¸½¼şÊÇÒ»¸ömultipart/mixed;
+				// è§£æé™„ä»¶ é™„ä»¶æ˜¯ä¸€ä¸ªmultipart/mixed;
 				parseAttachment(baos.toByteArray(), charset, boundary,
 						(MM7DeliverReq) req);
 			}
@@ -88,7 +88,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * ½âÎö¸½¼ş£¬°Ñ½âÎöµÃµ½µÄMMContent¶ÔÏóÌí¼Óµ½MM7DeliverReqÏûÏ¢ÖĞ
+	 * è§£æé™„ä»¶ï¼ŒæŠŠè§£æå¾—åˆ°çš„MMContentå¯¹è±¡æ·»åŠ åˆ°MM7DeliverReqæ¶ˆæ¯ä¸­
 	 * 
 	 * @param bodyBytes
 	 * @param charset
@@ -107,7 +107,7 @@ public class DecodeMM7
 			byte[] part = list.get(i);
 			if (new String(part).indexOf("\r\n\r\n") == -1)
 			{
-				// ´íÎóµÄ²¿·Ö
+				// é”™è¯¯çš„éƒ¨åˆ†
 				continue;
 			}
 
@@ -116,7 +116,7 @@ public class DecodeMM7
 					&& mime.getContentType().equals(
 							MMConstants.ContentType.MULTIPART_MIXED.toString()))
 			{
-				// ½âÎöMIMEÏûÏ¢ÎªMMContent¶ÔÏó
+				// è§£æMIMEæ¶ˆæ¯ä¸ºMMContentå¯¹è±¡
 				List<MMContent> contents = new ArrayList<MMContent>();
 				parseMIME(mime, contents);
 				for (int j = 0; j < contents.size(); j++)
@@ -132,7 +132,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * MIMEÏûÏ¢½âÎöÎªMMContent,µİ¹é
+	 * MIMEæ¶ˆæ¯è§£æä¸ºMMContent,é€’å½’
 	 * 
 	 * @param mime
 	 * @param contents
@@ -157,7 +157,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * ¶ÔÓÚÄÚÇ¶µÄMIMEÏûÏ¢£¬µÃµ½ÏûÏ¢µÄ¸÷¸ö×ÓMIMEÏûÏ¢
+	 * å¯¹äºå†…åµŒçš„MIMEæ¶ˆæ¯ï¼Œå¾—åˆ°æ¶ˆæ¯çš„å„ä¸ªå­MIMEæ¶ˆæ¯
 	 * 
 	 * @param mime
 	 * @return
@@ -175,7 +175,7 @@ public class DecodeMM7
 			byte[] part = list.get(i);
 			if (new String(part).indexOf("\r\n\r\n") == -1)
 			{
-				// ´íÎóµÄ²¿·Ö
+				// é”™è¯¯çš„éƒ¨åˆ†
 				continue;
 			}
 			try
@@ -193,7 +193,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * Ò»¸öMIME¶ÎÏûÏ¢ boundaryÖ®ºóµ½ÏÂÒ»¸öboundaryÖ®Ç°µÄ×Ö·ûÖµ£¬°üÀ¨ÏûÏ¢Í·ºÍÏûÏ¢Ìå ½âÎöÒ»¸ömimeÏûÏ¢ÎªMMContent
+	 * ä¸€ä¸ªMIMEæ®µæ¶ˆæ¯ boundaryä¹‹ååˆ°ä¸‹ä¸€ä¸ªboundaryä¹‹å‰çš„å­—ç¬¦å€¼ï¼ŒåŒ…æ‹¬æ¶ˆæ¯å¤´å’Œæ¶ˆæ¯ä½“ è§£æä¸€ä¸ªmimeæ¶ˆæ¯ä¸ºMMContent
 	 * 
 	 * @param attachment
 	 * @return
@@ -241,7 +241,7 @@ public class DecodeMM7
 	}
 
 	/**
-	 * ·Ö¸îMMEÏûÏ¢µÄbyte°æ±¾
+	 * åˆ†å‰²MMEæ¶ˆæ¯çš„byteç‰ˆæœ¬
 	 * 
 	 * @param bytes
 	 * @param boundary

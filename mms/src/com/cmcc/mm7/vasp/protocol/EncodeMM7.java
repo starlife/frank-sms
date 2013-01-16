@@ -1,5 +1,5 @@
 /**
- * File Name:SOAPEncoder.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-8
+ * File Name:SOAPEncoder.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-8
  */
 
 package com.cmcc.mm7.vasp.protocol;
@@ -25,7 +25,7 @@ import com.cmcc.mm7.vasp.protocol.message.MM7VASPReq;
 import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 
 /**
- * °ÑMM7VASPReqÏûÏ¢ºÍMM7VASPResÏûÏ¢½âÎöÎªByte[]ĞÎÊ½
+ * æŠŠMM7VASPReqæ¶ˆæ¯å’ŒMM7VASPResæ¶ˆæ¯è§£æä¸ºByte[]å½¢å¼
  * 
  * @author Administrator
  */
@@ -33,7 +33,7 @@ public class EncodeMM7
 {
 	private static final Log log = LogFactory.getLog(EncodeMM7.class);
 
-	/** Ä¬ÈÏ¹¹Ôì·½·¨ */
+	/** é»˜è®¤æ„é€ æ–¹æ³• */
 	public EncodeMM7()
 	{
 	}
@@ -78,12 +78,12 @@ public class EncodeMM7
 		}
 		else if (mm7VaspReq instanceof MM7CancelReq)
 		{
-			log.error("MM7CancelReqÏûÏ¢ÔİÊ±»¹Î´ÊµÏÖ");
+			log.error("MM7CancelReqæ¶ˆæ¯æš‚æ—¶è¿˜æœªå®ç°");
 			return null;
 		}
 		else if (mm7VaspReq instanceof MM7ReplaceReq)
 		{
-			log.error("MM7ReplaceReqÏûÏ¢ÔİÊ±»¹Î´ÊµÏÖ");
+			log.error("MM7ReplaceReqæ¶ˆæ¯æš‚æ—¶è¿˜æœªå®ç°");
 			return null;
 		}
 		else

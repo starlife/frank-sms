@@ -1,5 +1,5 @@
 /**
- * File Name:MM7AbstractReceiver.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-2-17
+ * File Name:MM7AbstractReceiver.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-2-17
  */
 
 package com.cmcc.mm7.vasp;
@@ -11,16 +11,16 @@ import com.cmcc.mm7.vasp.protocol.message.MM7VASPRes;
 
 public interface MM7AbstractReceiver
 {
-	// ¹¹Ôì·½·¨
+	// æ„é€ æ–¹æ³•
 	// public MM7AbstractReceiver() throws Exception;
 
-	// ³éÏó·½·¨¡£´¦Àíµ½VASPµÄ´«ËÍ£¨deliver£©¶àÃ½ÌåÏûÏ¢¡£
+	// æŠ½è±¡æ–¹æ³•ã€‚å¤„ç†åˆ°VASPçš„ä¼ é€ï¼ˆdeliverï¼‰å¤šåª’ä½“æ¶ˆæ¯ã€‚
 	public MM7VASPRes doDeliver(MM7DeliverReq mm7DeliverReq);
 
-	// ³éÏó·½·¨¡£´¦Àíµ½VASPµÄ·¢ËÍ±¨¸æ
+	// æŠ½è±¡æ–¹æ³•ã€‚å¤„ç†åˆ°VASPçš„å‘é€æŠ¥å‘Š
 	public MM7VASPRes doDeliveryReport(MM7DeliveryReportReq mm7DeliveryReportReq);
 
-	// ³éÏó·½·¨¡£´¦Àíµ½VASPµÄ¶Áºó»Ø¸´±¨¸æ
+	// æŠ½è±¡æ–¹æ³•ã€‚å¤„ç†åˆ°VASPçš„è¯»åå›å¤æŠ¥å‘Š
 	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq);
 
 }

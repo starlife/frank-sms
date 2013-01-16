@@ -1,5 +1,5 @@
 /**File Name:MM7VASPError.java
- * Company:  中国移动集团公司
+ * Company:  涓浗绉诲姩闆嗗洟鍏徃
  * Date  :   2004-2-2
  * */
 
