@@ -14,6 +14,7 @@ import com.chinaunicom.sgip1_2.protocol.message.SubmitRespMessage;
 import com.chinaunicom.sgip1_2.protocol.util.Constants;
 import com.chinaunicom.sgip1_2.protocol.util.DateUtil;
 import com.chinaunicom.sgip1_2.protocol.util.Hex;
+import com.chinaunicom.sgip1_2.protocol.util.MessageUtil;
 import com.chinaunicom.sgip1_2.protocol.util.RateControl;
 
 /**
@@ -173,15 +174,29 @@ public class PSender extends Thread implements AbstractSender
 		stop = true;
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		String ip = "211.140.12.45";
+		String ip = "211.90.245.97";
 		int port = 8801;
 		int loginType = 1;
-		String loginname = "Q61704";
-		String loginpass = "kki890";
-		String nodeid = "123444";
+		String loginname = "106550577371";
+		String loginpass = "123456";
+		String nodeid = "61153";
+		//
+		String spid="61153";
+		String spnumber="106550577371";
+		String serviceCode="1";
+		String [] desttermid="13003664740".split(",");
+		String message="测试消息";
+		String param="";
 		PSender sender=new PSender(ip, port, nodeid, loginType, loginname, loginpass);
+		SubmitMessage[] msgs=MessageUtil.createSubmitMessage(nodeid,
+			spid,spnumber, serviceCode,
+				desttermid,message,param);
+		for(SubmitMessage pack:msgs)
+		{
+			sender.sendPacket(pack);
+		}
 	}
 
 }
