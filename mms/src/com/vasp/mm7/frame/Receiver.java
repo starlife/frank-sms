@@ -27,7 +27,7 @@ public class Receiver extends MM7Receiver
 	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 
 	/**
-	 * Êı¾İ¿â·ÃÎÊ¶ÔÏó
+	 * æ•°æ®åº“è®¿é—®å¯¹è±¡
 	 */
 	//private SubmitDaoImpl1 dao = SubmitDaoImpl1.getInstance();
 	public Receiver(MM7Config config)
@@ -38,36 +38,36 @@ public class Receiver extends MM7Receiver
 	}
 
 	/**
-	 * ÖØĞ´deliverÏûÏ¢
+	 * é‡å†™deliveræ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doDeliver(MM7DeliverReq request)
 	{
-		log.info("ÊÕµ½ÊÖ»ú" + request.getSender() + "Ìá½»µÄÏûÏ¢£¬±êÌâÎª£º"
+		log.info("æ”¶åˆ°æ‰‹æœº" + request.getSender() + "æäº¤çš„æ¶ˆæ¯ï¼Œæ ‡é¢˜ä¸ºï¼š"
 				+ request.getSubject());
-		log.info("MMSCµÄ±êÊ¶·ûÎª£º" + request.getMMSRelayServerID());
+		log.info("MMSCçš„æ ‡è¯†ç¬¦ä¸ºï¼š" + request.getMMSRelayServerID());
 
 		dealDeliver(request);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7DeliverRes mm7DeliverRes = new MM7DeliverRes();
 		mm7DeliverRes.setTransactionID(request.getTransactionID());
-		mm7DeliverRes.setServiceCode("²úÆ·´úÂë"); // ÉèÖÃServiceCode£¬¿ÉÑ¡
+		mm7DeliverRes.setServiceCode("äº§å“ä»£ç "); // è®¾ç½®ServiceCodeï¼Œå¯é€‰
 		mm7DeliverRes.setStatusCode(MMConstants.RequestStatus.SUCCESS);
 		mm7DeliverRes.setStatusText(MMConstants.RequestStatus.TEXT_SUCCESS);
 		return mm7DeliverRes;
 	}
 
 	/**
-	 * ÖØĞ´deliver_reportÏûÏ¢
+	 * é‡å†™deliver_reportæ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doDeliveryReport(MM7DeliveryReportReq mm7DeliveryReportReq)
 	{
-		// ÕâÀïĞ´½ÓÊÕ×´Ì¬±¨¸æºóµÄ´¦Àí¹ı³Ì
+		// è¿™é‡Œå†™æ¥æ”¶çŠ¶æ€æŠ¥å‘Šåçš„å¤„ç†è¿‡ç¨‹
 		dealDeliveryReport(mm7DeliveryReportReq);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7DeliveryReportRes res = new MM7DeliveryReportRes();
 		res.setTransactionID(mm7DeliveryReportReq.getTransactionID());
 		res.setStatusCode(MMConstants.RequestStatus.SUCCESS);
@@ -76,15 +76,15 @@ public class Receiver extends MM7Receiver
 	}
 
 	/**
-	 * ÖØĞ´ReadReplyÏûÏ¢
+	 * é‡å†™ReadReplyæ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
-		// ÕâÀïĞ´½ÓÊÕ¶Á±¨¸æºóµÄ´¦Àí¹ı³Ì
+		// è¿™é‡Œå†™æ¥æ”¶è¯»æŠ¥å‘Šåçš„å¤„ç†è¿‡ç¨‹
 		dealReadReply(mm7ReadReplyReq);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7ReadReplyRes res = new MM7ReadReplyRes();
 		res.setTransactionID(mm7ReadReplyReq.getTransactionID());
 		res.setStatusCode(MMConstants.RequestStatus.SUCCESS);
@@ -94,7 +94,7 @@ public class Receiver extends MM7Receiver
 
 	private void dealDeliver(MM7DeliverReq deliverReq)
 	{
-		// Èë¿â
+		// å…¥åº“
 		DeliverBean deliver = new DeliverBean();
 		deliver.setTransactionid(deliverReq.getTransactionID());
 		deliver.setLinkId(deliverReq.getLinkedID());
@@ -108,8 +108,8 @@ public class Receiver extends MM7Receiver
 	
 	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
-		log.info("ÊÕµ½·¢ËÍ±¨¸æ");
-		// ÕâÀï¸üĞÂs_log_mmssubmit±í
+		log.info("æ”¶åˆ°å‘é€æŠ¥å‘Š");
+		// è¿™é‡Œæ›´æ–°s_log_mmssubmitè¡¨
 		String messageid = deliverReportReq.getMessageID();
 		String to = deliverReportReq.getRecipient();
 		if (to.startsWith("+86"))
@@ -125,7 +125,7 @@ public class Receiver extends MM7Receiver
 				.getTimeStamp());
 		Integer mmStatus=(int)deliverReportReq.getMMStatus();
 		String mmStatusText=deliverReportReq.getStatusText();
-		log.debug("submitDao.updateÖ®Ç°:"+System.currentTimeMillis());
+		log.debug("submitDao.updateä¹‹å‰:"+System.currentTimeMillis());
 		try
 		{
 			submitDao.update(messageid, to, transcationid, reportTime, mmStatus, mmStatusText);
@@ -134,13 +134,13 @@ public class Receiver extends MM7Receiver
 		{
 			log.error(null,ex);
 		}
-		log.debug("submitDao.updateÖ®ºó:"+System.currentTimeMillis());
+		log.debug("submitDao.updateä¹‹å:"+System.currentTimeMillis());
 
 	}
 
 	private void dealReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
-		// ÕâÀï¸üĞÂs_log_mmssubmit±í
+		// è¿™é‡Œæ›´æ–°s_log_mmssubmitè¡¨
 		/*
 		 * String messageid=mm7ReadReplyReq.getMessageID();
 		 * if(!Tools.isBlank(messageid)) { SubmitBean
@@ -150,19 +150,19 @@ public class Receiver extends MM7Receiver
 		 * bean.setReadstatustext(mm7ReadReplyReq.getStatusText());
 		 * dao.update(bean); } }
 		 */
-		// ÕâÀï²åÈë¼ÇÂ¼µ½s_log_mmsreadreply
+		// è¿™é‡Œæ’å…¥è®°å½•åˆ°s_log_mmsreadreply
 	}
 
-	// Main·½·¨
+	// Mainæ–¹æ³•
 	public static void main(String[] args) throws Exception
 	{
-		// ³õÊ¼»¯VASP
+		// åˆå§‹åŒ–VASP
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		// ÉèÖÃConnConfig.xmlÎÄ¼şµÄÂ·¾¶
-		mm7Config.setConnConfigName("./config/ConnConfig.xml"); // ±Ø±¸
-		// ¹¹ÔìMyReceiver
+		// è®¾ç½®ConnConfig.xmlæ–‡ä»¶çš„è·¯å¾„
+		mm7Config.setConnConfigName("./config/ConnConfig.xml"); // å¿…å¤‡
+		// æ„é€ MyReceiver
 		Receiver receiver = new Receiver(mm7Config);
-		// Æô¶¯½ÓÊÕÆ÷
+		// å¯åŠ¨æ¥æ”¶å™¨
 		receiver.start();
 		for (;;)
 			;

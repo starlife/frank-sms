@@ -31,29 +31,29 @@ import com.vasp.mm7.util.DateUtils;
 
 public class Sender extends MM7Sender
 {
-	static final Map<String, Long> sessionMap = new HashMap<String, Long>();// ±£´æsessionid
+	static final Map<String, Long> sessionMap = new HashMap<String, Long>();// ä¿å­˜sessionid
 
 	private static final Log log = LogFactory.getLog(Sender.class);
 
 	private static final java.util.concurrent.ExecutorService exec = java.util.concurrent.Executors
 			.newFixedThreadPool(10);
 	// private static final Log db = LogFactory.getLog("db");
-	private static final Log sessionLog = LogFactory.getLog("session");// ¼ÇÂ¼¶ªÆúµÄsessionÈÕÖ¾
+	private static final Log sessionLog = LogFactory.getLog("session");// è®°å½•ä¸¢å¼ƒçš„sessionæ—¥å¿—
 	/**
-	 * ´ı·¢ËÍ²ÊĞÅÏûÏ¢¶ÓÁĞ
+	 * å¾…å‘é€å½©ä¿¡æ¶ˆæ¯é˜Ÿåˆ—
 	 */
 	private static final LinkedBlockingQueue<MM7SubmitReq> que = new LinkedBlockingQueue<MM7SubmitReq>();
 
 	private int maxSrcID = 10;
 
 	private String vaspid = "";// spid
-	private String vasid = "";// ½ÓÈëºÅ
+	private String vasid = "";// æ¥å…¥å·
 	private String serviceCode = "";
 	private boolean chargedPartyExist = false;
-	private int chargedParty = 0;// ¼Æ·Ñ 0±íÊ¾·¢ËÍ·½¼Æ·Ñ
+	private int chargedParty = 0;// è®¡è´¹ 0è¡¨ç¤ºå‘é€æ–¹è®¡è´¹
 
 	/**
-	 * Êı¾İ¿â·ÃÎÊ¶ÔÏó
+	 * æ•°æ®åº“è®¿é—®å¯¹è±¡
 	 */
 	private UMmsDaoImpl ummsDao = UMmsDaoImpl.getInstance();
 
@@ -62,7 +62,7 @@ public class Sender extends MM7Sender
 	private SubmitDaoImpl submitDao = SubmitDaoImpl.getInstance();
 
 	/**
-	 * Èº·¢Ã¿Ìõ²ÊĞÅ×î´óµÄ½ÓÊÕºÅÂë
+	 * ç¾¤å‘æ¯æ¡å½©ä¿¡æœ€å¤§çš„æ¥æ”¶å·ç 
 	 */
 	private static int allocTransactionId = 0;
 
@@ -85,7 +85,7 @@ public class Sender extends MM7Sender
 	}
 
 	/**
-	 * ½âÎöºÅÂëÁĞ±í
+	 * è§£æå·ç åˆ—è¡¨
 	 * 
 	 * @param recipient
 	 * @return
@@ -93,7 +93,7 @@ public class Sender extends MM7Sender
 	private String[] parse(String recipient)
 	{
 		List<String> list = new ArrayList<String>();
-		String[] numbers = recipient.split("[,£»£¬;]");
+		String[] numbers = recipient.split("[,ï¼›ï¼Œ;]");
 		for (int i = 0; i < numbers.length; i++)
 		{
 			if (numbers[i] != null && numbers[i].length() > 0)
@@ -111,12 +111,12 @@ public class Sender extends MM7Sender
 	}
 
 	/**
-	 * ´´½¨ÏûÏ¢
+	 * åˆ›å»ºæ¶ˆæ¯
 	 * 
 	 * @param subject
-	 *            ÏûÏ¢Ö÷Ìâ
+	 *            æ¶ˆæ¯ä¸»é¢˜
 	 * @param content
-	 *            ÏûÏ¢ÄÚÈİ
+	 *            æ¶ˆæ¯å†…å®¹
 	 * @return
 	 */
 	private MM7SubmitReq createSubmitReq(String trasactionid, String subject,
@@ -140,10 +140,10 @@ public class Sender extends MM7Sender
 	}
 
 	/**
-	 * ´´½¨ÏûÏ¢ÄÚÈİÌå
+	 * åˆ›å»ºæ¶ˆæ¯å†…å®¹ä½“
 	 * 
 	 * @param mmsFile
-	 *            °üº¬smilºÍËùÓĞ¸½¼ş
+	 *            åŒ…å«smilå’Œæ‰€æœ‰é™„ä»¶
 	 * @return
 	 */
 	private MMContent createSubmitReqContent(MmsFile mmsFile)
@@ -151,7 +151,7 @@ public class Sender extends MM7Sender
 
 		MMContent content = new MMContent();
 		content.setContentType(MMConstants.ContentType.MULTIPART_MIXED);
-		// Ìí¼ÓsmilºÍ¸÷¸ö¸½¼ş
+		// æ·»åŠ smilå’Œå„ä¸ªé™„ä»¶
 		MMContent subSmil = MMContent.createFromString(mmsFile.getSmildata());
 		subSmil.setContentID(mmsFile.getSmilname());
 		subSmil.setContentType(MMConstants.ContentType.SMIL);
@@ -180,7 +180,7 @@ public class Sender extends MM7Sender
 	}
 
 	/**
-	 * ¸ù¾İÎÄ¼şµÄºó×ºÃû¸³ÖµMMContentType
+	 * æ ¹æ®æ–‡ä»¶çš„åç¼€åèµ‹å€¼MMContentType
 	 * 
 	 * @param ext
 	 * @return
@@ -226,7 +226,7 @@ public class Sender extends MM7Sender
 	}
 
 	/**
-	 * ·ÖÅäÁ÷Ë®ºÅ
+	 * åˆ†é…æµæ°´å·
 	 * 
 	 * @return
 	 */
@@ -239,7 +239,7 @@ public class Sender extends MM7Sender
 	@Override
 	public MM7SubmitReq submit()
 	{
-		// ´Ó¶ÓÁĞÖĞÈ¡Êı¾İ£¬Èç¹ûÃ»ÓĞ£¬ÄÇÃ´´ÓÊı¾İ¿âÖĞÈ¡²¢¼ÓÈëµ½¶ÓÁĞÖĞ
+		// ä»é˜Ÿåˆ—ä¸­å–æ•°æ®ï¼Œå¦‚æœæ²¡æœ‰ï¼Œé‚£ä¹ˆä»æ•°æ®åº“ä¸­å–å¹¶åŠ å…¥åˆ°é˜Ÿåˆ—ä¸­
 		synchronized (que)
 		{
 			MM7SubmitReq pack = que.poll();
@@ -249,7 +249,7 @@ public class Sender extends MM7Sender
 						.getTimestamp14());
 				if (list.size() == 0)
 				{
-					// ĞİÏ¢1s
+					// ä¼‘æ¯1s
 					try
 					{
 						TimeUnit.SECONDS.sleep(2);
@@ -263,18 +263,18 @@ public class Sender extends MM7Sender
 				for (int i = 0; i < list.size(); i++)
 				{
 					UMms mms = (UMms) list.get(i);
-					// ²ÊĞÅsessionid
+					// å½©ä¿¡sessionid
 					Long sessionid = mms.getId();
-					// ½âÎöºÅÂë
+					// è§£æå·ç 
 					String[] numbers = parse(mms.getRecipient());
-					// È¡µÃ²ÊĞÅÄÚÈİ²¢×é×°ºÃ
+					// å–å¾—å½©ä¿¡å†…å®¹å¹¶ç»„è£…å¥½
 					MmsFile mmsFile = mmsFileDao.getMmsFile(mms.getMmsid());
 					MMContent content = createSubmitReqContent(mmsFile);
 
 					MM7SubmitReq submitReq = null;
 					for (int j = 0; j < numbers.length; j += maxSrcID)
 					{
-						// ÖØĞÂ¸³ÖµsubmitReq
+						// é‡æ–°èµ‹å€¼submitReq
 						String trasactionid = allocTransactionID();
 
 						submitReq = createSubmitReq(trasactionid, mms
@@ -286,10 +286,10 @@ public class Sender extends MM7Sender
 						}
 
 						que.offer(submitReq);
-						// ´¦Àísession
+						// å¤„ç†session
 						synchronized (sessionMap)
 						{
-							// Èç¹ûsessionMap´óÓÚ100000£¬ËµÃ÷³ÌĞòÓĞ´íÎó£¬ĞèÒªÇåÀí
+							// å¦‚æœsessionMapå¤§äº100000ï¼Œè¯´æ˜ç¨‹åºæœ‰é”™è¯¯ï¼Œéœ€è¦æ¸…ç†
 							if (sessionMap.size() > 100000)
 							{
 								sessionLog.info(sessionMap);
@@ -316,11 +316,11 @@ public class Sender extends MM7Sender
 		}
 		else
 		{
-			log.info("·¢ËÍÊ§°Ü£¬ÊÕ²»µ½µÄ²¢²»ÊÇMM7SubmitRes°ü");
+			log.info("å‘é€å¤±è´¥ï¼Œæ”¶ä¸åˆ°çš„å¹¶ä¸æ˜¯MM7SubmitResåŒ…");
 		}
 
 		String trasactionid = submitMsg.getTransactionID();
-		// ´ÓsessionMapÈ¡µÃ¶ÔÓ¦¹ØÏµµÄummsid
+		// ä»sessionMapå–å¾—å¯¹åº”å…³ç³»çš„ummsid
 		Long sessionid = null;
 		synchronized (sessionMap)
 		{
@@ -347,10 +347,10 @@ public class Sender extends MM7Sender
 			// db.info(submitBean);
 			list.add(submitBean);
 		}
-		// log.debug("submitDao.save(submitBean) Ö®Ç°:"
+		// log.debug("submitDao.save(submitBean) ä¹‹å‰:"
 		// + System.currentTimeMillis());
 		doTask(list);
-		// log.debug("submitDao.save(submitBean) Ö®ºó:"
+		// log.debug("submitDao.save(submitBean) ä¹‹å:"
 		// + System.currentTimeMillis());
 
 	}
@@ -398,7 +398,7 @@ public class Sender extends MM7Sender
 				Long sid = sessionMap.get(transactionid);
 				if (sid != null && sid.equals(sessionid))
 				{
-					// ÕÒµ½ÁË£¬É¾³ı¸ÃmmsÏûÏ¢
+					// æ‰¾åˆ°äº†ï¼Œåˆ é™¤è¯¥mmsæ¶ˆæ¯
 					it.remove();
 				}
 			}
