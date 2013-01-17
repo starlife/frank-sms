@@ -34,6 +34,7 @@ import com.chinaunicom.sgip1_2.protocol.util.Hex;
 public class PChannel
 {
 	private static final Log log = LogFactory.getLog(PChannel.class);// 记录日志
+	private static final Log hex = LogFactory.getLog("hex");
 
 	private static final Object lock = new Object(); // 用来登陆，初始化
 	private static final Object lockSend = new Object();
@@ -241,7 +242,7 @@ public class PChannel
 		{
 			pk = new BindMessage(recvPack);
 		}
-		if (commandId == CommandID.SGIP_BIND_RESP)
+		else if (commandId == CommandID.SGIP_BIND_RESP)
 		{
 			pk = new BindRespMessage(recvPack);
 		}
@@ -450,10 +451,10 @@ public class PChannel
 			byte[] buf = new byte[packLen];
 			System.arraycopy(lenByte, 0, buf, 0, 4);// 拷贝
 			in.read(buf, 4, buf.length - 4);
-			makePackage(new BasePackage(buf));
-			if (log.isDebugEnabled())
+			pack = makePackage(new BasePackage(buf));
+			if (hex.isDebugEnabled())
 			{
-				log.debug("收到包(" + pack.getHead().getCommandIdString() + "):"
+				hex.debug("收到包(" + pack.getHead().getCommandIdString() + "):"
 						+ Hex.rhex(pack.getBytes()));
 			}
 		}
@@ -466,9 +467,9 @@ public class PChannel
 	{
 		if (out != null && pack != null)
 		{
-			if (log.isDebugEnabled())
+			if (hex.isDebugEnabled())
 			{
-				log.debug("发送包(" + pack.getHead().getCommandIdString() + "):"
+				hex.debug("发送包(" + pack.getHead().getCommandIdString() + "):"
 						+ Hex.rhex(pack.getBytes()));
 			}
 			out.write(pack.getBytes());

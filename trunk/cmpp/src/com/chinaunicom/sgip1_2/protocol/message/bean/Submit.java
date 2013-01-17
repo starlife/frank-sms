@@ -114,6 +114,27 @@ public class Submit
 		}
 	}
 
+	private String getMsg(byte[] src, int msgFormat)
+	{
+		String encode = "ISO8859-1";
+		if (msgFormat == 8)
+		{
+			encode = "UTF-16BE";
+		}
+		if (msgFormat == 15)
+		{
+			encode = "GB18030";
+		}
+		try
+		{
+			return new String(src, encode);
+		}
+		catch (UnsupportedEncodingException ex)
+		{
+			return new String(src);
+		}
+	}
+
 	public String getMsgContentString()
 	{
 		String msg;
@@ -220,38 +241,34 @@ public class Submit
 	{
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SPNumber-byte       : " + this.SPNumber + "\r\n");
-		sb.append(" ChargeNumber-byte   : " + this.ChargeNumber + "\r\n");
-		sb.append(" UserCount-char      : " + this.UserCount + "\r\n");
-		sb.append(" UserNumber-byte     : " + this.UserNumber + "\r\n");
-		sb.append(" CorpId-byte         : " + this.CorpId + "\r\n");
-		sb.append(" ServiceType-char    : " + this.ServiceType + "\r\n");
-		sb.append(" FeeType-char        : " + this.FeeType + "\r\n");
-		sb.append(" FeeValue-byte       : " + this.FeeValue + "\r\n");
-		sb.append(" GivenValue-byte     : " + this.GivenValue + "\r\n");
-		sb.append(" AgentFlag-char      : " + this.AgentFlag + "\r\n");
-		sb.append(" MorelatetoMTFlag-char: " + this.MorelatetoMTFlag + "\r\n");
-		sb.append(" Priority-char       : " + this.Priority + "\r\n");
-		sb.append(" ExpireTime-byte     : " + this.ExpireTime + "\r\n");
-		sb.append(" ScheduleTime-byte   : " + this.ScheduleTime + "\r\n");
-		sb.append(" ReportFlag-byte     : " + this.ReportFlag + "\r\n");
-		sb.append(" TP_pid-char         : " + this.TP_pid + "\r\n");
-		sb.append(" TP_udhi-char        : " + this.TP_udhi + "\r\n");
-		sb.append(" MsgCoding-char      : " + this.MsgCoding + "\r\n");
-		sb.append(" MsgType-char        : " + this.MsgType + "\r\n");
-		sb.append(" MsgLength-char      : " + this.MsgLength + "\r\n");
-		sb.append(" MsgContent-byte     : " + this.MsgContent + "\r\n");
-		sb.append(" Reserve-byte        : " + this.Reserve + "\r\n");
+		sb.append(" SPNumber       : " + this.SPNumber + "\r\n");
+		sb.append(" ChargeNumber   : " + this.ChargeNumber + "\r\n");
+		sb.append(" UserCount-int  : " + this.UserCount + "\r\n");
+		sb.append(" UserNumber     : "
+				+ org.apache.commons.lang.StringUtils
+					.join(this.UserNumber, ",") + "\r\n");
+		sb.append(" CorpId         : " + this.CorpId + "\r\n");
+		sb.append(" ServiceType    : " + this.ServiceType + "\r\n");
+		sb.append(" FeeType-int    : " + this.FeeType + "\r\n");
+		sb.append(" FeeValue       : " + this.FeeValue + "\r\n");
+		sb.append(" GivenValue     : " + this.GivenValue + "\r\n");
+		sb.append(" AgentFlag-int  : " + this.AgentFlag + "\r\n");
+		sb.append(" MorelatetoMTFlag-int: " + this.MorelatetoMTFlag + "\r\n");
+		sb.append(" Priority-int   : " + this.Priority + "\r\n");
+		sb.append(" ExpireTime     : " + this.ExpireTime + "\r\n");
+		sb.append(" ScheduleTime   : " + this.ScheduleTime + "\r\n");
+		sb.append(" ReportFlag-int : " + this.ReportFlag + "\r\n");
+		sb.append(" TP_pid-int     : " + this.TP_pid + "\r\n");
+		sb.append(" TP_udhi-int    : " + this.TP_udhi + "\r\n");
+		sb.append(" MsgCoding-int  : " + this.MsgCoding + "\r\n");
+		sb.append(" MsgType-int    : " + this.MsgType + "\r\n");
+		sb.append(" MsgLength-int  : " + this.MsgLength + "\r\n");
+		sb.append(" MsgContent     : "
+				+ getMsg(getMsgContent(), getMsgCoding()) + "\r\n");
+		sb.append(" Reserve        : " + this.Reserve + "\r\n");
 
 		return sb.toString();
 	}
-
-	/*
-	 * public static SubmitMessage getSingleSubmit(String to,byte[] msg,String
-	 * param){ Submit submit = new Submit("spnumber",to,msg,param);
-	 * submit.CorpId = "spid"; SubmitMessage sm=new SubmitMessage(submit);
-	 * return sm; }
-	 */
 
 	public static void main(String[] args)
 	{
