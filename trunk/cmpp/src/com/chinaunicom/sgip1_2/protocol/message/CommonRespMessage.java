@@ -18,10 +18,9 @@ public class CommonRespMessage extends SGIPMessage
 
 	private byte[] buf = new byte[LENGTH];
 
-	CommonRespMessage(String nodeid, int commandId, int result, String reserve)
+	CommonRespMessage(int commandId,Sequence seq, int result, String reserve)
 	{
-		super(nodeid, commandId);
-
+		super(LENGTH, commandId,seq);
 		/* buf 赋值 */
 		this.Result = result;
 		this.Reserve = reserve;

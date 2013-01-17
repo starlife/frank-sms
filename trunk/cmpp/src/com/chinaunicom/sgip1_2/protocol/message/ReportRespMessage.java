@@ -11,9 +11,9 @@ package com.chinaunicom.sgip1_2.protocol.message;
 public class ReportRespMessage extends CommonRespMessage implements Send
 {
 
-	public ReportRespMessage(String nodeid)
+	public ReportRespMessage(ReportMessage rm)
 	{
-		super(nodeid, CommandID.SGIP_REPORT_RESP, 0, "");
+		super(CommandID.SGIP_REPORT_RESP,rm.getHead().getSequenceId(),0, "");
 
 	}
 

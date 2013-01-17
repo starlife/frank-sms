@@ -13,7 +13,7 @@ public class UnbindRespMessage extends SGIPMessage implements Send, Recv
 
 	public UnbindRespMessage(String nodeid)
 	{
-		super(nodeid, CommandID.SGIP_UNBIND_RESP);
+		super(Header.LENGTH,CommandID.SGIP_UNBIND_RESP,new Sequence(nodeid));
 	}
 
 	public UnbindRespMessage(BasePackage pack)

@@ -10,11 +10,11 @@ package com.chinaunicom.sgip1_2.protocol.message;
  */
 public class SGIPMessage extends APackage
 {
-	private Header head;
+	private Header head = null;
 
-	SGIPMessage(String nodeid, int commandId)
+	SGIPMessage(int packageLength, int commandId, Sequence sequenceId)
 	{
-		head = new Header(Header.LENGTH, commandId, new Sequence(nodeid));
+		head = new Header(Header.LENGTH, commandId, sequenceId);
 	}
 
 	SGIPMessage(BasePackage pack)

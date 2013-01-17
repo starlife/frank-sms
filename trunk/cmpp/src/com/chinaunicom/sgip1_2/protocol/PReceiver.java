@@ -148,7 +148,6 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 					int commandId = pack.getHead().getCommmandId();
 					log.info("收到包 " + pack.getHead().getCommandIdString());
-
 					if (commandId == CommandID.SGIP_BIND)
 					{
 						BindMessage bm = new BindMessage(pack);
@@ -156,6 +155,10 @@ public class PReceiver extends Thread implements AbstractReceiver
 						if (((BindRespMessage) res).getResult() == 0)
 						{
 							this.bLogin = true;
+						}
+						else
+						{
+							log.info("登录失败");
 						}
 
 					}
@@ -196,6 +199,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 					}
 
 					// log.info("发送Res包 " + LogHelper.logMM7VaspRes(res));
+					log.info("发送回应包：" + res);
 					client.getOutputStream().write(res.getBytes());
 					client.getOutputStream().flush();
 					if (this.bClose)
@@ -207,7 +211,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 			}
 			catch (Exception ex)
 			{
-				// log.error(null, ex);
+				log.error(null, ex);
 				int timeout = 0;
 				try
 				{
@@ -254,19 +258,20 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 	private BindRespMessage doBind(BindMessage req)
 	{
+		log.info(req);
 		BindRespMessage res = null;
 		if (req.getLoginType() != loginType)
 		{
-			res = new BindRespMessage(nodeid, 4);
+			res = new BindRespMessage(req, 4);
 		}
 		else if (!req.getLoginName().equals(loginname)
 				|| !req.getLoginPass().equals(loginpass))
 		{
-			res = new BindRespMessage(nodeid, 1);
+			res = new BindRespMessage(req, 1);
 		}
 		else
 		{
-			res = new BindRespMessage(nodeid, 0);
+			res = new BindRespMessage(req, 0);
 		}
 		return res;
 
@@ -283,25 +288,26 @@ public class PReceiver extends Thread implements AbstractReceiver
 	public DeliverRespMessage doDeliver(DeliverMessage req)
 	{
 		log.debug("进入doDeliver方法");
-		DeliverRespMessage res = new DeliverRespMessage("nodeid");
+		DeliverRespMessage res = new DeliverRespMessage(req);
 		return res;
 	}
 
 	public ReportRespMessage doReport(ReportMessage req)
 	{
 		log.debug("进入doReport方法");
-		ReportRespMessage res = new ReportRespMessage("nodeid");
+		ReportRespMessage res = new ReportRespMessage(req);
 		return res;
 	}
 
 	public static void main(String[] args)
 	{
-		String listenIP = "211.90.245.97";
+		String listenIP = "192.168.100.239";
+		// String listenIP = "192.168.147.175";
 		int ListenPort = 8801;
 		int backLog = 50;
-		int loginType = 1;
+		int loginType = 2;
 		String loginname = "106550577371";
-		String loginpass = "123456";
+		String loginpass = "106550577371";
 		String nodeid = "61153";
 		new PReceiver(listenIP, ListenPort, backLog, nodeid, loginType,
 				loginname, loginpass).start();

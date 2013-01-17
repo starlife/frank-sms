@@ -14,5 +14,5 @@ public interface AbstractSender
 	 * @return
 	 */
 	public APackage doSubmit();
-	
+
 }

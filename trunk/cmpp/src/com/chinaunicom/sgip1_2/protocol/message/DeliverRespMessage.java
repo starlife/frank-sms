@@ -11,9 +11,9 @@ package com.chinaunicom.sgip1_2.protocol.message;
 public class DeliverRespMessage extends CommonRespMessage implements Send
 {
 
-	public DeliverRespMessage(String nodeid)
+	public DeliverRespMessage(DeliverMessage dm)
 	{
-		super(nodeid, CommandID.SGIP_DELIVER_RESP, 0, "");
+		super(CommandID.SGIP_DELIVER_RESP,dm.getHead().getSequenceId(), 0, "");
 
 	}
 

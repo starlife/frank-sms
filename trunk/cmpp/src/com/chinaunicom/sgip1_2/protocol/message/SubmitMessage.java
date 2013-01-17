@@ -19,7 +19,7 @@ public class SubmitMessage extends SGIPMessage implements Send
 
 	public SubmitMessage(String nodeid, Submit submit)
 	{
-		super(nodeid, CommandID.SGIP_SUBMIT);
+		super(Header.LENGTH,CommandID.SGIP_SUBMIT,new Sequence(nodeid));
 		this.submit = submit;
 		int packLen = getPackageLen(submit.getUserCount(), submit
 				.getMsgLength());
