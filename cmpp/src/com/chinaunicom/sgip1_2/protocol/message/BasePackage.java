@@ -17,7 +17,7 @@ public class BasePackage extends APackage
 	{
 		this.buf = buf;
 		head = new Header(ByteConvert.byte2int(buf, 0), ByteConvert.byte2int(
-				buf, 4), new Sequence(buf, 8));
+			buf, 4), new Sequence(buf, 8));
 		this.setTimeStamp();
 
 	}
@@ -41,8 +41,8 @@ public class BasePackage extends APackage
 		sb.append("TotalLength:" + getHead().getPackageLength() + "\r\n");
 		sb.append("SequenceID:" + getHead().getSequenceId() + "\r\n");
 		sb
-				.append("RecvTime:" + DateUtil.getTimeString(getTimeStamp())
-						+ "\r\n");
+			.append("RecvTime:" + DateUtil.getTimeString(getTimeStamp())
+					+ "\r\n");
 		return sb.toString();
 	}
 

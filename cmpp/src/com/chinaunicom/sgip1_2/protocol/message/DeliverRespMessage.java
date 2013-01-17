@@ -13,7 +13,7 @@ public class DeliverRespMessage extends CommonRespMessage implements Send
 
 	public DeliverRespMessage(DeliverMessage dm)
 	{
-		super(CommandID.SGIP_DELIVER_RESP,dm.getHead().getSequenceId(), 0, "");
+		super(CommandID.SGIP_DELIVER_RESP, dm.getHead().getSequenceId(), 0, "");
 
 	}
 

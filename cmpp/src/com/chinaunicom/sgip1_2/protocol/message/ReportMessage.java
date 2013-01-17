@@ -67,8 +67,8 @@ public class ReportMessage extends SGIPMessage implements Recv
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n--------------------")
-				.append(getClass().getSimpleName()).append(
-						"--------------------\r\n");
+			.append(getClass().getSimpleName()).append(
+				"--------------------\r\n");
 		sb.append(getHead().toString()).append("\r\n");
 		sb.append("SubmitSeqNum : ").append(SubmitSeq).append("\r\n");
 		sb.append("ReportType   : ").append(ReportType).append("\r\n");
@@ -77,7 +77,7 @@ public class ReportMessage extends SGIPMessage implements Recv
 		sb.append("ErrorCode    : ").append(ErrorCode).append("\r\n");
 		sb.append("Reserve      : ").append(Reserve);
 		sb
-				.append("\r\n------------------------------------------------------------\r\n");
+			.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 	}
 

@@ -54,12 +54,12 @@ public class Sequence
 		byte[] buf = new byte[12];
 		// 源节点编号 适配大于0x7fffffff
 		System.arraycopy(ByteConvert
-				.int2byte(new BigInteger(nodeid).intValue()), 0, buf, 0, 4);
+			.int2byte(new BigInteger(nodeid).intValue()), 0, buf, 0, 4);
 		System.arraycopy(ByteConvert.int2byte(Integer.valueOf(timestamp)), 0,
-				buf, 4, 4);
+			buf, 4, 4);
 		// 流水号
 		System.arraycopy(ByteConvert.int2byte(new BigInteger(seq).intValue()),
-				0, buf, 8, 4);
+			0, buf, 8, 4);
 		return buf;
 	}
 

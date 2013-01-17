@@ -18,12 +18,12 @@ public class CommonRespMessage extends SGIPMessage
 
 	private byte[] buf = new byte[LENGTH];
 
-	CommonRespMessage(int commandId,Sequence seq, int result, String reserve)
+	CommonRespMessage(int commandId, Sequence seq, int result, String reserve)
 	{
-		super(LENGTH, commandId,seq);
-		/* buf 赋值 */
+		super(LENGTH, commandId, seq);
 		this.Result = result;
 		this.Reserve = reserve;
+		/* buf 赋值 */
 		int loc = 0;
 		System.arraycopy(getHead().getBytes(), 0, buf, loc, Header.LENGTH);// copy
 		// header
@@ -51,13 +51,13 @@ public class CommonRespMessage extends SGIPMessage
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n--------------------")
-				.append(getClass().getSimpleName()).append(
-						"--------------------\r\n");
+			.append(getClass().getSimpleName()).append(
+				"--------------------\r\n");
 		sb.append(getHead().toString() + "\r\n");
 		sb.append("Result  : ").append(Result).append("\t");
 		sb.append("Reserve : ").append(Reserve);
 		sb
-				.append("\r\n------------------------------------------------------------\r\n");
+			.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 	}
 
