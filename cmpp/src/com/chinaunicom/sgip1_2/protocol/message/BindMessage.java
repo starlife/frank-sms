@@ -26,7 +26,7 @@ public class BindMessage extends SGIPMessage implements Send, Recv
 	public BindMessage(String nodeid, int loginType, String loginName,
 			String loginPass)
 	{
-		super(nodeid, CommandID.SGIP_BIND);
+		super(LENGTH,CommandID.SGIP_BIND,new Sequence(nodeid));
 		this.LoginType = loginType;
 		this.LoginName = loginName;
 		this.LoginPass = loginPass;
@@ -73,7 +73,7 @@ public class BindMessage extends SGIPMessage implements Send, Recv
 		sb.append(getHead().toString() + "\r\n");
 		sb.append("LoginType:").append(LoginType).append("\t");
 		sb.append("LoginName:").append(LoginName).append("\t");
-		sb.append("LoginName:").append(LoginName).append("\r\n");
+		sb.append("LoginPass:").append(LoginPass).append("\r\n");
 		sb.append("Reserve:").append(Reserve);
 		sb
 				.append("\r\n------------------------------------------------------------\r\n");

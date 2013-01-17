@@ -10,10 +10,10 @@ package com.chinaunicom.sgip1_2.protocol.message;
  */
 public class BindRespMessage extends CommonRespMessage implements Send, Recv
 {
-
-	public BindRespMessage(String nodeid, int result)
+	
+	public BindRespMessage(BindMessage bm, int result)
 	{
-		super(nodeid, CommandID.SGIP_BIND_RESP, result, "");
+		super(CommandID.SGIP_BIND_RESP,bm.getHead().getSequenceId(), result, "");
 	}
 
 	public BindRespMessage(BasePackage pack)

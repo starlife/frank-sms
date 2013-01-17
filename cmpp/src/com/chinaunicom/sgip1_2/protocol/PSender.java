@@ -183,17 +183,17 @@ public class PSender extends Thread implements AbstractSender
 		String loginpass = "123456";
 		String nodeid = "61153";
 		//
-		String spid="61153";
-		String spnumber="106550577371";
-		String serviceCode="1";
-		String [] desttermid="13003664740".split(",");
-		String message="测试消息";
-		String param="";
-		PSender sender=new PSender(ip, port, nodeid, loginType, loginname, loginpass);
-		SubmitMessage[] msgs=MessageUtil.createSubmitMessage(nodeid,
-			spid,spnumber, serviceCode,
-				desttermid,message,param);
-		for(SubmitMessage pack:msgs)
+		String spid = "61153";
+		String spnumber = "106550577371";
+		String serviceCode = "1";
+		String[] desttermid = "13003664740".split(",");
+		String message = "测试消息";
+		String param = "";
+		PSender sender = new PSender(ip, port, nodeid, loginType, loginname,
+				loginpass);
+		SubmitMessage[] msgs = MessageUtil.createSubmitMessage(nodeid, spid,
+				spnumber, serviceCode, desttermid, message, param);
+		for (SubmitMessage pack : msgs)
 		{
 			sender.sendPacket(pack);
 		}

@@ -7,10 +7,9 @@ import com.chinaunicom.sgip1_2.protocol.message.ReportRespMessage;
 
 public interface AbstractReceiver
 {
-	
+
 	public DeliverRespMessage doDeliver(DeliverMessage req);
-	
+
 	public ReportRespMessage doReport(ReportMessage req);
-	
-	
+
 }
