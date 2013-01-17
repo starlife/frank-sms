@@ -7,12 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.chinaunicom.sgip1_2.protocol.message.APackage;
-import com.chinaunicom.sgip1_2.protocol.message.BasePackage;
-import com.chinaunicom.sgip1_2.protocol.message.CommandID;
 import com.chinaunicom.sgip1_2.protocol.message.SubmitMessage;
 import com.chinaunicom.sgip1_2.protocol.message.SubmitRespMessage;
 import com.chinaunicom.sgip1_2.protocol.util.Constants;
-import com.chinaunicom.sgip1_2.protocol.util.DateUtil;
 import com.chinaunicom.sgip1_2.protocol.util.Hex;
 import com.chinaunicom.sgip1_2.protocol.util.MessageUtil;
 import com.chinaunicom.sgip1_2.protocol.util.RateControl;
@@ -33,7 +30,7 @@ public class PSender extends Thread implements AbstractSender
 	 * 保存发送提交失败的包，便于重新发送
 	 */
 	private final LinkedBlockingQueue<APackage> buffer = new LinkedBlockingQueue<APackage>(
-			10000);
+		10000);
 
 	private volatile boolean stop = false;
 
@@ -45,7 +42,7 @@ public class PSender extends Thread implements AbstractSender
 			String loginname, String loginpass)
 	{
 		channel = new PChannel(ip, port, nodeid, loginType, loginname,
-				loginpass);
+			loginpass);
 	}
 
 	@Override
@@ -117,37 +114,26 @@ public class PSender extends Thread implements AbstractSender
 	 */
 	private boolean sendPacket(APackage pack) throws IOException
 	{
-
-		BasePackage recv = channel.send(pack);
+		log.info("发送SubmitMessage包：" + pack);
+		APackage recv = channel.send(pack);
+		log.info("收到SubmitRespMessage包：" + recv);
 		if (recv == null)
 		{
 			return false;
 		}
 		// 对收到的包记录二进制信息
-		if (log.isInfoEnabled())
+
+		if ((pack instanceof SubmitMessage)
+				&& (recv instanceof SubmitRespMessage))
 		{
-			log.info("收到包(" + DateUtil.getTimeString(recv.getTimeStamp())
-					+ "):" + recv.getHead().getCommandIdString() + " "
-					+ Hex.rhex(recv.getBytes()));
-			log.info(recv);
+			doSubmitResp((SubmitMessage) pack, (SubmitRespMessage) recv);
+			return true;
 		}
-
-		if (pack instanceof SubmitMessage)
+		else
 		{
-			if (recv.getHead().getCommmandId() == CommandID.SGIP_SUBMIT_RESP)
-			{
-				SubmitRespMessage srm = new SubmitRespMessage(recv);
-				doSubmitResp((SubmitMessage) pack, srm);
-				return true;
-			}
-			else
-			{
-				log.error("收到的包并不是SubmitRespMessage包，" + recv);
-			}
-
+			log.error("发送包和接受包都有误：" + pack + recv);
+			return false;
 		}
-
-		return false;
 
 	}
 
@@ -190,9 +176,9 @@ public class PSender extends Thread implements AbstractSender
 		String message = "测试消息";
 		String param = "";
 		PSender sender = new PSender(ip, port, nodeid, loginType, loginname,
-				loginpass);
+			loginpass);
 		SubmitMessage[] msgs = MessageUtil.createSubmitMessage(nodeid, spid,
-				spnumber, serviceCode, desttermid, message, param);
+			spnumber, serviceCode, desttermid, message, param);
 		for (SubmitMessage pack : msgs)
 		{
 			sender.sendPacket(pack);
