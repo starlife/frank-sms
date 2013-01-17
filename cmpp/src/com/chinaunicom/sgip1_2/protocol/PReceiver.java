@@ -127,7 +127,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 		{
 			this.client = socket;
 		}
-		
+
 		public boolean checkLogin(APackage pk)
 		{
 			if (!this.bLogin)
@@ -136,7 +136,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 			}
 			return true;
 		}
-		
+
 		@Override
 		public void run()
 		{
@@ -147,12 +147,11 @@ public class PReceiver extends Thread implements AbstractReceiver
 				while (true)
 				{
 					APackage res = null;
-					APackage pk = PChannel.readPacket(client
-							.getInputStream());
+					APackage pk = PChannel.readPacket(client.getInputStream());
 					log.info("收到包: " + pk);
 					if (pk instanceof BindMessage)
 					{
-						res = doBind((BindMessage)pk);
+						res = doBind((BindMessage) pk);
 						if (((BindRespMessage) res).getResult() == 0)
 						{
 							this.bLogin = true;
@@ -166,18 +165,18 @@ public class PReceiver extends Thread implements AbstractReceiver
 					else if (pk instanceof UnbindMessage)
 					{
 						checkLogin(pk);
-						res = doUnbind((UnbindMessage)pk);
+						res = doUnbind((UnbindMessage) pk);
 						this.bClose = true;// 关闭标志位设置为true
 					}
 					else if (pk instanceof DeliverMessage)
 					{
 						checkLogin(pk);
-						res = doDeliver((DeliverMessage)pk);
+						res = doDeliver((DeliverMessage) pk);
 					}
 					else if (pk instanceof ReportMessage)
 					{
 						checkLogin(pk);
-						res = doReport((ReportMessage)pk);
+						res = doReport((ReportMessage) pk);
 					}
 					else
 					{
@@ -187,9 +186,8 @@ public class PReceiver extends Thread implements AbstractReceiver
 						this.bClose = true;// 关闭标志位设置为true
 					}
 
-					// log.info("发送Res包 " + LogHelper.logMM7VaspRes(res));
 					log.info("发送回应包：" + res);
-					PChannel.sendPacket(client.getOutputStream(),res);
+					PChannel.sendPacket(client.getOutputStream(), res);
 					if (this.bClose)
 					{
 						log.info("连接需要关闭");
@@ -247,7 +245,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 	private BindRespMessage doBind(BindMessage req)
 	{
-		log.info(req);
+
 		BindRespMessage res = null;
 		if (req.getLoginType() != loginType)
 		{
@@ -265,8 +263,6 @@ public class PReceiver extends Thread implements AbstractReceiver
 		return res;
 
 	}
-
-	
 
 	private UnbindRespMessage doUnbind(UnbindMessage req)
 	{
@@ -301,7 +297,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 		String loginpass = "123456";
 		String nodeid = "61153";
 		new PReceiver(listenIP, ListenPort, backLog, nodeid, loginType,
-				loginname, loginpass).start();
+			loginname, loginpass).start();
 	}
 
 }
