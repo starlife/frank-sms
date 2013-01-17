@@ -279,7 +279,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 	private UnbindRespMessage doUnbind(UnbindMessage req)
 	{
-		UnbindRespMessage res = new UnbindRespMessage("nodeid");
+		UnbindRespMessage res = new UnbindRespMessage(req);
 		return res;
 
 	}
@@ -307,7 +307,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 		int backLog = 50;
 		int loginType = 2;
 		String loginname = "106550577371";
-		String loginpass = "106550577371";
+		String loginpass = "123456";
 		String nodeid = "61153";
 		new PReceiver(listenIP, ListenPort, backLog, nodeid, loginType,
 				loginname, loginpass).start();

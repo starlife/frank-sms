@@ -14,7 +14,7 @@ public class SGIPMessage extends APackage
 
 	SGIPMessage(int packageLength, int commandId, Sequence sequenceId)
 	{
-		head = new Header(Header.LENGTH, commandId, sequenceId);
+		head = new Header(packageLength, commandId, sequenceId);
 	}
 
 	SGIPMessage(BasePackage pack)
