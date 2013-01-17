@@ -89,8 +89,8 @@ public class DeliverMessage extends SGIPMessage implements Recv
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n--------------------")
-				.append(getClass().getSimpleName()).append(
-						"--------------------\r\n");
+			.append(getClass().getSimpleName()).append(
+				"--------------------\r\n");
 		sb.append(getHead().toString() + "\r\n");
 		sb.append("UserNumber  : ").append(UserNumber).append("\t");
 		sb.append("SPNumber    : ").append(SPNumber).append("\r\n");
@@ -101,7 +101,7 @@ public class DeliverMessage extends SGIPMessage implements Recv
 		sb.append("MsgContent  : ").append(MsgContent).append("\r\n");
 		sb.append("Reserve     : ").append(Reserve);
 		sb
-				.append("\r\n------------------------------------------------------------\r\n");
+			.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 
 	}

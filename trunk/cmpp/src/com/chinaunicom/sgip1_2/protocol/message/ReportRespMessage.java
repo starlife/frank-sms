@@ -13,7 +13,7 @@ public class ReportRespMessage extends CommonRespMessage implements Send
 
 	public ReportRespMessage(ReportMessage rm)
 	{
-		super(CommandID.SGIP_REPORT_RESP,rm.getHead().getSequenceId(),0, "");
+		super(CommandID.SGIP_REPORT_RESP, rm.getHead().getSequenceId(), 0, "");
 
 	}
 

@@ -28,11 +28,11 @@ public class SGIPMessage extends APackage
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n--------------------")
-				.append(getClass().getSimpleName()).append(
-						"--------------------\r\n");
+			.append(getClass().getSimpleName()).append(
+				"--------------------\r\n");
 		sb.append(getHead().toString());
 		sb
-				.append("\r\n------------------------------------------------------------\r\n");
+			.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 	}
 

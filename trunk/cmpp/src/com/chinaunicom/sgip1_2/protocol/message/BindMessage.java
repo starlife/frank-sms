@@ -55,11 +55,11 @@ public class BindMessage extends SGIPMessage implements Send, Recv
 		byte[] temp = new byte[16];
 		System.arraycopy(buf, loc, temp, 0, temp.length);
 		this.LoginName = new String(temp).trim();
-		loc+=16;
+		loc += 16;
 		//
 		System.arraycopy(buf, loc, temp, 0, temp.length);
 		this.LoginPass = new String(temp).trim();
-		loc+=16;
+		loc += 16;
 		//
 		temp = new byte[8];
 		System.arraycopy(buf, loc, temp, 0, temp.length);
@@ -72,15 +72,15 @@ public class BindMessage extends SGIPMessage implements Send, Recv
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n--------------------")
-				.append(getClass().getSimpleName()).append(
-						"--------------------\r\n");
+			.append(getClass().getSimpleName()).append(
+				"--------------------\r\n");
 		sb.append(getHead().toString() + "\r\n");
 		sb.append("LoginType:").append(LoginType).append("\t");
 		sb.append("LoginName:").append(LoginName).append("\t");
 		sb.append("LoginPass:").append(LoginPass).append("\r\n");
 		sb.append("Reserve:").append(Reserve);
 		sb
-				.append("\r\n------------------------------------------------------------\r\n");
+			.append("\r\n------------------------------------------------------------\r\n");
 		return sb.toString();
 
 	}
