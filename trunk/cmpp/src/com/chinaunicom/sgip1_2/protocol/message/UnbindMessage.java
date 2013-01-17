@@ -11,11 +11,21 @@ package com.chinaunicom.sgip1_2.protocol.message;
 public class UnbindMessage extends SGIPMessage implements Send, Recv
 {
 
+	/**
+	 * 发起
+	 * 
+	 * @param nodeid
+	 */
 	public UnbindMessage(String nodeid)
 	{
-		super(Header.LENGTH,CommandID.SGIP_UNBIND,new Sequence(nodeid));
+		super(Header.LENGTH, CommandID.SGIP_UNBIND, new Sequence(nodeid));
 	}
 
+	/**
+	 * 接收
+	 * 
+	 * @param pack
+	 */
 	public UnbindMessage(BasePackage pack)
 	{
 		super(pack);

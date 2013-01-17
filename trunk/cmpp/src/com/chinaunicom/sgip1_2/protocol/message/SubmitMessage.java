@@ -11,19 +11,22 @@ import com.chinaunicom.sgip1_2.protocol.util.ByteConvert;
 /**
  * @author Administrator
  */
-public class SubmitMessage extends SGIPMessage implements Send
+public class SubmitMessage extends APackage implements Send
 {
 
 	private Submit submit;
+
+	private Header head = null;
 	private byte[] buf = null;
 
 	public SubmitMessage(String nodeid, Submit submit)
 	{
-		super(Header.LENGTH,CommandID.SGIP_SUBMIT,new Sequence(nodeid));
 		this.submit = submit;
 		int packLen = getPackageLen(submit.getUserCount(), submit
 				.getMsgLength());
 		buf = new byte[packLen];
+		head = new Header(buf.length, CommandID.SGIP_SUBMIT, new Sequence(
+				nodeid));
 		/* buf 赋值 */
 		int loc = 0;
 		// byte[] temp=null;
@@ -133,6 +136,13 @@ public class SubmitMessage extends SGIPMessage implements Send
 	{
 		// TODO Auto-generated method stub
 		return buf;
+	}
+
+	@Override
+	public Header getHead()
+	{
+		// TODO Auto-generated method stub
+		return head;
 	}
 
 }
