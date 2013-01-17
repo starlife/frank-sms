@@ -15,10 +15,13 @@ import com.chinaunicom.sgip1_2.protocol.message.BasePackage;
 import com.chinaunicom.sgip1_2.protocol.message.BindMessage;
 import com.chinaunicom.sgip1_2.protocol.message.BindRespMessage;
 import com.chinaunicom.sgip1_2.protocol.message.CommandID;
+import com.chinaunicom.sgip1_2.protocol.message.DeliverMessage;
+import com.chinaunicom.sgip1_2.protocol.message.ReportMessage;
+import com.chinaunicom.sgip1_2.protocol.message.SubmitRespMessage;
 import com.chinaunicom.sgip1_2.protocol.message.UnbindMessage;
+import com.chinaunicom.sgip1_2.protocol.message.UnbindRespMessage;
 import com.chinaunicom.sgip1_2.protocol.util.ByteConvert;
 import com.chinaunicom.sgip1_2.protocol.util.Constants;
-import com.chinaunicom.sgip1_2.protocol.util.DateUtil;
 import com.chinaunicom.sgip1_2.protocol.util.Hex;
 
 /**
@@ -133,21 +136,14 @@ public class PChannel
 		try
 		{
 			BindMessage bm = new BindMessage(nodeid, loginType, loginName,
-					loginPasswd);
-			socket.getOutputStream().write(bm.getBytes());
-			socket.getOutputStream().flush();
-
-			log.info("------------------发送登陆包");
-			log.info("登陆消息字节码：" + Hex.rhex(bm.getBytes()));
-			log.info(bm);
-
-			BasePackage curPack = PChannel.readPacket(socket.getInputStream());
-			log.info("收到包 " + curPack);
-			if (curPack.getHead().getCommmandId() == CommandID.SGIP_BIND_RESP)
+				loginPasswd);
+			log.info("------------------发送登陆包" + bm);
+			sendPacket(socket.getOutputStream(), bm);
+			APackage curPack = readPacket(socket.getInputStream());
+			log.info("收到登录回应包 " + curPack);
+			if (curPack instanceof BindRespMessage)
 			{
-				BindRespMessage brm = new BindRespMessage(curPack);
-				log.info("登陆回应消息字节码：" + Hex.rhex(brm.getBytes()));
-				log.info(brm);
+				BindRespMessage brm = (BindRespMessage) curPack;
 				if (brm.getResult() == 0)
 				{
 					log.info("登陆成功...");
@@ -187,8 +183,8 @@ public class PChannel
 		while (!login(ip, port, nodeid, loginType, loginname, loginpass))
 		{
 			log
-					.info(String.format("登陆失败，尝试第 %d 次 登陆到 %s ：%d", i + 1, ip,
-							port));
+				.info(String
+					.format("登陆失败，尝试第 %d 次 登陆到 %s ：%d", i + 1, ip, port));
 			i++;
 			if (i > 6)
 			{
@@ -230,6 +226,53 @@ public class PChannel
 	}
 
 	/**
+	 * 接受线程接受到的包是如下几种 bind unbind deliver report 发送线程接受到包邮如下几种 bindresp
+	 * unbindresp submitresp
+	 * 
+	 * @param recvPack
+	 * @return
+	 */
+	static APackage makePackage(BasePackage recvPack)
+	{
+
+		APackage pk = null;
+		int commandId = recvPack.getHead().getCommmandId();
+		if (commandId == CommandID.SGIP_BIND)
+		{
+			pk = new BindMessage(recvPack);
+		}
+		if (commandId == CommandID.SGIP_BIND_RESP)
+		{
+			pk = new BindRespMessage(recvPack);
+		}
+		else if (commandId == CommandID.SGIP_UNBIND)
+		{
+			pk = new UnbindMessage(recvPack);
+		}
+		else if (commandId == CommandID.SGIP_UNBIND_RESP)
+		{
+			pk = new UnbindRespMessage(recvPack);
+		}
+		else if (commandId == CommandID.SGIP_SUBMIT_RESP)
+		{
+			pk = new SubmitRespMessage(recvPack);
+		}
+		else if (commandId == CommandID.SGIP_DELIVER)
+		{
+			pk = new DeliverMessage(recvPack);
+		}
+		else if (commandId == CommandID.SGIP_REPORT)
+		{
+			pk = new ReportMessage(recvPack);
+		}
+		else
+		{
+			pk = recvPack;
+		}
+		return pk;
+	}
+
+	/**
 	 * 查看当前链路是否是连接上的
 	 * 
 	 * @return
@@ -252,6 +295,7 @@ public class PChannel
 			try
 			{
 				APackage pack = new UnbindMessage(nodeid);
+				log.info("发送断开连接包：" + pack);
 				sendPacket(socket.getOutputStream(), pack);
 			}
 			catch (IOException ex)
@@ -328,7 +372,7 @@ public class PChannel
 	 * @return 如果通道不可用 返回false 发送成功返回true
 	 * @throws IOException
 	 */
-	public BasePackage send(APackage pack) throws IOException
+	public APackage send(APackage pack) throws IOException
 	{
 		synchronized (lock)
 		{
@@ -337,13 +381,6 @@ public class PChannel
 			{
 				pack.setTimeStamp();// 设置包的发送时间
 				pack.addTimes();// 设置包的发送次数
-
-				if (log.isInfoEnabled())
-				{
-					log.info("发送包("
-							+ DateUtil.getTimeString(pack.getTimeStamp())
-							+ "):" + pack);
-				}
 				sendPacket(socket.getOutputStream(), pack);
 				return readPacket(socket.getInputStream());
 			}
@@ -361,7 +398,7 @@ public class PChannel
 	 * @return 如果通道不可用 返回空
 	 * @throws IOException
 	 */
-	public BasePackage readPacket() throws IOException
+	public APackage readPacket() throws IOException
 	{
 		synchronized (lockRecv)
 		{
@@ -391,20 +428,7 @@ public class PChannel
 			{
 				pack.setTimeStamp();// 设置包的发送时间
 				pack.addTimes();// 设置包的发送次数
-
-				if (log.isInfoEnabled())
-				{
-					log.info("发送包("
-							+ DateUtil.getTimeString(pack.getTimeStamp())
-							+ "):" + pack);
-				}
-
 				sendPacket(socket.getOutputStream(), pack);
-				// 对于已经发送的SubmitMessage包，需要入needRespQue队
-				/*
-				 * if (send instanceof SubmitMessage) {
-				 * needRespQue.offer((SubmitMessage) send); }
-				 */
 				return true;
 			}
 			else
@@ -415,9 +439,9 @@ public class PChannel
 
 	}
 
-	public static BasePackage readPacket(InputStream in) throws IOException
+	public static APackage readPacket(InputStream in) throws IOException
 	{
-		BasePackage pack = null;
+		APackage pack = null;
 		if (in != null)
 		{
 			byte[] lenByte = new byte[4];
@@ -426,7 +450,12 @@ public class PChannel
 			byte[] buf = new byte[packLen];
 			System.arraycopy(lenByte, 0, buf, 0, 4);// 拷贝
 			in.read(buf, 4, buf.length - 4);
-			pack = new BasePackage(buf);
+			makePackage(new BasePackage(buf));
+			if (log.isDebugEnabled())
+			{
+				log.debug("收到包(" + pack.getHead().getCommandIdString() + "):"
+						+ Hex.rhex(pack.getBytes()));
+			}
 		}
 		return pack;
 
@@ -437,6 +466,11 @@ public class PChannel
 	{
 		if (out != null && pack != null)
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("发送包(" + pack.getHead().getCommandIdString() + "):"
+						+ Hex.rhex(pack.getBytes()));
+			}
 			out.write(pack.getBytes());
 			out.flush();
 		}

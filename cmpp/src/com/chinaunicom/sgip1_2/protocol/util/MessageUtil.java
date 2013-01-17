@@ -32,7 +32,7 @@ public class MessageUtil
 			smList = new SubmitMessage[msgArray.length];
 			for (int i = 0; i < msgArray.length; i++)
 			{
-				String theParam = param + "TP_udhi=1\r\n" + "Msg_Fmt =8\r\n";
+				String theParam = param + "TP_udhi=1\r\n" + "MsgCoding =8\r\n";
 				SubmitMessage sm = createSubmitMessage(nodeid, msgArray.length,
 						i + 1, spid, spnumber, serviceCode, desttermid,
 						msgArray[i], theParam);

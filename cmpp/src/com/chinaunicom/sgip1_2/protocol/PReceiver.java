@@ -15,10 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.chinaunicom.sgip1_2.protocol.message.APackage;
-import com.chinaunicom.sgip1_2.protocol.message.BasePackage;
 import com.chinaunicom.sgip1_2.protocol.message.BindMessage;
 import com.chinaunicom.sgip1_2.protocol.message.BindRespMessage;
-import com.chinaunicom.sgip1_2.protocol.message.CommandID;
 import com.chinaunicom.sgip1_2.protocol.message.DeliverMessage;
 import com.chinaunicom.sgip1_2.protocol.message.DeliverRespMessage;
 import com.chinaunicom.sgip1_2.protocol.message.ReportMessage;
@@ -129,7 +127,16 @@ public class PReceiver extends Thread implements AbstractReceiver
 		{
 			this.client = socket;
 		}
-
+		
+		public boolean checkLogin(APackage pk)
+		{
+			if (!this.bLogin)
+			{
+				log.error("未登录收到包:" + pk);
+			}
+			return true;
+		}
+		
 		@Override
 		public void run()
 		{
@@ -140,18 +147,12 @@ public class PReceiver extends Thread implements AbstractReceiver
 				while (true)
 				{
 					APackage res = null;
-					BasePackage pack = PChannel.readPacket(client
+					APackage pk = PChannel.readPacket(client
 							.getInputStream());
-
-					// log.info("接收到数据包：" +
-					// com.cmcc.mm7.vasp.protocol.util.Hex.rhex(http.getData()));
-
-					int commandId = pack.getHead().getCommmandId();
-					log.info("收到包 " + pack.getHead().getCommandIdString());
-					if (commandId == CommandID.SGIP_BIND)
+					log.info("收到包: " + pk);
+					if (pk instanceof BindMessage)
 					{
-						BindMessage bm = new BindMessage(pack);
-						res = doBind(bm);
+						res = doBind((BindMessage)pk);
 						if (((BindRespMessage) res).getResult() == 0)
 						{
 							this.bLogin = true;
@@ -162,33 +163,21 @@ public class PReceiver extends Thread implements AbstractReceiver
 						}
 
 					}
-					else if (commandId == CommandID.SGIP_UNBIND)
+					else if (pk instanceof UnbindMessage)
 					{
-						if (!this.bLogin)
-						{
-							log.error("未登录收到包:" + pack);
-						}
-						UnbindMessage ubm = new UnbindMessage(pack);
-						res = doUnbind(ubm);
+						checkLogin(pk);
+						res = doUnbind((UnbindMessage)pk);
 						this.bClose = true;// 关闭标志位设置为true
 					}
-					else if (commandId == CommandID.SGIP_DELIVER)
+					else if (pk instanceof DeliverMessage)
 					{
-						if (!this.bLogin)
-						{
-							log.error("未登录收到包:" + pack);
-						}
-						DeliverMessage dm = new DeliverMessage(pack);
-						res = doDeliver(dm);
+						checkLogin(pk);
+						res = doDeliver((DeliverMessage)pk);
 					}
-					else if (commandId == CommandID.SGIP_REPORT)
+					else if (pk instanceof ReportMessage)
 					{
-						if (!this.bLogin)
-						{
-							log.error("未登录收到包:" + pack);
-						}
-						ReportMessage rm = new ReportMessage(pack);
-						res = doReport(rm);
+						checkLogin(pk);
+						res = doReport((ReportMessage)pk);
 					}
 					else
 					{
@@ -200,10 +189,10 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 					// log.info("发送Res包 " + LogHelper.logMM7VaspRes(res));
 					log.info("发送回应包：" + res);
-					client.getOutputStream().write(res.getBytes());
-					client.getOutputStream().flush();
+					PChannel.sendPacket(client.getOutputStream(),res);
 					if (this.bClose)
 					{
+						log.info("连接需要关闭");
 						break;
 					}
 				}
@@ -211,7 +200,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 			}
 			catch (Exception ex)
 			{
-				log.error(null, ex);
+				// log.error(null, ex);
 				int timeout = 0;
 				try
 				{
@@ -276,6 +265,8 @@ public class PReceiver extends Thread implements AbstractReceiver
 		return res;
 
 	}
+
+	
 
 	private UnbindRespMessage doUnbind(UnbindMessage req)
 	{
