@@ -151,7 +151,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 					log.info("收到包: " + pk);
 					if (pk instanceof BindMessage)
 					{
-						res = doBind((BindMessage) pk);
+						res = dealBind((BindMessage) pk);
 						if (((BindRespMessage) res).getResult() == 0)
 						{
 							this.bLogin = true;
@@ -165,18 +165,18 @@ public class PReceiver extends Thread implements AbstractReceiver
 					else if (pk instanceof UnbindMessage)
 					{
 						checkLogin(pk);
-						res = doUnbind((UnbindMessage) pk);
+						res = dealUnbind((UnbindMessage) pk);
 						this.bClose = true;// 关闭标志位设置为true
 					}
 					else if (pk instanceof DeliverMessage)
 					{
 						checkLogin(pk);
-						res = doDeliver((DeliverMessage) pk);
+						res = dealDeliver((DeliverMessage) pk);
 					}
 					else if (pk instanceof ReportMessage)
 					{
 						checkLogin(pk);
-						res = doReport((ReportMessage) pk);
+						res = dealReport((ReportMessage) pk);
 					}
 					else
 					{
@@ -243,7 +243,7 @@ public class PReceiver extends Thread implements AbstractReceiver
 		stop = true;
 	}
 
-	private BindRespMessage doBind(BindMessage req)
+	private BindRespMessage dealBind(BindMessage req)
 	{
 
 		BindRespMessage res = null;
@@ -264,26 +264,35 @@ public class PReceiver extends Thread implements AbstractReceiver
 
 	}
 
-	private UnbindRespMessage doUnbind(UnbindMessage req)
+	private UnbindRespMessage dealUnbind(UnbindMessage req)
 	{
 		UnbindRespMessage res = new UnbindRespMessage(req);
 		return res;
 
 	}
 
-	// 处理到VASP的传送（deliver）多媒体消息
-	public DeliverRespMessage doDeliver(DeliverMessage req)
+	private DeliverRespMessage dealDeliver(DeliverMessage req)
 	{
-		log.debug("进入doDeliver方法");
+		doDeliver(req);
 		DeliverRespMessage res = new DeliverRespMessage(req);
 		return res;
 	}
 
-	public ReportRespMessage doReport(ReportMessage req)
+	private ReportRespMessage dealReport(ReportMessage req)
 	{
-		log.debug("进入doReport方法");
+		doReport(req);
 		ReportRespMessage res = new ReportRespMessage(req);
 		return res;
+	}
+
+	public void doDeliver(DeliverMessage req)
+	{
+		log.debug("进入doDeliver方法");
+	}
+
+	public void doReport(ReportMessage req)
+	{
+		log.debug("进入doReport方法");
 	}
 
 	public static void main(String[] args)
