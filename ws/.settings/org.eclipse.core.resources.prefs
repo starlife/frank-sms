@@ -1,0 +1,26 @@
+#Sat Dec 29 14:11:32 CST 2012
+eclipse.preferences.version=1
+encoding//WebContent/index.jsp=UTF-8
+encoding//src/com/tourzj/common/util/FileUtil.java=UTF-8
+encoding//src/com/tourzj/common/util/JDomHelper.java=GBK
+encoding//src/com/tourzj/common/util/Tools.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngine.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngineService.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngineServiceLocator.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngineSoapBindingImpl.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngineSoapBindingSkeleton.java=UTF-8
+encoding//src/com/tourzj/mms/MmsEngineSoapBindingStub.java=UTF-8
+encoding//src/com/tourzj/mms/helper/ImageHelper.java=UTF-8
+encoding//src/com/tourzj/mms/helper/Smil.java=UTF-8
+encoding//src/com/tourzj/mms/helper/SmilParser.java=UTF-8
+encoding//src/com/tourzj/mms/manager/MmsDecode.java=UTF-8
+encoding//src/com/tourzj/mms/manager/MmsEncode.java=UTF-8
+encoding//src/com/tourzj/mms/manager/MmsManager.java=UTF-8
+encoding//src/com/tourzj/mms/req/DeliverReportReq.java=UTF-8
+encoding//src/com/tourzj/mms/req/DeliverReq.java=UTF-8
+encoding//src/com/tourzj/mms/req/Request.java=UTF-8
+encoding//src/com/tourzj/mms/req/SubmitReq.java=UTF-8
+encoding//src/com/tourzj/mms/rsp/DeliverReportRsp.java=UTF-8
+encoding//src/com/tourzj/mms/rsp/DeliverRsp.java=UTF-8
+encoding//src/com/tourzj/mms/rsp/Response.java=UTF-8
+encoding//src/com/tourzj/mms/rsp/SubmitRsp.java=UTF-8

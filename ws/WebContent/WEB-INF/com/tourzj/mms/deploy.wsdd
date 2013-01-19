@@ -1,0 +1,90 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from MmsEngineService WSDL service -->
+
+  <service name="MmsEngine" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://mms.tourzj.com"/>
+      <parameter name="wsdlServiceElement" value="MmsEngineService"/>
+      <parameter name="schemaQualified" value="http://rsp.mms.tourzj.com,http://req.mms.tourzj.com,http://mms.tourzj.com"/>
+      <parameter name="wsdlServicePort" value="MmsEngine"/>
+      <parameter name="className" value="com.tourzj.mms.MmsEngineSoapBindingSkeleton"/>
+      <parameter name="wsdlPortType" value="MmsEngine"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="*"/>
+
+      <typeMapping
+        xmlns:ns="http://req.mms.tourzj.com"
+        qname="ns:DeliverReportReq"
+        type="java:com.tourzj.mms.req.DeliverReportReq"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://rsp.mms.tourzj.com"
+        qname="ns:DeliverRsp"
+        type="java:com.tourzj.mms.rsp.DeliverRsp"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://rsp.mms.tourzj.com"
+        qname="ns:DeliverReportRsp"
+        type="java:com.tourzj.mms.rsp.DeliverReportRsp"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://req.mms.tourzj.com"
+        qname="ns:SubmitReq"
+        type="java:com.tourzj.mms.req.SubmitReq"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://req.mms.tourzj.com"
+        qname="ns:Request"
+        type="java:com.tourzj.mms.req.Request"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://rsp.mms.tourzj.com"
+        qname="ns:Response"
+        type="java:com.tourzj.mms.rsp.Response"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://req.mms.tourzj.com"
+        qname="ns:DeliverReq"
+        type="java:com.tourzj.mms.req.DeliverReq"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://rsp.mms.tourzj.com"
+        qname="ns:SubmitRsp"
+        type="java:com.tourzj.mms.rsp.SubmitRsp"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
