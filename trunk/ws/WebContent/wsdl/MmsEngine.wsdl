@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://mms.tourzj.com" xmlns:intf="http://mms.tourzj.com" xmlns:tns1="http://req.mms.tourzj.com" xmlns:tns2="http://rsp.mms.tourzj.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mms.tourzj.com">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://mms.tourzj.com">
+   <import namespace="http://req.mms.tourzj.com"/>
+   <import namespace="http://rsp.mms.tourzj.com"/>
+   <element name="deliver">
+    <complexType>
+     <sequence>
+      <element name="req" type="tns1:DeliverReq"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deliverResponse">
+    <complexType>
+     <sequence>
+      <element name="deliverReturn" type="tns2:DeliverRsp"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="submit">
+    <complexType>
+     <sequence>
+      <element name="req" type="tns1:SubmitReq"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="submitResponse">
+    <complexType>
+     <sequence>
+      <element name="submitReturn" type="tns2:SubmitRsp"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deliverReport">
+    <complexType>
+     <sequence>
+      <element name="req" type="tns1:DeliverReportReq"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deliverReportResponse">
+    <complexType>
+     <sequence>
+      <element name="deliverReportReturn" type="tns2:DeliverReportRsp"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://req.mms.tourzj.com">
+   <import namespace="http://rsp.mms.tourzj.com"/>
+   <complexType name="Request">
+    <sequence>
+     <element name="sendId" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="DeliverReq">
+    <complexContent>
+     <extension base="tns1:Request">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SubmitReq">
+    <complexContent>
+     <extension base="tns1:Request">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="DeliverReportReq">
+    <complexContent>
+     <extension base="tns1:Request">
+      <sequence>
+       <element name="mobile" nillable="true" type="xsd:string"/>
+       <element name="reportTime" nillable="true" type="xsd:string"/>
+       <element name="result" type="xsd:int"/>
+       <element name="resultMessage" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://rsp.mms.tourzj.com">
+   <import namespace="http://req.mms.tourzj.com"/>
+   <complexType name="Response">
+    <sequence>
+     <element name="resultCode" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="DeliverRsp">
+    <complexContent>
+     <extension base="tns2:Response">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SubmitRsp">
+    <complexContent>
+     <extension base="tns2:Response">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="DeliverReportRsp">
+    <complexContent>
+     <extension base="tns2:Response">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="deliverReportResponse">
+
+      <wsdl:part element="impl:deliverReportResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="submitResponse">
+
+      <wsdl:part element="impl:submitResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deliverResponse">
+
+      <wsdl:part element="impl:deliverResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="submitRequest">
+
+      <wsdl:part element="impl:submit" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deliverReportRequest">
+
+      <wsdl:part element="impl:deliverReport" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deliverRequest">
+
+      <wsdl:part element="impl:deliver" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="MmsEngine">
+
+      <wsdl:operation name="deliver">
+
+         <wsdl:input message="impl:deliverRequest" name="deliverRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deliverResponse" name="deliverResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="submit">
+
+         <wsdl:input message="impl:submitRequest" name="submitRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:submitResponse" name="submitResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deliverReport">
+
+         <wsdl:input message="impl:deliverReportRequest" name="deliverReportRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deliverReportResponse" name="deliverReportResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="MmsEngineSoapBinding" type="impl:MmsEngine">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="deliver">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deliverRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deliverResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="submit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="submitRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="submitResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deliverReport">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deliverReportRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deliverReportResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="MmsEngineService">
+
+      <wsdl:port binding="impl:MmsEngineSoapBinding" name="MmsEngine">
+
+         <wsdlsoap:address location="http://localhost:8080/ws/services/MmsEngine"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

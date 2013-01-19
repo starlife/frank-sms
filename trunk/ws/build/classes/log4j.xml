@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="sizeAppender"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="false" />
+		<param name="MaxFileSize" value="1KB" />
+		<param name="File" value="logs/mms.log" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n	" />				   
+		</layout>
+	</appender>
+	<appender name="dailyAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/webservice.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%t]-[%p] %m%n	" />
+		</layout>
+	</appender>
+	<!-- <appender name="updateSqlAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/sql/update.sql" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+
+	<logger name="updateSql" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="updateSqlAppender" />
+	</logger> -->
+	<logger name="com.tourzj.mms.MmsEngineSoapBindingImpl">
+    	<level value="DEBUG" />
+    </logger>
+	
+	<!-- for all other loggers log only debug and above log messages -->
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="dailyAppender" />
+	</root>
+
+</log4j:configuration>
+
+
+
