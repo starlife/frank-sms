@@ -79,9 +79,12 @@ public class PSender extends Thread implements AbstractSender
 					long curTime = System.currentTimeMillis();
 					if (curTime > (lastActiveTime + timeout))
 					{
-						// 链路已经空闲超过60s，且连接还未断开，需要发送UnbindMessage包
-						log.info("链路空闲超过60s，发送UnbindMessage包断开连接");
-						channel.unbind();
+						if (channel.isLogin())
+						{
+							// 链路已经空闲超过60s，且连接还未断开，需要发送UnbindMessage包
+							log.info("链路空闲超过60s，发送UnbindMessage包断开连接");
+							channel.unbind();
+						}
 
 					}
 
