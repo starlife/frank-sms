@@ -17,36 +17,36 @@ import com.tourzj.sms.rsp.ReportRsp;
 import com.tourzj.sms.rsp.DeliverRsp;
 
 /**
- * ����֪ͨ���ܻ����Ϊ�˲�Ӱ��Ч����Ҫ���߳�+������е���ʽ ���֪ͨʧ�ܣ���ôд��־
+ * 这里通知可能会很慢为了不影响效率需要用线程+缓冲队列的形式 如果通知失败，那么写日志
  * 
  * @author Administrator
  */
 public class NotifyThread extends Thread
 {
 	/**
-	 * ֪ͨURL
+	 * 通知URL
 	 */
 	static String URL = "http://localhost/ws/services/SmsEngine";
 
 	/**
-	 * ��ʱʱ��Ĭ��Ϊ1s
+	 * 超时时间默认为1s
 	 */
 	static int TIMEOUT = 1000;
 
 	private static final Log log = LogFactory.getLog(NotifyThread.class);
 
 	/**
-	 * ֪ͨʧ��д��־
+	 * 通知失败写日志
 	 */
 	private static final Log resultLog = LogFactory.getLog("result");
 
 	/**
-	 * ֪ͨ��Ϣ�������
+	 * 通知消息缓冲队列
 	 */
 	private final LinkedBlockingQueue<Request> buffer = new LinkedBlockingQueue<Request>();
 
 	/**
-	 * ��ʵ�����
+	 * 单实例对象
 	 */
 	private static NotifyThread instance = null;
 
@@ -61,7 +61,7 @@ public class NotifyThread extends Thread
 
 	public void run()
 	{
-		log.info("NotifyThread �߳̿���");
+		log.info("NotifyThread 线程开启");
 		while (!stop)
 		{
 			try
@@ -77,17 +77,16 @@ public class NotifyThread extends Thread
 				}
 				if (req instanceof ReportReq)
 				{
-					ReportReq deliverReportReq = (ReportReq) req;
-					if (!notifyReport(deliverReportReq))
+					ReportReq reportReq = (ReportReq) req;
+					if (!notifyReport(reportReq))
 					{
-						// ֪ͨʧ�ܣ�д��־
-						resultLog.info("sendid:" + deliverReportReq.getSendid()
-								+ "|mobile:" + deliverReportReq.getMobile()
-								+ "|result:" + deliverReportReq.getResult()
+						// 通知失锟杰ｏ拷写锟斤拷志
+						resultLog.info("sendid:" + reportReq.getSendid()
+								+ "|mobile:" + reportReq.getMobile()
+								+ "|result:" + reportReq.getResult()
 								+ "|resultMessage:"
-								+ deliverReportReq.getResultMessage()
-								+ "|reportTime:"
-								+ deliverReportReq.getReportTime());
+								+ reportReq.getResultMessage() + "|reportTime:"
+								+ reportReq.getReportTime());
 					}
 				}
 				else if (req instanceof DeliverReq)
@@ -95,7 +94,9 @@ public class NotifyThread extends Thread
 					DeliverReq deliverReq = (DeliverReq) req;
 					if (!notifyDeliver(deliverReq))
 					{
-						resultLog.info("deliver:" + deliverReq.getSendid());
+						resultLog.info("deliver:" + deliverReq.getSendid()
+								+ "|" + deliverReq.getMsgContent() + "|"
+								+ deliverReq.getRecipient());
 					}
 				}
 			}
@@ -104,7 +105,7 @@ public class NotifyThread extends Thread
 				log.error(null, e);
 			}
 		}
-		log.info("NotifyThread �̹߳ر�");
+		log.info("NotifyThread 线程关闭");
 	}
 
 	public static NotifyThread getInstance()
@@ -126,7 +127,7 @@ public class NotifyThread extends Thread
 		{
 			log.debug("notify webservice report msg");
 			SmsEngineSoapBindingStub stub = new SmsEngineSoapBindingStub(
-					new URL(URL), null);
+				new URL(URL), null);
 			stub.setTimeout(TIMEOUT);
 			rsp = stub.report(req);
 		}
@@ -147,9 +148,9 @@ public class NotifyThread extends Thread
 		DeliverRsp rsp = null;
 		try
 		{
-			log.debug("notify webservice report msg");
+			log.debug("notify webservice deliver msg");
 			SmsEngineSoapBindingStub stub = new SmsEngineSoapBindingStub(
-					new URL(URL), null);
+				new URL(URL), null);
 			stub.setTimeout(TIMEOUT);
 			rsp = stub.deliver(req);
 		}
@@ -169,8 +170,8 @@ public class NotifyThread extends Thread
 		this.stop = true;
 	}
 
-	public static void notifyReport(String sendid, String mobile,
-			int result, String resultMessage, String reportTime)
+	public static void notifyReport(String sendid, String mobile, int result,
+			String resultMessage, String reportTime)
 	{
 		ReportReq req = new ReportReq();
 		req.setSendid(sendid);
@@ -185,15 +186,16 @@ public class NotifyThread extends Thread
 			{
 				getInstance().notify();
 			}
-			log.debug("DeliverReportReq��ӳɹ��ȴ�֪ͨ");
+			log.debug("ReportReq入队成功等待通知");
 		}
 		else
 		{
-			log.debug("DeliverReportReq���ʧ��");
+			log.debug("ReportReq入队失败");
 		}
 	}
 
-	public static void notifyDeliver(String sendid,String msgContent,String recipient)
+	public static void notifyDeliver(String sendid, String msgContent,
+			String recipient)
 	{
 		DeliverReq req = new DeliverReq();
 		req.setSendid(sendid);
@@ -205,11 +207,11 @@ public class NotifyThread extends Thread
 			{
 				getInstance().notify();
 			}
-			log.debug("DeliverReq��ӳɹ��ȴ�֪ͨ");
+			log.debug("DeliverReq入队成功等待通知");
 		}
 		else
 		{
-			log.debug("DeliverReq���ʧ��");
+			log.debug("DeliverReq入队成功等待通知");
 		}
 
 	}
@@ -218,38 +220,9 @@ public class NotifyThread extends Thread
 	{
 		// NotifyThread client = new NotifyThread();
 		// notifyDeliver("5d9ee15e-fb8f-49cf-a397-adde8e4999ae");
-		NotifyThread.URL = "http://60.191.70.231/ws/services/MmsEngine";
-		for (int i = 0; i < 10; i++)
-		{
-			// notifyDeliver("5d9ee15e-fb8f-49cf-a397-adde8e4999ae");
-			notifyReport("34c53ce1-5656-4e78-b16d-93ffe84e9445",
-					"1377802386", 0, "1000", DateUtils
-							.getTimestamp14());
-		}
-		while (getInstance().buffer.size() != 0)
-		{
-			try
-			{
-				Thread.sleep(10);
-			}
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		try
-		{
-			Thread.sleep(10000);
-		}
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		notifyReport("34c53ce1-5656-4e78-b16d-93ffe84e9445",
-				"1377802386", 0, "1000",DateUtils
-						.getTimestamp14());
+		NotifyThread.URL = "http://localhost/ws/services/SmsEngine";
+		notifyReport("34c53ce1-5656-4e78-b16d-93ffe84e9445", "1377802386", 0,
+			"1000", DateUtils.getTimestamp14());
 		// getInstance().myStop();
 	}
 }
