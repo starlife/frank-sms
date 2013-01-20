@@ -14,7 +14,7 @@ public abstract class APackage
 
 	private long timestamp;// 包的发送或者接收时间
 
-	private int times;// 包的发送次数
+	private int times = 0;// 包的发送次数
 
 	public abstract Header getHead();
 

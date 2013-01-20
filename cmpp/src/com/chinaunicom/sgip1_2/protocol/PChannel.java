@@ -73,6 +73,13 @@ public class PChannel
 		this.loginpass = loginpass;
 	}
 
+	PChannel(String ip, int port, String nodeid, int loginType,
+			String loginname, String loginpass, int timeout)
+	{
+		this(ip, port, nodeid, loginType, loginname, loginpass);
+		this.timeout = timeout;
+	}
+
 	/**
 	 * 建立socket连接
 	 * 

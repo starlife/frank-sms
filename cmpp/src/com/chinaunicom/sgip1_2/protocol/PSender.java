@@ -27,6 +27,16 @@ public class PSender extends Thread implements AbstractSender
 	private static final Log lose = LogFactory.getLog("lose");// 记录日志
 
 	/**
+	 * 链路超时时间
+	 */
+	private int timeout = Constants.TIMEOUT;
+
+	/**
+	 * 发送重试次数
+	 */
+	private int retryTimes = Constants.RESEND_TIME;
+
+	/**
 	 * 保存发送提交失败的包，便于重新发送
 	 */
 	private final LinkedBlockingQueue<APackage> buffer = new LinkedBlockingQueue<APackage>(
@@ -39,10 +49,12 @@ public class PSender extends Thread implements AbstractSender
 	private PChannel channel;
 
 	public PSender(String ip, int port, String nodeid, int loginType,
-			String loginname, String loginpass)
+			String loginname, String loginpass, int timeout, int retryTimes)
 	{
 		channel = new PChannel(ip, port, nodeid, loginType, loginname,
-			loginpass);
+			loginpass, timeout);
+		this.timeout = timeout;
+		this.retryTimes = retryTimes;
 	}
 
 	@Override
@@ -65,7 +77,7 @@ public class PSender extends Thread implements AbstractSender
 				{
 					// 确认是否需要发送链路检测包
 					long curTime = System.currentTimeMillis();
-					if (curTime > (lastActiveTime + Constants.TIMEOUT))
+					if (curTime > (lastActiveTime + timeout))
 					{
 						// 链路已经空闲超过60s，且连接还未断开，需要发送UnbindMessage包
 						log.info("链路空闲超过60s，发送UnbindMessage包断开连接");
@@ -80,15 +92,30 @@ public class PSender extends Thread implements AbstractSender
 				}
 				// 设置发送时间
 				lastActiveTime = System.currentTimeMillis();
-				boolean flag = sendPacket(pack);
-				if (!flag)
+				try
 				{
-					if (!buffer.offer(pack))
+					boolean flag = sendPacket(pack);
+					if (!flag)
+					{
+						buffer.offer(pack);
+					}
+				}
+				catch (IOException ex)
+				{
+					// 发送失败重发
+					log.error(null, ex);
+					if (pack.getTryTimes() < retryTimes)
+					{
+						buffer.offer(pack);
+					}
+					else
 					{
 						// 记录丢失的包到文件中
-						lose.info("丢失包" + pack.getHead().getCommandIdString()
-								+ ",字节码:" + Hex.rhex(pack.getBytes()));
+						lose.info("丢失包，重试多次失败"
+								+ pack.getHead().getCommandIdString() + ",字节码:"
+								+ Hex.rhex(pack.getBytes()));
 					}
+
 				}
 
 			}
@@ -168,6 +195,8 @@ public class PSender extends Thread implements AbstractSender
 		String loginname = "106550577371";
 		String loginpass = "123456";
 		String nodeid = "61153";
+		int timeout = 60000;
+		int retryTimes = 3;
 		//
 		String spid = "61153";
 		String spnumber = "106550577371";
@@ -176,7 +205,7 @@ public class PSender extends Thread implements AbstractSender
 		String message = "测试消息";
 		String param = "";
 		PSender sender = new PSender(ip, port, nodeid, loginType, loginname,
-			loginpass);
+			loginpass, timeout, retryTimes);
 		SubmitMessage[] msgs = MessageUtil.createSubmitMessage(nodeid, spid,
 			spnumber, serviceCode, desttermid, message, param);
 		for (SubmitMessage pack : msgs)
