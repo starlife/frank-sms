@@ -24,7 +24,7 @@ public class PSender extends Thread implements AbstractSender
 
 	private static final Log log = LogFactory.getLog(PSender.class);// 记录日志
 
-	private static final Log lose = LogFactory.getLog("lose");// 记录日志
+	private static final Log discard = LogFactory.getLog("discard");// 记录日志
 
 	/**
 	 * 链路超时时间
@@ -114,7 +114,7 @@ public class PSender extends Thread implements AbstractSender
 					else
 					{
 						// 记录丢失的包到文件中
-						lose.info("丢失包，重试多次失败"
+						discard.info("丢失包，重试多次失败"
 								+ pack.getHead().getCommandIdString() + ",字节码:"
 								+ Hex.rhex(pack.getBytes()));
 					}
