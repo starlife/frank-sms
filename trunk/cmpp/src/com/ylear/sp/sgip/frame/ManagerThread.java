@@ -3,33 +3,33 @@ package com.ylear.sp.sgip.frame;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import com.ylear.sp.sgip.conf.Config;
+
 /**
  * 线程管理类
+ * 
  * @author Administrator
- *
  */
 public class ManagerThread extends Thread
 {
 	private volatile boolean stop = false;
 
-	private  final LinkedList<Receiver> recvThreadList = new LinkedList<Receiver>();
-	private  final LinkedList<Sender> sendThreadList = new LinkedList<Sender>();
-	
-	private static final Object recvLock=new Object();
-	private static final Object sendLock=new Object();
-	
+	private final LinkedList<Receiver> recvThreadList = new LinkedList<Receiver>();
+	private final LinkedList<Sender> sendThreadList = new LinkedList<Sender>();
+
+	private static final Object recvLock = new Object();
+	private static final Object sendLock = new Object();
+
 	private int sendThreadCount = 1;
 	private int recvThreadCount = 1;
 
-	public ManagerThread()
-	{
-		this.setDaemon(true);
-	}
+	private Config config = null;
 
-	public ManagerThread(int sendThreadCount, int recvThreadCount)
+	public ManagerThread(Config config, int sendThreadCount)
 	{
+		super("ManagerThread");
+		this.config = config;
 		this.sendThreadCount = sendThreadCount;
-		this.recvThreadCount = recvThreadCount;
 		this.setDaemon(true);
 	}
 
@@ -53,7 +53,7 @@ public class ManagerThread extends Thread
 					}
 					if (sendThreadList.size() < this.sendThreadCount)
 					{
-						Sender t = new Sender(Config.getInstance());
+						Sender t = new Sender(config);
 						t.start();
 						sendThreadList.add(t);
 					}
@@ -72,12 +72,12 @@ public class ManagerThread extends Thread
 					}
 					if (recvThreadList.size() < this.recvThreadCount)
 					{
-						Receiver t = new Receiver();
+						Receiver t = new Receiver(config);
 						t.start();
 						recvThreadList.add(t);
 					}
 				}
-				//睡眠30s
+				// ˯��30s
 				TimeUnit.SECONDS.sleep(30);
 
 			}
@@ -103,8 +103,7 @@ public class ManagerThread extends Thread
 			}
 			this.sendThreadList.clear();
 		}
-		
-		
+
 		synchronized (recvLock)
 		{
 			for (int i = 0; i < this.recvThreadList.size(); i++)
@@ -114,10 +113,9 @@ public class ManagerThread extends Thread
 			}
 			this.recvThreadList.clear();
 
-			
 		}
 		this.stop = true;
-		
+
 	}
 
 }

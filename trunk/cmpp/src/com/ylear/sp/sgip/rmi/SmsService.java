@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 
 public interface SmsService extends Remote
 {
-	public boolean sendSms(String msg,String to) throws RemoteException;
+	public boolean sendSms(String sendid, String msgContent, String recipient)
+			throws RemoteException;
 
 }
