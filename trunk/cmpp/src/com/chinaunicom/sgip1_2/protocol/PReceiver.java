@@ -61,6 +61,15 @@ public class PReceiver extends Thread implements AbstractReceiver
 		this.loginpass = loginpass;
 	}
 
+	public PReceiver(String listenIP, int ListenPort, int backLog,
+			String nodeid, int loginType, String loginname, String loginpass,
+			int timeout) // 构造方法
+	{
+		this(listenIP, ListenPort, backLog, nodeid, loginType, loginname,
+			loginpass);
+		this.timeout = timeout;
+	}
+
 	public void run() // 启动接收器
 	{
 		log.info("启动接收线程...");

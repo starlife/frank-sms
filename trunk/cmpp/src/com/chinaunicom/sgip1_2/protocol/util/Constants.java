@@ -15,10 +15,6 @@ public class Constants
 	 */
 	public static final int RESEND_TIME = 3;// 重发次数
 
-	/**
-	 * 发送心跳包频率（ms）
-	 */
-	public static final long HEARTBEAT = 5000;
 	
 	/**
 	 * 每秒最多提交条数
