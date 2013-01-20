@@ -5,9 +5,8 @@ import java.rmi.Naming;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.frank.sp.sgip.rmi.SmsService;
 import com.tourzj.common.Env;
-import com.unicom.mm7.bean.UMms;
-import com.unicom.mm7.rmi.MmsService;
 
 public class SmsManager {
 	private static final Log log = LogFactory.getLog(SmsManager.class);
@@ -21,13 +20,16 @@ public class SmsManager {
 				log.error("取rmi地址rmi_address值为空");
 				address = "rmi://localhost:7777/SmsService";
 			}
-			//SmsService smsSrv = (SmsService) Naming.lookup(address);
-			//ret = mmsSrv.sendSms(mms);
+			SmsService smsSrv = (SmsService) Naming.lookup(address);
+			ret = smsSrv.sendSms(sendid,msgContent,recipient);
 			ret=true;
 		} catch (Exception e) {
 			log.error(null, e);
 		}
 		return ret;
+	}
+	public static void main(String[] args) {
+		System.out.println(submit("sendid","msg","13777802386"));
 	}
 
 	
