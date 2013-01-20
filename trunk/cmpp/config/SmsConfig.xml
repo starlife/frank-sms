@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<SmsConfig>
+	<SMGServer>211.90.245.97</SMGServer>
+	<SMGPort>8801</SMGPort>
+	<LoginName>106550577371</LoginName>
+	<LoginPass>123456</LoginPass>
+	<SPID>61153</SPID>
+	<SPNumber>106550577371</SPNumber>
+	<ServiceCode>1</ServiceCode>
+	<NodeID>61153</NodeID>
+	<!--  -->
+	<FeeSwitch>false</FeeSwitch>
+	<FeeType>1</FeeType>
+	<FeeValue></FeeValue>
+	<!--  -->
+	<ListenAddr></ListenAddr>
+	<ListenPort>8801</ListenPort>
+	<BackLog>50</BackLog>
+	<!--  -->
+	<TimeOut>60000</TimeOut>
+	<SendThread>1</SendThread>
+	<RetryCount>3</RetryCount>
+	<MaxSpeed>1</MaxSpeed>
+	<MassCount>17</MassCount>
+	<RMI>rmi://localhost:7777/SmsService</RMI>
+	<NotifyURL>http://localhost/ws/services/SmsEngine</NotifyURL>
+</SmsConfig>
