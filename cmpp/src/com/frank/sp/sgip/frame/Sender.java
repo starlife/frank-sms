@@ -53,7 +53,7 @@ public class Sender extends PSender
 
 	public Sender(Config cfg)
 	{
-		super(cfg.getSMGServer(), cfg.getSMGPort(), cfg.getNodeID(), 2, cfg
+		super(cfg.getSMGServer(), cfg.getSMGPort(), cfg.getNodeID(), 1, cfg
 			.getLoginName(), cfg.getLoginPass(), cfg.getTimeOut(), cfg
 			.getRetryCount());
 		this.spid = cfg.getSPID();
@@ -89,7 +89,8 @@ public class Sender extends PSender
 						// TODO Auto-generated catch block
 						log.error(null, e);
 					}
-				}else
+				}
+				else
 				{
 					// 短信sendId
 					String sendId = sms.getSendid();
@@ -164,6 +165,10 @@ public class Sender extends PSender
 
 			for (String mobile : mobiles)
 			{
+				if (mobile.startsWith("86"))
+				{
+					mobile = mobile.substring(2, mobile.length());
+				}
 				synchronized (sessionExMap)
 				{
 					// 如果messageidMap大于100000，说明程序有错误，需要清理
