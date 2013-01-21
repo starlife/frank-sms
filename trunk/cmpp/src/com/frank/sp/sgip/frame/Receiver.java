@@ -44,6 +44,14 @@ public class Receiver extends PReceiver
 	{
 		Sequence submitReq = req.getSubmitSeq();
 		String mobile = req.getUserNumber();
+		if (mobile.startsWith("+86"))
+		{
+			mobile = mobile.substring(3, mobile.length());
+		}
+		else if (mobile.startsWith("86"))
+		{
+			mobile = mobile.substring(2, mobile.length());
+		}
 		int errorCode = req.getErrorCode();
 		String sendid = null;
 		synchronized (Sender.sessionExMap)
