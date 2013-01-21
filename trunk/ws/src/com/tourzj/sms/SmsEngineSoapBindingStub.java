@@ -101,6 +101,13 @@ public class SmsEngineSoapBindingStub extends org.apache.axis.client.Stub implem
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
+            qName = new javax.xml.namespace.QName("http://req.sms.tourzj.com", "Request");
+            cachedSerQNames.add(qName);
+            cls = com.tourzj.sms.req.Request.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://req.sms.tourzj.com", "SubmitReq");
             cachedSerQNames.add(qName);
             cls = com.tourzj.sms.req.SubmitReq.class;

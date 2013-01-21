@@ -7,7 +7,7 @@
 
 package com.tourzj.sms.req;
 
-public class DeliverReq  implements java.io.Serializable {
+public class DeliverReq  extends com.tourzj.sms.req.Request  implements java.io.Serializable {
     private java.lang.String msgContent;
 
     private java.lang.String recipient;
@@ -16,10 +16,13 @@ public class DeliverReq  implements java.io.Serializable {
     }
 
     public DeliverReq(
+           java.lang.String sendid,
            java.lang.String msgContent,
            java.lang.String recipient) {
-           this.msgContent = msgContent;
-           this.recipient = recipient;
+        super(
+            sendid);
+        this.msgContent = msgContent;
+        this.recipient = recipient;
     }
 
 
@@ -73,7 +76,7 @@ public class DeliverReq  implements java.io.Serializable {
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = true && 
+        _equals = super.equals(obj) && 
             ((this.msgContent==null && other.getMsgContent()==null) || 
              (this.msgContent!=null &&
               this.msgContent.equals(other.getMsgContent()))) &&
@@ -90,7 +93,7 @@ public class DeliverReq  implements java.io.Serializable {
             return 0;
         }
         __hashCodeCalc = true;
-        int _hashCode = 1;
+        int _hashCode = super.hashCode();
         if (getMsgContent() != null) {
             _hashCode += getMsgContent().hashCode();
         }
@@ -153,7 +156,6 @@ public class DeliverReq  implements java.io.Serializable {
     }
     public String toString()
     {
-    	return getClass().getName()+"{msgContent:" + this.getMsgContent() + "|recipient:" + this.getRecipient() + "}";
+    	return getClass().getName()+"{sendid:" + getSendid() + "|msgContent:" + this.getMsgContent() + "|recipient:" + this.getRecipient() + "}";
     }
-
 }
