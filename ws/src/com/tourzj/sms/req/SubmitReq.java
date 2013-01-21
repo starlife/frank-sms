@@ -7,23 +7,22 @@
 
 package com.tourzj.sms.req;
 
-public class SubmitReq  implements java.io.Serializable {
+public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.Serializable {
     private java.lang.String msgContent;
 
     private java.lang.String recipient;
-
-    private java.lang.String sendid;
 
     public SubmitReq() {
     }
 
     public SubmitReq(
+           java.lang.String sendid,
            java.lang.String msgContent,
-           java.lang.String recipient,
-           java.lang.String sendid) {
-           this.msgContent = msgContent;
-           this.recipient = recipient;
-           this.sendid = sendid;
+           java.lang.String recipient) {
+        super(
+            sendid);
+        this.msgContent = msgContent;
+        this.recipient = recipient;
     }
 
 
@@ -66,26 +65,6 @@ public class SubmitReq  implements java.io.Serializable {
         this.recipient = recipient;
     }
 
-
-    /**
-     * Gets the sendid value for this SubmitReq.
-     * 
-     * @return sendid
-     */
-    public java.lang.String getSendid() {
-        return sendid;
-    }
-
-
-    /**
-     * Sets the sendid value for this SubmitReq.
-     * 
-     * @param sendid
-     */
-    public void setSendid(java.lang.String sendid) {
-        this.sendid = sendid;
-    }
-
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof SubmitReq)) return false;
@@ -97,16 +76,13 @@ public class SubmitReq  implements java.io.Serializable {
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = true && 
+        _equals = super.equals(obj) && 
             ((this.msgContent==null && other.getMsgContent()==null) || 
              (this.msgContent!=null &&
               this.msgContent.equals(other.getMsgContent()))) &&
             ((this.recipient==null && other.getRecipient()==null) || 
              (this.recipient!=null &&
-              this.recipient.equals(other.getRecipient()))) &&
-            ((this.sendid==null && other.getSendid()==null) || 
-             (this.sendid!=null &&
-              this.sendid.equals(other.getSendid())));
+              this.recipient.equals(other.getRecipient())));
         __equalsCalc = null;
         return _equals;
     }
@@ -117,15 +93,12 @@ public class SubmitReq  implements java.io.Serializable {
             return 0;
         }
         __hashCodeCalc = true;
-        int _hashCode = 1;
+        int _hashCode = super.hashCode();
         if (getMsgContent() != null) {
             _hashCode += getMsgContent().hashCode();
         }
         if (getRecipient() != null) {
             _hashCode += getRecipient().hashCode();
-        }
-        if (getSendid() != null) {
-            _hashCode += getSendid().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -146,12 +119,6 @@ public class SubmitReq  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("recipient");
         elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "recipient"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("sendid");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "sendid"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
@@ -188,7 +155,7 @@ public class SubmitReq  implements java.io.Serializable {
             _javaType, _xmlType, typeDesc);
     }
     
-    public String toString()
+     public String toString()
     {
     	return getClass().getName()+"{sendid:" + getSendid() + "|msgContent:" + this.getMsgContent() + "|recipient:" + this.getRecipient() + "}";
     }

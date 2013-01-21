@@ -7,7 +7,7 @@
 
 package com.tourzj.sms.req;
 
-public class ReportReq  implements java.io.Serializable {
+public class ReportReq  extends com.tourzj.sms.req.Request  implements java.io.Serializable {
     private java.lang.String mobile;
 
     private java.lang.String reportTime;
@@ -16,22 +16,21 @@ public class ReportReq  implements java.io.Serializable {
 
     private java.lang.String resultMessage;
 
-    private java.lang.String sendid;
-
     public ReportReq() {
     }
 
     public ReportReq(
+           java.lang.String sendid,
            java.lang.String mobile,
            java.lang.String reportTime,
            int result,
-           java.lang.String resultMessage,
-           java.lang.String sendid) {
-           this.mobile = mobile;
-           this.reportTime = reportTime;
-           this.result = result;
-           this.resultMessage = resultMessage;
-           this.sendid = sendid;
+           java.lang.String resultMessage) {
+        super(
+            sendid);
+        this.mobile = mobile;
+        this.reportTime = reportTime;
+        this.result = result;
+        this.resultMessage = resultMessage;
     }
 
 
@@ -114,26 +113,6 @@ public class ReportReq  implements java.io.Serializable {
         this.resultMessage = resultMessage;
     }
 
-
-    /**
-     * Gets the sendid value for this ReportReq.
-     * 
-     * @return sendid
-     */
-    public java.lang.String getSendid() {
-        return sendid;
-    }
-
-
-    /**
-     * Sets the sendid value for this ReportReq.
-     * 
-     * @param sendid
-     */
-    public void setSendid(java.lang.String sendid) {
-        this.sendid = sendid;
-    }
-
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof ReportReq)) return false;
@@ -145,7 +124,7 @@ public class ReportReq  implements java.io.Serializable {
         }
         __equalsCalc = obj;
         boolean _equals;
-        _equals = true && 
+        _equals = super.equals(obj) && 
             ((this.mobile==null && other.getMobile()==null) || 
              (this.mobile!=null &&
               this.mobile.equals(other.getMobile()))) &&
@@ -155,10 +134,7 @@ public class ReportReq  implements java.io.Serializable {
             this.result == other.getResult() &&
             ((this.resultMessage==null && other.getResultMessage()==null) || 
              (this.resultMessage!=null &&
-              this.resultMessage.equals(other.getResultMessage()))) &&
-            ((this.sendid==null && other.getSendid()==null) || 
-             (this.sendid!=null &&
-              this.sendid.equals(other.getSendid())));
+              this.resultMessage.equals(other.getResultMessage())));
         __equalsCalc = null;
         return _equals;
     }
@@ -169,7 +145,7 @@ public class ReportReq  implements java.io.Serializable {
             return 0;
         }
         __hashCodeCalc = true;
-        int _hashCode = 1;
+        int _hashCode = super.hashCode();
         if (getMobile() != null) {
             _hashCode += getMobile().hashCode();
         }
@@ -179,9 +155,6 @@ public class ReportReq  implements java.io.Serializable {
         _hashCode += getResult();
         if (getResultMessage() != null) {
             _hashCode += getResultMessage().hashCode();
-        }
-        if (getSendid() != null) {
-            _hashCode += getSendid().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -214,12 +187,6 @@ public class ReportReq  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("resultMessage");
         elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "resultMessage"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("sendid");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "sendid"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);

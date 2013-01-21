@@ -57,8 +57,6 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 		String sendid = req.getSendid();
 		String msgContent = req.getMsgContent();
 		String recipient = req.getRecipient();
-
-		boolean ret = SmsManager.submit(sendid, msgContent, recipient);
 		com.tourzj.sms.rsp.SubmitRsp rsp = new com.tourzj.sms.rsp.SubmitRsp();
 		rsp.setResultCode(Constants.SUCCESS);
 		if (!SmsManager.submit(sendid, msgContent, recipient)) {
