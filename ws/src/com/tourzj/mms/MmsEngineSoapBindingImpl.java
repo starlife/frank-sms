@@ -132,7 +132,6 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 	}
 
 	private boolean notifyDeliverReport(DeliverReportReq req) {
-		DeliverReportRsp rsp = null;
 		try {
 			log.debug("DeliverReport notify");
 			MMSLTRepSoapStub stub = new MMSLTRepSoapStub(
@@ -141,8 +140,10 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 			stub.notifyMmsDeliveryReport(req);
 		} catch (MalformedURLException ex) {
 			log.error(null, ex);
+			return false;
 		} catch (RemoteException ex) {
 			log.error(null, ex);
+			return false;
 		}
 		// return rsp != null && rsp.getResultCode() == Constants.SUCCESS;
 		return true;
