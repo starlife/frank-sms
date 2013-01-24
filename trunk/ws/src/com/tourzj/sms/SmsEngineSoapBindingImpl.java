@@ -7,9 +7,15 @@
 
 package com.tourzj.sms;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tempuri.ServiceSoapStub;
 
+import com.tourzj.common.Env;
 import com.tourzj.common.constant.Constants;
 import com.tourzj.sms.manager.SmsManager;
 import com.tourzj.sms.req.DeliverReq;
@@ -68,11 +74,43 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 	}
 
 	private boolean notifyDeliver(DeliverReq req) {
-		return false;
+		try {
+			log.debug("转送sms-deliver消息给对方");
+			ServiceSoapStub stub = new ServiceSoapStub(new URL(getWsAddress()),
+					null);
+			stub.setTimeout(1000);
+			stub.notifyLTSms(req.getRecipient(), req.getMsgContent());
+		} catch (MalformedURLException ex) {
+			log.error(null, ex);
+			return false;
+		} catch (RemoteException ex) {
+			log.error(null, ex);
+			return false;
+		}
+		// return rsp != null && rsp.getResultCode() == Constants.SUCCESS;
+		return true;
 	}
 
 	private boolean notifyReport(ReportReq req) {
 		return false;
+	}
+
+	private String getWsAddress() {
+		String address = Env.getEnv().getString("ws_smsaddress");
+		if (address == null) {
+			log.error("取tourzj地址ws_smsaddress值为空");
+			address = "";
+		}
+		return address;
+	}
+
+	public static void main(String[] args) {
+		SmsEngineSoapBindingImpl impl = new SmsEngineSoapBindingImpl();
+		DeliverReq req = new DeliverReq();
+		req.setSendid("111");
+		req.setRecipient("13003664740");
+		req.setMsgContent("msgcontent");
+		System.out.println(impl.notifyDeliver(req));
 	}
 
 }
