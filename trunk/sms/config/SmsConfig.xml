@@ -18,6 +18,7 @@
 	<BackLog>50</BackLog>
 	<!--  -->
 	<TimeOut>50000</TimeOut>
+	<WSTimeOut>3000</WSTimeOut>
 	<ServerTimeOut>60000</ServerTimeOut>
 	<SendThread>1</SendThread>
 	<RetryCount>3</RetryCount>
