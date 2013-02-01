@@ -25,7 +25,7 @@ public class Receiver extends PReceiver
 	{
 		super(cfg.getListenAddr(), cfg.getListenPort(), cfg.getBackLog(), cfg
 			.getNodeID(), 2, cfg.getLoginName(), cfg.getLoginPass(), cfg
-			.getTimeOut());
+			.getServerTimeOut());
 		// TODO Auto-generated constructor stub
 	}
 
