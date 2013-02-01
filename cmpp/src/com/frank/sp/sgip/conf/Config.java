@@ -27,7 +27,8 @@ public class Config
 	private int ListenPort;// 本地服务端端口
 	private int BackLog;// 本地服务最大监听数
 
-	private int TimeOut;// socket连接超时时间
+	private int TimeOut;// 客户端socket连接超时时间
+	private int ServerTimeOut;// 服务端socket连接超时时间
 	private int SendThread = 1;// 发送线程
 	private int RetryCount = 3;// 重发次数
 	private int MaxSpeed = 2;// 每秒发送条数
@@ -76,6 +77,7 @@ public class Config
 		BackLog = Integer.parseInt((String) map.get("BackLog"));
 
 		TimeOut = Integer.parseInt((String) map.get("TimeOut"));
+		ServerTimeOut = Integer.parseInt((String) map.get("ServerTimeOut"));
 		SendThread = Integer.parseInt((String) map.get("SendThread"));
 		RetryCount = Integer.parseInt((String) map.get("RetryCount"));
 		MaxSpeed = Integer.parseInt((String) map.get("MaxSpeed"));
@@ -336,6 +338,16 @@ public class Config
 	{
 		Config config = new Config("./config/SmsConfig.xml");
 		System.out.println(config);
+	}
+
+	public int getServerTimeOut()
+	{
+		return ServerTimeOut;
+	}
+
+	public void setServerTimeOut(int serverTimeOut)
+	{
+		ServerTimeOut = serverTimeOut;
 	}
 
 
