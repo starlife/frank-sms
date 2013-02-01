@@ -31,6 +31,7 @@ public class Main
 		log.info("启动彩信程序...");
 		Constants.MAX_SPEED = config.getMaxSpeed();
 		NotifyThread.URL = config.getNotifyURL();
+		NotifyThread.TIMEOUT = config.getWSTimeOut();
 		startRMIServer();
 		tm = new ManagerThread(config, config.getSendThread());
 		tm.start();
