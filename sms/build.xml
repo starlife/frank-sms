@@ -5,124 +5,171 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="cmpp">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="D:/MyEclipse 6.5/eclipse"/>
-    <property name="junit.output.dir" value="junit"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
-    <path id="JUnit 3.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_3.8.2.v200706111738/junit.jar"/>
-    </path>
-    <path id="Hibernate 3.2 Annotations &amp; Entity Manager.libraryclasspath">
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/hibernate-annotations.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/hibernate-commons-annotations.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/hibernate-entitymanager.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/hibernate-validator.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/ejb3-persistence.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/entitymanager/jboss-archive-browsing.jar"/>
-    </path>
-    <path id="Hibernate 3.2 Core Libraries.libraryclasspath">
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/antlr-2.7.6.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/asm.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/asm-attrs.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.1/lib/cglib-2.1.3.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/commons-collections-2.1.1.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/commons-logging-1.0.4.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.1/lib/dom4j-1.6.1.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/ehcache-1.2.3.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/hibernate3.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/jaas.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.1/lib/jaxen-1.1-beta-7.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/javassist.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/jdbc2_0-stdext.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/jta.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.1/lib/log4j-1.2.11.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/xerces-2.6.2.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/xml-apis.jar"/>
-    </path>
-    <path id="Hibernate 3.2 Advanced Support Libraries.libraryclasspath">
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/c3p0-0.9.1.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/concurrent-1.3.2.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/connector.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.2/lib/jboss-cache.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/optional/jboss-common.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/optional/jboss-jmx.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/optional/jboss-system.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/jacc-1_0-fr.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.1/lib/jgroups-2.2.8.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/oscache-2.1.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/proxool-0.8.3.jar"/>
-        <pathelement location="D:/MyEclipse 6.5/myeclipse/eclipse/plugins/com.genuitec.org.hibernate.eclipse_3.2.2.CR1/myeclipse-data/3.0/lib/swarmcache-1.0rc2.jar"/>
-    </path>
-    <path id="cmpp.classpath">
-        <pathelement location="classes"/>
-        <!-- <path refid="JUnit 3.libraryclasspath"/>
-        <path refid="Hibernate 3.2 Annotations &amp; Entity Manager.libraryclasspath"/>
-        <path refid="Hibernate 3.2 Core Libraries.libraryclasspath"/>
-        <path refid="Hibernate 3.2 Advanced Support Libraries.libraryclasspath"/> -->
-        <pathelement location="lib/sqljdbc.jar"/>
-        <pathelement location="lib/log4j-1.2.16.jar"/>
-        <pathelement location="lib/commons-logging-1.1.1.jar"/>
-        <pathelement location="lib/commons-lang-2.5.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="classes"/>
-        <copy includeemptydirs="false" todir="classes">
-            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="classes"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="classes" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="cmpp.classpath"/>
-        </javac>
-    </target>
-    
-    <target name="HexTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="com.chinamobile.cmpp3_0.protocol.util.HexTest" todir="${junit.output.dir}"/>
-            <classpath refid="cmpp.classpath"/>
-        </junit>
-    </target>
-    <target name="Main">
-        <java classname="com.ylear.sp.cmpp.frame.Main" failonerror="true" fork="yes">
-            <classpath refid="cmpp.classpath"/>
-        </java>
-    </target>
-    <target name="MD5Test">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="com.chinamobile.cmpp3_0.protocol.util.MD5Test" todir="${junit.output.dir}"/>
-            <classpath refid="cmpp.classpath"/>
-        </junit>
-    </target>
-    <target name="Test">
-        <java classname="com.ylear.sp.cmpp.frame.Test" failonerror="true" fork="yes">
-            <classpath refid="cmpp.classpath"/>
-        </java>
-    </target>
-    <target name="PChannel">
-        <java classname="com.chinamobile.cmpp2_0.protocol.PChannel" failonerror="true" fork="yes">
-            <classpath refid="cmpp.classpath"/>
-        </java>
-    </target>
-        <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+	<property environment="env" />
+	<property name="source.dir" value="src" />
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="build" />
+	<property name="class.dir" value="${build.dir}/classes" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+	<!--<property name="OS.type" value="${env.OS}" />-->
+	<path id="JUnit 3.libraryclasspath">
+		<pathelement location="${ECLIPSE_HOME}/plugins/org.junit_3.8.2.v200706111738/junit.jar" />
+	</path>
+
+	<path id="Hibernate3.2">
+		<fileset dir="${lib.dir}/hibernate/" includes="*.jar" />
+	</path>
+	<path id="SmsEngineClient">
+		<fileset dir="${lib.dir}/webservice/" includes="*.jar" />
+	</path>
+
+	<path id="ApacheCommon">
+		<fileset dir="${lib.dir}/common/" includes="*.jar" />
+	</path>
+
+	<path id="log4j">
+		<fileset dir="${lib.dir}/log4j/" includes="*.jar" />
+	</path>
+
+	<path id="lib">
+		<fileset dir="${lib.dir}/" includes="*.jar" />
+	</path>
+
+	<path id="classpath">
+		<path refid="Hibernate3.2" />
+		<path refid="ApacheCommon" />
+		<path refid="SmsEngineClient" />
+		<path refid="log4j" />
+		<path refid="lib" />
+	</path>
+
+	<path id="cmpp.classpath">
+		<pathelement location="classes" />
+		<path refid="classpath" />
+	</path>
+
+
+
+	<pathconvert pathsep=" " property="Hibernate3.2libs" refid="Hibernate3.2">
+		<mapper>
+			<chainedmapper>
+				<!-- remove absolute path -->
+				<flattenmapper />
+				<!-- add lib/ prefix -->
+				<globmapper from="*" to="${lib.dir}/hibernate/*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<pathconvert pathsep=" " property="SmsEngineClientlibs" refid="SmsEngineClient">
+		<mapper>
+			<chainedmapper>
+				<!-- remove absolute path -->
+				<flattenmapper />
+				<!-- add lib/ prefix -->
+				<globmapper from="*" to="${lib.dir}/webservice/*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<pathconvert pathsep=" " property="ApacheCommonlibs" refid="ApacheCommon">
+		<mapper>
+			<chainedmapper>
+				<!-- remove absolute path -->
+				<flattenmapper />
+				<!-- add lib/ prefix -->
+				<globmapper from="*" to="${lib.dir}/common/*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<pathconvert pathsep=" " property="log4jlibs" refid="log4j">
+		<mapper>
+			<chainedmapper>
+				<!-- remove absolute path -->
+				<flattenmapper />
+				<!-- add lib/ prefix -->
+				<globmapper from="*" to="${lib.dir}/log4j/*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<pathconvert pathsep=" " property="libs" refid="lib">
+		<mapper>
+			<chainedmapper>
+				<!-- remove absolute path -->
+				<flattenmapper />
+				<!-- add lib/ prefix -->
+				<globmapper from="*" to="${lib.dir}/*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<target name="test">
+		<property name="ttt" value="${cmpp.classpath}" />
+		<echo message="The type of OS: ${OS.type}" />
+		<echo message="${Hibernate3.2libs} ${SmsEngineClientlibs} ${ApacheCommonlibs} ${log4jlibs} ${libs}" />
+	</target>
+
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${class.dir}" />
+	</target>
+
+
+
+
+	<target name="compile" depends="init">
+		<!-- compile all java  source file  in source.dir -->
+		<javac srcdir="${source.dir}" destdir="${class.dir}" classpathref="classpath" includes="**/*.java" debug="true" debuglevel="${debuglevel}" source="${source}" target="${target}" encoding="UTF-8" />
+		<!-- copy all excludes java  source file in source.dir  -->
+		<copy includeemptydirs="false" todir="${class.dir}">
+			<fileset dir="${source.dir}" excludes="**/*.java,**/*.dtd">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="sms" depends="compile">
+		<jar jarfile="sms.jar" basedir="${class.dir}" includes="**/*.class,**/*.xml" excludes="**/Test.class,*.class">
+			<manifest>
+				<attribute name="Main-Class" value="com.frank.sp.sgip.frame.Main" />
+				<attribute name="Class-Path" value="${Hibernate3.2libs} ${SmsEngineClientlibs} ${ApacheCommonlibs} ${log4jlibs} ${libs}" />
+			</manifest>
+		</jar>
+	</target>
+
+	
+
+	<target name="run" depends="sms">
+		<java jar="sms.jar" fork="true">
+		</java>
+	</target>
+
+	<target depends="build-project" name="build" />
+
+	<target depends="compile" name="build-project" />
+
+
+	<target name="Main">
+		<java classname="com.frank.sp.sgip.frame.Main" failonerror="true" fork="yes">
+			<classpath refid="cmpp.classpath" />
+		</java>
+	</target>
+
+	<target name="junitreport">
+		<junitreport todir="${junit.output.dir}">
+			<fileset dir="${junit.output.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.output.dir}" />
+		</junitreport>
+	</target>
 </project>

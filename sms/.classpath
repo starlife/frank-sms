@@ -3,12 +3,34 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.hibernate.MYECLIPSE_HIBERNATE3_2_EM"/>
-	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.hibernate.MYECLIPSE_HIBERNATE3_2_CORE"/>
-	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.hibernate.MYECLIPSE_HIBERNATE3_2_EXTRAS"/>
-	<classpathentry exported="true" kind="lib" path="lib/sqljdbc.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/sqljdbc.jar"/>
+	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/common/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/common/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/common/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/asm.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/hibernate3.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/jaas.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/javassist.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/jaxen-1.1-beta-7.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/jdbc2_0-stdext.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/jta.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/xerces-2.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xmlParserAPIs.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/axis.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/saaj.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/SmsEngine.jar"/>
+	<classpathentry kind="lib" path="lib/webservice/wsdl4j.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
