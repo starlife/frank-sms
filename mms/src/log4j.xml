@@ -108,6 +108,11 @@
     <logger name="org.apache.axis.transport.http.HTTPSender">
     	<level value="INFO" />
     </logger>
+    
+    <logger name="com.cmcc.mm7.vasp.common.TpsTool">
+    	<level value="INFO" />
+    </logger>
+    
 	<!-- ConnectionPool使用的错误日志 -->
 	<logger name="connErr" additivity="false">
 		<level value="INFO" />
