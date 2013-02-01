@@ -81,6 +81,16 @@
 		</layout>
 	</appender>
 	
+	<appender name="hexAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="logs/hex/hex.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n" />
+		</layout>
+	</appender>
+	
 	
 	
 	<!-- 不打印Hibernate框架的调试日志 -->
@@ -129,6 +139,10 @@
 		<appender-ref ref="speedAppender" />
 	</logger>
 	
+	<logger name="hex" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="hexAppender" />
+	</logger>
 	
 	<!-- for all other loggers log only debug and above log messages -->
 	<root>
