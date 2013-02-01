@@ -125,7 +125,7 @@
 
 	<target name="compile" depends="init">
 		<!-- compile all java  source file  in source.dir -->
-		<javac srcdir="${source.dir}" destdir="${class.dir}" classpathref="classpath" includes="**/*.java" debug="true" debuglevel="${debuglevel}" source="${source}" target="${target}" />
+		<javac srcdir="${source.dir}" destdir="${class.dir}" classpathref="classpath" includes="**/*.java" debug="true" debuglevel="${debuglevel}" source="${source}" target="${target}"  encoding="UTF-8"/>
 		<!-- copy all excludes java  source file in source.dir  -->
 		<copy includeemptydirs="false" todir="${class.dir}">
 			<fileset dir="${source.dir}" excludes="**/*.java,**/*.dtd">
