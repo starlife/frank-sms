@@ -311,6 +311,8 @@ public class MM7Config
 		sb.append("\r\n");
 		sb.append("<TimeOut>" + TimeOut + "</TimeOut>");
 		sb.append("\r\n");
+		sb.append("<WSTimeOut>" + WSTimeOut + "</WSTimeOut>");
+		sb.append("\r\n");
 		sb.append("<ReSendCount>" + ReSendCount + "</ReSendCount>");
 		sb.append("\r\n");
 		sb.append("<SendThread>" + sendThread + "</SendThread>");
