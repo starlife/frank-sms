@@ -1,5 +1,5 @@
 /**
- * File Name:ConnectionPool.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-9
+ * File Name:ConnectionPool.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-9
  */
 
 package com.cmcc.mm7.vasp.common;
@@ -58,7 +58,7 @@ public class Connection
 			socket = new Socket(ip, port);
 			this.activeTime = System.currentTimeMillis();
 			socket.setSoTimeout(timeout);
-			log.debug("½¨Á¢ĞÂsocketÁ¬½Ó³É¹¦" + socket.getLocalSocketAddress()
+			log.debug("å»ºç«‹æ–°socketè¿æ¥æˆåŠŸ" + socket.getLocalSocketAddress()
 					+ socket.getRemoteSocketAddress());
 
 			return true;
@@ -66,7 +66,7 @@ public class Connection
 		catch (Exception e)
 		{
 			socket = null;
-			log.error("´´½¨socketÁ¬½ÓÊ§°Ü", e);
+			log.error("åˆ›å»ºsocketè¿æ¥å¤±è´¥", e);
 			return false;
 		}
 
@@ -74,20 +74,20 @@ public class Connection
 
 	public synchronized Socket getConn()
 	{
-		// Èç¹ûµ±Ç°socketÎŞĞ§£¬ÄÇÃ´ÖØĞÂ´´½¨socket
+		// å¦‚æœå½“å‰socketæ— æ•ˆï¼Œé‚£ä¹ˆé‡æ–°åˆ›å»ºsocket
 		if (!isSocketAvail(socket))
 		{
 			buildLink();
 		}
-		// Èç¹ûµ±Ç°socketµÄÉÏ´ÎÊ¹ÓÃÊ±¼äµ½ÏÖÔÚÒÑ¾­³¬¹ıtimeout£¬ÄÇÃ´¸ÃsocketÎŞĞ§£¬ĞèÒªÖØĞÂ´´½¨socket
+		// å¦‚æœå½“å‰socketçš„ä¸Šæ¬¡ä½¿ç”¨æ—¶é—´åˆ°ç°åœ¨å·²ç»è¶…è¿‡timeoutï¼Œé‚£ä¹ˆè¯¥socketæ— æ•ˆï¼Œéœ€è¦é‡æ–°åˆ›å»ºsocket
 		long between = System.currentTimeMillis() - activeTime;
 		if (between > timeout)
 		{
-			log.debug("µ±Ç°SocketÉÏ´ÎÊ¹ÓÃÊ±¼äµ½ÏÖÔÚÒÑ¾­³¬¹ı" + between + "ms,ĞèÒªÖØĞÂ½¨Á¢Á¬½Ó");
+			log.debug("å½“å‰Socketä¸Šæ¬¡ä½¿ç”¨æ—¶é—´åˆ°ç°åœ¨å·²ç»è¶…è¿‡" + between + "ms,éœ€è¦é‡æ–°å»ºç«‹è¿æ¥");
 			buildLink();
 		}
 
-		// Ã¿Ò»´ÎÊ¹ÓÃÖ®Ç°ÖØĞÂ¸³ÖµactiveTime
+		// æ¯ä¸€æ¬¡ä½¿ç”¨ä¹‹å‰é‡æ–°èµ‹å€¼activeTime
 		if (socket != null)
 		{
 			this.activeTime = System.currentTimeMillis();

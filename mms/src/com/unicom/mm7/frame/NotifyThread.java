@@ -16,36 +16,36 @@ import com.tourzj.mms.rsp.DeliverReportRsp;
 import com.tourzj.mms.rsp.DeliverRsp;
 
 /**
- * ÕâÀïÍ¨Öª¿ÉÄÜ»áºÜÂıÎªÁË²»Ó°ÏìĞ§ÂÊĞèÒªÓÃÏß³Ì+»º³å¶ÓÁĞµÄĞÎÊ½ Èç¹ûÍ¨ÖªÊ§°Ü£¬ÄÇÃ´Ğ´ÈÕÖ¾
+ * è¿™é‡Œé€šçŸ¥å¯èƒ½ä¼šå¾ˆæ…¢ä¸ºäº†ä¸å½±å“æ•ˆç‡éœ€è¦ç”¨çº¿ç¨‹+ç¼“å†²é˜Ÿåˆ—çš„å½¢å¼ å¦‚æœé€šçŸ¥å¤±è´¥ï¼Œé‚£ä¹ˆå†™æ—¥å¿—
  * 
  * @author Administrator
  */
 public class NotifyThread extends Thread
 {
 	/**
-	 * Í¨ÖªURL
+	 * é€šçŸ¥URL
 	 */
 	static String URL = "http://localhost/ws/services/MmsEngine";
 
 	/**
-	 * ³¬Ê±Ê±¼äÄ¬ÈÏÎª1s
+	 * è¶…æ—¶æ—¶é—´é»˜è®¤ä¸º1s
 	 */
 	static int TIMEOUT = 1000;
 
 	private static final Log log = LogFactory.getLog(NotifyThread.class);
 
 	/**
-	 * Í¨ÖªÊ§°ÜĞ´ÈÕÖ¾
+	 * é€šçŸ¥å¤±è´¥å†™æ—¥å¿—
 	 */
 	private static final Log resultLog = LogFactory.getLog("result");
 
 	/**
-	 * Í¨ÖªÏûÏ¢»º³å¶ÓÁĞ
+	 * é€šçŸ¥æ¶ˆæ¯ç¼“å†²é˜Ÿåˆ—
 	 */
 	private final LinkedBlockingQueue<Request> buffer = new LinkedBlockingQueue<Request>();
 
 	/**
-	 * µ¥ÊµÀı¶ÔÏó
+	 * å•å®ä¾‹å¯¹è±¡
 	 */
 	private static NotifyThread instance = null;
 
@@ -60,7 +60,7 @@ public class NotifyThread extends Thread
 
 	public void run()
 	{
-		log.info("NotifyThread Ïß³Ì¿ªÆô");
+		log.info("NotifyThread çº¿ç¨‹å¼€å¯");
 		while (!stop)
 		{
 			try
@@ -79,7 +79,7 @@ public class NotifyThread extends Thread
 					DeliverReportReq deliverReportReq = (DeliverReportReq) req;
 					if (!notifyDeliverReport(deliverReportReq))
 					{
-						// Í¨ÖªÊ§°Ü£¬Ğ´ÈÕÖ¾
+						// é€šçŸ¥å¤±è´¥ï¼Œå†™æ—¥å¿—
 						resultLog.info("sendid:" + deliverReportReq.getSendId()
 								+ "|mobile:" + deliverReportReq.getMobile()
 								+ "|result:" + deliverReportReq.getResult()
@@ -103,7 +103,7 @@ public class NotifyThread extends Thread
 				log.error(null, e);
 			}
 		}
-		log.info("NotifyThread Ïß³Ì¹Ø±Õ");
+		log.info("NotifyThread çº¿ç¨‹å…³é—­");
 	}
 
 	public static NotifyThread getInstance()
@@ -184,11 +184,11 @@ public class NotifyThread extends Thread
 			{
 				getInstance().notify();
 			}
-			log.debug("DeliverReportReqÈë¶Ó³É¹¦µÈ´ıÍ¨Öª");
+			log.debug("DeliverReportReqå…¥é˜ŸæˆåŠŸç­‰å¾…é€šçŸ¥");
 		}
 		else
 		{
-			log.debug("DeliverReportReqÈë¶ÓÊ§°Ü");
+			log.debug("DeliverReportReqå…¥é˜Ÿå¤±è´¥");
 		}
 	}
 
@@ -202,11 +202,11 @@ public class NotifyThread extends Thread
 			{
 				getInstance().notify();
 			}
-			log.debug("DeliverReqÈë¶Ó³É¹¦µÈ´ıÍ¨Öª");
+			log.debug("DeliverReqå…¥é˜ŸæˆåŠŸç­‰å¾…é€šçŸ¥");
 		}
 		else
 		{
-			log.debug("DeliverReqÈë¶ÓÊ§°Ü");
+			log.debug("DeliverReqå…¥é˜Ÿå¤±è´¥");
 		}
 
 	}

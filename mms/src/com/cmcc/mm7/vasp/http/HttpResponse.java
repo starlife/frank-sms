@@ -26,13 +26,13 @@ public class HttpResponse
 
 	public boolean recvData(InputStream input) throws IOException
 	{
-		// ÏÈ¶ÁhttpÍ·ĞÅÏ¢
+		// å…ˆè¯»httpå¤´ä¿¡æ¯
 		if (!httpHead.recvData(input))
 		{
-			log.info("¶ÁÈ¡°üÍ·Êı¾İÊ§°Ü");
+			log.info("è¯»å–åŒ…å¤´æ•°æ®å¤±è´¥");
 			return false;
 		}
-		// Èç¹ûÓĞ°üÌå£¬¶ÁÈ¡°üÌå
+		// å¦‚æœæœ‰åŒ…ä½“ï¼Œè¯»å–åŒ…ä½“
 
 		String contentLen = this.getHeaderValue("Content-Length");
 		if (contentLen != null)
@@ -48,14 +48,14 @@ public class HttpResponse
 		}
 		else
 		{
-			// ÕâÀïÌí¼Ó¶Ôtruck´«ÊäÀàĞÍµÄ´¦Àí
+			// è¿™é‡Œæ·»åŠ å¯¹truckä¼ è¾“ç±»å‹çš„å¤„ç†
 			String transferEncoding = this.getHeaderValue("transfer-encoding");
 			if (transferEncoding.equalsIgnoreCase("chunked"))
 			{
 				Thunk thunk = new Thunk();
 				if (!thunk.recvData(input))
 				{
-					log.warn("³¢ÊÔ½ÓÊÕchunkedÀàĞÍÊı¾İÊ§°Ü");
+					log.warn("å°è¯•æ¥æ”¶chunkedç±»å‹æ•°æ®å¤±è´¥");
 					return false;
 				}
 				bodyBaos.write(thunk.getData());
@@ -145,7 +145,7 @@ public class HttpResponse
 
 	public static void main(String[] args) throws IOException
 	{
-		log.debug("±¾µØ½ÓÊÕÇ°");
+		log.debug("æœ¬åœ°æ¥æ”¶å‰");
 		byte[] bytes = Hex
 				.rstr("485454502f312e3120323030204f4b0d0a5365727665723a20526573696e2f332e302e31340d0a534f4150416374696f6e3a2022220d0a782d6875617765692d6d6d73632d7469643a20310d0a782d6875617765692d6d6d73632d746f3a2031333737373830323338360d0a782d6875617765692d6d6d73632d636f64653a20313030300d0a436f6e74656e742d547970653a20746578742f786d6c3b636861727365743d225554462d38220d0a436f6e74656e742d4c656e6774683a203538320d0a446174653a205361742c203132204d617920323031322030383a30323a343020474d540d0a0d0a3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d38223f3e3c656e763a456e76656c6f706520786d6c6e733a656e763d22687474703a2f2f736368656d61732e786d6c736f61702e6f72672f736f61702f656e76656c6f70652f223e3c656e763a4865616465723e3c6d6d373a5472616e73616374696f6e494420786d6c6e733a6d6d373d22687474703a2f2f7777772e336770702e6f72672f6674702f53706563732f617263686976652f32335f7365726965732f32332e3134302f736368656d612f52454c2d362d4d4d372d312d302220656e763a6d757374556e6465727374616e643d2231223e313c2f6d6d373a5472616e73616374696f6e49443e3c2f656e763a4865616465723e3c656e763a426f64793e3c5375626d697452737020786d6c6e733d22687474703a2f2f7777772e336770702e6f72672f6674702f53706563732f617263686976652f32335f7365726965732f32332e3134302f736368656d612f52454c2d362d4d4d372d312d30223e3c4d4d3756657273696f6e3e362e332e303c2f4d4d3756657273696f6e3e3c5374617475733e3c537461747573436f64653e313030303c2f537461747573436f64653e3c537461747573546578743ee58f91e98081e68890e58a9f3c2f537461747573546578743e3c2f5374617475733e3c4d65737361676549443e3035313231363032343139313030363430313135373c2f4d65737361676549443e3c2f5375626d69745273703e3c2f656e763a426f64793e3c2f656e763a456e76656c6f70653e");
 
@@ -153,7 +153,7 @@ public class HttpResponse
 		ByteArrayInputStream input = new ByteArrayInputStream(bytes);
 		if (http.recvData(input))
 		{
-			log.debug("½ÓÊÕhou");
+			log.debug("æ¥æ”¶hou");
 			System.out.println(http.toString() + "#");
 			System.out.println(http.getHeaderValue("content-length"));
 			// System.out.println(http.getHttpVersion()+

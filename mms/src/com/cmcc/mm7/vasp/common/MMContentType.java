@@ -1,5 +1,5 @@
 /**
- * File Name:MMContentType.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-31
+ * File Name:MMContentType.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-31
  */
 
 package com.cmcc.mm7.vasp.common;
@@ -19,7 +19,7 @@ public class MMContentType implements Serializable, Cloneable
 	// private Map<String, String> ParmeterList;
 
 	/**
-	 * ¹¹Ôì·½·¨
+	 * æ„é€ æ–¹æ³•
 	 */
 	public MMContentType()
 	{
@@ -30,7 +30,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * ¹¹Ôì·½·¨
+	 * æ„é€ æ–¹æ³•
 	 */
 	public MMContentType(String type)
 	{
@@ -50,11 +50,11 @@ public class MMContentType implements Serializable, Cloneable
 			setSubType(strSubType);
 		}
 		else
-			System.err.println("¸ÃÀàĞÍ²»ÊÇ±ê×¼ÀàĞÍ£¡type=" + type);
+			System.err.println("è¯¥ç±»å‹ä¸æ˜¯æ ‡å‡†ç±»å‹ï¼type=" + type);
 	}
 
 	/**
-	 * »ñµÃÖ÷ÀàĞÍ
+	 * è·å¾—ä¸»ç±»å‹
 	 */
 	public String getPrimaryType()
 	{
@@ -62,7 +62,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃÖ÷ÀàĞÍ
+	 * è®¾ç½®ä¸»ç±»å‹
 	 */
 	public void setPrimaryType(String primaryType)
 	{
@@ -70,7 +70,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * Ëø¶¨¶ÔÏóÀàĞÍ
+	 * é”å®šå¯¹è±¡ç±»å‹
 	 */
 	public MMContentType lock()
 	{
@@ -79,7 +79,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * ¶ÔÏóÀàĞÍÊÇ·ñËø¶¨
+	 * å¯¹è±¡ç±»å‹æ˜¯å¦é”å®š
 	 */
 	public boolean isLock()
 	{
@@ -87,7 +87,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃ×ÓÀàĞÍ
+	 * è®¾ç½®å­ç±»å‹
 	 */
 	public void setSubType(String subType)
 	{
@@ -95,7 +95,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃ×ÓÀàĞÍ
+	 * è·å¾—å­ç±»å‹
 	 */
 	public String getSubType()
 	{
@@ -109,7 +109,7 @@ public class MMContentType implements Serializable, Cloneable
 	}
 
 	/**
-	 * ±È½ÏÖ÷ÀàĞÍÓë×ÓÀàĞÍÊÇ·ñÒ»ÖÂ
+	 * æ¯”è¾ƒä¸»ç±»å‹ä¸å­ç±»å‹æ˜¯å¦ä¸€è‡´
 	 */
 	public boolean match(String type)
 	{
@@ -130,13 +130,13 @@ public class MMContentType implements Serializable, Cloneable
 		}
 		else
 		{
-			System.err.println("¸ÃÀàĞÍ²»ÊÇ±ê×¼ÀàĞÍ£¡type=" + type);
+			System.err.println("è¯¥ç±»å‹ä¸æ˜¯æ ‡å‡†ç±»å‹ï¼type=" + type);
 			return (false);
 		}
 	}
 
 	/**
-	 * ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	 * è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	 */
 	public String toString()
 	{

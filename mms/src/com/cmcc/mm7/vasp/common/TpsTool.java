@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 流量控制工具
+ * 娴侀噺鎺у埗宸ュ叿
  * @author Administrator
  *
  */
@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
 public class TpsTool
 {
 	
-	private static String curTime = "";// 保存当前时间yyyMMddHHmmss
-	private static int tps = 0;// tps标记
+	private static String curTime = "";// 淇濆瓨褰撳墠鏃堕棿yyyMMddHHmmss
+	private static int tps = 0;// tps鏍囪
 
-	private static final Log log = LogFactory.getLog(TpsTool.class);// 日志
+	private static final Log log = LogFactory.getLog(TpsTool.class);// 鏃ュ織
 
 	public synchronized static void limitTPS()
 	{

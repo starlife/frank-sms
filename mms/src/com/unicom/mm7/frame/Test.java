@@ -23,7 +23,7 @@ public class Test
 
 	public static void main(String[] args) throws IOException
 	{
-		log.debug("±¾µØ½ÓÊÕÇ°");
+		log.debug("æœ¬åœ°æ¥æ”¶å‰");
 		byte[] bytes = Hex
 				.rstr("");
 		ByteArrayInputStream input = new ByteArrayInputStream(bytes);
@@ -31,7 +31,7 @@ public class Test
 		HttpRequest http = new HttpRequest();
 		if (http.recvData(input))
 		{
-			// log.info("½ÓÊÕµ½Êı¾İ°ü£º" +
+			// log.info("æ¥æ”¶åˆ°æ•°æ®åŒ…ï¼š" +
 			// com.cmcc.mm7.vasp.protocol.util.Hex.rhex(http.getData()));
 			// log.info(http.toString(Charset.forName("UTF-8")));
 			// log.info("http.getData().length:"+http.getData().length);
@@ -51,10 +51,10 @@ public class Test
 		}
 		else
 		{
-			// ·¢ËÍÒ»¸ö´íÎó»ØÓ¦°ü
+			// å‘é€ä¸€ä¸ªé”™è¯¯å›åº”åŒ…
 			res = new MM7VASPErrorRes();
 			res.setStatusCode(-102);
-			res.setStatusText("½ÓÊÕ»ØÓ¦ÏûÏ¢Ê§°Ü£¡");
+			res.setStatusText("æ¥æ”¶å›åº”æ¶ˆæ¯å¤±è´¥ï¼");
 		}
 
 	}

@@ -1,5 +1,5 @@
 /**
- * File Name:ConnectionPool.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-9
+ * File Name:ConnectionPool.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-9
  */
 
 package com.cmcc.mm7.vasp.common;
@@ -24,10 +24,10 @@ public class ConnectionPool
 	private int timeout = 10000;
 	private int maxSize = 1;
 
-	private static final LinkedBlockingQueue<Socket> que = new LinkedBlockingQueue<Socket>();// Á¬½Ó¶ÓÁĞ
+	private static final LinkedBlockingQueue<Socket> que = new LinkedBlockingQueue<Socket>();// è¿æ¥é˜Ÿåˆ—
 
-	private static final List<ConnectionWrap> track = new LinkedList<ConnectionWrap>();// ±£´æÊ¹ÓÃºÛ¼£
-	private int delCount = 0;// ±ê¼Ç±»Î´É¾³ıµÄÁ¬½ÓÊı
+	private static final List<ConnectionWrap> track = new LinkedList<ConnectionWrap>();// ä¿å­˜ä½¿ç”¨ç—•è¿¹
+	private int delCount = 0;// æ ‡è®°è¢«æœªåˆ é™¤çš„è¿æ¥æ•°
 
 	private static ConnectionPool instance = null;
 
@@ -79,7 +79,7 @@ public class ConnectionPool
 		{
 			socket = new Socket(ip, port);
 			socket.setSoTimeout(timeout);
-			log.debug("½¨Á¢ĞÂsocketÁ¬½Ó³É¹¦" + socket.getLocalSocketAddress()
+			log.debug("å»ºç«‹æ–°socketè¿æ¥æˆåŠŸ" + socket.getLocalSocketAddress()
 					+ socket.getRemoteSocketAddress());
 
 			return socket;
@@ -87,7 +87,7 @@ public class ConnectionPool
 		catch (Exception e)
 		{
 			socket = null;
-			log.error("´´½¨socketÁ¬½ÓÊ§°Ü", e);
+			log.error("åˆ›å»ºsocketè¿æ¥å¤±è´¥", e);
 			return null;
 		}
 
@@ -102,13 +102,13 @@ public class ConnectionPool
 			{
 				if (socket == null)
 				{
-					//Èç¹ûµ±Ç°Á¬½ÓÊı»¹Ã»´ïµ½×î´óÖµ£¬ÄÇÃ´´´½¨Ò»¸ö
+					//å¦‚æœå½“å‰è¿æ¥æ•°è¿˜æ²¡è¾¾åˆ°æœ€å¤§å€¼ï¼Œé‚£ä¹ˆåˆ›å»ºä¸€ä¸ª
 					if ((track.size() - delCount) < this.maxSize)
 					{
 						socket = createSocket();
 						if (socket != null)
 						{
-							// log.debug("°ÑĞÂ·ÖÅäµÄ"+socket+"¼ÓÈë¹ì¼£¶ÓÁĞÖĞ");
+							// log.debug("æŠŠæ–°åˆ†é…çš„"+socket+"åŠ å…¥è½¨è¿¹é˜Ÿåˆ—ä¸­");
 							track.add(new ConnectionWrap(socket, System
 									.currentTimeMillis()));
 						}
@@ -119,25 +119,25 @@ public class ConnectionPool
 				ConnectionWrap wrap = this.findWrap(socket);
 				if (wrap != null && wrap.isDel())
 				{
-					// socket²»Îª¿Õ£¬ÏÂÃæÊÇÑéÖ¤socketÊÇ·ñ¿ÉÓÃ
+					// socketä¸ä¸ºç©ºï¼Œä¸‹é¢æ˜¯éªŒè¯socketæ˜¯å¦å¯ç”¨
 					if (!ConnectionUtil.isSocketAvail(socket))
 					{
 						socket = null;
 					}
 					else
 					{
-						// ÑéÖ¤Ê±¼äÊÇ·ñ¹ıÆÚ
+						// éªŒè¯æ—¶é—´æ˜¯å¦è¿‡æœŸ
 						long between = System.currentTimeMillis()
 								- wrap.getActiveTime();
 						if (between > timeout)
 						{
 							ConnectionUtil.closeSocket(socket);
 							socket = null;
-							log.debug("µ±Ç°SocketÉÏ´ÎÊ¹ÓÃÊ±¼äµ½ÏÖÔÚÒÑ¾­³¬¹ı" + between
-									+ "ms,ĞèÒªÖØĞÂ½¨Á¢Á¬½Ó");
+							log.debug("å½“å‰Socketä¸Šæ¬¡ä½¿ç”¨æ—¶é—´åˆ°ç°åœ¨å·²ç»è¶…è¿‡" + between
+									+ "ms,éœ€è¦é‡æ–°å»ºç«‹è¿æ¥");
 						}
 					}
-					// °ÑÎ±É¾³ıµÄwrapÉ¾³ı
+					// æŠŠä¼ªåˆ é™¤çš„wrapåˆ é™¤
 					synchronized (track)
 					{
 						track.remove(wrap);
@@ -146,7 +146,7 @@ public class ConnectionPool
 				}
 				if (socket != null)
 				{
-					// log.debug("´Ó¶ÓÁĞÖĞÈ¡µÃµÄ"+socket+"¼ÓÈë¹ì¼£¶ÓÁĞÖĞ");
+					// log.debug("ä»é˜Ÿåˆ—ä¸­å–å¾—çš„"+socket+"åŠ å…¥è½¨è¿¹é˜Ÿåˆ—ä¸­");
 					track.add(new ConnectionWrap(socket, System
 							.currentTimeMillis()));
 					return socket;
@@ -179,7 +179,7 @@ public class ConnectionPool
 	}
 
 	/**
-	 * »ØÊÕsocketÁ¬½Ó
+	 * å›æ”¶socketè¿æ¥
 	 * 
 	 * @param socket
 	 */
@@ -190,13 +190,13 @@ public class ConnectionPool
 			connLog.debug("que.size():" + que.size() + ",track.size():"
 					+ track.size() + "===" + track);
 
-			// ÔÚÊ¹ÓÃ¹ì¼£¶ÓÁĞÖĞ²éÕÒ
+			// åœ¨ä½¿ç”¨è½¨è¿¹é˜Ÿåˆ—ä¸­æŸ¥æ‰¾
 			ConnectionWrap wrap = this.findWrap(socket);
 			if (wrap != null)
 			{
 				if (!ConnectionUtil.isSocketAvail(socket))
 				{
-					log.debug("»ØÊÕµÄÁ¬½Ó" + socket + "²»¿ÉÓÃ£¬Ö±½ÓÉ¾³ı");
+					log.debug("å›æ”¶çš„è¿æ¥" + socket + "ä¸å¯ç”¨ï¼Œç›´æ¥åˆ é™¤");
 					synchronized (track)
 					{
 						track.remove(wrap);
@@ -204,7 +204,7 @@ public class ConnectionPool
 				}
 				else
 				{
-					// log.debug("»ØÊÕµÄÁ¬½Ó"+socket+"¿ÉÓÃ£¬Î±É¾³ı");
+					// log.debug("å›æ”¶çš„è¿æ¥"+socket+"å¯ç”¨ï¼Œä¼ªåˆ é™¤");
 					wrap.setDel(true);
 					delCount++;
 					if (!que.contains(socket))

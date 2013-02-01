@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.unicom.mm7.conf.MM7Config;
 
 /**
- * Ïß³Ì¹ÜÀíÀà
+ * çº¿ç¨‹ç®¡ç†ç±»
  * 
  * @author Administrator
  */
@@ -81,7 +81,7 @@ public class ManagerThread extends Thread
 						recvThreadList.add(t);
 					}
 				}
-				// Ë¯Ãß30s
+				// ç¡çœ 30s
 				TimeUnit.SECONDS.sleep(30);
 
 			}

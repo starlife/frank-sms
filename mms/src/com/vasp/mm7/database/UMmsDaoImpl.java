@@ -27,8 +27,8 @@ public class UMmsDaoImpl extends DBDaoImpl
 	}
 
 	/**
-	 * È¡³ö´ı·¢ËÍµÄ¼ÇÂ¼£¬²¢É¾³ıÕâĞ©¼ÇÂ¼£¬Í¨¹ıÊôĞÔsendtime£¨·¢ËÍÊ±¼ä£©À´ÅĞ¶Ï
-	 * @param value  Ê±¼ä´Á
+	 * å–å‡ºå¾…å‘é€çš„è®°å½•ï¼Œå¹¶åˆ é™¤è¿™äº›è®°å½•ï¼Œé€šè¿‡å±æ€§sendtimeï¼ˆå‘é€æ—¶é—´ï¼‰æ¥åˆ¤æ–­
+	 * @param value  æ—¶é—´æˆ³
 	 * @return
 	 */
 	public List<UMms> getReadySendSms(String value)
@@ -43,7 +43,7 @@ public class UMmsDaoImpl extends DBDaoImpl
 
 			if (temp.size() > 0)
 			{
-				// ×´Ì¬¸ÄÎª1
+				// çŠ¶æ€æ”¹ä¸º1
 				Transaction t = getSession().beginTransaction();
 				try
 				{
@@ -51,7 +51,7 @@ public class UMmsDaoImpl extends DBDaoImpl
 					Query queryObject = getSession().createQuery(sql);
 					queryObject.setParameter(0, value);
 					int i = queryObject.executeUpdate();
-					log.info("È¡µÃ´ı·¢ËÍ²ÊĞÅ:"+i);
+					log.info("å–å¾—å¾…å‘é€å½©ä¿¡:"+i);
 					t.commit();
 				}
 				catch (Exception ex)

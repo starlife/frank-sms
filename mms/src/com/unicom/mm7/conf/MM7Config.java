@@ -8,50 +8,50 @@ import java.util.Map;
 
 public class MM7Config
 {
-	private int AuthenticationMode;// ¼øÈ¨Ä£Ê½ 0±íÊ¾²»¼øÈ¨ 1±íÊ¾»ù±¾¼øÈ¨ 2±íÊ¾ÕªÒª¼øÈ¨
-	private String UserName;// ¼øÈ¨µÇÂ½ÓÃ»§Ãû
-	private String Password;// ¼øÈ¨µÇÂ½ÃÜÂë
+	private int AuthenticationMode;// é‰´æƒæ¨¡å¼ 0è¡¨ç¤ºä¸é‰´æƒ 1è¡¨ç¤ºåŸºæœ¬é‰´æƒ 2è¡¨ç¤ºæ‘˜è¦é‰´æƒ
+	private String UserName;// é‰´æƒç™»é™†ç”¨æˆ·å
+	private String Password;// é‰´æƒç™»é™†å¯†ç 
 
-	private String MMSCURL;// ²ÊĞÅÌá½»url
-	private String MMSCIP;// ²ÊĞÅÌá½»Íø¹ØµØÖ·
+	private String MMSCURL;// å½©ä¿¡æäº¤url
+	private String MMSCIP;// å½©ä¿¡æäº¤ç½‘å…³åœ°å€
 	private String VASPID;// SPID
-	private String VASID;// ½ÓÈëºÅ
-	private String ServiceCode;// ÒµÎñ´úÂë
+	private String VASID;// æ¥å…¥å·
+	private String ServiceCode;// ä¸šåŠ¡ä»£ç 
 	private boolean ChargedPartyExist = false;
 	private int ChargedParty = 0;
 
-	private int MaxMsgSize;// ×î´óÏûÏ¢³¤¶È
+	private int MaxMsgSize;// æœ€å¤§æ¶ˆæ¯é•¿åº¦
 
-	private String CharSet;// ²ÊĞÅÄ¬ÈÏ±àÂëÀàĞÍ
-	private String ListenIP;// ±¾µØ·şÎñ¶ËipµØÖ·
-	private int ListenPort;// ±¾µØ·şÎñ¶Ë¶Ë¿Ú
-	private int TimeOut;// ³¬Ê±Ê±¼ä£¬ÓÃÓÚ³¤Á¬½Ó
-	private int ReSendCount;// ÖØ·¢´ÎÊı
-	public int BackLog;// ±¾µØ·şÎñ×î´ó¼àÌıÊı
+	private String CharSet;// å½©ä¿¡é»˜è®¤ç¼–ç ç±»å‹
+	private String ListenIP;// æœ¬åœ°æœåŠ¡ç«¯ipåœ°å€
+	private int ListenPort;// æœ¬åœ°æœåŠ¡ç«¯ç«¯å£
+	private int TimeOut;// è¶…æ—¶æ—¶é—´ï¼Œç”¨äºé•¿è¿æ¥
+	private int ReSendCount;// é‡å‘æ¬¡æ•°
+	public int BackLog;// æœ¬åœ°æœåŠ¡æœ€å¤§ç›‘å¬æ•°
 
-	private String MMSCID;// ²ÊĞÅÍø¹Ø±àÂë
+	private String MMSCID;// å½©ä¿¡ç½‘å…³ç¼–ç 
 	private String ConnConfigName;
 
 	private boolean keepAlive = false;
 
-	private int poolSize = 1;// ºÍÒÆ¶¯Íø¹ØµÄsocketÁ¬½Ó³Ø
+	private int poolSize = 1;// å’Œç§»åŠ¨ç½‘å…³çš„socketè¿æ¥æ± 
 
-	private int sendThread = 1;// ·¢ËÍÏß³Ì
-	private int maxSpeed = 2;// Ã¿Ãë·¢ËÍÌõÊı
+	private int sendThread = 1;// å‘é€çº¿ç¨‹
+	private int maxSpeed = 2;// æ¯ç§’å‘é€æ¡æ•°
 
-	private int massCount = 10;// Èº·¢¶ÌĞÅÃ¿Ìõ¶ÌĞÅºÅÂëÊı
+	private int massCount = 10;// ç¾¤å‘çŸ­ä¿¡æ¯æ¡çŸ­ä¿¡å·ç æ•°
 
 	private String rmi;
 	private String notifyURL=null;
 
 	// private boolean bload=false;
 
-	/** Ä¬ÈÏ¹¹Ôì·½·¨ */
+	/** é»˜è®¤æ„é€ æ–¹æ³• */
 	public MM7Config()
 	{
 	}
 
-	/** ¹¹Ôì·½·¨¡£²ÎÊı±ØĞë´«µİÏµÍ³ÅäÖÃÎÄ¼şÃû */
+	/** æ„é€ æ–¹æ³•ã€‚å‚æ•°å¿…é¡»ä¼ é€’ç³»ç»Ÿé…ç½®æ–‡ä»¶å */
 	public MM7Config(String configFileName)
 	{
 		// bload=true;
@@ -59,7 +59,7 @@ public class MM7Config
 
 	}
 
-	/** ¼ÓÔØÅäÖÃÎÄ¼ş */
+	/** åŠ è½½é…ç½®æ–‡ä»¶ */
 	public void load(String configFileName)
 	{
 		// bload=true;
@@ -96,92 +96,92 @@ public class MM7Config
 
 	}
 
-	public void setAuthenticationMode(int authMode) // ÉèÖÃ¼øÈ¨·½Ê½
+	public void setAuthenticationMode(int authMode) // è®¾ç½®é‰´æƒæ–¹å¼
 	{
 		AuthenticationMode = authMode;
 	}
 
-	public int getAuthenticationMode() // »ñµÃ¼øÈ¨·½Ê½
+	public int getAuthenticationMode() // è·å¾—é‰´æƒæ–¹å¼
 	{
 		return (AuthenticationMode);
 	}
 
-	public void setUserName(String s_userName) // ÉèÖÃ¼øÈ¨ÓÃ»§Ãû
+	public void setUserName(String s_userName) // è®¾ç½®é‰´æƒç”¨æˆ·å
 	{
 		UserName = s_userName;
 	}
 
-	public String getUserName() // »ñµÃ¼øÈ¨ÓÃ»§Ãû
+	public String getUserName() // è·å¾—é‰´æƒç”¨æˆ·å
 	{
 		return (UserName);
 	}
 
-	public void setPassword(String s_password) // ÉèÖÃ¼øÈ¨¿ÚÁî
+	public void setPassword(String s_password) // è®¾ç½®é‰´æƒå£ä»¤
 	{
 		Password = s_password;
 	}
 
-	public String getPassword() // »ñµÃ¼øÈ¨¿ÚÁî
+	public String getPassword() // è·å¾—é‰´æƒå£ä»¤
 	{
 		return (Password);
 	}
 
-	public void setMMSCURL(String urL) // ÉèÖÃMMSCµÄURL
+	public void setMMSCURL(String urL) // è®¾ç½®MMSCçš„URL
 	{
 		MMSCURL = urL;
 	}
 
-	public String getMMSCURL() // »ñµÃMMSCµÄURL
+	public String getMMSCURL() // è·å¾—MMSCçš„URL
 	{
 		return (MMSCURL);
 	}
 
-	public void setMMSCIP(String ip) // ÉèÖÃMMSCµÄIPÁĞ±í
+	public void setMMSCIP(String ip) // è®¾ç½®MMSCçš„IPåˆ—è¡¨
 	{
 		MMSCIP = ip;
 	}
 
-	public String getMMSCIP() // »ñµÃMMSCµÄIPÁĞ±í
+	public String getMMSCIP() // è·å¾—MMSCçš„IPåˆ—è¡¨
 	{
 		return (MMSCIP);
 	}
 
-	public void setMaxMsgSize(int maxSize) // ÉèÖÃÔÊĞíµÄ×î´óÏûÏ¢µÄ´óĞ¡
+	public void setMaxMsgSize(int maxSize) // è®¾ç½®å…è®¸çš„æœ€å¤§æ¶ˆæ¯çš„å¤§å°
 	{
 		MaxMsgSize = maxSize;
 	}
 
-	public int getMaxMsgSize() // »ñµÃÔÊĞíµÄ×î´óÏûÏ¢µÄ´óĞ¡
+	public int getMaxMsgSize() // è·å¾—å…è®¸çš„æœ€å¤§æ¶ˆæ¯çš„å¤§å°
 	{
 		return (MaxMsgSize);
 	}
 
-	public void setCharSet(String charSet) // ÉèÖÃ¶ÔÏûÏ¢±àÂëµÄ×Ö·û¼¯
+	public void setCharSet(String charSet) // è®¾ç½®å¯¹æ¶ˆæ¯ç¼–ç çš„å­—ç¬¦é›†
 	{
 		CharSet = charSet;
 	}
 
-	public String getCharSet() // »ñµÃ¶ÔÏûÏ¢±àÂëµÄ×Ö·û¼¯
+	public String getCharSet() // è·å¾—å¯¹æ¶ˆæ¯ç¼–ç çš„å­—ç¬¦é›†
 	{
 		return (CharSet);
 	}
 
-	public void setListenIP(String listenIP) // ÉèÖÃ¼àÌıIPµØÖ·
+	public void setListenIP(String listenIP) // è®¾ç½®ç›‘å¬IPåœ°å€
 	{
 		ListenIP = listenIP;
 	}
 
-	public String getListenIP() // »ñµÃ¼àÌıIPµØÖ·
+	public String getListenIP() // è·å¾—ç›‘å¬IPåœ°å€
 	{
 		return (ListenIP);
 	}
 
-	public void setListenPort(int port) // ÉèÖÃ¼àÌı¶Ë¿Ú
+	public void setListenPort(int port) // è®¾ç½®ç›‘å¬ç«¯å£
 	{
 		ListenPort = port;
 	}
 
-	public int getListenPort() // »ñµÃ¼àÌı¶Ë¿Ú
+	public int getListenPort() // è·å¾—ç›‘å¬ç«¯å£
 	{
 		return (ListenPort);
 	}
@@ -266,7 +266,7 @@ public class MM7Config
 		MMSCID = mmscid;
 	}
 
-	/** ±£´æÅäÖÃÎÄ¼ş */
+	/** ä¿å­˜é…ç½®æ–‡ä»¶ */
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();

@@ -15,29 +15,29 @@ public class Thunk
 
 	public boolean recvData(InputStream input)
 	{
-		// ÏÈ¶ÁhttpÍ·ĞÅÏ¢
+		// å…ˆè¯»httpå¤´ä¿¡æ¯
 		if (input == null)
 		{
 			log.warn("input is null");
 			return false;
 		}
-		// ±íÊ¾Ò»¿éthunkedÊı¾İ
+		// è¡¨ç¤ºä¸€å—thunkedæ•°æ®
 		ByteArrayOutputStream thunked = new ByteArrayOutputStream();
 		try
 		{
 			while (true)
 			{
-				thunked.reset();// ÖØĞÂ³õÊ¼»¯
+				thunked.reset();// é‡æ–°åˆå§‹åŒ–
 				while (true)
 				{
 					int i = input.read();
 					if (i == -1)
 					{
-						log.warn("¶ÁÈ¡°üÊ±Î´¶ÁÍêÓöµ½-1£¬Ê§°Ü");
+						log.warn("è¯»å–åŒ…æ—¶æœªè¯»å®Œé‡åˆ°-1ï¼Œå¤±è´¥");
 						return false;
 					}
 					thunked.write(i);
-					// ÅĞ¶ÏÊÇ·ñÓöµ½ÁËthunkÍ·µÄ½áÊø£¬Èç¹ûÊÇ£¬ÄÇÃ´¶Áthunk°üÄÚÈİ
+					// åˆ¤æ–­æ˜¯å¦é‡åˆ°äº†thunkå¤´çš„ç»“æŸï¼Œå¦‚æœæ˜¯ï¼Œé‚£ä¹ˆè¯»thunkåŒ…å†…å®¹
 					if (isThunkedHeaderComplete(thunked.toString()))
 					{
 						break;
@@ -46,9 +46,9 @@ public class Thunk
 				int thunkedLen = getThunkedLength(thunked.toString());
 				if (thunkedLen == 0)
 				{
-					// thunked°ü³¤¶ÈÎª0£¬ÓĞ¿ÉÄÜÊÇ½áÎ²°ü
+					// thunkedåŒ…é•¿åº¦ä¸º0ï¼Œæœ‰å¯èƒ½æ˜¯ç»“å°¾åŒ…
 					byte[] temp = new byte[2];
-					input.read(temp);// ¶ÁÈ¡¡±\r\n¡°
+					input.read(temp);// è¯»å–â€\r\nâ€œ
 					thunked.write(temp);
 					if (isLastChunked(thunked.toString()))
 					{
@@ -60,9 +60,9 @@ public class Thunk
 					}
 
 				}
-				// ¶ÁÈ¡thunked°üÄÚÈİ
+				// è¯»å–thunkedåŒ…å†…å®¹
 				this.readThunkedData(input, thunkedLen);
-				// ÏÂÃæ¶ÁÈ¡¡±\r\n¡°,¶ªÆú
+				// ä¸‹é¢è¯»å–â€\r\nâ€œ,ä¸¢å¼ƒ
 				byte[] temp = new byte[2];
 				input.read(temp);
 			}
@@ -70,7 +70,7 @@ public class Thunk
 		}
 		catch (Exception ex)
 		{
-			log.error("¶ÁÈ¡°üÍ·Ê±´íÎó", ex);
+			log.error("è¯»å–åŒ…å¤´æ—¶é”™è¯¯", ex);
 			return false;
 		}
 
@@ -101,7 +101,7 @@ public class Thunk
 	}
 
 	/**
-	 * ÊÇ·ñ¶ÁÍêthunkedÍ·
+	 * æ˜¯å¦è¯»å®Œthunkedå¤´
 	 * 
 	 * @param thunkedHeader
 	 * @return
@@ -112,7 +112,7 @@ public class Thunk
 	}
 
 	/**
-	 * ÊÇ·ñÊÇ×îºóÒ»¸öthunked
+	 * æ˜¯å¦æ˜¯æœ€åä¸€ä¸ªthunked
 	 * 
 	 * @param thunked
 	 * @return
@@ -123,7 +123,7 @@ public class Thunk
 	}
 
 	/**
-	 * µÃµ½thunked°üµÄÄÚÈİ³¤¶È
+	 * å¾—åˆ°thunkedåŒ…çš„å†…å®¹é•¿åº¦
 	 * 
 	 * @param thunkedHeader
 	 * @return

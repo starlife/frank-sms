@@ -1,7 +1,7 @@
 package com.cmcc.mm7.vasp.protocol.util;
 
 /**
- * MD5加密工具�?
+ * MD5加密算法
  * @author Administrator
  */
 

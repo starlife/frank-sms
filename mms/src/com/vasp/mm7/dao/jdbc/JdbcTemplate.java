@@ -150,7 +150,7 @@ public class JdbcTemplate
 					+ "transactionid, mm7version, to_address, subject,"
 					+ " vaspid, vasid, service_code, linkid, sendtime, "
 					+ "status, status_text, sessionid) values ('053101435691006401333','1','6.3.0','13777802301',"
-					+ "'zzzz','20120531014355','895192','106573061704','1113329901','',1000,'·¢ËÍ³É¹¦',144)";
+					+ "'zzzz','20120531014355','895192','106573061704','1113329901','',1000,'å‘é€æˆåŠŸ',144)";
 			sqlList.add(ss);
 			if (sqlList.size() % 10 == 0)
 			{

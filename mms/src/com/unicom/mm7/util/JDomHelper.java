@@ -10,39 +10,39 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
 /*******************************************************************************
- * JDOM ·½Ê½²Ù×÷XML
+ * JDOM æ–¹å¼æ“ä½œXML
  * 
  * @author Administrator
  */
 public class JDomHelper
 {
 	/**
-	 * DOCUMENT¸ñÊ½»¯Êä³ö±£´æÎªXML
+	 * DOCUMENTæ ¼å¼åŒ–è¾“å‡ºä¿å­˜ä¸ºXML
 	 * 
 	 * @param doc
-	 *            JDOMµÄDocument
+	 *            JDOMçš„Document
 	 * @param filePath
-	 *            Êä³öÎÄ¼şÂ·¾¶
+	 *            è¾“å‡ºæ–‡ä»¶è·¯å¾„
 	 * @throws Exception
 	 */
 	public static void doc2XML(Document doc, String filePath) throws Exception
 	{
-		String indent = "    ";// Ã¿Ò»²ãÔªËØËõÅÅËÄ¸ñ
-		boolean newlines = true;// ÔÚÔªËØºó»»ĞĞ
+		String indent = "    ";// æ¯ä¸€å±‚å…ƒç´ ç¼©æ’å››æ ¼
+		boolean newlines = true;// åœ¨å…ƒç´ åæ¢è¡Œ
 		String encoding = "UTF-8";
-		XMLOutputter outputter = new XMLOutputter(indent, newlines, encoding);// ¶¨ÒåÊä³ö
-																				// ,ÔÚÔªËØºó»»ĞĞ£¬Ã¿Ò»²ãÔªËØËõÅÅËÄ¸ñ
-		FileWriter writer = new FileWriter(filePath);// Êä³öÁ÷
+		XMLOutputter outputter = new XMLOutputter(indent, newlines, encoding);// å®šä¹‰è¾“å‡º
+																				// ,åœ¨å…ƒç´ åæ¢è¡Œï¼Œæ¯ä¸€å±‚å…ƒç´ ç¼©æ’å››æ ¼
+		FileWriter writer = new FileWriter(filePath);// è¾“å‡ºæµ
 		outputter.output(doc, writer);
 		writer.close();
 	}
 
 	/**
-	 * ×Ö·û´®×ª»»ÎªDOCUMENT
+	 * å­—ç¬¦ä¸²è½¬æ¢ä¸ºDOCUMENT
 	 * 
 	 * @param xmlStr
-	 *            ×Ö·û´®
-	 * @return doc JDOMµÄDocument
+	 *            å­—ç¬¦ä¸²
+	 * @return doc JDOMçš„Document
 	 * @throws Exception
 	 */
 	public static Document string2Doc(String xmlStr) throws Exception
@@ -53,31 +53,31 @@ public class JDomHelper
 	}
 
 	/**
-	 * Document×ª»»Îª×Ö·û´®
+	 * Documentè½¬æ¢ä¸ºå­—ç¬¦ä¸²
 	 * 
 	 * @param xmlFilePath
-	 *            XMLÎÄ¼şÂ·¾¶
-	 * @return xmlStr ×Ö·û´®
+	 *            XMLæ–‡ä»¶è·¯å¾„
+	 * @return xmlStr å­—ç¬¦ä¸²
 	 * @throws Exception
 	 */
 	public static String doc2String(Document doc) throws Exception
 	{
-		String indent = "    ";// Ã¿Ò»²ãÔªËØËõÅÅËÄ¸ñ
-		boolean newlines = true;// ÔÚÔªËØºó»»ĞĞ
+		String indent = "    ";// æ¯ä¸€å±‚å…ƒç´ ç¼©æ’å››æ ¼
+		boolean newlines = true;// åœ¨å…ƒç´ åæ¢è¡Œ
 		String encoding = "UTF-8";
-		XMLOutputter outputter = new XMLOutputter(indent, newlines, encoding);// ¶¨ÒåÊä³ö
-																				// ,ÔÚÔªËØºó»»ĞĞ£¬Ã¿Ò»²ãÔªËØËõÅÅËÄ¸ñ
+		XMLOutputter outputter = new XMLOutputter(indent, newlines, encoding);// å®šä¹‰è¾“å‡º
+																				// ,åœ¨å…ƒç´ åæ¢è¡Œï¼Œæ¯ä¸€å±‚å…ƒç´ ç¼©æ’å››æ ¼
 		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		outputter.output(doc, bo);
 		return bo.toString();
 	}
 
 	/**
-	 * XML×ª»»ÎªDocument
+	 * XMLè½¬æ¢ä¸ºDocument
 	 * 
 	 * @param xmlFilePath
-	 *            XMLÎÄ¼şÂ·¾¶
-	 * @return doc Document¶ÔÏó
+	 *            XMLæ–‡ä»¶è·¯å¾„
+	 * @return doc Documentå¯¹è±¡
 	 * @throws Exception
 	 */
 	public static Document xml2Doc(String xmlFilePath) throws Exception

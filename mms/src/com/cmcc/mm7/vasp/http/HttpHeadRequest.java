@@ -25,13 +25,13 @@ public class HttpHeadRequest
 
 	public boolean recvData(InputStream input) throws IOException
 	{
-		// ÏÈ¶ÁhttpÍ·ĞÅÏ¢
+		// å…ˆè¯»httpå¤´ä¿¡æ¯
 		if (input == null)
 		{
 			log.warn("input is null");
 			return false;
 		}
-		log.debug("¿ªÊ¼½ÓÊÜ°üÍ·");
+		log.debug("å¼€å§‹æ¥å—åŒ…å¤´");
 		boolean firstFlag=false;
 		while (true)
 		{
@@ -41,13 +41,13 @@ public class HttpHeadRequest
 			if(!firstFlag)
 			{
 				firstFlag=true;
-				log.debug("¶ÁÈ¡µ½ÁË°üµÄµÚÒ»¸ö×Ö½Ú");
+				log.debug("è¯»å–åˆ°äº†åŒ…çš„ç¬¬ä¸€ä¸ªå­—èŠ‚");
 			}
 			
 			if (i == -1)
 			{
-				// socket±»ÁíÒ»¶Ë¹Ø±Õ
-				//log.error("¶ÁÈ¡°üÊ±Î´¶ÁÍêÓöµ½-1");
+				// socketè¢«å¦ä¸€ç«¯å…³é—­
+				//log.error("è¯»å–åŒ…æ—¶æœªè¯»å®Œé‡åˆ°-1");
 				throw new  IOException("peer socket is closed");
 			}
 			headBaos.write(i);

@@ -25,7 +25,7 @@ public class HttpHeadResponse
 
 	public boolean recvData(InputStream input) throws IOException
 	{
-		// ÏÈ¶ÁhttpÍ·ĞÅÏ¢
+		// å…ˆè¯»httpå¤´ä¿¡æ¯
 		if (input == null)
 		{
 			log.warn("input is null");
@@ -37,8 +37,8 @@ public class HttpHeadResponse
 			int i = input.read();
 			if (i == -1)
 			{
-				// socket±»ÁíÒ»¶Ë¹Ø±Õ
-				log.error("¶ÁÈ¡°üÊ±Î´¶ÁÍêÓöµ½-1");
+				// socketè¢«å¦ä¸€ç«¯å…³é—­
+				log.error("è¯»å–åŒ…æ—¶æœªè¯»å®Œé‡åˆ°-1");
 				throw new  IOException("peer socket is closed");
 			}
 			headBaos.write(i);
@@ -77,7 +77,7 @@ public class HttpHeadResponse
 		}
 		catch (Exception ex)
 		{
-			log.error("parse statusCodeÊ§°Ü", ex);
+			log.error("parse statusCodeå¤±è´¥", ex);
 			return false;
 		}
 		reasonPhrase = tuple[2].trim();

@@ -9,10 +9,10 @@ public interface MmsService extends Remote
 {
 
 	/**
-	 * 彩信下行
+	 * 褰╀俊涓嬭
 	 * 
 	 * @param mms
-	 *            彩信
+	 *            褰╀俊
 	 * @return
 	 * @throws RemoteException
 	 */

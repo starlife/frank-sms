@@ -27,8 +27,8 @@ public class Main
 
 	public void start()
 	{
-		// ÉèÖÃMax_speed
-		log.info("Æô¶¯²ÊĞÅ³ÌĞò...");
+		// è®¾ç½®Max_speed
+		log.info("å¯åŠ¨å½©ä¿¡ç¨‹åº...");
 		Constants.MAX_SPEED = config.getMaxSpeed();
 		NotifyThread.URL = config.getNotifyURL();
 		startRMIServer();
@@ -45,9 +45,9 @@ public class Main
 	{
 		try
 		{
-			// ´´½¨Ò»¸öÔ¶³Ì¶ÔÏó
+			// åˆ›å»ºä¸€ä¸ªè¿œç¨‹å¯¹è±¡
 			MmsService mmsService = new MmsServiceImpl();
-			// ±¾µØÖ÷»úÉÏµÄÔ¶³Ì¶ÔÏó×¢²á±íRegistryµÄÊµÀı£¬²¢Ö¸¶¨¶Ë¿ÚÎª8888£¬ÕâÒ»²½±Ø²»¿ÉÉÙ£¨JavaÄ¬ÈÏ¶Ë¿ÚÊÇ1099£©£¬±Ø²»¿ÉÈ±µÄÒ»²½£¬È±ÉÙ×¢²á±í´´½¨£¬ÔòÎŞ·¨°ó¶¨¶ÔÏóµ½Ô¶³Ì×¢²á±íÉÏ
+			// æœ¬åœ°ä¸»æœºä¸Šçš„è¿œç¨‹å¯¹è±¡æ³¨å†Œè¡¨Registryçš„å®ä¾‹ï¼Œå¹¶æŒ‡å®šç«¯å£ä¸º8888ï¼Œè¿™ä¸€æ­¥å¿…ä¸å¯å°‘ï¼ˆJavaé»˜è®¤ç«¯å£æ˜¯1099ï¼‰ï¼Œå¿…ä¸å¯ç¼ºçš„ä¸€æ­¥ï¼Œç¼ºå°‘æ³¨å†Œè¡¨åˆ›å»ºï¼Œåˆ™æ— æ³•ç»‘å®šå¯¹è±¡åˆ°è¿œç¨‹æ³¨å†Œè¡¨ä¸Š
 			String rmi = config.getRmi();
 			int index1 = rmi.lastIndexOf("/");
 			int index2 = rmi.lastIndexOf(":");
@@ -55,14 +55,14 @@ public class Main
 
 			LocateRegistry.createRegistry(port);
 
-			// °ó¶¨µÄURL±ê×¼¸ñÊ½Îª£ºrmi://host:port/name(ÆäÖĞĞ­ÒéÃû¿ÉÒÔÊ¡ÂÔ£¬ÏÂÃæÁ½ÖÖĞ´·¨¶¼ÊÇÕıÈ·µÄ£©
+			// ç»‘å®šçš„URLæ ‡å‡†æ ¼å¼ä¸ºï¼šrmi://host:port/name(å…¶ä¸­åè®®åå¯ä»¥çœç•¥ï¼Œä¸‹é¢ä¸¤ç§å†™æ³•éƒ½æ˜¯æ­£ç¡®çš„ï¼‰
 			Naming.bind(config.getRmi(), mmsService);
 
-			log.info("Ô¶³ÌmmsService¶ÔÏó°ó¶¨³É¹¦£¡¶Ë¿Ú" + port);
+			log.info("è¿œç¨‹mmsServiceå¯¹è±¡ç»‘å®šæˆåŠŸï¼ç«¯å£" + port);
 		}
 		catch (Exception e)
 		{
-			log.error("´´½¨Ô¶³Ì¶ÔÏó·¢ÉúÒì³£", e);
+			log.error("åˆ›å»ºè¿œç¨‹å¯¹è±¡å‘ç”Ÿå¼‚å¸¸", e);
 		}
 
 	}
@@ -80,7 +80,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		log.info("¶ÁÈ¡³ÌĞòÅäÖÃĞÅÏ¢\r\n " + mm7Config);
+		log.info("è¯»å–ç¨‹åºé…ç½®ä¿¡æ¯\r\n " + mm7Config);
 		// mm7Config.setConnConfigName("./config/ConnConfig.xml");
 		Main server = new Main(mm7Config);
 		try

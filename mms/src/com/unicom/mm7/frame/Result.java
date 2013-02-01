@@ -13,15 +13,15 @@ import com.unicom.mm7.util.DateUtils;
 import com.unicom.mm7.util.ObjectUtils;
 
 /**
- * ¸ÃÀà¿ÉÒÔ¿´×öÊÇÒ»¸ö»º³åÀà£¬ÏÈÍ¨ÖªÏûÏ¢¸ø¶Ô·½£¬Èç¹ûÍ¨ÖªÊ§°Ü£¬Ğ´ÎÄ¼ş ¸ÃÀàÊÇÒ»¸öµ¥ÊµÀıÀà ¸ÄÎªÓÃuuid 2012-12-22
+ * è¯¥ç±»å¯ä»¥çœ‹åšæ˜¯ä¸€ä¸ªç¼“å†²ç±»ï¼Œå…ˆé€šçŸ¥æ¶ˆæ¯ç»™å¯¹æ–¹ï¼Œå¦‚æœé€šçŸ¥å¤±è´¥ï¼Œå†™æ–‡ä»¶ è¯¥ç±»æ˜¯ä¸€ä¸ªå•å®ä¾‹ç±» æ”¹ä¸ºç”¨uuid 2012-12-22
  * 
  * @author Administrator
  */
 public class Result
 {
-	public static final String MO_DIR = "MO";// MO²ÊĞÅ±£´æÄ¿Â¼
+	public static final String MO_DIR = "MO";// MOå½©ä¿¡ä¿å­˜ç›®å½•
 
-	private static String TIMESTAMP = ""; // ±£´æÊ±¼ä´ÁÓÃµÄ
+	private static String TIMESTAMP = ""; // ä¿å­˜æ—¶é—´æˆ³ç”¨çš„
 
 	private static final Log log = LogFactory.getLog(Result.class);
 
@@ -41,7 +41,7 @@ public class Result
 	}
 
 	/**
-	 * ´¦ÀíÌá½»Ê§°ÜµÄÏûÏ¢
+	 * å¤„ç†æäº¤å¤±è´¥çš„æ¶ˆæ¯
 	 * 
 	 * @param sendid
 	 * @param to
@@ -56,7 +56,7 @@ public class Result
 	}
 
 	/**
-	 * ½ÓÊÕ·¢ËÍ½á¹û
+	 * æ¥æ”¶å‘é€ç»“æœ
 	 * 
 	 * @param sendid
 	 * @param mobile
@@ -64,7 +64,7 @@ public class Result
 	 */
 	public void notifyResult(String sendid, String mobile, int resultCode)
 	{
-		// Ìá½»Ê§°Ü result=-1
+		// æäº¤å¤±è´¥ result=-1
 		int result = -1;
 		String resultMessage = String.valueOf(resultCode);
 		String reportTime = DateUtils.getTimestamp14();
@@ -74,7 +74,7 @@ public class Result
 	}
 
 	/**
-	 * ½ÓÊÕ×´Ì¬±¨¸æ
+	 * æ¥æ”¶çŠ¶æ€æŠ¥å‘Š
 	 * 
 	 * @param sendid
 	 * @param mobile
@@ -85,32 +85,32 @@ public class Result
 	public void notifyResult(String sendid, String mobile, int mmStatus,
 			String mmStatusText, String reportTime)
 	{
-		// Ìá½»³É¹¦ result=0
+		// æäº¤æˆåŠŸ result=0
 		int result = 0;
 		String resultMessage = mmStatusText;
-		// Èç¹ûÍ¨ÖªÊ§°Ü£¬ÄÇÃ´Ğ´ÈÕÖ¾
+		// å¦‚æœé€šçŸ¥å¤±è´¥ï¼Œé‚£ä¹ˆå†™æ—¥å¿—
 		NotifyThread.notifyDeliverReport(sendid, mobile, result, resultMessage,
 				reportTime);
 
 	}
 
 	/**
-	 * ½ÓÊÕMO²ÊĞÅ
+	 * æ¥æ”¶MOå½©ä¿¡
 	 * 
 	 * @param mms
 	 */
 	public void notifyResult(UMms mms)
 	{
-		// ±£´æÎÄ¼ş£¬È»ºóÍ¨Öªµ½ws£¬
-		// Èç¹ûÍ¨ÖªÊ§°Ü£¬¼ÇÂ¼Í¨ÖªÊ§°ÜÔ­Òò
+		// ä¿å­˜æ–‡ä»¶ï¼Œç„¶åé€šçŸ¥åˆ°wsï¼Œ
+		// å¦‚æœé€šçŸ¥å¤±è´¥ï¼Œè®°å½•é€šçŸ¥å¤±è´¥åŸå› 
 		if (writeObject(mms))
 		{
-			// Èç¹ûÍ¨ÖªÊ§°Ü£¬ÄÇÃ´Ğ´ÈÕÖ¾
+			// å¦‚æœé€šçŸ¥å¤±è´¥ï¼Œé‚£ä¹ˆå†™æ—¥å¿—
 			NotifyThread.notifyDeliver(mms.getSendID());
 		}
 		else
 		{
-			log.error("MOÏûÏ¢Ğ´ÎÄ¼şÊ§°Ü" + mms.getSendID());
+			log.error("MOæ¶ˆæ¯å†™æ–‡ä»¶å¤±è´¥" + mms.getSendID());
 		}
 	}
 
@@ -134,15 +134,15 @@ public class Result
 	public static File getMmsDir()
 	{
 		File dir = new File(MO_DIR);
-		// Èç¹ûÊÇ¼à²âÉ¾³ıÊ±¼ä£¬ÄÇÃ´Ö´ĞĞÉ¾³ı²Ù×÷
+		// å¦‚æœæ˜¯ç›‘æµ‹åˆ é™¤æ—¶é—´ï¼Œé‚£ä¹ˆæ‰§è¡Œåˆ é™¤æ“ä½œ
 		String timestamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		if (!TIMESTAMP.equals(timestamp))
 		{
 			if (dir.isFile() && dir.exists())
 			{
-				// ²ÊĞÅÎÄ¼ş±£Áô5Ìì
+				// å½©ä¿¡æ–‡ä»¶ä¿ç•™5å¤©
 				long now = System.currentTimeMillis();
-				long during = 5 * 24 * 3600 * 1000;// 5Ìì
+				long during = 5 * 24 * 3600 * 1000;// 5å¤©
 
 				File[] files = dir.listFiles();
 				for (File f : files)

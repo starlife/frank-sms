@@ -20,8 +20,8 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	
 	private long commitTime=System.currentTimeMillis();
 	
-	private int batch=1000;//Ã¿Åú¶àÉÙÌõÊı¾İ
-	private int interval=60000;//Ê±¼ä¼ä¸ô 60s
+	private int batch=1000;//æ¯æ‰¹å¤šå°‘æ¡æ•°æ®
+	private int interval=60000;//æ—¶é—´é—´éš” 60s
 	
 	private volatile boolean stop = false;
 	
@@ -76,12 +76,12 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 	public void autoCommit()
 	{
 		//System.out.println("autocomit...");
-		//Èç¹û¼ÇÂ¼´óÓÚ1000Ìõ£¬×Ô¶¯Ìá½»
+		//å¦‚æœè®°å½•å¤§äº1000æ¡ï¼Œè‡ªåŠ¨æäº¤
 		if(list.size()>=batch)
 		{
 			commit();
 		}
-		//Èç¹û1·ÖÖÓÃ»Ìá½»ÁË£¬ÄÇÃ´Ò²×Ô¶¯Ìá½»
+		//å¦‚æœ1åˆ†é’Ÿæ²¡æäº¤äº†ï¼Œé‚£ä¹ˆä¹Ÿè‡ªåŠ¨æäº¤
 		//System.out.println(System.currentTimeMillis()-commitTime);
 		if((System.currentTimeMillis()-commitTime)>=interval)
 		{
@@ -95,7 +95,7 @@ public class UpdateBufLayer extends Thread implements BufferLayer<SubmitBean>
 		synchronized (list)
 		{
 			boolean flag=DbDao.getInstance().update(list);
-			//Èç¹û²åÈëÊı¾İ¿â³É¹¦£¬ÄÇÃ´Çå¿Õ¸Ã¶ÓÁĞ
+			//å¦‚æœæ’å…¥æ•°æ®åº“æˆåŠŸï¼Œé‚£ä¹ˆæ¸…ç©ºè¯¥é˜Ÿåˆ—
 			if(flag)
 			{
 				commitTime=System.currentTimeMillis();
