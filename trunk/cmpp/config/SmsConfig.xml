@@ -17,11 +17,12 @@
 	<ListenPort>8801</ListenPort>
 	<BackLog>50</BackLog>
 	<!--  -->
-	<TimeOut>60000</TimeOut>
+	<TimeOut>50000</TimeOut>
+	<ServerTimeOut>60000</ServerTimeOut>
 	<SendThread>1</SendThread>
 	<RetryCount>3</RetryCount>
-	<MaxSpeed>1</MaxSpeed>
-	<MassCount>17</MassCount>
+	<MaxSpeed>17</MaxSpeed>
+	<MassCount>1</MassCount>
 	<RMI>rmi://localhost:7777/SmsService</RMI>
 	<NotifyURL>http://localhost/ws/services/SmsEngine</NotifyURL>
 </SmsConfig>
