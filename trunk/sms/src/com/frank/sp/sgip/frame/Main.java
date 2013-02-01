@@ -39,6 +39,7 @@ public class Main
 		// 设置Max_speed
 		Constants.MAX_SPEED = config.getMaxSpeed();
 		NotifyThread.URL = config.getNotifyURL();
+		NotifyThread.TIMEOUT = config.getWSTimeOut();
 		startRMIServer();
 		tm = new ManagerThread(config, config.getSendThread());
 		tm.start();
