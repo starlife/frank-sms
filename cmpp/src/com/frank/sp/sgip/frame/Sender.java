@@ -140,7 +140,13 @@ public class Sender extends PSender
 	{
 
 		log.info("doSubmitResp ok");
+		//debug
+		long start=System.currentTimeMillis();
+		log.debug("debug doSubmitResp begin"+start);
 		Sequence submitReq = sm.getHead().getSequenceId();
+		long end=System.currentTimeMillis();
+		log.debug("debug doSubmitResp end  (end-begin)"+(end-start));
+		//debug end
 		String sendid = null;
 		synchronized (sessionMap)
 		{
