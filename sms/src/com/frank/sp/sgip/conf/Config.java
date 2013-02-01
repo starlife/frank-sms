@@ -29,6 +29,7 @@ public class Config
 
 	private int TimeOut;// 客户端socket连接超时时间
 	private int ServerTimeOut;// 服务端socket连接超时时间
+	private int WSTimeOut; // ws 超时时间
 	private int SendThread = 1;// 发送线程
 	private int RetryCount = 3;// 重发次数
 	private int MaxSpeed = 2;// 每秒发送条数
@@ -78,6 +79,7 @@ public class Config
 
 		TimeOut = Integer.parseInt((String) map.get("TimeOut"));
 		ServerTimeOut = Integer.parseInt((String) map.get("ServerTimeOut"));
+		WSTimeOut = Integer.parseInt((String) map.get("WSTimeOut"));
 		SendThread = Integer.parseInt((String) map.get("SendThread"));
 		RetryCount = Integer.parseInt((String) map.get("RetryCount"));
 		MaxSpeed = Integer.parseInt((String) map.get("MaxSpeed"));
@@ -324,7 +326,6 @@ public class Config
 		NotifyURL = notifyURL;
 	}
 
-	
 	public String getNodeID()
 	{
 		return NodeID;
@@ -334,6 +335,7 @@ public class Config
 	{
 		NodeID = nodeID;
 	}
+
 	public static void main(String[] args)
 	{
 		Config config = new Config("./config/SmsConfig.xml");
@@ -350,5 +352,14 @@ public class Config
 		ServerTimeOut = serverTimeOut;
 	}
 
+	public int getWSTimeOut()
+	{
+		return WSTimeOut;
+	}
+
+	public void setWSTimeOut(int timeOut)
+	{
+		WSTimeOut = timeOut;
+	}
 
 }
