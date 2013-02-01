@@ -18,27 +18,27 @@ public class SubmitBean implements java.io.Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String messageid;// MM7_submit.RESÖĞmessageid ×Ö¶Î ²»Îª¿Õ
-	private String transactionid;// ²»Îª¿Õ
-	private String mm7version;// ¿ÉÒÔÎª¿Õ
-	//private String senderAddress;// ²»Îª¿Õ
-	private String toAddress;// ²»Îª¿Õ
-	private String subject;// ²»Îª¿Õ
-	private String sendtime;// ²»Îª¿Õ
-	private String vaspid;// ²»Îª¿Õ
-	private String vasid;// ²»Îª¿Õ
-	private String serviceCode;// ²»Îª¿Õ
-	private String linkid;// ¿ÉÒÔÎª¿Õ
-	private Integer status;// MM7_submit.RESÖĞRequest Status ×Ö¶Î ²»Îª¿Õ
-	private String statusText;// MM7_submit.RESÖĞRequest Status Text×Ö¶Î ¿ÉÒÔÎª¿Õ
-	private String reportTime;// MM7_delivery_report.REQÖĞDate and time ×Ö¶Î ¿ÉÒÔÎª¿Õ
-	private Integer mmStatus;// MM7_delivery_report.REQÖĞMM Status ×Ö¶Î ¿ÉÒÔÎª¿Õ
-	private String mmStatusText;// MM7_delivery_report.REQÖĞMM Status text×Ö¶Î ¿ÉÒÔÎª¿Õ
-	//private String readyTime;// MM7_read_reply_report.REQÖĞDate and time×Ö¶Î
-	// ¿ÉÒÔÎª¿Õ
-	//private Integer readStatus;// MM7_read_reply_report.REQÖĞRead Status ×Ö¶Î ¿ÉÒÔÎª¿Õ
-	//private String readStatusText;// MM7_read_reply_report.REQÖĞRead Status
-	// text×Ö¶Î ¿ÉÒÔÎª¿Õ
+	private String messageid;// MM7_submit.RESä¸­messageid å­—æ®µ ä¸ä¸ºç©º
+	private String transactionid;// ä¸ä¸ºç©º
+	private String mm7version;// å¯ä»¥ä¸ºç©º
+	//private String senderAddress;// ä¸ä¸ºç©º
+	private String toAddress;// ä¸ä¸ºç©º
+	private String subject;// ä¸ä¸ºç©º
+	private String sendtime;// ä¸ä¸ºç©º
+	private String vaspid;// ä¸ä¸ºç©º
+	private String vasid;// ä¸ä¸ºç©º
+	private String serviceCode;// ä¸ä¸ºç©º
+	private String linkid;// å¯ä»¥ä¸ºç©º
+	private Integer status;// MM7_submit.RESä¸­Request Status å­—æ®µ ä¸ä¸ºç©º
+	private String statusText;// MM7_submit.RESä¸­Request Status Textå­—æ®µ å¯ä»¥ä¸ºç©º
+	private String reportTime;// MM7_delivery_report.REQä¸­Date and time å­—æ®µ å¯ä»¥ä¸ºç©º
+	private Integer mmStatus;// MM7_delivery_report.REQä¸­MM Status å­—æ®µ å¯ä»¥ä¸ºç©º
+	private String mmStatusText;// MM7_delivery_report.REQä¸­MM Status textå­—æ®µ å¯ä»¥ä¸ºç©º
+	//private String readyTime;// MM7_read_reply_report.REQä¸­Date and timeå­—æ®µ
+	// å¯ä»¥ä¸ºç©º
+	//private Integer readStatus;// MM7_read_reply_report.REQä¸­Read Status å­—æ®µ å¯ä»¥ä¸ºç©º
+	//private String readStatusText;// MM7_read_reply_report.REQä¸­Read Status
+	// textå­—æ®µ å¯ä»¥ä¸ºç©º
 	private Long sessionid;
 
 	// Constructors
