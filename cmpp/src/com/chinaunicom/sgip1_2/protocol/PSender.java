@@ -12,7 +12,7 @@ import com.chinaunicom.sgip1_2.protocol.message.SubmitRespMessage;
 import com.chinaunicom.sgip1_2.protocol.util.Constants;
 import com.chinaunicom.sgip1_2.protocol.util.Hex;
 import com.chinaunicom.sgip1_2.protocol.util.MessageUtil;
-import com.chinaunicom.sgip1_2.protocol.util.RateControl;
+import com.chinaunicom.sgip1_2.protocol.util.TpsTool;
 
 /**
  * 取得消息并提交给消息发送队列 该类需要定义几个给子类继承的方法： doSubmit();
@@ -66,7 +66,7 @@ public class PSender extends Thread implements AbstractSender
 			try
 			{
 				// 这里做流量控制
-				RateControl.controlRate();
+				TpsTool.limitTPS();
 				// 取包发送
 				APackage pack = this.doSubmit();
 				if (pack == null)
@@ -82,7 +82,8 @@ public class PSender extends Thread implements AbstractSender
 						if (channel.isLogin())
 						{
 							// 链路已经空闲超过60s，且连接还未断开，需要发送UnbindMessage包
-							log.info("链路空闲超过60s，发送UnbindMessage包断开连接");
+							log.info("链路空闲超过" + timeout
+									+ "ms，发送UnbindMessage包断开连接");
 							channel.unbind();
 						}
 
