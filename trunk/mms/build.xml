@@ -46,7 +46,7 @@
 	</path>
 
 	<path id="mms.classpath">
-		<pathelement location="${class.dir}" />
+		<pathelement location="bin" />
 		<path refid="classpath" />
 	</path>
 
