@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 /**
- * 十六进制和字节的相互转化工具�?
+ * 字节值打印工具
  * 
  * @author Administrator
  */

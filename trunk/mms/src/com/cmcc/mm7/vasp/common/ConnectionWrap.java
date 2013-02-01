@@ -9,7 +9,7 @@ public class ConnectionWrap
 
 	private long activeTime = System.currentTimeMillis();
 
-	private boolean del = false;// 标记该连接等待被删除
+	private boolean del = false;// 鏍囪璇ヨ繛鎺ョ瓑寰呰鍒犻櫎
 
 	public ConnectionWrap(Socket s, long time)
 	{
@@ -44,7 +44,7 @@ public class ConnectionWrap
 		StringBuffer sb = new StringBuffer();
 		sb.append("SocketAddress=" + this.getSocket()
 				+ "\r\n");
-		sb.append("上次激活时间到现在=" + (System.currentTimeMillis() - activeTime)
+		sb.append("涓婃婵�娲绘椂闂村埌鐜板湪=" + (System.currentTimeMillis() - activeTime)
 				+ "\r\n");
 		sb.append("IsDel=" + this.isDel() + "\r\n");
 		return sb.toString();

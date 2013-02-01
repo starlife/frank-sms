@@ -11,7 +11,7 @@ import com.vasp.mm7.dao.buffer.UpdateBufLayer;
 import com.vasp.mm7.database.pojo.SubmitBean;
 
 /**
- * ĞŞ¸ÄÎªjdbcÊµÏÖ
+ * ä¿®æ”¹ä¸ºjdbcå®ç°
  * 
  * @author Administrator
  */
@@ -44,7 +44,7 @@ public class SubmitDaoImpl
 	}
 
 	/**
-	 * messageidºÍtoÎ¨Ò»µÄÈ·¶¨Ò»Ìõ¼ÇÂ¼
+	 * messageidå’Œtoå”¯ä¸€çš„ç¡®å®šä¸€æ¡è®°å½•
 	 * 
 	 * @param messageid
 	 * @param to
@@ -93,7 +93,7 @@ public class SubmitDaoImpl
 			submitBean.setServiceCode("1113329901");
 			submitBean.setLinkid(null);
 			submitBean.setStatus(1000);
-			submitBean.setStatusText("·¢ËÍ³É¹¦");
+			submitBean.setStatusText("å‘é€æˆåŠŸ");
 			submitBean.setSessionid(144L);	
 			list.add(submitBean);
 			if(list.size()%10==0)

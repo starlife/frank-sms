@@ -1,5 +1,5 @@
 /**File Name:MMContants.java
- * Company:  ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾
+ * Company:  ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸
  * Date  :   2004-1-31
  * */
 
@@ -82,28 +82,28 @@ public class MMConstants {
     public static final int SERVICE_UNAVAILABLE = 4006;
     public static final int SERVICE_DENIED = 4007;
 
-    public static final String TEXT_SUCCESS = "³É¹¦";
-    public static final String TEXT_PARTIAL_SUCCESS = "²¿·Ö³É¹¦";
-    public static final String TEXT_CLIENT_ERROR = "¿Í»§»ú´íÎó";
-    public static final String TEXT_OPERATION_RESTRICTED = "²Ù×÷ÊÜÏŞ";
-    public static final String TEXT_ADDRESS_ERROR = "µØÖ·´íÎó";
-    public static final String TEXT_ADDRESS_NOTFOUND = "ÕÒ²»µ½µØÖ·";
-    public static final String TEXT_CONTENT_REFUSED = "¶àÃ½ÌåÄÚÈİ±»¾Ü¾ø";
-    public static final String TEXT_MESSAGEID_NOTFOUND = "ÕÒ²»µ½ÏûÏ¢ID";
-    public static final String TEXT_LINKEDID_NOTFOUND = "ÕÒ²»µ½Á´½ÓID";
-    public static final String TEXT_MESSAGE_FORMAT_CORRUPT = "ÏûÏ¢¸ñÊ½ÆÆ»µ";
-    public static final String TEXT_SERVER_ERROR = "·şÎñÆ÷´íÎó";
-    public static final String TEXT_NOT_POSSIBLE = "²»¿É½ÓÊÜ";
-    public static final String TEXT_MESSAGE_REJECTED = "ÏûÏ¢±»¾Ü¾ø";
-    public static final String TEXT_MULTIADDRESS_NOTSUPPORT = "²»Ö§³Ö¶à¸öµØÖ·";
-    public static final String TEXT_GENERAL_SERVICE_ERROR = "Ò»°ã·şÎñ´íÎó";
-    public static final String TEXT_IMPROPER_ID = "±êÊ¶²»ÕıÈ·";
-    public static final String TEXT_UNSUPPORT_VERSION = "°æ±¾²»Ö§³Ö";
-    public static final String TEXT_UNSUPPORT_OPERATION = "²Ù×÷²»Ö§³Ö";
-    public static final String TEXT_VALIDATION_ERROR = "ÑéÖ¤´íÎó";
-    public static final String TEXT_SERVICE_ERROR = "·şÎñ´íÎó";
-    public static final String TEXT_SERVICE_UNAVAILABLE = "ÎŞ·¨Ìá¹©·şÎñ";
-    public static final String TEXT_SERVICE_DENIED = "·şÎñ±»¾Ü¾ø";
+    public static final String TEXT_SUCCESS = "æˆåŠŸ";
+    public static final String TEXT_PARTIAL_SUCCESS = "éƒ¨åˆ†æˆåŠŸ";
+    public static final String TEXT_CLIENT_ERROR = "å®¢æˆ·æœºé”™è¯¯";
+    public static final String TEXT_OPERATION_RESTRICTED = "æ“ä½œå—é™";
+    public static final String TEXT_ADDRESS_ERROR = "åœ°å€é”™è¯¯";
+    public static final String TEXT_ADDRESS_NOTFOUND = "æ‰¾ä¸åˆ°åœ°å€";
+    public static final String TEXT_CONTENT_REFUSED = "å¤šåª’ä½“å†…å®¹è¢«æ‹’ç»";
+    public static final String TEXT_MESSAGEID_NOTFOUND = "æ‰¾ä¸åˆ°æ¶ˆæ¯ID";
+    public static final String TEXT_LINKEDID_NOTFOUND = "æ‰¾ä¸åˆ°é“¾æ¥ID";
+    public static final String TEXT_MESSAGE_FORMAT_CORRUPT = "æ¶ˆæ¯æ ¼å¼ç ´å";
+    public static final String TEXT_SERVER_ERROR = "æœåŠ¡å™¨é”™è¯¯";
+    public static final String TEXT_NOT_POSSIBLE = "ä¸å¯æ¥å—";
+    public static final String TEXT_MESSAGE_REJECTED = "æ¶ˆæ¯è¢«æ‹’ç»";
+    public static final String TEXT_MULTIADDRESS_NOTSUPPORT = "ä¸æ”¯æŒå¤šä¸ªåœ°å€";
+    public static final String TEXT_GENERAL_SERVICE_ERROR = "ä¸€èˆ¬æœåŠ¡é”™è¯¯";
+    public static final String TEXT_IMPROPER_ID = "æ ‡è¯†ä¸æ­£ç¡®";
+    public static final String TEXT_UNSUPPORT_VERSION = "ç‰ˆæœ¬ä¸æ”¯æŒ";
+    public static final String TEXT_UNSUPPORT_OPERATION = "æ“ä½œä¸æ”¯æŒ";
+    public static final String TEXT_VALIDATION_ERROR = "éªŒè¯é”™è¯¯";
+    public static final String TEXT_SERVICE_ERROR = "æœåŠ¡é”™è¯¯";
+    public static final String TEXT_SERVICE_UNAVAILABLE = "æ— æ³•æä¾›æœåŠ¡";
+    public static final String TEXT_SERVICE_DENIED = "æœåŠ¡è¢«æ‹’ç»";
   }
 
   public class  MMStatus{
@@ -113,21 +113,21 @@ public class MMConstants {
     public static final int RECIPIENT_REJECT = 3;
     public static final int INDETERMINATE = 4;
     public static final int FORWARDED = 5;
-    public static final String TEXT_EXPIRED = "¹ıÆÚ";
-    public static final String TEXT_RETRIEVED = "½ÓÊÕ";
-    public static final String TEXT_SYSTEM_REJECT = "ÏµÍ³¾Ü¾ø";
-    public static final String TEXT_RECIPIENT_REJECT = "ÓÃ»§¾Ü¾ø";
-    public static final String TEXT_INDETERMINATE = "Î´Öª";
-    public static final String TEXT_FORWARDED = "×ª·¢";
+    public static final String TEXT_EXPIRED = "è¿‡æœŸ";
+    public static final String TEXT_RETRIEVED = "æ¥æ”¶";
+    public static final String TEXT_SYSTEM_REJECT = "ç³»ç»Ÿæ‹’ç»";
+    public static final String TEXT_RECIPIENT_REJECT = "ç”¨æˆ·æ‹’ç»";
+    public static final String TEXT_INDETERMINATE = "æœªçŸ¥";
+    public static final String TEXT_FORWARDED = "è½¬å‘";
   }
 
   public class ReadStatus{
     public static final int READ = 0;
     public static final int DELETED = 1;
     public static final int INDETERMINATE = 2;
-    public static final String TEXT_READ = "ÒÑ¶ÁÈ¡";
-    public static final String TEXT_DELETED = "Î´¶Á±»É¾";
-    public static final String TEXT_INDETERMINATE = "Î´Öª";
+    public static final String TEXT_READ = "å·²è¯»å–";
+    public static final String TEXT_DELETED = "æœªè¯»è¢«åˆ ";
+    public static final String TEXT_INDETERMINATE = "æœªçŸ¥";
   }
 
   public static final int ARRAYLIMIT = 256;

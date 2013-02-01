@@ -23,14 +23,14 @@ public class HttpRequest
 
 	public boolean recvData(InputStream input) throws IOException
 	{
-		// ÏÈ¶ÁhttpÍ·ĞÅÏ¢
+		// å…ˆè¯»httpå¤´ä¿¡æ¯
 		if (!httpHead.recvData(input))
 		{
-			log.info("¶ÁÈ¡°üÍ·Êı¾İÊ§°Ü");
+			log.info("è¯»å–åŒ…å¤´æ•°æ®å¤±è´¥");
 			return false;
 		}
-		log.debug("½ÓÊÕ°üÍ·Íê³É");
-		// Èç¹ûÓĞ°üÌå£¬¶ÁÈ¡°üÌå
+		log.debug("æ¥æ”¶åŒ…å¤´å®Œæˆ");
+		// å¦‚æœæœ‰åŒ…ä½“ï¼Œè¯»å–åŒ…ä½“
 
 		String contentLen = this.getHeaderValue("Content-Length");
 		if (contentLen != null)
@@ -46,14 +46,14 @@ public class HttpRequest
 		}
 		else
 		{
-			// ÕâÀïÌí¼Ó¶Ôtruck´«ÊäÀàĞÍµÄ´¦Àí
+			// è¿™é‡Œæ·»åŠ å¯¹truckä¼ è¾“ç±»å‹çš„å¤„ç†
 			String transferEncoding = this.getHeaderValue("transfer-encoding");
 			if (transferEncoding.equalsIgnoreCase("chunked"))
 			{
 				Thunk thunk = new Thunk();
 				if (!thunk.recvData(input))
 				{
-					log.warn("³¢ÊÔ½ÓÊÕchunkedÀàĞÍÊı¾İÊ§°Ü");
+					log.warn("å°è¯•æ¥æ”¶chunkedç±»å‹æ•°æ®å¤±è´¥");
 					return false;
 				}
 				bodyBaos.write(thunk.getData());

@@ -28,7 +28,7 @@ public class MIMEMessage
 	private String contentLocation = null;
 
 	/**
-	 * ²»ÊÇÒ»¸öMIMEÏûÏ¢µÄÊ±ºòÅ×³ö´íÎó
+	 * ä¸æ˜¯ä¸€ä¸ªMIMEæ¶ˆæ¯çš„æ—¶å€™æŠ›å‡ºé”™è¯¯
 	 * 
 	 * @param bytes
 	 * @throws IOException
@@ -39,7 +39,7 @@ public class MIMEMessage
 	}
 
 	/**
-	 * ĞŞ¸ÄÖ§³ÖMIMEÍ·°üº¬ÖĞÎÄ
+	 * ä¿®æ”¹æ”¯æŒMIMEå¤´åŒ…å«ä¸­æ–‡
 	 * 
 	 * @param bytes
 	 * @param charset

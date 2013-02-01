@@ -1,5 +1,5 @@
 /**
- * File Name:MM7ConfigManager.java ÖĞ¹úÒÆ¶¯
+ * File Name:MM7ConfigManager.java ä¸­å›½ç§»åŠ¨
  */
 
 package com.unicom.mm7.conf;
@@ -55,7 +55,7 @@ public class MM7ConfigManager
 		}
 		catch (Exception ex)
 		{
-			log.error("½âÎöÅäÖÃÎÄ¼şÊ±Óöµ½´íÎó", ex);
+			log.error("è§£æé…ç½®æ–‡ä»¶æ—¶é‡åˆ°é”™è¯¯", ex);
 			System.exit(1);
 		}
 

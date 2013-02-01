@@ -1,5 +1,5 @@
 /**
- * File Name:MMContent.java Company: ÖĞ¹úÒÆ¶¯¼¯ÍÅ¹«Ë¾ Date : 2004-1-30
+ * File Name:MMContent.java Company: ä¸­å›½ç§»åŠ¨é›†å›¢å…¬å¸ Date : 2004-1-30
  */
 
 package com.cmcc.mm7.vasp.common;
@@ -26,7 +26,7 @@ public class MMContent implements Serializable, Cloneable
 	private ByteArrayOutputStream byteOutput;
 
 	/**
-	 * ¹¹Ôì·½·¨
+	 * æ„é€ æ–¹æ³•
 	 */
 	public MMContent()
 	{
@@ -42,7 +42,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ¸Ã¹¹Ôì·½·¨ÊÇÎªÁË¼¸¸öcreate·½·¨Ëù´´½¨µÄ¡£Íâ²¿²¢²»ÄÜµ÷ÓÃ¡£ËùÒÔÉêÃ÷³Éprivate¡£
+	 * è¯¥æ„é€ æ–¹æ³•æ˜¯ä¸ºäº†å‡ ä¸ªcreateæ–¹æ³•æ‰€åˆ›å»ºçš„ã€‚å¤–éƒ¨å¹¶ä¸èƒ½è°ƒç”¨ã€‚æ‰€ä»¥ç”³æ˜æˆprivateã€‚
 	 */
 	private MMContent(byte[] content)
 	{
@@ -58,7 +58,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃ´ËMMContentÇ¶Ì×µÄ×ÓMMContentµÄList
+	 * è·å¾—æ­¤MMContentåµŒå¥—çš„å­MMContentçš„List
 	 */
 	public List<MMContent> getSubContents()
 	{
@@ -66,7 +66,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÊÇ·ñ´æÔÚÇ¶Ì×Ã½Ìå
+	 * æ˜¯å¦å­˜åœ¨åµŒå¥—åª’ä½“
 	 */
 	public boolean isMultipart()
 	{
@@ -74,7 +74,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃÄÚÈİÀàĞÍ
+	 * è·å¾—å†…å®¹ç±»å‹
 	 */
 	public MMContentType getContentType()
 	{
@@ -82,7 +82,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃÄÚÈİÀàĞÍ
+	 * è®¾ç½®å†…å®¹ç±»å‹
 	 */
 	public void setContentType(MMContentType contentType)
 	{
@@ -99,7 +99,7 @@ public class MMContent implements Serializable, Cloneable
 	// ///////////////////
 
 	/**
-	 * »ñµÃContentID
+	 * è·å¾—ContentID
 	 */
 	public String getContentID()
 	{
@@ -107,7 +107,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃContentID
+	 * è®¾ç½®ContentID
 	 */
 	public void setContentID(String contentID)
 	{
@@ -116,7 +116,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÊÇ·ñ´æÔÚContentID
+	 * æ˜¯å¦å­˜åœ¨ContentID
 	 */
 	public boolean isContentIDExist()
 	{
@@ -124,7 +124,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃContentLocation
+	 * è·å¾—ContentLocation
 	 */
 	public String getContentLocation()
 	{
@@ -132,7 +132,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃContentLocation
+	 * è®¾ç½®ContentLocation
 	 */
 	public void setContentLocation(String contentLocation)
 	{
@@ -141,7 +141,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÊÇ·ñ´æÔÚContentLocation
+	 * æ˜¯å¦å­˜åœ¨ContentLocation
 	 */
 	public boolean isContentLocationExist()
 	{
@@ -149,7 +149,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃPresentation²¿·İµÄÄÚÈİ
+	 * è·å¾—Presentationéƒ¨ä»½çš„å†…å®¹
 	 */
 	public MMContent getPresentionContent()
 	{
@@ -157,7 +157,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃMMContentÎªPresentation²¿·İ
+	 * è®¾ç½®MMContentä¸ºPresentationéƒ¨ä»½
 	 */
 	public void setPresentionContent(MMContent presentionContent)
 	{
@@ -166,7 +166,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÊÇ·ñ´æÔÚPresentation²¿·İ
+	 * æ˜¯å¦å­˜åœ¨Presentationéƒ¨ä»½
 	 */
 	public boolean isPresentionContentExist()
 	{
@@ -174,7 +174,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ¼ÓÈëµ¥¸öMMContentµ½MMContent£¨List£©
+	 * åŠ å…¥å•ä¸ªMMContentåˆ°MMContentï¼ˆListï¼‰
 	 */
 	public void addSubContent(MMContent content)
 	{
@@ -183,7 +183,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÒÔ¶ş½øÖÆ·½Ê½»ñµÃMMContentµÄÄÚÈİ
+	 * ä»¥äºŒè¿›åˆ¶æ–¹å¼è·å¾—MMContentçš„å†…å®¹
 	 */
 	public byte[] getContent()
 	{
@@ -191,7 +191,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÒÔString·½Ê½»ñµÃMMContentµÄÄÚÈİ
+	 * ä»¥Stringæ–¹å¼è·å¾—MMContentçš„å†…å®¹
 	 */
 	public String getContentAsString()
 	{
@@ -211,7 +211,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıContentID»ñµÃMMContentÀàĞÍµÄsubContent
+	 * é€šè¿‡ContentIDè·å¾—MMContentç±»å‹çš„subContent
 	 */
 	public MMContent getSubContentByID(String contentID)
 	{
@@ -234,7 +234,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıContentLocation»ñµÃMMContentÀàĞÍµÄsubContent
+	 * é€šè¿‡ContentLocationè·å¾—MMContentç±»å‹çš„subContent
 	 */
 	public MMContent getSubContentByLocation(String contentLocation)
 	{
@@ -257,7 +257,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ·µ»ØÃ½ÌåÄÚÈİµÄ´óĞ¡
+	 * è¿”å›åª’ä½“å†…å®¹çš„å¤§å°
 	 */
 	public int getSize()
 	{
@@ -265,7 +265,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * »ñµÃÎÄ±¾Ã½ÌåÄÚÈİµÄ×Ö·û¼¯
+	 * è·å¾—æ–‡æœ¬åª’ä½“å†…å®¹çš„å­—ç¬¦é›†
 	 */
 	public String getCharset()
 	{
@@ -273,7 +273,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ÉèÖÃÎÄ±¾Ã½ÌåÄÚÈİµÄ×Ö·û¼¯
+	 * è®¾ç½®æ–‡æœ¬åª’ä½“å†…å®¹çš„å­—ç¬¦é›†
 	 */
 	public void setCharset(String charset)
 	{
@@ -281,7 +281,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıÊäÈëString ÀàĞÍ½¨Á¢MMContent
+	 * é€šè¿‡è¾“å…¥String ç±»å‹å»ºç«‹MMContent
 	 */
 	public static MMContent createFromString(String content)
 	{
@@ -290,7 +290,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıÊäÈëInputStreamÀàĞÍ½¨Á¢MMContent
+	 * é€šè¿‡è¾“å…¥InputStreamç±»å‹å»ºç«‹MMContent
 	 */
 	public static MMContent createFromStream(InputStream in)
 	{
@@ -314,7 +314,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/*
-	 * Í¨¹ıÊäÈëInputStreamÀàĞÍºÍlength½¨Á¢MMContent
+	 * é€šè¿‡è¾“å…¥InputStreamç±»å‹å’Œlengthå»ºç«‹MMContent
 	 */
 	public static MMContent createFromStream(InputStream in, int length)
 	{
@@ -341,7 +341,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıÊäÈëbyte[]ÀàĞÍ½¨Á¢MMContent
+	 * é€šè¿‡è¾“å…¥byte[]ç±»å‹å»ºç«‹MMContent
 	 */
 	public static MMContent createFromBytes(byte[] data)
 	{
@@ -350,7 +350,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * Í¨¹ıÊäÈëÎÄ¼şµÄ¾ø¶ÔÂ·¾¶½¨Á¢MMContent
+	 * é€šè¿‡è¾“å…¥æ–‡ä»¶çš„ç»å¯¹è·¯å¾„å»ºç«‹MMContent
 	 */
 	public static MMContent createFromFile(String filename)
 	{
@@ -376,7 +376,7 @@ public class MMContent implements Serializable, Cloneable
 	}
 
 	/**
-	 * ·µ»Ø¶ÔÏóµÄÎÄ±¾±íÊ¾
+	 * è¿”å›å¯¹è±¡çš„æ–‡æœ¬è¡¨ç¤º
 	 */
 	public String toString()
 	{

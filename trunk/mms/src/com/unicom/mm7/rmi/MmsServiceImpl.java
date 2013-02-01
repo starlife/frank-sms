@@ -20,7 +20,7 @@ public class MmsServiceImpl extends UnicastRemoteObject implements MmsService
 	private static final Log log = LogFactory.getLog(MmsServiceImpl.class);
 
 	/**
-	 * 因为UnicastRemoteObject的构造方法抛出了RemoteException异常，因此这里默认的构造方法必须写，必须声明抛出RemoteException异常
+	 * 鍥犱负UnicastRemoteObject鐨勬瀯閫犳柟娉曟姏鍑轰簡RemoteException寮傚父锛屽洜姝よ繖閲岄粯璁ょ殑鏋勯�犳柟娉曞繀椤诲啓锛屽繀椤诲０鏄庢姏鍑篟emoteException寮傚父
 	 * 
 	 * @throws RemoteException
 	 */

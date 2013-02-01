@@ -21,7 +21,7 @@ public class DBDaoImpl
 	}
 
 	/**
-	 * È¡Ò»ÅúÊı¾İ
+	 * å–ä¸€æ‰¹æ•°æ®
 	 * 
 	 * @param queryString
 	 * @return
@@ -47,7 +47,7 @@ public class DBDaoImpl
 	}
 
 	/**
-	 * È¡Ò»ÌõÊı¾İ
+	 * å–ä¸€æ¡æ•°æ®
 	 * 
 	 * @param clazz
 	 * @param id

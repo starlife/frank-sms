@@ -13,7 +13,7 @@ public class Test
 	{
 		try
 		{
-			// 在RMI服务注册表中查找名称为RHello的对象，并调用其上的方法
+			// 鍦≧MI鏈嶅姟娉ㄥ唽琛ㄤ腑鏌ユ壘鍚嶇О涓篟Hello鐨勫璞★紝骞惰皟鐢ㄥ叾涓婄殑鏂规硶
 			MmsService mmsSrv = (MmsService) Naming
 					.lookup("rmi://localhost:8888/MmsService");
 			System.out.println(mmsSrv.sendMms(new UMms("1", "2", "3")));

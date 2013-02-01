@@ -14,13 +14,13 @@ import org.apache.commons.logging.LogFactory;
 public class ConnectionPool
 {
 	private static final Log log = LogFactory.getLog(ConnectionPool.class);
-	private DataSource ds = null;// ÅäÖÃÎÄ¼ş
-	private static final LinkedBlockingQueue<Connection> que = new LinkedBlockingQueue<Connection>();// Á¬½Ó¶ÓÁĞ
+	private DataSource ds = null;// é…ç½®æ–‡ä»¶
+	private static final LinkedBlockingQueue<Connection> que = new LinkedBlockingQueue<Connection>();// è¿æ¥é˜Ÿåˆ—
 	private static final List<Connection> usedList = new LinkedList<Connection>();
-	private int maxConn = 5;// ×î´óÁ¬½ÓÊı
+	private int maxConn = 5;// æœ€å¤§è¿æ¥æ•°
 
-	// private int mixConn=5;//×îĞ¡Á¬½ÓÊı
-	// private int used=0;//ÕâÔÚÊ¹ÓÃµÄÁ¬½ÓÊı
+	// private int mixConn=5;//æœ€å°è¿æ¥æ•°
+	// private int used=0;//è¿™åœ¨ä½¿ç”¨çš„è¿æ¥æ•°
 
 
 	public ConnectionPool(DataSource ds) throws Exception
@@ -28,12 +28,12 @@ public class ConnectionPool
 		this.ds = ds;
 		try
 		{
-			// ¼ÓÔØÇı¶¯Àà
+			// åŠ è½½é©±åŠ¨ç±»
 			Class.forName(ds.getDriverClass());
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new Exception("ÕÒ²»µ½Çı¶¯³ÌĞòÀà " + ds.getDriverClass() + "£¬¼ÓÔØÇı¶¯Ê§°Ü£¡");
+			throw new Exception("æ‰¾ä¸åˆ°é©±åŠ¨ç¨‹åºç±» " + ds.getDriverClass() + "ï¼ŒåŠ è½½é©±åŠ¨å¤±è´¥ï¼");
 		}
 
 	}
@@ -53,7 +53,7 @@ public class ConnectionPool
 		}
 		catch (SQLException se)
 		{
-			log.error("Êı¾İ¿âÁ¬½ÓÊ§°Ü£¡", se);
+			log.error("æ•°æ®åº“è¿æ¥å¤±è´¥ï¼", se);
 
 		}
 		return conn;
@@ -89,7 +89,7 @@ public class ConnectionPool
 	}
 	
 	/**
-	 * ¿ÉÓÃÁ¬½ÓµÄÊÍ·Å
+	 * å¯ç”¨è¿æ¥çš„é‡Šæ”¾
 	 * @param conn
 	 */
 	public void freeConnection(Connection conn)
@@ -98,7 +98,7 @@ public class ConnectionPool
 	}
 	
 	/**
-	 * ÎŞÓÃÁ¬½ÓµÄÊÍ·Å
+	 * æ— ç”¨è¿æ¥çš„é‡Šæ”¾
 	 * @param conn
 	 */
 	public void releaseConnection(Connection conn)
@@ -107,9 +107,9 @@ public class ConnectionPool
 	}
 	
 	/**
-	 * ÊÍ·ÅÁ¬½Ó
+	 * é‡Šæ”¾è¿æ¥
 	 * @param conn
-	 * @param valid  Á¬½ÓÊÇ·ñ¿ÉÓÃ
+	 * @param valid  è¿æ¥æ˜¯å¦å¯ç”¨
 	 */
 	private void freeConnection(Connection conn,boolean valid)
 	{	

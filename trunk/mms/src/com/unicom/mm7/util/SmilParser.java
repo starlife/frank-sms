@@ -15,7 +15,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
- * ¸ù¾İSmilÎÄ¼şµÄÄÚÈİ½âÎö¸÷¸öÔªËØ
+ * æ ¹æ®Smilæ–‡ä»¶çš„å†…å®¹è§£æå„ä¸ªå…ƒç´ 
  * 
  * @author Administrator
  */
@@ -158,7 +158,7 @@ public class SmilParser
 		{
 			int framecount = 0;
 			doc = DocumentHelper.parseText(this.smil); // 
-			Element root = doc.getRootElement();// »ñÈ¡¸ù½Úµã
+			Element root = doc.getRootElement();// è·å–æ ¹èŠ‚ç‚¹
 
 			Element body = root.element("body");
 			Iterator itpars = body.elementIterator("par");
@@ -190,7 +190,7 @@ public class SmilParser
 		}
 		catch (Exception ex)
 		{
-			System.out.println("ÎÄµµ²»·ûºÏ±ê×¼£¬½âÎöÊ§°Ü");
+			System.out.println("æ–‡æ¡£ä¸ç¬¦åˆæ ‡å‡†ï¼Œè§£æå¤±è´¥");
 		}
 	}
 

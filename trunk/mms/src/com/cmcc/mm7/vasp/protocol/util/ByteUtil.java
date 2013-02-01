@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 二进制和其他类型（short,char,int,long,float,double,string）转换工具类
+ * short,char,int,long,float,double,string和byte之间的装换
  * 
  * @author Administrator
  */
@@ -82,8 +82,10 @@ public class ByteUtil
 	}
 
 	/**
-	 * 拷贝字符串src的len个字节的长度，如果len<src.lenght()则拷贝部�?
-	 * ，如果len>=src.length()全拷
+	 * 得到src的byte表示形式，并拷贝到byte[len]中
+	 * @param src
+	 * @param len
+	 * @return
 	 */
 	public static byte[] getBytes(String src, int len)
 	{
@@ -122,13 +124,13 @@ public class ByteUtil
 	}
 
 	/**
-	 * �ַ���split��byteʵ����ʽ
+	 * 字符串split的byte实现形式
 	 * 
 	 * @param bytes
-	 *            �ַ�����byte
+	 *            字符串的byte
 	 * @param boundary
-	 *            �ָ�����byte
-	 * @return �����ε�byte
+	 *            分隔符的byte
+	 * @return 各个段的byte
 	 */
 	public static List<byte[]> split(byte[] bytes, byte[] boundary)
 	{
@@ -146,7 +148,7 @@ public class ByteUtil
 			}
 			if (j == boundary.length)
 			{
-				// �ҵ���b[0..j-1] ��a[i-j..i-1]�����
+				// 找到，b[0..j-1] 和a[i-j..i-1]都相等
 				posList.add(i - boundary.length);
 				j = 0;
 			}

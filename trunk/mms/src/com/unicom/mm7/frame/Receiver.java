@@ -37,36 +37,36 @@ public class Receiver extends MM7Receiver
 	}
 
 	/**
-	 * ÖØĞ´deliverÏûÏ¢
+	 * é‡å†™deliveræ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doDeliver(MM7DeliverReq request)
 	{
-		log.info("ÊÕµ½ÊÖ»ú" + request.getSender() + "Ìá½»µÄÏûÏ¢£¬±êÌâÎª£º"
+		log.info("æ”¶åˆ°æ‰‹æœº" + request.getSender() + "æäº¤çš„æ¶ˆæ¯ï¼Œæ ‡é¢˜ä¸ºï¼š"
 				+ request.getSubject());
-		log.info("MMSCµÄ±êÊ¶·ûÎª£º" + request.getMMSRelayServerID());
+		log.info("MMSCçš„æ ‡è¯†ç¬¦ä¸ºï¼š" + request.getMMSRelayServerID());
 
 		dealDeliver(request);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7DeliverRes mm7DeliverRes = new MM7DeliverRes();
 		mm7DeliverRes.setTransactionID(request.getTransactionID());
-		mm7DeliverRes.setServiceCode("²úÆ·´úÂë"); // ÉèÖÃServiceCode£¬¿ÉÑ¡
+		mm7DeliverRes.setServiceCode("äº§å“ä»£ç "); // è®¾ç½®ServiceCodeï¼Œå¯é€‰
 		mm7DeliverRes.setStatusCode(MMConstants.RequestStatus.SUCCESS);
 		mm7DeliverRes.setStatusText(MMConstants.RequestStatus.TEXT_SUCCESS);
 		return mm7DeliverRes;
 	}
 
 	/**
-	 * ÖØĞ´deliver_reportÏûÏ¢
+	 * é‡å†™deliver_reportæ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doDeliveryReport(MM7DeliveryReportReq mm7DeliveryReportReq)
 	{
-		// ÕâÀïĞ´½ÓÊÕ×´Ì¬±¨¸æºóµÄ´¦Àí¹ı³Ì
+		// è¿™é‡Œå†™æ¥æ”¶çŠ¶æ€æŠ¥å‘Šåçš„å¤„ç†è¿‡ç¨‹
 		dealDeliveryReport(mm7DeliveryReportReq);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7DeliveryReportRes res = new MM7DeliveryReportRes();
 		res.setTransactionID(mm7DeliveryReportReq.getTransactionID());
 		res.setStatusCode(MMConstants.RequestStatus.SUCCESS);
@@ -75,15 +75,15 @@ public class Receiver extends MM7Receiver
 	}
 
 	/**
-	 * ÖØĞ´ReadReplyÏûÏ¢
+	 * é‡å†™ReadReplyæ¶ˆæ¯
 	 */
 	@Override
 	public MM7VASPRes doReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
-		// ÕâÀïĞ´½ÓÊÕ¶Á±¨¸æºóµÄ´¦Àí¹ı³Ì
+		// è¿™é‡Œå†™æ¥æ”¶è¯»æŠ¥å‘Šåçš„å¤„ç†è¿‡ç¨‹
 		dealReadReply(mm7ReadReplyReq);
 
-		// »Ø¸´ÏûÏ¢
+		// å›å¤æ¶ˆæ¯
 		MM7ReadReplyRes res = new MM7ReadReplyRes();
 		res.setTransactionID(mm7ReadReplyReq.getTransactionID());
 		res.setStatusCode(MMConstants.RequestStatus.SUCCESS);
@@ -92,7 +92,7 @@ public class Receiver extends MM7Receiver
 	}
 
 	/**
-	 * ×é×°UMms¶ÔÏó
+	 * ç»„è£…UMmså¯¹è±¡
 	 * 
 	 * @param mmsFile
 	 * @param deliverReq
@@ -102,16 +102,16 @@ public class Receiver extends MM7Receiver
 	{
 		UMms mms = new UMms();
 		mms.setMmsFile(mmsFile);
-		mms.setRecipient(deliverReq.getSender());//ÕâÀïÊÇ·¢ËÍºÅÂë ²»ÊÇ½ÓÊÕºÅÂë
+		mms.setRecipient(deliverReq.getSender());//è¿™é‡Œæ˜¯å‘é€å·ç  ä¸æ˜¯æ¥æ”¶å·ç 
 		mms.setSubject(deliverReq.getSubject());
 		mms.setSendtime(DateUtils.getTimestamp14());
-		// Ëæ»ú·ÖÅäsendid
+		// éšæœºåˆ†é…sendid
 		mms.setSendID(java.util.UUID.randomUUID().toString());
 		return mms;
 	}
 
 	/**
-	 * ×é×°MmsFile¶ÔÏó
+	 * ç»„è£…MmsFileå¯¹è±¡
 	 * 
 	 * @param deliverReq
 	 * @return
@@ -121,9 +121,9 @@ public class Receiver extends MM7Receiver
 		MmsFile mmsFile = new MmsFile();
 		if (deliverReq.getContent() != null)
 		{
-			// ÓÃÀ´±à¼­ÎÄ¼şÃûºÍUpload¶ÔÏóµÄ¶ÔÓ¦¹ØÏµ
+			// ç”¨æ¥ç¼–è¾‘æ–‡ä»¶åå’ŒUploadå¯¹è±¡çš„å¯¹åº”å…³ç³»
 			Map<String, UploadFile> fileNameMap = new HashMap<String, UploadFile>();
-			long uploadFileSize = 0;// ÓÃÀ´¼ÇÂ¼¸÷¸ö¸½¼şµÄ´óĞ¡
+			long uploadFileSize = 0;// ç”¨æ¥è®°å½•å„ä¸ªé™„ä»¶çš„å¤§å°
 			List<MMContent> list = deliverReq.getContent().getSubContents();
 			for (int i = 0; i < list.size(); i++)
 			{
@@ -156,17 +156,17 @@ public class Receiver extends MM7Receiver
 					mmsFile.addUploadFile(upload);
 				}
 			}
-			// smilÏûÏ¢×îºó½âÎö
+			// smilæ¶ˆæ¯æœ€åè§£æ
 			for (int i = 0; i < list.size(); i++)
 			{
 				MMContent content = list.get(i);
 				if (content.getContentType().equals(
 						MMConstants.ContentType.SMIL))
 				{
-					// ½âÎöSMIL
+					// è§£æSMIL
 					String smil = content.getContentAsString();
 					SmilParser parser = new SmilParser(smil);
-					parser.parse();// ½âÎö
+					parser.parse();// è§£æ
 					for (int j = 0; j < parser.getFrames().size(); j++)
 					{
 						SmilParser.Frame fr = parser.getFrames().get(j);
@@ -207,7 +207,7 @@ public class Receiver extends MM7Receiver
 				}
 			}
 		}
-		mmsFile.setMmsName(deliverReq.getSubject());// ÉèÖÃ²ÊĞÅ±êÌâ
+		mmsFile.setMmsName(deliverReq.getSubject());// è®¾ç½®å½©ä¿¡æ ‡é¢˜
 		return mmsFile;
 	}
 
@@ -221,7 +221,7 @@ public class Receiver extends MM7Receiver
 
 	private void dealDeliveryReport(MM7DeliveryReportReq deliverReportReq)
 	{
-		log.info("ÊÕµ½·¢ËÍ±¨¸æ");
+		log.info("æ”¶åˆ°å‘é€æŠ¥å‘Š");
 
 		String messageid = deliverReportReq.getMessageID();
 		String to = deliverReportReq.getRecipient();
@@ -245,7 +245,7 @@ public class Receiver extends MM7Receiver
 			sendid = Sender.messageidMap.remove(messageid + "|" + to);
 
 		}
-		// ×´Ì¬±¨¸æÍ¨Öª
+		// çŠ¶æ€æŠ¥å‘Šé€šçŸ¥
 		Result.getInstance().notifyResult(sendid, to, mmStatus, mmStatusText,
 				reportTime);
 
@@ -253,7 +253,7 @@ public class Receiver extends MM7Receiver
 
 	private void dealReadReply(MM7ReadReplyReq mm7ReadReplyReq)
 	{
-		// ÕâÀï¸üĞÂs_log_mmssubmit±í
+		// è¿™é‡Œæ›´æ–°s_log_mmssubmitè¡¨
 		/*
 		 * String messageid=mm7ReadReplyReq.getMessageID();
 		 * if(!Tools.isBlank(messageid)) { SubmitBean
@@ -263,17 +263,17 @@ public class Receiver extends MM7Receiver
 		 * bean.setReadstatustext(mm7ReadReplyReq.getStatusText());
 		 * dao.update(bean); } }
 		 */
-		// ÕâÀï²åÈë¼ÇÂ¼µ½s_log_mmsreadreply
+		// è¿™é‡Œæ’å…¥è®°å½•åˆ°s_log_mmsreadreply
 	}
 
-	// Main·½·¨
+	// Mainæ–¹æ³•
 	public static void main(String[] args) throws Exception
 	{
-		// ³õÊ¼»¯VASP
+		// åˆå§‹åŒ–VASP
 		MM7Config mm7Config = new MM7Config("./config/mm7Config.xml");
-		// ¹¹ÔìMyReceiver
+		// æ„é€ MyReceiver
 		Receiver receiver = new Receiver(mm7Config);
-		// Æô¶¯½ÓÊÕÆ÷
+		// å¯åŠ¨æ¥æ”¶å™¨
 		receiver.start();
 		for (;;)
 			;
