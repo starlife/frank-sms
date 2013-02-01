@@ -17,6 +17,7 @@
 	<KeepAlive>on</KeepAlive>
 	<PoolSize>5</PoolSize>
 	<TimeOut>30000</TimeOut>
+	<WSTimeOut>3000</WSTimeOut>
 	<ReSendCount>3</ReSendCount>
 	<SendThread>2</SendThread>
 	<MaxSpeed>2</MaxSpeed>
