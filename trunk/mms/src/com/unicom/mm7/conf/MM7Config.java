@@ -26,6 +26,9 @@ public class MM7Config
 	private String ListenIP;// 本地服务端ip地址
 	private int ListenPort;// 本地服务端端口
 	private int TimeOut;// 超时时间，用于长连接
+
+	private int WSTimeOut;// ws 超时时间
+
 	private int ReSendCount;// 重发次数
 	public int BackLog;// 本地服务最大监听数
 
@@ -42,7 +45,7 @@ public class MM7Config
 	private int massCount = 10;// 群发短信每条短信号码数
 
 	private String rmi;
-	private String notifyURL=null;
+	private String notifyURL = null;
 
 	// private boolean bload=false;
 
@@ -67,7 +70,7 @@ public class MM7Config
 		mm7c.load(configFileName);
 		Map<String, String> hashmap = mm7c.map;
 		AuthenticationMode = Integer.parseInt((String) hashmap
-				.get("AuthenticationMode"));
+			.get("AuthenticationMode"));
 		UserName = (String) hashmap.get("UserName");
 		Password = (String) hashmap.get("Password");
 		MaxMsgSize = Integer.parseInt((String) hashmap.get("MaxMessageSize"));
@@ -78,12 +81,13 @@ public class MM7Config
 		VASID = hashmap.get("VASID");
 		ServiceCode = hashmap.get("ServiceCode");
 		ChargedPartyExist = Boolean.parseBoolean(hashmap
-				.get("ChargedPartyExist"));
+			.get("ChargedPartyExist"));
 		ChargedParty = Integer.parseInt(hashmap.get("ChargedParty"));
 		ListenIP = (String) hashmap.get("ListenIP");
 		ListenPort = Integer.parseInt((String) hashmap.get("ListenPort"));
 		BackLog = Integer.parseInt((String) hashmap.get("BackLog"));
 		TimeOut = Integer.parseInt((String) hashmap.get("TimeOut"));
+		WSTimeOut = Integer.parseInt((String) hashmap.get("WSTimeOut"));
 		ReSendCount = Integer.parseInt((String) hashmap.get("ReSendCount"));
 		MMSCID = (String) hashmap.get("MmscID");
 		keepAlive = "on".equals((String) hashmap.get("KeepAlive"));
@@ -413,5 +417,15 @@ public class MM7Config
 	public void setNotifyURL(String notifyURL)
 	{
 		this.notifyURL = notifyURL;
+	}
+
+	public int getWSTimeOut()
+	{
+		return WSTimeOut;
+	}
+
+	public void setWSTimeOut(int timeOut)
+	{
+		WSTimeOut = timeOut;
 	}
 }
