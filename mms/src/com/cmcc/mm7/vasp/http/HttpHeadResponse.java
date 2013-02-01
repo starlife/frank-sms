@@ -30,7 +30,7 @@ public class HttpHeadResponse
 		{
 			log.warn("input is null");
 			return false;
-		}	
+		}
 		while (true)
 		{
 			// byte[] b=new byte[1];
@@ -38,8 +38,8 @@ public class HttpHeadResponse
 			if (i == -1)
 			{
 				// socket被另一端关闭
-				log.error("读取包时未读完遇到-1");
-				throw new  IOException("peer socket is closed");
+				log.error("读取包时未读完遇到-1,收到回应消息[" + headBaos.toString() + "]");
+				throw new IOException("peer socket is closed");
 			}
 			headBaos.write(i);
 			if (isComplete(headBaos.toString()))
@@ -84,18 +84,17 @@ public class HttpHeadResponse
 		return true;
 
 	}
-	
+
 	public String getHeaderValue(String key)
 	{
 		String tkey = "";
 		for (int i = 0; i < key.length(); i++)
 			tkey = (new StringBuilder()).append(tkey).append("[").append(
-					key.substring(i, i + 1).toLowerCase()).append(
-					key.substring(i, i + 1).toUpperCase()).append("]")
-					.toString();
+				key.substring(i, i + 1).toLowerCase()).append(
+				key.substring(i, i + 1).toUpperCase()).append("]").toString();
 
 		String pattern = (new StringBuilder()).append("(").append(tkey).append(
-				"[ ]*:[ ]*)(.*)(\r\n)").toString();
+			"[ ]*:[ ]*)(.*)(\r\n)").toString();
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(headBaos.toString());
 		if (m.find())
@@ -103,7 +102,7 @@ public class HttpHeadResponse
 		else
 			return null;
 	}
-	
+
 	public static boolean isComplete(String data)
 	{
 		return data.indexOf("\r\n\r\n") != -1;
@@ -146,6 +145,5 @@ public class HttpHeadResponse
 	{
 		return reasonPhrase;
 	}
-	
 
 }
