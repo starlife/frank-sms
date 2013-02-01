@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,20 +76,7 @@ public class Sender extends PSender
 			if (pack == null)
 			{
 				USms sms = smsQue.poll();
-				if (sms == null)
-				{
-					// 休息1s
-					try
-					{
-						TimeUnit.SECONDS.sleep(1);
-					}
-					catch (InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						log.error(null, e);
-					}
-				}
-				else
+				if (sms != null)
 				{
 					// 短信sendId
 					String sendId = sms.getSendid();
@@ -143,6 +129,9 @@ public class Sender extends PSender
 		//debug
 		long start=System.currentTimeMillis();
 		log.debug("debug doSubmitResp begin"+start);
+		log.debug("sm:"+sm);
+		log.debug("sm.getHead():"+sm.getHead());
+		log.debug("sm.getHead().getSequenceId():"+sm.getHead().getSequenceId());
 		Sequence submitReq = sm.getHead().getSequenceId();
 		long end=System.currentTimeMillis();
 		log.debug("debug doSubmitResp end  (end-begin)"+(end-start));
