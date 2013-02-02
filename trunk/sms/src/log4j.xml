@@ -109,6 +109,10 @@
     	<level value="INFO" />
     </logger>
     
+    <logger name="com.chinaunicom.sgip1_2.protocol.util.TpsTool">
+    	<level value="INFO" />
+    </logger>
+    
 	<!-- 保存重发三次后失败丢弃的包 -->
 	<logger name="discard" additivity="false">
 		<level value="INFO" />
