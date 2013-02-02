@@ -4,7 +4,7 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="cmpp">
+<project basedir="." default="build" name="sms">
 	<property environment="env" />
 	<property name="source.dir" value="src" />
 	<property name="lib.dir" value="lib" />
@@ -47,7 +47,7 @@
 		<path refid="lib" />
 	</path>
 
-	<path id="cmpp.classpath">
+	<path id="sms.classpath">
 		<pathelement location="classes" />
 		<path refid="classpath" />
 	</path>
@@ -110,7 +110,7 @@
 	</pathconvert>
 
 	<target name="test">
-		<property name="ttt" value="${cmpp.classpath}" />
+		<property name="ttt" value="${sms.classpath}" />
 		<echo message="The type of OS: ${OS.type}" />
 		<echo message="${Hibernate3.2libs} ${SmsEngineClientlibs} ${ApacheCommonlibs} ${log4jlibs} ${libs}" />
 	</target>
@@ -137,8 +137,8 @@
 		</copy>
 	</target>
 
-	<target name="sms" depends="compile">
-		<jar jarfile="sms.jar" basedir="${class.dir}" includes="**/*.class,**/*.xml" excludes="**/Test.class,*.class">
+	<target name="sgip" depends="compile">
+		<jar jarfile="sgip.jar" basedir="${class.dir}" includes="**/*.class,**/*.xml" excludes="**/Test.class,*.class">
 			<manifest>
 				<attribute name="Main-Class" value="com.frank.sp.sgip.frame.Main" />
 				<attribute name="Class-Path" value="${Hibernate3.2libs} ${SmsEngineClientlibs} ${ApacheCommonlibs} ${log4jlibs} ${libs}" />
@@ -146,10 +146,23 @@
 		</jar>
 	</target>
 
-	
+	<target name="cmpp" depends="compile">
+		<jar jarfile="cmpp.jar" basedir="${class.dir}" includes="**/*.class,**/*.xml" excludes="**/Test.class,*.class">
+			<manifest>
+				<attribute name="Main-Class" value="com.frank.sp.cmpp.frame.Main" />
+				<attribute name="Class-Path" value="${Hibernate3.2libs} ${SmsEngineClientlibs} ${ApacheCommonlibs} ${log4jlibs} ${libs}" />
+			</manifest>
+		</jar>
+	</target>
 
-	<target name="run" depends="sms">
-		<java jar="sms.jar" fork="true">
+
+	<target name="runcmpp" depends="cmpp">
+		<java jar="cmpp.jar" fork="true">
+		</java>
+	</target>
+
+	<target name="runsgip" depends="sgip">
+		<java jar="sgip.jar" fork="true">
 		</java>
 	</target>
 
@@ -158,9 +171,15 @@
 	<target depends="compile" name="build-project" />
 
 
-	<target name="Main">
+	<target name="SgipMain">
 		<java classname="com.frank.sp.sgip.frame.Main" failonerror="true" fork="yes">
-			<classpath refid="cmpp.classpath" />
+			<classpath refid="sms.classpath" />
+		</java>
+	</target>
+
+	<target name="CmppMain">
+		<java classname="com.frank.sp.cmpp.frame.Main" failonerror="true" fork="yes">
+			<classpath refid="sms.classpath" />
 		</java>
 	</target>
 
