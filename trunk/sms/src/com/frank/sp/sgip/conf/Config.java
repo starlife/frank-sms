@@ -115,6 +115,8 @@ public class Config
 		sb.append("\t<BackLog>" + BackLog + "</BackLog>\r\n");
 
 		sb.append("\t<TimeOut>" + TimeOut + "</TimeOut>\r\n");
+		sb.append("\t<WSTimeOut>" + WSTimeOut + "</WSTimeOut>\r\n");
+		sb.append("\t<ServerTimeOut>" + ServerTimeOut + "</ServerTimeOut>\r\n");
 		sb.append("\t<SendThread>" + SendThread + "</SendThread>\r\n");
 		sb.append("\t<RetryCount>" + RetryCount + "</RetryCount>\r\n");
 		sb.append("\t<MaxSpeed>" + MaxSpeed + "</MaxSpeed>\r\n");
