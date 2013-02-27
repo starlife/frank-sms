@@ -63,6 +63,17 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 		String sendid = req.getSendid();
 		String msgContent = req.getMsgContent();
 		String recipient = req.getRecipient();
+		String signName=req.getSignName();
+		//这里重置短信,增加签名 add by 2013-2-27
+		if(signName==null||signName.trim().length()==0)
+		{
+			msgContent += "【浙江省旅游局】";
+		}else
+		{
+			msgContent += signName;
+		}
+		//end by 2013-2-27
+		
 		com.tourzj.sms.rsp.SubmitRsp rsp = new com.tourzj.sms.rsp.SubmitRsp();
 		rsp.setResultCode(Constants.SUCCESS);
 		if (!SmsManager.submit(sendid, msgContent, recipient)) {
@@ -102,6 +113,15 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 			address = "";
 		}
 		return address;
+	}
+	
+	private String getDefaultSignName() {
+		String sginName = Env.getEnv().getString("sign_name");
+		if (sginName == null) {
+			log.error("取签名sign_name值为空");
+			sginName = "";
+		}
+		return sginName;
 	}
 
 	public static void main(String[] args) {
