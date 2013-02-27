@@ -18,7 +18,7 @@ import org.apache.axis.transport.http.AxisServlet;
 import org.apache.axis.transport.http.HTTPConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.tempuri.MMSLTRepSoapStub;
+import org.tempuri.LTSoapStub;
 
 import com.tourzj.common.Env;
 import com.tourzj.common.constant.Constants;
@@ -28,7 +28,6 @@ import com.tourzj.mms.manager.MmsXmlMake;
 import com.tourzj.mms.req.DeliverReportReq;
 import com.tourzj.mms.req.DeliverReq;
 import com.tourzj.mms.rsp.DeliverReportRsp;
-import com.tourzj.mms.rsp.DeliverRsp;
 import com.unicom.mm7.bean.UMms;
 
 public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
@@ -118,8 +117,6 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 		return uploadDir;
 	}
 
-	
-
 	private String getXMLFilePath() {
 		MessageContext ctx = MessageContext.getCurrentContext();
 		// 获得AxisServlet对象
@@ -131,11 +128,10 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 		return uploadDir;
 	}
 
-	private boolean notifyDeliverReport(DeliverReportReq req) {
+	public boolean notifyDeliverReport(DeliverReportReq req) {
 		try {
 			log.debug("DeliverReport notify");
-			MMSLTRepSoapStub stub = new MMSLTRepSoapStub(
-					new URL(getWsAddress()), null);
+			LTSoapStub stub = new LTSoapStub(new URL(getWsAddress()), null);
 			stub.setTimeout(1000);
 			stub.notifyMmsDeliveryReport(req);
 		} catch (MalformedURLException ex) {
@@ -151,33 +147,26 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 	}
 
 	private boolean notifyDeliver(DeliverReq req) {
-		DeliverRsp rsp = null;
-		try {
-			log.debug("Deliver notify");
-			resetSendid(req);
-			MmsEngineSoapBindingStub stub = new MmsEngineSoapBindingStub(
-					new URL(getWsAddress()), null);
-			stub.setTimeout(1000);
-			rsp = stub.deliver(req);
-		} catch (MalformedURLException ex) {
-			log.error(null, ex);
-		} catch (RemoteException ex) {
-			log.error(null, ex);
-		}
-		return rsp != null && rsp.getResultCode() == Constants.SUCCESS;
+		/*
+		 * DeliverRsp rsp = null; try { log.debug("Deliver notify");
+		 * resetSendid(req); MmsEngineSoapBindingStub stub = new
+		 * MmsEngineSoapBindingStub( new URL(getWsAddress()), null);
+		 * stub.setTimeout(1000); rsp = stub.deliver(req); } catch
+		 * (MalformedURLException ex) { log.error(null, ex); } catch
+		 * (RemoteException ex) { log.error(null, ex); } return rsp != null &&
+		 * rsp.getResultCode() == Constants.SUCCESS;
+		 */
+		return false;
 	}
 
-	private void resetSendid(DeliverReq req) {
-		String address = Env.getEnv().getString("default_address");
-		if (address == null) {
-			log.error("取default地址default_address值为空");
-			address = "http://60.191.70.231/ws/index.do";
-		}
-		// 根据url地址去取彩信内容，组装成Umms对象，然后发送给彩信网关
-		// http://60.191.70.231/ws/
-		String url = address + "?sendid=" + req.getSendId();
-		req.setSendId(url);
-	}
+	/*
+	 * private void resetSendid(DeliverReq req) { String address =
+	 * Env.getEnv().getString("default_address"); if (address == null) {
+	 * log.error("取default地址default_address值为空"); address =
+	 * "http://60.191.70.231/ws/index.do"; } //
+	 * 根据url地址去取彩信内容，组装成Umms对象，然后发送给彩信网关 // http://60.191.70.231/ws/ String url
+	 * = address + "?sendid=" + req.getSendId(); req.setSendId(url); }
+	 */
 
 	private String getWsAddress() {
 		String address = Env.getEnv().getString("ws_address");
