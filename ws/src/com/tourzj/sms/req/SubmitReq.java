@@ -12,17 +12,21 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
 
     private java.lang.String recipient;
 
+    private java.lang.String signName;
+
     public SubmitReq() {
     }
 
     public SubmitReq(
            java.lang.String sendid,
            java.lang.String msgContent,
-           java.lang.String recipient) {
+           java.lang.String recipient,
+           java.lang.String signName) {
         super(
             sendid);
         this.msgContent = msgContent;
         this.recipient = recipient;
+        this.signName = signName;
     }
 
 
@@ -65,6 +69,26 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
         this.recipient = recipient;
     }
 
+
+    /**
+     * Gets the signName value for this SubmitReq.
+     * 
+     * @return signName
+     */
+    public java.lang.String getSignName() {
+        return signName;
+    }
+
+
+    /**
+     * Sets the signName value for this SubmitReq.
+     * 
+     * @param signName
+     */
+    public void setSignName(java.lang.String signName) {
+        this.signName = signName;
+    }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof SubmitReq)) return false;
@@ -82,7 +106,10 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
               this.msgContent.equals(other.getMsgContent()))) &&
             ((this.recipient==null && other.getRecipient()==null) || 
              (this.recipient!=null &&
-              this.recipient.equals(other.getRecipient())));
+              this.recipient.equals(other.getRecipient()))) &&
+            ((this.signName==null && other.getSignName()==null) || 
+             (this.signName!=null &&
+              this.signName.equals(other.getSignName())));
         __equalsCalc = null;
         return _equals;
     }
@@ -99,6 +126,9 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
         }
         if (getRecipient() != null) {
             _hashCode += getRecipient().hashCode();
+        }
+        if (getSignName() != null) {
+            _hashCode += getSignName().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -119,6 +149,12 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("recipient");
         elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "recipient"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("signName");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://req.sms.tourzj.com", "signName"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
@@ -157,7 +193,7 @@ public class SubmitReq  extends com.tourzj.sms.req.Request  implements java.io.S
     
      public String toString()
     {
-    	return getClass().getName()+"{sendid:" + getSendid() + "|msgContent:" + this.getMsgContent() + "|recipient:" + this.getRecipient() + "}";
+    	return getClass().getName()+"{sendid:" + getSendid() + "|msgContent:" + this.getMsgContent() + "|recipient:" + this.getRecipient() + "|signName:" + this.getSignName()+ "}";
     }
 
 }
