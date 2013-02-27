@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.tempuri.ServiceSoapStub;
+import org.tempuri.LTSoapStub;
 
 import com.tourzj.common.Env;
 import com.tourzj.common.constant.Constants;
@@ -76,7 +76,7 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 	private boolean notifyDeliver(DeliverReq req) {
 		try {
 			log.debug("转送sms-deliver消息给对方");
-			ServiceSoapStub stub = new ServiceSoapStub(new URL(getWsAddress()),
+			LTSoapStub stub = new LTSoapStub(new URL(getWsAddress()),
 					null);
 			stub.setTimeout(1000);
 			stub.notifyLTSms(req.getRecipient(), req.getMsgContent());
