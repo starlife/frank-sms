@@ -128,7 +128,7 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 		return uploadDir;
 	}
 
-	public boolean notifyDeliverReport(DeliverReportReq req) {
+	private boolean notifyDeliverReport(DeliverReportReq req) {
 		try {
 			log.debug("DeliverReport notify");
 			LTSoapStub stub = new LTSoapStub(new URL(getWsAddress()), null);
