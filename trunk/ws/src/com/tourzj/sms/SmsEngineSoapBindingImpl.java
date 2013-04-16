@@ -89,7 +89,7 @@ public class SmsEngineSoapBindingImpl implements com.tourzj.sms.SmsEngine {
 			log.debug("转送sms-deliver消息给对方");
 			LTSoapStub stub = new LTSoapStub(new URL(getWsAddress()),
 					null);
-			stub.setTimeout(1000);
+			stub.setTimeout(10000);
 			stub.notifyLTSms(req.getRecipient(), req.getMsgContent());
 		} catch (MalformedURLException ex) {
 			log.error(null, ex);
