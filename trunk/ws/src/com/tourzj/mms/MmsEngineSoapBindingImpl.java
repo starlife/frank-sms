@@ -132,7 +132,7 @@ public class MmsEngineSoapBindingImpl implements com.tourzj.mms.MmsEngine {
 		try {
 			log.debug("DeliverReport notify");
 			LTSoapStub stub = new LTSoapStub(new URL(getWsAddress()), null);
-			stub.setTimeout(1000);
+			stub.setTimeout(10000);
 			stub.notifyMmsDeliveryReport(req);
 		} catch (MalformedURLException ex) {
 			log.error(null, ex);
