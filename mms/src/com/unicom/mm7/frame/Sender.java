@@ -103,7 +103,7 @@ public class Sender extends MM7Sender
 		{
 			submitReq.setChargedParty((byte) chargedParty);
 		}
-		submitReq.setSenderAddress(vasid+serviceCode);
+		submitReq.setSenderAddress(vasid);
 		submitReq.setDeliveryReport(true);
 		submitReq.setReadReply(true);
 		submitReq.setSubject(subject);
