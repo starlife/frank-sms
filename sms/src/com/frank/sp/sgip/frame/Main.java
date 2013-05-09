@@ -45,7 +45,15 @@ public class Main
 		tm.start();
 		while (!stop)
 		{
-			;
+			try
+			{
+				java.util.concurrent.TimeUnit.SECONDS.sleep(10);
+			}
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
