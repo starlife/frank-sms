@@ -1,0 +1,1 @@
+smgw cmpp2.0 cmpp3.0 smgp
